@@ -73,16 +73,21 @@
 
 /* ─────────── hero Deploy ─────────── */
 (function(){
-  const cards=[...document.querySelectorAll('.deploy-card')];
-  if(!cards.length||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  let i=0;
-  const tick=()=>{
-    cards.forEach(c=>c.classList.remove('is-active'));
-    cards[i].classList.add('is-active');
-    i=(i+1)%cards.length;
-  };
-  tick();
-  setInterval(tick,2000);
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  /* a cena aparece duas vezes (topo da página e painel do chip):
+     cada pilha cicla os próprios cards, senão uma atropela a outra */
+  document.querySelectorAll('.deploy-stack').forEach(stack=>{
+    const cards=[...stack.querySelectorAll('.deploy-card')];
+    if(!cards.length)return;
+    let i=0;
+    const tick=()=>{
+      cards.forEach(c=>c.classList.remove('is-active'));
+      cards[i].classList.add('is-active');
+      i=(i+1)%cards.length;
+    };
+    tick();
+    setInterval(tick,2000);
+  });
 })();
 
 /* ─────────── chips → troca o hero ─────────── */
@@ -114,6 +119,64 @@
   }));
 })();
 
+/* ─────────── públicos: acordeão que gira sozinho ─────────── */
+(function(){
+  const row=document.getElementById('audienceRow');
+  if(!row)return;
+  const cards=[...row.querySelectorAll('.audience-card')];
+  if(!cards.length)return;
+
+  const DELAY=3400;
+  const calm=matchMedia('(prefers-reduced-motion: reduce)');
+  const mobile=matchMedia('(max-width: 640px)');
+  let active=0, onScreen=false, held=false, timer=null;
+
+  const render=()=>{
+    cards.forEach((c,i)=>{
+      c.classList.toggle('is-active',i===active);
+      c.setAttribute('aria-pressed',String(i===active));
+    });
+    /* no mobile os cards não abrem lado a lado: o ativo entra por scroll */
+    if(!mobile.matches)return;
+    const first=cards[0].getBoundingClientRect().width;
+    const gap=parseFloat(getComputedStyle(row).gap)||0;
+    row.scrollTo({left:active*(first+gap),behavior:calm.matches?'auto':'smooth'});
+  };
+
+  const stop=()=>{if(timer){clearInterval(timer);timer=null}};
+  const play=()=>{
+    stop();
+    if(!onScreen||held||calm.matches)return;
+    timer=setInterval(()=>{active=(active+1)%cards.length;render()},DELAY);
+  };
+
+  const focar=i=>{
+    if(active===i)return;
+    active=i;
+    held=!mobile.matches;      /* no mobile o dedo rola; segurar atrapalharia */
+    render();
+    play();
+  };
+
+  cards.forEach((c,i)=>{
+    c.addEventListener('mouseenter',()=>focar(i));
+    c.addEventListener('focus',()=>focar(i));
+    c.addEventListener('click',()=>focar(i));
+  });
+  row.addEventListener('mouseleave',()=>{held=false;play()});
+  row.addEventListener('focusout',e=>{
+    if(row.contains(e.relatedTarget))return;
+    held=false;play();
+  });
+
+  render();
+  if(!('IntersectionObserver' in window)){onScreen=true;play();return}
+  new IntersectionObserver(es=>{
+    onScreen=es[0].isIntersecting;
+    onScreen?play():stop();
+  },{threshold:.25}).observe(row);
+})();
+
 /* ─────────── carrossel de depoimentos ─────────── */
 (function(){
   const DATA=[
@@ -123,17 +186,21 @@
     {name:'José Rosan', role:'Advogado · Rosan Empresarial',         quote:'O que era orçamento de produção virou orçamento de mídia. Mudou nossa conta.'},
     {name:'Marcelo Celo',  role:'Gestor de Tráego · reobot Digital',       quote:'Nenhum modelo remarcado, nenhuma diária perdida. A coleção nova sai no mesmo dia.'}
   ];
-  const deck=document.getElementById('deck'), dots=document.getElementById('dots');
-  const clientDeck=document.getElementById('deckClients'), clientDots=document.getElementById('dotsClients');
-  const prev=document.getElementById('prev'), next=document.getElementById('next');
-  const prevEmb=document.getElementById('prevEmbedded'), nextEmb=document.getElementById('nextEmbedded');
-  const cur=document.getElementById('cur'), tot=document.getElementById('tot');
-  if(!deck||!dots)return;
+  const id=x=>document.getElementById(x);
+  /* qualquer combinação de decks serve: a seção solta saiu, a embutida ficou */
+  const decks=[['deck','dots'],['deckClients','dotsClients']]
+    .map(([d,p])=>({deck:id(d),dots:id(p)}))
+    .filter(x=>x.deck&&x.dots);
+  if(!decks.length)return;
+  const setas=[['prev','next'],['prevEmbedded','nextEmbedded']]
+    .map(([a,b])=>({prev:id(a),next:id(b)}))
+    .filter(x=>x.prev&&x.next);
+  const cur=id('cur'), tot=id('tot');
 
   const BOOK='<svg class="slide__mark" viewBox="0 0 24 24"><path d="M12 6.5S10 4.5 4 4.5v13c6 0 8 2 8 2s2-2 8-2v-13c-6 0-8 2-8 2Z" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 6.5v13" stroke-width="1.5"/></svg>';
   const dotsHTML=DATA.map((_,i)=>`<button data-i="${i}" aria-label="Ir para ${i+1}"></button>`).join('');
 
-  deck.innerHTML=DATA.map((d,i)=>`
+  const deckHTML=DATA.map((d,i)=>`
     <article class="slide" data-i="${i}" aria-label="Depoimento ${i+1} de ${DATA.length}">
       <div class="slide__photo">
         <div class="slide__box">
@@ -148,16 +215,13 @@
         </div>
       </div>
     </article>`).join('');
-  dots.innerHTML=dotsHTML;
-  if(tot)tot.textContent=String(DATA.length).padStart(2,'0');
 
-  const slides=[...deck.children];
-  let clientSlides=[];
-  if(clientDeck&&clientDots){
-    clientDeck.innerHTML=deck.innerHTML;
-    clientDots.innerHTML=dotsHTML;
-    clientSlides=[...clientDeck.children];
-  }
+  decks.forEach(d=>{
+    d.deck.innerHTML=deckHTML;
+    d.dots.innerHTML=dotsHTML;
+    d.slides=[...d.deck.children];
+  });
+  if(tot)tot.textContent=String(DATA.length).padStart(2,'0');
 
   let index=0;
   function renderSlides(items,indicators){
@@ -175,23 +239,23 @@
     if(indicators)[...indicators.children].forEach((d,i)=>d.classList.toggle('is-on',i===index));
   }
   function render(){
-    renderSlides(slides,dots);
-    if(clientSlides.length)renderSlides(clientSlides,clientDots);
+    decks.forEach(d=>renderSlides(d.slides,d.dots));
     if(cur)cur.textContent=String(index+1).padStart(2,'0');
   }
   const go=i=>{index=(i+DATA.length)%DATA.length;render()};
 
-  if(next)next.onclick=()=>go(index+1);
-  if(prev)prev.onclick=()=>go(index-1);
-  if(nextEmb)nextEmb.onclick=()=>go(index+1);
-  if(prevEmb)prevEmb.onclick=()=>go(index-1);
-  slides.forEach(s=>s.onclick=()=>{if(!s.classList.contains('is-active'))go(+s.dataset.i)});
-  [...dots.children].forEach(d=>d.onclick=()=>go(+d.dataset.i));
-  if(clientDots)[...clientDots.children].forEach(d=>d.onclick=()=>go(+d.dataset.i));
+  setas.forEach(({prev,next})=>{
+    next.onclick=()=>go(index+1);
+    prev.onclick=()=>go(index-1);
+  });
+  decks.forEach(d=>{
+    d.slides.forEach(s=>s.onclick=()=>{if(!s.classList.contains('is-active'))go(+s.dataset.i)});
+    [...d.dots.children].forEach(x=>x.onclick=()=>go(+x.dataset.i));
+  });
   addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(index+1);if(e.key==='ArrowLeft')go(index-1)});
 
   let x0=null;
-  deck.addEventListener('pointerdown',e=>x0=e.clientX);
+  decks.forEach(d=>d.deck.addEventListener('pointerdown',e=>x0=e.clientX));
   addEventListener('pointerup',e=>{
     if(x0===null)return;
     const dx=e.clientX-x0; x0=null;

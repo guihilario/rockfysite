@@ -191,7 +191,7 @@
     <img class="wp-hero__elementor" src="wp-assets/elementor.svg" alt="Elementor" width="79" height="79" loading="lazy" decoding="async">
     <span class="wp-hero__pill wp-hero__pill--modelos">
       <img src="wp-assets/star.svg" alt="" aria-hidden="true" width="24" height="25" loading="lazy">
-      modelos
+      liberdade
     </span>
     <span class="wp-hero__pill wp-hero__pill--recursos">
       <img src="wp-assets/bolt.svg" alt="" aria-hidden="true" width="23" height="40" loading="lazy">
@@ -214,31 +214,96 @@
       novo pedido
     </span>
   </section>
+
+  <section class="em-hero" data-hero-panel="email" aria-label="E-mail profissional — emailPro" hidden>
+    <img class="em-hero__wordmark" src="em-assets/email.svg" alt="" aria-hidden="true" width="1076" height="372" decoding="async" fetchpriority="low">
+    <p class="em-hero__binary" aria-hidden="true">0101010101010101010101010101010101010101</p>
+    <img class="em-hero__photo" src="em-assets/email.webp" alt="Mulher sorrindo ao ar livre" width="360" height="456" decoding="async" fetchpriority="low">
+    <img class="em-hero__badge" src="em-assets/send.svg" alt="Enviar" width="87" height="83" decoding="async" fetchpriority="low">
+    <span class="em-hero__pill em-hero__pill--pro">emailPro</span>
+    <span class="em-hero__pill em-hero__pill--mail">
+      <img src="em-assets/mail.svg" alt="" aria-hidden="true" width="22" height="18" decoding="async" fetchpriority="low">
+      lara@growth.com
+    </span>
+  </section>
+
+  <section class="em-hero" data-hero-panel="elementor" aria-label="Elementor Pro — licença oficial inclusa" hidden>
+    <img class="em-hero__wordmark" src="el-assets/elementor-word.svg" alt="" aria-hidden="true" width="1280" height="337" decoding="async" fetchpriority="low">
+    <p class="em-hero__binary" aria-hidden="true">0101010101010101010101010101010101010101</p>
+    <img class="em-hero__photo" src="el-assets/image-01.webp" alt="Profissional trabalhando em seu site" width="600" height="400" decoding="async" fetchpriority="low">
+    <img class="em-hero__badge" src="el-assets/elementor-badge.svg" alt="Elementor" width="79" height="79" decoding="async" fetchpriority="low">
+    <span class="em-hero__pill em-hero__pill--pro">Elementor Pro</span>
+    <span class="em-hero__pill em-hero__pill--mail">
+      <img src="el-assets/star.svg" alt="" aria-hidden="true" width="24" height="25" decoding="async" fetchpriority="low">
+      licença oficial
+    </span>
+  </section>
+
+  <section class="deploy-panel" data-hero-panel="deploy" aria-label="Deploy — seu app no ar" hidden>
+      <div class="deploy-stage">
+        <div class="deploy-stage__word"><img src="deploy-assets/deploy.svg" width="1118" height="363" decoding="async" alt="" aria-hidden="true"></div>
+        <p class="deploy-binary" aria-hidden="true">01010101010101010101010101010101010101</p>
+        <div class="deploy-stack-wrap"><div class="deploy-stack" role="img" aria-label="Composição de quatro camadas sobrepostas">
+          <div class="deploy-card"><img src="deploy-assets/6.webp" width="700" height="467" decoding="async" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/5.webp" width="700" height="394" decoding="async" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/freelancer.webp" width="600" height="360" decoding="async" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/designer.webp" width="600" height="401" decoding="async" alt="" aria-hidden="true"></div>
+          <div class="deploy-pill" aria-hidden="true"><svg viewBox="0 0 158 44" preserveAspectRatio="xMidYMid meet"><rect width="157.3" height="43.3" rx="21.6" fill="var(--accent)"></rect><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-family="var(--font)" font-size="13" font-weight="600" fill="var(--on-accent)">em construção</text></svg></div>
+        </div></div>
+      </div>
+  </section>
   </div>
 
   <div class="chips-wrap">
     <div class="chips">
-      <button class="chip ghost">Hospedagem de Site</button>
-      <button class="chip">Deploy de Apps feitos com I.A</button>
+      <button class="chip" data-hero="elementor" aria-pressed="false" aria-controls="heroSlot">Hospedagem de Site</button>
+      <button class="chip" data-hero="deploy" aria-pressed="false" aria-controls="heroSlot">Deploy de Apps [I.A]</button>
       <button class="chip" data-hero="wordpress" aria-pressed="true" aria-controls="heroSlot">Hospedagem Wordpress</button>
-      <button class="chip">Aplicativos em Docker</button>
       <button class="chip" data-hero="loja" aria-pressed="false" aria-controls="heroSlot">Loja digital</button>
-      <button class="chip ghost">Email Comercial</button>
+      <button class="chip" data-hero="email" aria-pressed="false" aria-controls="heroSlot">Email Comercial</button>
     </div>
     <span class="fade l"></span><span class="fade r"></span>
   </div>
 
   <!-- ══════ 2 · DEPOIMENTOS ══════ -->
-  <section class="section" aria-roledescription="carrossel" aria-label="Depoimentos">
+  <section class="section" aria-labelledby="audience-title">
     <div class="voices__head">
       <div>
         <p class="eyebrow">Infraestrutura no Brasil</p>
-        <h2 class="voices__title">Feito pra quem <br><b>faz acontecer</b></h2>
+        <h2 class="voices__title" id="audience-title">Feito pra quem <br><b>faz acontecer</b></h2>
       </div>
     </div>
-    <div class="deck" id="deck"></div>
-    <div class="dots" id="dots"></div>
-    <div class="voices__controls"><button class="arrowbtn" id="prev" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5.5 8 12l7 6.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="counter"><b id="cur">01</b> / <span id="tot">05</span></span><button class="arrowbtn" id="next" aria-label="Próximo"><svg viewBox="0 0 24 24"><path d="m9 5.5 7 6.5-7 6.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    <div class="audience-row" id="audienceRow">
+      <button type="button" class="audience-card" aria-pressed="false">
+        <img class="audience-card__media" src="img/trefego.webp" alt="Gestores de Tráfego" width="600" height="360" decoding="async" loading="lazy">
+        <span class="audience-card__veil"></span>
+        <span class="audience-card__text">
+          <span class="audience-card__title">Gestores de Tráfego</span>
+          <span class="audience-card__desc">Sua página aguenta o tráfego. Pode escalar.</span>
+        </span>
+      </button>
+      <button type="button" class="audience-card" aria-pressed="false">
+        <img class="audience-card__media" src="img/agencia.webp" alt="Agências" width="600" height="360" decoding="async" loading="lazy">
+        <span class="audience-card__veil"></span>
+        <span class="audience-card__text">
+          <span class="audience-card__title">Agências</span>
+          <span class="audience-card__desc">Um painel isolado por cliente. Revenda sem dor de cabeça.</span>
+        </span>
+      </button>
+      <button type="button" class="audience-card" aria-pressed="false">
+        <img class="audience-card__media" src="img/freelancer.webp" alt="Designers / Freelancers" width="600" height="360" decoding="async" loading="lazy">
+        <span class="audience-card__veil"></span>
+        <span class="audience-card__text">
+          <span class="audience-card__title">Designers / Freelancers</span>
+          <span class="audience-card__desc">Elementor Pro incluso. Entregue o projeto mais rápido.</span>
+        </span>
+      </button>
+      <button type="button" class="audience-card" aria-pressed="false">
+        <img class="audience-card__media" src="img/empreendedor.webp" alt="Empreendedores" width="600" height="360" decoding="async" loading="lazy">
+        <span class="audience-card__veil"></span>
+        <span class="audience-card__text">
+          <span class="audience-card__title">Empreendedores</span>
+          <span class="audience-card__desc">Site no ar e suporte com gente de verdade do outro lado.</span>
+        </span>
+      </button>
+    </div>
   </section>
 
   <!-- ══════ 3 · INVEST IN YOUR PEOPLE ══════ -->
@@ -292,7 +357,7 @@
         </div>
 
         <div class="wp-fl wp-fl--models">
-          <div class="wp-fl-box"><p class="wp-fl-box__label">Modelos de seções</p></div>
+          <div class="wp-fl-box"><p class="wp-fl-box__label">Licença Oficial</p></div>
         </div>
 
         <div class="wp-fl wp-fl--logo" aria-hidden="true">

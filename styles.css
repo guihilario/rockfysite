@@ -126,10 +126,14 @@ body.is-locked{overflow:hidden}
 .hero-slot{margin:42px calc(var(--gutter)*-1) 30px}
 @media (min-width:900px){.hero-slot{margin-top:52px}}
 .hero-slot [data-hero-panel][hidden]{display:none}
+/* altura padronizada para todos os heroes do slot (a da Loja digital).
+   Os elementos são posicionados em cqw (% da LARGURA), então mudar a
+   altura só ajusta a moldura — nada reposiciona nem corta. */
+.hero-slot [data-hero-panel]{aspect-ratio:1071/417}
+@media (max-width:640px){.hero-slot [data-hero-panel]{aspect-ratio:640/400}}
 
 .wp-hero{
-  position:relative;width:100%;
-  aspect-ratio:820/300;overflow:hidden;
+  position:relative;width:100%;overflow:hidden;
   container-type:inline-size;isolation:isolate;user-select:none;
   --wp-red:#E03E1A;
   --wp-shadow:0 .60cqw 2.00cqw rgba(23,23,26,.10),0 .12cqw .40cqw rgba(23,23,26,.06);
@@ -207,7 +211,6 @@ html[data-theme="dark"] .wp-hero__pill--recursos{background:var(--panel)}
 
 /* mobile: a escala proporcional pura ficaria pequena demais */
 @media (max-width:640px){
-  .wp-hero{aspect-ratio:640/380}
   .wp-hero__wordmark{width:150%;top:22cqw}
   .wp-hero__photo{top:2cqw;width:38cqw;height:47cqw;border-radius:4.4cqw}
   .wp-hero__elementor{top:4.5cqw;left:auto;right:5cqw;width:8.4cqw;height:8.4cqw;border-radius:2.2cqw}
@@ -369,12 +372,163 @@ html[data-theme="dark"] .wp-hero__pill--recursos{background:var(--panel)}
 .collage > *{position:absolute}
 
 /* — colagem A (mensagem) — */
+/* ── HERO E-mail profissional (migrado de _local/heros/hero-email.html) ──
+   Referência 1141x430. Mesmas adaptações dos outros heroes:
+   cores próprias do componente trocadas pelos tokens do tema. */
+.em-hero{
+  position:relative;width:100%;overflow:hidden;
+  container-type:inline-size;isolation:isolate;user-select:none;
+  --em-graphite:#454545;
+  --em-shadow:0 .60cqw 2.00cqw rgba(23,23,26,.10),0 .12cqw .40cqw rgba(23,23,26,.06);
+}
+.em-hero__wordmark{
+  position:absolute;top:7.45cqw;left:50%;transform:translateX(-50%);
+  width:88%;height:auto;display:block;z-index:1;pointer-events:none;opacity:.14;
+  animation:em-rise-wide 1.1s cubic-bezier(.16,.84,.36,1) .05s backwards;
+}
+html[data-theme="dark"] .em-hero__wordmark{filter:invert(1);opacity:.18}
+.em-hero__binary{
+  position:absolute;top:15.58cqw;right:0;width:29.01cqw;margin:0;z-index:2;
+  font-family:var(--font);font-size:1.14cqw;line-height:1;letter-spacing:.02cqw;
+  color:var(--gray-300);white-space:nowrap;overflow:hidden;
+  direction:rtl;text-align:right;border-left:.16cqw solid transparent;
+  animation:em-type 1.05s steps(40,end) .95s backwards,em-caret .55s steps(1,end) .95s infinite;
+}
+.em-hero__photo{
+  position:absolute;top:1.30cqw;left:40.12cqw;width:22cqw;height:27.50cqw;
+  object-fit:cover;object-position:50% 22%;border-radius:2.80cqw;display:block;z-index:3;
+  animation:em-rise 1s cubic-bezier(.16,.84,.36,1) .28s backwards;
+}
+.em-hero__badge{
+  position:absolute;top:4.20cqw;left:62.90cqw;width:7.10cqw;height:7.10cqw;
+  border-radius:50%;display:block;z-index:4;
+  animation:em-pop .7s cubic-bezier(.34,1.4,.5,1) .52s backwards;
+}
+.em-hero__pill{
+  position:absolute;z-index:5;display:inline-flex;align-items:center;gap:.95cqw;
+  border-radius:999px;font-weight:500;letter-spacing:-.01em;line-height:1;white-space:nowrap;
+}
+.em-hero__pill img{width:1.58cqw;height:1.58cqw;display:block;flex:none}
+.em-hero__pill--pro{
+  top:19.80cqw;left:29.60cqw;height:4.34cqw;padding:0 1.89cqw;font-size:1.34cqw;
+  background:var(--em-graphite);color:#fff;box-shadow:var(--em-shadow);
+  animation:em-pill-left .75s cubic-bezier(.34,1.3,.5,1) .66s backwards;
+}
+.em-hero__pill--mail{
+  top:23.20cqw;left:55.10cqw;height:4.89cqw;padding:0 2.05cqw;font-size:1.42cqw;
+  background:var(--surface);color:var(--ink);box-shadow:var(--em-shadow);
+  animation:em-pill-right .75s cubic-bezier(.34,1.3,.5,1) .80s backwards;
+}
+html[data-theme="dark"] .em-hero__pill--mail{background:var(--panel)}
+/* star.svg é quase branco (#F8F8F6): no hero do WordPress ele cai sobre a
+   pílula vermelha e lê bem, mas aqui a pílula é clara e ele sumia
+   (contraste medido: 1,03:1). No tema escuro a pílula escurece e não precisa. */
+html[data-theme="light"] [data-hero-panel="elementor"] .em-hero__pill--mail img{filter:invert(1)}
+
+@keyframes em-rise-wide{from{opacity:0;transform:translateX(-50%) translateY(2cqw) scale(.985)}}
+@keyframes em-rise{from{opacity:0;transform:translateY(2.6cqw) scale(.96)}}
+@keyframes em-rise-center{from{opacity:0;transform:translateX(-50%) translateY(4cqw) scale(.96)}to{opacity:1;transform:translateX(-50%)}}
+@keyframes em-pop{from{opacity:0;transform:translateY(1cqw) scale(.7)}}
+@keyframes em-pill-left{from{opacity:0;transform:translateX(-2cqw) scale(.94)}}
+@keyframes em-pill-right{from{opacity:0;transform:translateX(2cqw) scale(.94)}}
+@keyframes em-type{from{width:0}}
+@keyframes em-caret{0%,49%{border-left-color:var(--gray-300)}50%,100%{border-left-color:transparent}}
+
+@media (prefers-reduced-motion:no-preference){
+  .em-hero__pill,.em-hero__badge{transition:transform .35s cubic-bezier(.2,.7,.3,1)}
+  .em-hero:hover .em-hero__pill--pro,
+  .em-hero:hover .em-hero__pill--mail{transform:translateY(-.4cqw)}
+  .em-hero:hover .em-hero__badge{transform:translateY(-.3cqw) rotate(-6deg)}
+}
+@media (prefers-reduced-motion:reduce){
+  .em-hero__wordmark,.em-hero__photo,.em-hero__badge,
+  .em-hero__pill,.em-hero__binary{animation:none !important}
+}
+@media (max-width:640px){
+  .em-hero__wordmark{width:118%;top:23cqw}
+  .em-hero__photo{top:2cqw;left:50%;transform:translateX(-50%);width:36cqw;height:47cqw;border-radius:4.4cqw;animation-name:em-rise-center}
+  .em-hero__badge{top:4cqw;left:auto;right:5cqw;width:11.5cqw;height:11.5cqw}
+  .em-hero__binary{display:none}
+  .em-hero__pill{gap:1.4cqw}
+  .em-hero__pill img{width:2.9cqw;height:2.9cqw}
+  .em-hero__pill--pro{top:26cqw;left:3cqw;height:7.4cqw;padding:0 3.2cqw;font-size:2.5cqw}
+  .em-hero__pill--mail{top:41cqw;left:auto;right:3cqw;height:7.9cqw;padding:0 3.4cqw;font-size:2.6cqw}
+}
+
+/* ── PÚBLICOS / audience-row (migrado de _local: section.audience) ──
+   Acordeão horizontal: o card ativo abre 1,68x. Os cards trazem o próprio
+   véu escuro sobre a foto, então funcionam em qualquer fundo — a faixa
+   escura da seção original não veio junto. */
+.audience-row{
+  display:flex;gap:clamp(10px,1.6vw,18px);
+  height:clamp(250px,27vw,360px);
+  margin-top:clamp(38px,5.8vw,70px);
+}
+.audience-card{
+  position:relative;flex:1 1 0;min-width:0;display:block;
+  padding:0;border:0;border-radius:6px;overflow:hidden;
+  background:#25252a;color:inherit;font:inherit;text-align:left;cursor:pointer;
+  transition:flex-grow .75s cubic-bezier(.22,.68,.24,1);
+}
+.audience-card.is-active{flex-grow:1.68}
+.audience-card__media{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  filter:brightness(.68);transition:filter .75s ease;
+}
+.audience-card.is-active .audience-card__media{filter:brightness(1)}
+.audience-card__veil{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(6,6,6,.9) 0%,rgba(6,6,6,.5) 30%,rgba(6,6,6,0) 62%);
+}
+.audience-card__text{
+  display:block;position:absolute;left:0;right:0;bottom:0;
+  padding:0 clamp(16px,2vw,24px) clamp(18px,2.2vw,26px);
+}
+.audience-card__title{
+  display:block;margin:0;font-size:16px;font-weight:600;line-height:1.3;color:#fff;
+}
+.audience-card__desc{
+  display:block;margin:0;font-size:clamp(12.5px,1.05vw,13px);line-height:1.45;
+  color:rgba(255,255,255,.72);
+  max-height:0;opacity:0;overflow:hidden;transform:translateY(6px);
+  transition:max-height .6s cubic-bezier(.22,.68,.24,1),opacity .4s ease,
+             transform .6s cubic-bezier(.22,.68,.24,1),margin-top .6s cubic-bezier(.22,.68,.24,1);
+}
+.audience-card.is-active .audience-card__desc{max-height:4.5em;opacity:1;transform:none;margin-top:6px}
+
+/* mobile: vira trilho deslizante, todos os textos visíveis */
+@media (max-width:640px){
+  .audience-row{
+    height:auto;gap:12px;overflow-x:auto;
+    scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    scroll-padding-inline:var(--gutter);
+    scrollbar-width:none;overscroll-behavior-x:contain;
+    margin-inline:calc(var(--gutter)*-1);
+    padding-inline:var(--gutter);
+  }
+  .audience-row::-webkit-scrollbar{display:none}
+  .audience-card{flex:0 0 min(78vw,340px);height:clamp(170px,44vw,230px);scroll-snap-align:start}
+  .audience-card.is-active{flex-grow:0}
+  .audience-card__media{filter:brightness(.9)}
+  .audience-card__desc{max-height:4.5em;opacity:1;transform:none;margin-top:6px}
+}
+@media (prefers-reduced-motion:reduce){
+  .audience-card,.audience-card__media,.audience-card__desc{transition:none}
+}
+
+/* ── painel do Deploy dentro do slot ──
+   Reaproveita a cena do topo da página (.deploy-stage); aqui ela é
+   absoluta para preencher a moldura de altura padrão do slot. */
+.deploy-panel{position:relative;width:100%;overflow:hidden;container-type:inline-size}
+.deploy-panel .deploy-stage{position:absolute;inset:0;min-height:0;margin-top:0}
+.deploy-panel .deploy-stack-wrap{padding-top:clamp(14px,3.4cqw,40px)}
+
 /* ── HERO Loja digital (migrado de _local/heros/hero-loja.html) ──
    Referência 1071x417. Mesmas adaptações do hero WordPress:
    cores próprias do componente trocadas pelos tokens do tema. */
 .lj-hero{
-  position:relative;width:100%;
-  aspect-ratio:1071/417;overflow:hidden;
+  position:relative;width:100%;overflow:hidden;
   container-type:inline-size;isolation:isolate;user-select:none;
   --lj-shadow:0 .60cqw 2.00cqw rgba(23,23,26,.10),0 .12cqw .40cqw rgba(23,23,26,.06);
 }
@@ -445,7 +599,6 @@ html[data-theme="dark"] .lj-hero__pill{background:var(--panel)}
   .lj-hero__spark,.lj-hero__pill,.lj-hero__binary{animation:none !important}
 }
 @media (max-width:640px){
-  .lj-hero{aspect-ratio:640/400}
   .lj-hero__wordmark{width:150%;top:23cqw}
   .lj-hero__photo{top:2cqw;left:50%;transform:translateX(-50%);width:38cqw;height:47cqw;border-radius:4.4cqw;animation-name:lj-rise-center}
   .lj-hero__badge{top:4cqw;left:auto;right:5cqw;width:9cqw;height:9cqw;border-radius:2.3cqw}
