@@ -6,16 +6,135 @@
 <meta name="description" content="Hospedagem, deploy e gestão de projetos digitais em um só painel. Infraestrutura Rockfy para quem faz acontecer.">
 <meta name="theme-color" content="#ffffff">
 <title>Rockfy | Hospedagem, deploy e gestão digital</title>
+
+<!-- domínio: rockfy.com -->
+<link rel="canonical" href="https://rockfy.com/">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="robots" content="index,follow,max-image-preview:large">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rockfy">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://rockfy.com/">
+<meta property="og:title" content="Rockfy | Hospedagem, deploy e gestão digital">
+<meta property="og:description" content="Hospedagem, deploy e gestão de projetos digitais em um só painel. Infraestrutura Rockfy para quem faz acontecer.">
+<meta property="og:image" content="https://rockfy.com/img/rockfy-logo.svg">
+<meta property="og:image:alt" content="Rockfy">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rockfy | Hospedagem, deploy e gestão digital">
+<meta name="twitter:description" content="Hospedagem, deploy e gestão de projetos digitais em um só painel. Infraestrutura Rockfy para quem faz acontecer.">
+<meta name="twitter:image" content="https://rockfy.com/img/rockfy-logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Organization",
+ "name": "Rockfy",
+ "url": "https://rockfy.com",
+ "logo": "https://rockfy.com/img/rockfy-logo.svg",
+ "description": "Hospedagem, deploy e gestão de projetos digitais em um só painel.",
+ "areaServed": {
+  "@type": "Country",
+  "name": "Brasil"
+ },
+ "contactPoint": {
+  "@type": "ContactPoint",
+  "contactType": "customer support",
+  "availableLanguage": [
+   "Portuguese"
+  ],
+  "hoursAvailable": {
+   "@type": "OpeningHoursSpecification",
+   "dayOfWeek": [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+   ],
+   "opens": "08:00",
+   "closes": "22:00"
+  }
+ }
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Rockfy",
+ "url": "https://rockfy.com",
+ "inLanguage": "pt-BR"
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Preciso pagar alguma taxa para migrar meu site?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Não. A migração é feita pelo nosso time, sem custo e sem tempo de fora do ar. Você envia os acessos do provedor atual e devolvemos tudo funcionando no mesmo dia, incluindo e-mails, banco de dados e certificados."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Existe fidelidade ou multa de cancelamento?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Nenhuma. A cobrança é mensal e você cancela pelo painel quando quiser. O plano segue ativo até o fim do ciclo já pago, e você leva seus arquivos e bancos num backup completo."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Posso trocar de plano depois?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Sim, para cima ou para baixo, a qualquer momento. O upgrade vale na hora e cobramos apenas a diferença proporcional aos dias restantes. O downgrade entra no próximo ciclo, sem perder nada do que está publicado."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "O Elementor Pro está mesmo incluído?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Está, com licença oficial ativada direto no painel — não é versão anulada nem compartilhada. Vale para todos os sites dentro do seu plano, enquanto a assinatura estiver ativa."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Como funciona o backup?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Backup diário automático dos últimos 30 dias, guardado fora do servidor principal. A restauração é feita por você mesmo, em um clique, escolhendo o dia — ou pelo suporte, se preferir."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "O suporte atende em qual horário?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Chat e WhatsApp das 8h às 22h, todos os dias. Fora desse horário, incidentes de indisponibilidade continuam monitorados por plantão e tratados na hora."
+   }
+  }
+ ]
+}
+</script>
 </head>
 <body>
 <div class="screen" id="site-content">
 <!-- ══════ HEADER ══════ -->
   <header class="top">
-    <div class="logo" aria-label="Logo"><img src="img/rockfy-logo.svg" alt="Rockfy">
+    <div class="logo" aria-label="Logo"><img src="img/rockfy-logo.svg" width="120" height="44" decoding="async" alt="Rockfy">
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <path class="fg" d="M6 6h58v18H30v13h30v18H30v18H6V6Z"/>
         <rect class="fg" x="6" y="66" width="20" height="20"/>
@@ -52,31 +171,58 @@
 <!-- ══════ HERO DEPLOY ══════ -->
   <section class="deploy-hero" aria-labelledby="deploy-title">
     <div class="deploy-stage">
-      <div class="deploy-stage__word"><img src="deploy-assets/deploy.svg" alt="" aria-hidden="true"></div>
+      <div class="deploy-stage__word"><img src="deploy-assets/deploy.svg" width="1118" height="363" decoding="async" alt="" aria-hidden="true"></div>
       <p class="deploy-binary" aria-hidden="true">01010101010101010101010101010101010101</p>
       <div class="deploy-stack-wrap"><div class="deploy-stack" role="img" aria-label="Composição de quatro camadas sobrepostas">
-        <div class="deploy-card"><img src="deploy-assets/6.webp" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/5.webp" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/freelancer.webp" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/designer.webp" alt="" aria-hidden="true"></div>
+        <div class="deploy-card"><img src="deploy-assets/6.webp" width="700" height="467" decoding="async" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/5.webp" width="700" height="394" decoding="async" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/freelancer.webp" width="600" height="360" decoding="async" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/designer.webp" width="600" height="401" decoding="async" alt="" aria-hidden="true"></div>
         <div class="deploy-pill" aria-hidden="true"><svg viewBox="0 0 158 44" preserveAspectRatio="xMidYMid meet"><rect width="157.3" height="43.3" rx="21.6" fill="var(--accent)"></rect><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-family="var(--font)" font-size="13" font-weight="600" fill="var(--on-accent)">em construção</text></svg></div>
       </div></div>
     </div>
-    <div class="deploy-content"><h2 id="deploy-title">Crie na sua I.A e a gente coloca no ar</h2><div class="deploy-pitch"><p>Sua aplicação ou site feita na I.A com um link pronto para usar, sem você precisar lidar com servidor.</p><button class="deploy-cta" type="button">Entrar na lista de espera</button><div class="deploy-features"><div class="deploy-feature"><svg width="17" height="17" viewBox="0 0 24 24" fill="#e8402a" aria-hidden="true"><path d="M12 0c1.05 8.2 3.8 10.95 12 12-8.2 1.05-10.95 3.8-12 12-1.05-8.2-3.8-10.95-12-12C8.2 10.95 10.95 8.2 12 0z"></path></svg><span>Link pronto<br>para usar</span></div><div class="deploy-feature"><svg width="16" height="17" viewBox="0 0 24 24" fill="#6fffce" aria-hidden="true"><path d="M13.6 0 3 13.4h6.2L8.4 24 19 10.2h-6.2L13.6 0z"></path></svg><span>Sem lidar<br>com servidor</span></div></div></div></div>
+    <div class="deploy-content"><h1 id="deploy-title">Crie na sua I.A e a gente coloca no ar</h1><div class="deploy-pitch"><p>Sua aplicação ou site feita na I.A com um link pronto para usar, sem você precisar lidar com servidor.</p><button class="deploy-cta" type="button">Entrar na lista de espera</button><div class="deploy-features"><div class="deploy-feature"><svg width="17" height="17" viewBox="0 0 24 24" fill="#e8402a" aria-hidden="true"><path d="M12 0c1.05 8.2 3.8 10.95 12 12-8.2 1.05-10.95 3.8-12 12-1.05-8.2-3.8-10.95-12-12C8.2 10.95 10.95 8.2 12 0z"></path></svg><span>Link pronto<br>para usar</span></div><div class="deploy-feature"><svg width="16" height="17" viewBox="0 0 24 24" fill="#6fffce" aria-hidden="true"><path d="M13.6 0 3 13.4h6.2L8.4 24 19 10.2h-6.2L13.6 0z"></path></svg><span>Sem lidar<br>com servidor</span></div></div></div></div>
   </section>
 
   <!-- ══════ 1 · HERO ══════ -->
-  <h1 class="headline"><span class="l1">Bem vind@</span><span class="l2">a sua nova nuvem</span></h1>
-  <section class="stage">
-    <div class="ph i1"></div><div class="ph i2"></div><div class="ph i3"></div><div class="ph i4"></div>
-    <div class="ph i5"></div><div class="ph i6"></div><div class="ph i7"></div><div class="ph i8"></div>
-    <div class="drop"><svg viewBox="0 0 24 24"><path d="M17.5 9.5 10.7 16.3a2.7 2.7 0 0 1-3.8-3.8l7.5-7.5a4.1 4.1 0 0 1 5.8 5.8l-7.6 7.6a5.5 5.5 0 0 1-7.8-7.8l6.9-6.9" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <span class="drop-label">Upload or drop your assets</span>
+  <h2 class="headline"><span class="l1">Bem-vindo</span> <span class="l2">à sua nova nuvem</span></h2>
+  <div class="hero-slot" id="heroSlot">
+  <section class="wp-hero" data-hero-panel="wordpress" aria-label="WordPress — modelos e recursos isolados">
+    <img class="wp-hero__wordmark" src="wp-assets/wordpress.svg" alt="" aria-hidden="true" width="1280" height="337" decoding="async">
+    <p class="wp-hero__binary" aria-hidden="true">0101010101010101010101010101010101010101</p>
+    <img class="wp-hero__photo" src="wp-assets/wordpress.webp" alt="Homem sorrindo trabalhando em um café" width="360" height="456" loading="lazy" decoding="async">
+    <img class="wp-hero__elementor" src="wp-assets/elementor.svg" alt="Elementor" width="79" height="79" loading="lazy" decoding="async">
+    <span class="wp-hero__pill wp-hero__pill--modelos">
+      <img src="wp-assets/star.svg" alt="" aria-hidden="true" width="24" height="25" loading="lazy">
+      modelos
+    </span>
+    <span class="wp-hero__pill wp-hero__pill--recursos">
+      <img src="wp-assets/bolt.svg" alt="" aria-hidden="true" width="23" height="40" loading="lazy">
+      recursos isolados
+    </span>
   </section>
+
+  <section class="lj-hero" data-hero-panel="loja" aria-label="Loja digital — novo pedido" hidden>
+    <img class="lj-hero__wordmark" src="lj-assets/loja.svg" alt="" aria-hidden="true" width="1280" height="337" decoding="async" fetchpriority="low">
+    <p class="lj-hero__binary" aria-hidden="true">0101010101010101010101010101010101010101</p>
+    <img class="lj-hero__photo" src="lj-assets/loja.webp" alt="Homem trabalhando no notebook" width="360" height="456" decoding="async" fetchpriority="low">
+    <img class="lj-hero__badge" src="lj-assets/cart.svg" alt="Carrinho" width="78" height="75" decoding="async" fetchpriority="low">
+    <img class="lj-hero__spark" src="lj-assets/sparkle.svg" alt="" aria-hidden="true" width="49" height="68" decoding="async" fetchpriority="low">
+    <span class="lj-hero__pill lj-hero__pill--loja">
+      <img src="lj-assets/google.webp" alt="" aria-hidden="true" width="125" height="128" decoding="async" fetchpriority="low">
+      boné street
+    </span>
+    <span class="lj-hero__pill lj-hero__pill--pedido">
+      <img src="lj-assets/dollar.svg" alt="" aria-hidden="true" width="16" height="26" decoding="async" fetchpriority="low">
+      novo pedido
+    </span>
+  </section>
+  </div>
+
   <div class="chips-wrap">
     <div class="chips">
       <button class="chip ghost">Hospedagem de Site</button>
-      <button class="chip" aria-pressed="true">Deploy de Apps feitos com I.A</button>
-      <button class="chip">Hospedagem Wordpress</button>
-      <button class="chip">Aplicativos em doker</button>
-      <button class="chip ghost">Loja digital</button>
+      <button class="chip">Deploy de Apps feitos com I.A</button>
+      <button class="chip" data-hero="wordpress" aria-pressed="true" aria-controls="heroSlot">Hospedagem Wordpress</button>
+      <button class="chip">Aplicativos em Docker</button>
+      <button class="chip" data-hero="loja" aria-pressed="false" aria-controls="heroSlot">Loja digital</button>
       <button class="chip ghost">Email Comercial</button>
     </div>
     <span class="fade l"></span><span class="fade r"></span>
@@ -86,7 +232,7 @@
   <section class="section" aria-roledescription="carrossel" aria-label="Depoimentos">
     <div class="voices__head">
       <div>
-        <p class="eyebrow">Infraestrutura no brasil</p>
+        <p class="eyebrow">Infraestrutura no Brasil</p>
         <h2 class="voices__title">Feito pra quem <br><b>faz acontecer</b></h2>
       </div>
     </div>
@@ -100,11 +246,11 @@
     <div class="split">
       <div>
         <p class="eyebrow">Clientes</p>
-        <h2 class="title">Há <b>15 anos</b> construindo<em>parcerias verdadeiras</em></h2>
-        <p class="para">Nascemos da necessidade de ter uma infraestrutura  de ponta no Brasil e com suporte que realmente entende do assunto.</p>
+        <h2 class="title">Há <b>15 anos</b> construindo <em>parcerias verdadeiras</em></h2>
+        <p class="para">Nascemos da necessidade de ter uma infraestrutura de ponta no Brasil e com suporte que realmente entende do assunto.</p>
         <p class="para">Trouxemos para nossos clientes a melhor experiência em infraestrutura digital.</p>
         <button class="cta">
-          Nossa Histórias
+          Nossa História
           <span class="badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="8" r="2.8"/><circle cx="32" cy="20" r="2.8"/><circle cx="20" cy="32" r="2.8"/><circle cx="8" cy="20" r="2.8"/></svg></span>
         </button>
       </div>
@@ -123,30 +269,66 @@
       <div>
         <span class="tagline">Atendimento humanizado</span>
         <h2 class="title">Pode deixar <b>a gente cuida de tudo</b> <em>pra você</em></h2>
-        <p class="para">Escolha o plano que atenda perfeitamente seu negócio. Configuramos e deixamos tudo pronto pra você operar, sem custo extra, ativação de licenças oficiais e suporte humanizado que resolve. Você foca em gerar valor para o seu cliente, e agente da sua infra.</p>
+        <p class="para">Escolha o plano que atenda perfeitamente seu negócio. Configuramos e deixamos tudo pronto pra você operar, sem custo extra, ativação de licenças oficiais e suporte humanizado que resolve. Você foca em gerar valor para o seu cliente, e a gente da sua infra.</p>
         <button class="cta">
           Ver planos
           <span class="badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="8" r="2.8"/><circle cx="32" cy="20" r="2.8"/><circle cx="20" cy="32" r="2.8"/><circle cx="8" cy="20" r="2.8"/></svg></span>
         </button>
       </div>
 
-      <div class="collage col-a">
-        <div class="a-photo"></div>
-        <div class="msg">
-          <p class="msg__t">Like this as much as we do?</p>
-          <div class="msg__row">
-            <a href="#" class="msg__link">View ALO</a>
-            <button class="msg__btn">Get it now</button>
+      <div class="wp-collage">
+        <div class="wp-collage__photo">
+          <img src="img/hospedagem-gerenciada.webp" alt="" aria-hidden="true" width="464" height="600" loading="lazy" decoding="async">
+        </div>
+
+        <div class="wp-fl wp-fl--ssl">
+          <div class="wp-fl-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6fffce" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2.2 4.4 5.3v6c0 4.6 3.2 8.8 7.6 10.5 4.4-1.7 7.6-5.9 7.6-10.5v-6L12 2.2z"/>
+              <path d="M8.6 12.1l2.3 2.3 4.5-4.5"/>
+            </svg>
+            <p>SSL Grátis</p>
           </div>
         </div>
-        <span class="a-lime">
-          <svg viewBox="0 0 40 40">
-            <circle cx="20" cy="8" r="2.4"/><circle cx="28.5" cy="11.5" r="2.4"/><circle cx="32" cy="20" r="2.4"/>
-            <circle cx="28.5" cy="28.5" r="2.4"/><circle cx="20" cy="32" r="2.4"/><circle cx="11.5" cy="28.5" r="2.4"/>
-            <circle cx="8" cy="20" r="2.4"/><circle cx="11.5" cy="11.5" r="2.4"/><circle cx="20" cy="20" r="2.4"/>
+
+        <div class="wp-fl wp-fl--models">
+          <div class="wp-fl-box"><p class="wp-fl-box__label">Modelos de seções</p></div>
+        </div>
+
+        <div class="wp-fl wp-fl--logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#a99ee0">
+            <rect x="3" y="3" width="3.6" height="18" rx="1"/>
+            <rect x="9.6" y="3" width="11.4" height="3.6" rx="1"/>
+            <rect x="9.6" y="10.2" width="11.4" height="3.6" rx="1"/>
+            <rect x="9.6" y="17.4" width="11.4" height="3.6" rx="1"/>
           </svg>
-        </span>
-        <div class="a-product"><span class="ring"></span></div>
+        </div>
+
+        <div class="wp-fl wp-fl--latency">
+          <div class="wp-fl-box">
+            <p class="wp-fl-box__label">Baixa Latência</p>
+            <svg class="wp-flag" viewBox="0 0 42 30" aria-hidden="true">
+              <rect width="42" height="30" rx="2" fill="#1f9e4c"/>
+              <path d="M21 4.5 38 15 21 25.5 4 15z" fill="#f5d000"/>
+              <circle cx="21" cy="15" r="6.4" fill="#1c3f97"/>
+            </svg>
+            <p class="wp-fl-box__value">Servidor<br>no Brasil</p>
+          </div>
+        </div>
+
+        <div class="wp-fl wp-fl--resources">
+          <div class="wp-fl-icon">
+            <svg viewBox="0 0 24 24" fill="#6fffce" aria-hidden="true"><path d="M13.6 0 3 13.4h6.2L8.4 24 19 10.2h-6.2L13.6 0z"/></svg>
+            <p>Recursos<br>Dedicados</p>
+          </div>
+        </div>
+
+        <div class="wp-fl wp-fl--builder">
+          <div class="wp-fl-box">
+            <p class="wp-fl-box__label">Page Builder</p>
+            <p class="wp-fl-box__value">Elementor<br>Pro Incluso</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -155,16 +337,16 @@
   <section class="section dotted">
     <div class="split split--cta-last">
       <div>
-        <span class="tagline">Area do Cliente</span>
-        <h2 class="title">Uma <b>conta, </b>todos <em>os seus projetos</em></h2>
-        <p class="para">Projetamos um painel pensando em você, que clientes e projetos diversos. Serviços, finanças e suporte. Integre o seu gateway de pagamento e gerencie num só lugar.</p>
+        <span class="tagline">Área do Cliente</span>
+        <h2 class="title">Uma <b>conta,</b> todos <em>os seus projetos</em></h2>
+        <p class="para">Projetamos um painel pensando em você, que tem clientes e projetos diversos. Serviços, finanças e suporte. Integre o seu gateway de pagamento e gerencie num só lugar.</p>
         <button class="cta">
           Ver como funciona
           <span class="badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="8" r="2.8"/><circle cx="32" cy="20" r="2.8"/><circle cx="20" cy="32" r="2.8"/><circle cx="8" cy="20" r="2.8"/></svg></span>
         </button>
       </div>
 
-      <div class="flow" role="img" aria-label="Profile Tags distribui para Sms, Instagram e Email, que alcançam User 01 e User 02">
+      <div class="flow" role="img" aria-label="Sua conta distribui para Faturas, Serviços e Suporte, que atendem os clientes Acme Corp e Larius Capital">
         <svg class="flow__wires" viewBox="0 0 560 400" preserveAspectRatio="none" aria-hidden="true">
           <path d="M280 68 V152"/><path d="M158 180 H186"/><path d="M374 180 H402"/>
           <path d="M280 208 V270"/><path d="M280 270 L170 302"/><path d="M280 270 L400 302"/>
@@ -206,11 +388,11 @@
         <div class="b-photo"></div>
         <div class="b-ui">
           <div class="b-ui__inner">
-            <p class="b-ui__label">Add tags (Optional)</p>
-            <div class="b-ui__pill">Product Launch</div>
-            <div class="b-ui__pill b-ui__pill--ghost">+ Label</div>
+            <p class="b-ui__label">Adicionar etiquetas (opcional)</p>
+            <div class="b-ui__pill">Novo cliente</div>
+            <div class="b-ui__pill b-ui__pill--ghost">+ Etiqueta</div>
           </div>
-          <button class="b-ui__btn">Schedule</button>
+          <button class="b-ui__btn">Agendar</button>
         </div>
         <span class="b-mark">
           <svg viewBox="0 0 40 40">
@@ -256,7 +438,7 @@
 <section class="section">
     <div class="head">
       <div>
-        <p class="eyebrow">lets'Rock!</p>
+        <p class="eyebrow">Let's Rock!</p>
         <h2 class="title">Escale seu negócio <em><br>e simplifique seus custos</em></h2>
       </div>
       <div class="nav-arrows">
@@ -279,7 +461,7 @@
     <div>
       <p class="eyebrow">Dúvidas</p>
       <h2 class="title">Perguntas <b>frequentes</b></h2>
-      <p class="para">Se ficar alguma dúvida, o suporte responde em minutos — gente de verdade, não robô.</p>
+      <p class="para">Se ficar alguma dúvida, o suporte responde no chat e no WhatsApp, das 8h às 22h, todos os dias — gente de verdade, não robô.</p>
       <button class="cta">
         Falar com o suporte
         <span class="badge"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>

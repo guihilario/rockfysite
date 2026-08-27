@@ -85,24 +85,43 @@
   setInterval(tick,2000);
 })();
 
-/* ─────────── chips ─────────── */
+/* ─────────── chips → troca o hero ─────────── */
 (function(){
   const chips=[...document.querySelectorAll('.chip')];
-  chips.forEach(c=>c.onclick=()=>{
-    const on=c.getAttribute('aria-pressed')==='true';
+  const panels=[...document.querySelectorAll('[data-hero-panel]')];
+  if(!chips.length)return;
+
+  /* remove e reinsere o nó para a animação de entrada rodar de novo */
+  const replay=el=>{
+    const parent=el.parentNode, next=el.nextSibling;
+    parent.removeChild(el);
+    parent.insertBefore(el,next);
+  };
+
+  const show=name=>{
+    const alvo=panels.find(p=>p.dataset.heroPanel===name);
+    if(!alvo)return false;                 /* chip ainda sem hero: mantém o atual */
+    panels.forEach(p=>{if(p!==alvo)p.hidden=true});
+    alvo.hidden=false;
+    replay(alvo);
+    return true;
+  };
+
+  chips.forEach(c=>c.addEventListener('click',()=>{
     chips.forEach(x=>x.setAttribute('aria-pressed','false'));
-    c.setAttribute('aria-pressed',on?'false':'true');
-  });
+    c.setAttribute('aria-pressed','true');
+    if(c.dataset.hero)show(c.dataset.hero);
+  }));
 })();
 
 /* ─────────── carrossel de depoimentos ─────────── */
 (function(){
   const DATA=[
-    {name:'Marina Alves',  role:'Diretora de arte · Cápsula',   quote:'Trocamos três dias de estúdio por uma tarde. O catálogo inteiro saiu com a mesma luz.'},
-    {name:'Rafael Costa',  role:'Head de e-commerce · Marévia', quote:'Subimos 240 peças e recebemos as campanhas prontas. A taxa de clique subiu 18%.'},
-    {name:'Helena Prado',  role:'Fotógrafa · Ateliê Norte',     quote:'Uso para testar direção antes de fotografar. Chego ao set já sabendo o que quero.'},
-    {name:'Bruno Tavares', role:'Produtor · Pixelaria',         quote:'O que era orçamento de produção virou orçamento de mídia. Mudou nossa conta.'},
-    {name:'Lucas Ferraz',  role:'Fundador · Lab Interno',       quote:'Nenhum modelo remarcado, nenhuma diária perdida. A coleção nova sai no mesmo dia.'}
+    {name:'Ariel Monteoliva',  role:'Designer · Calavera',   quote:'Trocamos três dias de estúdio por uma tarde. O catálogo inteiro saiu com a mesma luz.'},
+    {name:'Kyono Andre',  role:'Fotográfo · Liv Produtora', quote:'Subimos 240 peças e recebemos as campanhas prontas. A taxa de clique subiu 18%.'},
+    {name:'Guilherme Lacerda',  role:'Empresário · Soma Impressões',     quote:'Uso para testar direção antes de fotografar. Chego ao set já sabendo o que quero.'},
+    {name:'José Rosan', role:'Advogado · Rosan Empresarial',         quote:'O que era orçamento de produção virou orçamento de mídia. Mudou nossa conta.'},
+    {name:'Marcelo Celo',  role:'Gestor de Tráego · reobot Digital',       quote:'Nenhum modelo remarcado, nenhuma diária perdida. A coleção nova sai no mesmo dia.'}
   ];
   const deck=document.getElementById('deck'), dots=document.getElementById('dots');
   const clientDeck=document.getElementById('deckClients'), clientDots=document.getElementById('dotsClients');
