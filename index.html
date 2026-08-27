@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Hospedagem, deploy e gestão de projetos digitais em um só painel. Infraestrutura Rockfy para quem faz acontecer.">
+<meta name="theme-color" content="#ffffff">
+<title>Rockfy | Hospedagem, deploy e gestão digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="screen" id="site-content">
+<!-- ══════ HEADER ══════ -->
+  <header class="top">
+    <div class="logo" aria-label="Logo"><img src="img/rockfy-logo.svg" alt="Rockfy">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path class="fg" d="M6 6h58v18H30v13h30v18H30v18H6V6Z"/>
+        <rect class="fg" x="6" y="66" width="20" height="20"/>
+        <circle class="bg" cx="24" cy="17" r="4.6"/><circle class="bg" cx="40" cy="13" r="4"/>
+        <circle class="bg" cx="52" cy="22" r="3.4"/><circle class="bg" cx="20" cy="34" r="3.6"/>
+        <circle class="bg" cx="42" cy="45" r="3.2"/><circle class="bg" cx="20" cy="55" r="3"/>
+        <text class="fg" x="72" y="88" font-family="Helvetica,Arial" font-size="15">®</text>
+      </svg></div>
+    <nav class="topnav">
+      <a href="#" class="is-on">Hospedagem de Site</a>
+      <a href="#">Deploy [I.A]</a>
+      <a href="#">Aplicativos</a>
+      <a href="#">Loja digital</a>
+      <a href="#">Email Profissional</a>
+    </nav>
+    <nav class="nav">
+      <button class="burger" aria-label="Menu"><span></span><span></span></button>
+      <span class="label">Menu</span>
+    </nav>
+    <button class="moon" id="themeBtn" aria-label="Alternar tema"><svg viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+  </header>
+<main id="main-content">
+<!-- ══════ HERO DEPLOY ══════ -->
+  <section class="deploy-hero" aria-labelledby="deploy-title">
+    <div class="deploy-stage">
+      <div class="deploy-stage__word"><img src="deploy-assets/deploy.svg" alt="" aria-hidden="true"></div>
+      <p class="deploy-binary" aria-hidden="true">01010101010101010101010101010101010101</p>
+      <div class="deploy-stack-wrap"><div class="deploy-stack" role="img" aria-label="Composição de quatro camadas sobrepostas">
+        <div class="deploy-card"><img src="deploy-assets/6.webp" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/5.webp" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/freelancer.webp" alt="" aria-hidden="true"></div><div class="deploy-card"><img src="deploy-assets/designer.webp" alt="" aria-hidden="true"></div>
+        <div class="deploy-pill" aria-hidden="true"><svg viewBox="0 0 158 44" preserveAspectRatio="xMidYMid meet"><rect width="157.3" height="43.3" rx="21.6" fill="var(--accent)"></rect><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-family="var(--font)" font-size="13" font-weight="600" fill="var(--on-accent)">em construção</text></svg></div>
+      </div></div>
+    </div>
+    <div class="deploy-content"><h2 id="deploy-title">Crie na sua I.A e a gente coloca no ar</h2><div class="deploy-pitch"><p>Sua aplicação ou site feita na I.A com um link pronto para usar, sem você precisar lidar com servidor.</p><button class="deploy-cta" type="button">Entrar na lista de espera</button><div class="deploy-features"><div class="deploy-feature"><svg width="17" height="17" viewBox="0 0 24 24" fill="#e8402a" aria-hidden="true"><path d="M12 0c1.05 8.2 3.8 10.95 12 12-8.2 1.05-10.95 3.8-12 12-1.05-8.2-3.8-10.95-12-12C8.2 10.95 10.95 8.2 12 0z"></path></svg><span>Link pronto<br>para usar</span></div><div class="deploy-feature"><svg width="16" height="17" viewBox="0 0 24 24" fill="#6fffce" aria-hidden="true"><path d="M13.6 0 3 13.4h6.2L8.4 24 19 10.2h-6.2L13.6 0z"></path></svg><span>Sem lidar<br>com servidor</span></div></div></div></div>
+  </section>
+
+  <!-- ══════ 1 · HERO ══════ -->
+  <h1 class="headline"><span class="l1">Bem vind@</span><span class="l2">a sua nova nuvem</span></h1>
+  <section class="stage">
+    <div class="ph i1"></div><div class="ph i2"></div><div class="ph i3"></div><div class="ph i4"></div>
+    <div class="ph i5"></div><div class="ph i6"></div><div class="ph i7"></div><div class="ph i8"></div>
+    <div class="drop"><svg viewBox="0 0 24 24"><path d="M17.5 9.5 10.7 16.3a2.7 2.7 0 0 1-3.8-3.8l7.5-7.5a4.1 4.1 0 0 1 5.8 5.8l-7.6 7.6a5.5 5.5 0 0 1-7.8-7.8l6.9-6.9" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <span class="drop-label">Upload or drop your assets</span>
+  </section>
+  <div class="chips-wrap">
+    <div class="chips">
+      <button class="chip ghost">Hospedagem de Site</button>
+      <button class="chip" aria-pressed="true">Deploy de Apps feitos com I.A</button>
+      <button class="chip">Hospedagem Wordpress</button>
+      <button class="chip">Aplicativos em doker</button>
+      <button class="chip ghost">Loja digital</button>
+      <button class="chip ghost">Email Comercial</button>
+    </div>
+    <span class="fade l"></span><span class="fade r"></span>
+  </div>
+
+  <!-- ══════ 2 · DEPOIMENTOS ══════ -->
+  <section class="section" aria-roledescription="carrossel" aria-label="Depoimentos">
+    <div class="voices__head">
+      <div>
+        <p class="eyebrow">Infraestrutura no brasil</p>
+        <h2 class="voices__title">Feito pra quem <br><b>faz acontecer</b></h2>
+      </div>
+    </div>
+    <div class="deck" id="deck"></div>
+    <div class="dots" id="dots"></div>
+    <div class="voices__controls"><button class="arrowbtn" id="prev" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5.5 8 12l7 6.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="counter"><b id="cur">01</b> / <span id="tot">05</span></span><button class="arrowbtn" id="next" aria-label="Próximo"><svg viewBox="0 0 24 24"><path d="m9 5.5 7 6.5-7 6.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+  </section>
+
+  <!-- ══════ 3 · INVEST IN YOUR PEOPLE ══════ -->
+  <section class="section dotted">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Clientes</p>
+        <h2 class="title">Há <b>15 anos</b> construindo<em>parcerias verdadeiras</em></h2>
+        <p class="para">Nascemos da necessidade de ter uma infraestrutura  de ponta no Brasil e com suporte que realmente entende do assunto.</p>
+        <p class="para">Trouxemos para nossos clientes a melhor experiência em infraestrutura digital.</p>
+        <button class="cta">
+          Nossa Histórias
+          <span class="badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="8" r="2.8"/><circle cx="32" cy="20" r="2.8"/><circle cx="20" cy="32" r="2.8"/><circle cx="8" cy="20" r="2.8"/></svg></span>
+        </button>
+      </div>
+
+      <div class="voices-embedded" aria-roledescription="carrossel" aria-label="Depoimentos de clientes">
+        <div class="deck" id="deckClients"></div>
+        <div class="dots" id="dotsClients"></div>
+        <div class="voices__controls"><button class="arrowbtn" id="prevEmbedded" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5.5 8 12l7 6.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="arrowbtn" id="nextEmbedded" aria-label="Próximo"><svg viewBox="0 0 24 24"><path d="m9 5.5 7 6.5-7 6.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ 4 · CATÁLOGO / COLAGEM A ══════ -->
+  <section class="section dotted">
+    <div class="split split--rev">
+      <div>
+        <span class="tagline">Atendimento humanizado</span>
+        <h2 class="title">Pode deixar <b>a gente cuida de tudo</b> <em>pra você</em></h2>
+        <p class="para">Escolhemos juntos o plano perfeito para seu negócio. Que atenda suas demandas. Configuramos e deixamos tudo pronto pra você operar, sem custo extra, ativação de licenças oficiais e suporte humanizado que resolve. Você foca em gerar valor para o seu cliente, e agente da sua infra.</p>
+        <button class="cta">
+          Ver planos
+          <span class="badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="8" r="2.8"/><circle cx="32" cy="20" r="2.8"/><circle cx="20" cy="32" r="2.8"/><circle cx="8" cy="20" r="2.8"/></svg></span>
+        </button>
+      </div>
+
+      <div class="collage col-a">
+        <div class="a-photo"></div>
+        <div class="msg">
+          <p class="msg__t">Like this as much as we do?</p>
+          <div class="msg__row">
+            <a href="#" class="msg__link">View ALO</a>
+            <button class="msg__btn">Get it now</button>
+          </div>
+        </div>
+        <span class="a-lime">
+          <svg viewBox="0 0 40 40">
+            <circle cx="20" cy="8" r="2.4"/><circle cx="28.5" cy="11.5" r="2.4"/><circle cx="32" cy="20" r="2.4"/>
+            <circle cx="28.5" cy="28.5" r="2.4"/><circle cx="20" cy="32" r="2.4"/><circle cx="11.5" cy="28.5" r="2.4"/>
+            <circle cx="8" cy="20" r="2.4"/><circle cx="11.5" cy="11.5" r="2.4"/><circle cx="20" cy="20" r="2.4"/>
+          </svg>
+        </span>
+        <div class="a-product"><span class="ring"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ 5 · DATA GRID ══════ -->
+  <section class="section dotted">
+    <div class="split">
+      <div>
+        <span class="tagline">Area do Cliente</span>
+        <h2 class="title">Uma <b>conta, </b>todos <em>os seus projetos</em></h2>
+        <p class="para">Projetamos um painel pensando em você, que clientes e projetos diversos. Serviços, finanças e suporte. Integre o seu gateway de pagamento e gerencie num só lugar.</p>
+        <button class="cta">
+          Ver como funciona
+          <span class="badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="8" r="2.8"/><circle cx="32" cy="20" r="2.8"/><circle cx="20" cy="32" r="2.8"/><circle cx="8" cy="20" r="2.8"/></svg></span>
+        </button>
+      </div>
+
+      <div class="flow" role="img" aria-label="Profile Tags distribui para Sms, Instagram e Email, que alcançam User 01 e User 02">
+        <svg class="flow__wires" viewBox="0 0 560 400" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M280 68 V152"/><path d="M158 180 H186"/><path d="M374 180 H402"/>
+          <path d="M280 208 V270"/><path d="M280 270 L170 302"/><path d="M280 270 L400 302"/>
+        </svg>
+        <div class="node node--accent n-tags">
+          <span class="node__badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="4"/><circle cx="20" cy="7" r="2"/><circle cx="33" cy="20" r="2"/><circle cx="20" cy="33" r="2"/><circle cx="7" cy="20" r="2"/></svg></span>
+          <span>Sua conta</span>
+        </div>
+        <div class="node n-sms"><span class="node__badge">1</span><span>Faturas</span></div>
+        <div class="node n-insta"><span class="node__badge">2</span><span>Serviços</span></div>
+        <div class="node n-mail"><span class="node__badge">3</span><span>Suporte</span></div>
+        <div class="node n-u1">
+          <span class="node__badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="12" r="2.4"/><circle cx="12" cy="26" r="2.4"/><circle cx="28" cy="26" r="2.4"/><circle cx="20" cy="24" r="2"/></svg></span>
+          <span>Acme Corp</span>
+        </div>
+        <div class="node node--accent n-u2">
+          <span class="node__badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="12" r="2.4"/><circle cx="12" cy="26" r="2.4"/><circle cx="28" cy="26" r="2.4"/><circle cx="20" cy="24" r="2"/></svg></span>
+          <span>Larius Capital</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ 6 · AGENDAMENTO / COLAGEM B ══════ -->
+  <section class="section dotted">
+    <div class="split split--rev">
+      <div>
+        <span class="tagline">Parceiros</span>
+        <h2 class="title">Hospede seus clientes <b>ganhe</b> todo <em>mês</em></h2>
+        <p class="para">Migre ou indique seus clientes e comece a ganhar dinheiro com cada projeto. A gente cuida da infraestrutura e você do relacionamento direto com ele.</p>
+        <button class="cta">
+          Seja um parceiro
+          <span class="badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="8" r="2.8"/><circle cx="32" cy="20" r="2.8"/><circle cx="20" cy="32" r="2.8"/><circle cx="8" cy="20" r="2.8"/></svg></span>
+        </button>
+      </div>
+
+      <div class="collage col-b">
+        <div class="b-lime"></div>
+        <div class="b-photo"></div>
+        <div class="b-ui">
+          <div class="b-ui__inner">
+            <p class="b-ui__label">Add tags (Optional)</p>
+            <div class="b-ui__pill">Product Launch</div>
+            <div class="b-ui__pill b-ui__pill--ghost">+ Label</div>
+          </div>
+          <button class="b-ui__btn">Schedule</button>
+        </div>
+        <span class="b-mark">
+          <svg viewBox="0 0 40 40">
+            <circle cx="12" cy="12" r="2.2"/><circle cx="20" cy="12" r="2.2"/><circle cx="28" cy="12" r="2.2"/>
+            <circle cx="12" cy="20" r="2.2"/><circle cx="20" cy="20" r="2.2"/><circle cx="28" cy="20" r="2.2"/>
+            <circle cx="16" cy="28" r="2.2"/><circle cx="24" cy="28" r="2.2"/>
+          </svg>
+        </span>
+        <div class="b-product"><span class="disc"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ 7 · COLAGEM VERTICAL ══════ -->
+  <section class="section">
+    <div class="split split--rev">
+      <div>
+        <span class="tagline">Coleção</span>
+        <h2 class="title">O mesmo <b>look</b> em <em>todo lugar</em></h2>
+        <p class="para">Uma peça, quantos enquadramentos você precisar. Vertical para stories, quadrado para feed, aberto para campanha — sempre com a mesma direção de luz e a mesma pele.</p>
+        <button class="cta">
+          Explorar formatos
+          <span class="badge"><svg viewBox="0 0 40 40"><circle cx="20" cy="8" r="2.8"/><circle cx="32" cy="20" r="2.8"/><circle cx="20" cy="32" r="2.8"/><circle cx="8" cy="20" r="2.8"/></svg></span>
+        </button>
+      </div>
+
+      <div class="collage col-c">
+      <div class="c-back"></div>
+      <div class="c-photo"></div>
+      <span class="c-lime">
+        <svg viewBox="0 0 40 40">
+          <circle cx="20" cy="9" r="1.9"/><circle cx="27.8" cy="12.2" r="1.9"/><circle cx="31" cy="20" r="1.9"/>
+          <circle cx="27.8" cy="27.8" r="1.9"/><circle cx="20" cy="31" r="1.9"/><circle cx="12.2" cy="27.8" r="1.9"/>
+          <circle cx="9" cy="20" r="1.9"/><circle cx="12.2" cy="12.2" r="1.9"/><circle cx="20" cy="20" r="1.9"/>
+        </svg>
+      </span>
+      <div class="c-product"><span class="disc"></span></div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- legacy script
+/* tema */
+const root=document.documentElement;
+root.setAttribute('data-theme', matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+themeBtn.onclick=()=>root.setAttribute('data-theme',root.getAttribute('data-theme')==='dark'?'light':'dark');
+
+/* hero Deploy */
+const deployCards=[...document.querySelectorAll('.deploy-card')];
+if(deployCards.length&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  let deployIndex=0;
+  const deployTick=()=>{deployCards.forEach(card=>card.classList.remove('is-active'));deployCards[deployIndex].classList.add('is-active');deployIndex=(deployIndex+1)%deployCards.length};
+  deployTick();
+  setInterval(deployTick,2000);
+}
+
+/* chips */
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
+  const on=c.getAttribute('aria-pressed')==='true';
+  document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+  c.setAttribute('aria-pressed',on?'false':'true');
+});
+
+/* ─────────── carrossel de depoimentos ─────────── */
+const DATA=[
+  {name:'Marina Alves',  role:'Diretora de arte · Cápsula',   quote:'Trocamos três dias de estúdio por uma tarde. O catálogo inteiro saiu com a mesma luz.'},
+  {name:'Rafael Costa',  role:'Head de e-commerce · Marévia', quote:'Subimos 240 peças e recebemos as campanhas prontas. A taxa de clique subiu 18%.'},
+  {name:'Helena Prado',  role:'Fotógrafa · Ateliê Norte',     quote:'Uso para testar direção antes de fotografar. Chego ao set já sabendo o que quero.'},
+  {name:'Bruno Tavares', role:'Produtor · Pixelaria',         quote:'O que era orçamento de produção virou orçamento de mídia. Mudou nossa conta.'},
+  {name:'Lucas Ferraz',  role:'Fundador · Lab Interno',       quote:'Nenhum modelo remarcado, nenhuma diária perdida. A coleção nova sai no mesmo dia.'}
+];
+const deck=document.getElementById('deck'), dots=document.getElementById('dots');
+const BOOK='<svg class="slide__mark" viewBox="0 0 24 24"><path d="M12 6.5S10 4.5 4 4.5v13c6 0 8 2 8 2s2-2 8-2v-13c-6 0-8 2-8 2Z" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 6.5v13" stroke-width="1.5"/></svg>';
+
+deck.innerHTML=DATA.map((d,i)=>`
+  <article class="slide" data-i="${i}" aria-label="Depoimento ${i+1} de ${DATA.length}">
+    <div class="slide__photo">
+      <div class="slide__box">
+        ${BOOK}
+        <div class="slide__name">${d.name}</div>
+        <div class="slide__role">${d.role}</div>
+        <div class="slide__rule"></div>
+        <div class="slide__grid">
+          <span class="slide__idx">[ ${String(i+1).padStart(2,'0')} ]</span>
+          <p class="slide__quote">${d.quote}</p>
+        </div>
+      </div>
+    </div>
+  </article>`).join('');
+dots.innerHTML=DATA.map((_,i)=>`<button data-i="${i}" aria-label="Ir para ${i+1}"></button>`).join('');
+document.getElementById('tot').textContent=String(DATA.length).padStart(2,'0');
+
+const slides=[...deck.children];
+const clientDeck=document.getElementById('deckClients'), clientDots=document.getElementById('dotsClients');
+clientDeck.innerHTML=deck.innerHTML;
+clientDots.innerHTML=DATA.map((_,i)=>`<button data-i="${i}" aria-label="Ir para ${i+1}"></button>`).join('');
+const clientSlides=[...clientDeck.children];
+let index=0;
+function renderSlides(items, indicators){
+  const w=innerWidth, wide=w>=900, xtra=w>=1280?62:(wide?58:52), n=DATA.length;
+  items.forEach((s,i)=>{
+    let o=i-index;
+    if(o>n/2)o-=n; if(o<-n/2)o+=n;
+    const a=Math.abs(o);
+    s.style.transform=`translate(-50%,-50%) translateX(${o*xtra}%) translateY(${a*(wide?26:18)}px) scale(${a===0?1:(a===1?.8:.66)})`;
+    s.style.opacity=a===0?1:(a===1?.5:0);
+    s.style.zIndex=10-a;
+    s.style.pointerEvents=a>1?'none':'auto';
+    s.classList.toggle('is-active',a===0);
+  });
+  [...indicators.children].forEach((d,i)=>d.classList.toggle('is-on',i===index));
+}
+function render(){
+  renderSlides(slides,dots);
+  renderSlides(clientSlides,clientDots);
+  document.getElementById('cur').textContent=String(index+1).padStart(2,'0');
+}
+const go=i=>{index=(i+DATA.length)%DATA.length;render()};
+next.onclick=()=>go(index+1);
+prev.onclick=()=>go(index-1);
+nextEmbedded.onclick=()=>go(index+1);
+prevEmbedded.onclick=()=>go(index-1);
+slides.forEach(s=>s.onclick=()=>{if(!s.classList.contains('is-active'))go(+s.dataset.i)});
+[...dots.children].forEach(d=>d.onclick=()=>go(+d.dataset.i));
+ [...clientDots.children].forEach(d=>d.onclick=()=>go(+d.dataset.i));
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(index+1);if(e.key==='ArrowLeft')go(index-1)});
+let x0=null;
+deck.addEventListener('pointerdown',e=>x0=e.clientX);
+addEventListener('pointerup',e=>{if(x0===null)return;const dx=e.clientX-x0;x0=null;if(Math.abs(dx)>44)go(index+(dx<0?1:-1))});
+addEventListener('resize',render);
+render();
+let voicesTimer=setInterval(()=>go(index+1),5000);
+document.querySelectorAll('.voices__controls,.deck').forEach(element=>{
+  element.addEventListener('mouseenter',()=>clearInterval(voicesTimer));
+  element.addEventListener('mouseleave',()=>{clearInterval(voicesTimer);voicesTimer=setInterval(()=>go(index+1),5000)});
+});
+end legacy script -->
+<section class="section">
+    <div class="head">
+      <div>
+        <p class="eyebrow">Planos</p>
+        <h2 class="title">lets'Rock! <em>Escolha o tamanho da sua operação</em></h2>
+      </div>
+      <div class="nav-arrows">
+        <button class="arrowbtn" id="prev" aria-label="Anterior">
+          <svg viewBox="0 0 24 24"><path d="M15 5.5 8 12l7 6.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="arrowbtn" id="next" aria-label="Próximo">
+          <svg viewBox="0 0 24 24"><path d="m9 5.5 7 6.5-7 6.5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="rail" id="rail"></div>
+    <div class="dots" id="dots"></div>
+  </section>
+
+
+<!-- legacy script
+const root=document.documentElement;
+root.setAttribute('data-theme', matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+themeBtn.onclick=()=>root.setAttribute('data-theme',root.getAttribute('data-theme')==='dark'?'light':'dark');
+
+/* ─────────── planos ─────────── */
+const PLANS=[
+  {tag:'Para começar hoje', name:'Start', price:'R$57',
+   note:'Pra quem está começando. Perfeito para seu projeto ou negócio pessoal',
+   items:[['[1]','Conta Isolada cPanel'],[null,'1 Domínio'],[null,'Elementor Pro Oficial'],[null,'2GB SSD / conta'],[null,'1GB Ram / conta'],['[3]','Emails Profissionais'],['[1]','Deploy de Apps & Sites'],[null,'Gestão & Finanças',false]]},
+
+  {tag:'Para negócios em crescimento', name:'Pro', price:'R$157', featured:true,
+   note:'Tudo o que você precisa para criar e expandir seu negócio sem se preocupar com infraestrutura.',
+   items:[['[5]','Contas Isoladas cPanel'],[null,'Domínios Ilimitados'],[null,'Elementor Pro Oficial'],[null,'5GB SSD / conta'],[null,'4GB Ram / conta'],['[15]','Emails Profissionais'],['[5]','Deploy de Apps & Sites'],[null,'Gestão & Finanças',true,'Painel de receitas, despesas e cobrança recorrente.']]},
+
+  {tag:'Para agências e estúdios', name:'Studio', price:'R$349',
+   note:'Cobrado mensalmente, sem fidelidade. Cancele quando quiser.',
+   items:[['[15]','Contas Isoladas cPanel'],[null,'Domínios Ilimitados'],[null,'Elementor Pro Oficial'],[null,'20GB SSD / conta'],[null,'8GB Ram / conta'],['[50]','Emails Profissionais'],['[20]','Deploy de Apps & Sites'],[null,'Gestão & Finanças',true,'Inclui repasse para clientes e relatórios por projeto.']]},
+
+  {tag:'Para operações dedicadas', name:'Scale', price:'R$899',
+   note:'Cobrado mensalmente, sem fidelidade. Cancele quando quiser.',
+   items:[[null,'Contas Isoladas Ilimitadas'],[null,'Domínios Ilimitados'],[null,'Elementor Pro Oficial'],[null,'100GB SSD / conta'],[null,'16GB Ram / conta'],[null,'Emails Ilimitados'],[null,'Deploy Ilimitado'],[null,'Gestão & Finanças',true,'Multi-tenant, API aberta e suporte com SLA.']]}
+];
+
+const CHECK='<svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const rail=document.getElementById('rail'), dots=document.getElementById('dots');
+const prevButton=document.getElementById('prev'), nextButton=document.getElementById('next');
+
+rail.innerHTML=PLANS.map(p=>`
+  <article class="plan${p.featured?' plan--featured':''}">
+    <span class="plan__tag">${p.tag}</span>
+    <h3 class="plan__name">${p.name}</h3>
+    <div class="plan__price"><b>${p.price}</b><span>/ mês</span></div>
+    <p class="plan__note">${p.note}</p>
+    <div class="plan__rule"></div>
+    <ul class="plan__list">
+      ${p.items.map(([n,label,on,hint])=>`
+        <li class="plan__item${on===false?' is-off':''}">
+          ${CHECK}
+          <span>${n?`<span class="num">${n}</span> `:''}${label}</span>
+          ${hint?`<span class="hint" title="${hint}">?</span>`:''}
+        </li>`).join('')}
+    </ul>
+    <button class="plan__cta">
+      Começar
+      <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </article>`).join('');
+
+dots.innerHTML=PLANS.map((_,i)=>`<button data-i="${i}" aria-label="Plano ${i+1}"></button>`).join('');
+
+/* ─── navegação ─── */
+const step=()=>{
+  const card=rail.querySelector('.plan');
+  return card.getBoundingClientRect().width + parseFloat(getComputedStyle(rail).gap);
+};
+const maxScroll=()=>rail.scrollWidth-rail.clientWidth;
+
+function sync(){
+  const i=Math.round(rail.scrollLeft/step());
+  [...dots.children].forEach((d,k)=>d.classList.toggle('is-on',k===i));
+  prev.disabled=rail.scrollLeft<=2;
+  next.disabled=rail.scrollLeft>=maxScroll()-2;
+}
+const goTo=i=>rail.scrollTo({left:i*step(),behavior:'smooth'});
+next.onclick=()=>rail.scrollBy({left:step(),behavior:'smooth'});
+prev.onclick=()=>rail.scrollBy({left:-step(),behavior:'smooth'});
+[...dots.children].forEach(d=>d.onclick=()=>goTo(+d.dataset.i));
+rail.addEventListener('scroll',sync,{passive:true});
+addEventListener('resize',sync);
+
+/* ─── arrastar ─── */
+let down=false,startX=0,startLeft=0,moved=false;
+rail.addEventListener('pointerdown',e=>{
+  down=true;moved=false;startX=e.clientX;startLeft=rail.scrollLeft;
+  rail.setPointerCapture(e.pointerId);
+});
+rail.addEventListener('pointermove',e=>{
+  if(!down)return;
+  const dx=e.clientX-startX;
+  if(!moved&&Math.abs(dx)>5){moved=true;rail.classList.add('is-dragging')}
+  if(moved)rail.scrollLeft=startLeft-dx;
+});
+const release=()=>{
+  if(!down)return; down=false;
+  if(moved){
+    rail.classList.remove('is-dragging');
+    goTo(Math.round(rail.scrollLeft/step()));   // encaixa no card mais próximo
+  }
+};
+rail.addEventListener('pointerup',release);
+rail.addEventListener('pointercancel',release);
+
+sync();
+end legacy script -->
+<!-- ══════ FAQ ══════ -->
+  <section class="section faq">
+    <div>
+      <p class="eyebrow">Dúvidas</p>
+      <h2 class="title">Perguntas <b>frequentes</b></h2>
+      <p class="para">Se ficar alguma dúvida, o suporte responde em minutos — gente de verdade, não robô.</p>
+      <button class="cta">
+        Falar com o suporte
+        <span class="badge"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+    </div>
+
+    <div class="acc" id="acc">
+      <div class="acc__item is-open">
+        <button class="acc__btn" aria-expanded="true">
+          <span class="acc__q">Preciso pagar alguma taxa para migrar meu site?</span>
+          <span class="acc__ico" aria-hidden="true"></span>
+        </button>
+        <div class="acc__panel"><div>
+          <p class="acc__a">Não. A migração é feita pelo nosso time, sem custo e sem tempo de fora do ar. Você envia os acessos do provedor atual e devolvemos tudo funcionando no mesmo dia, incluindo e-mails, banco de dados e certificados.</p>
+        </div></div>
+      </div>
+
+      <div class="acc__item">
+        <button class="acc__btn" aria-expanded="false">
+          <span class="acc__q">Existe fidelidade ou multa de cancelamento?</span>
+          <span class="acc__ico" aria-hidden="true"></span>
+        </button>
+        <div class="acc__panel"><div>
+          <p class="acc__a">Nenhuma. A cobrança é mensal e você cancela pelo painel quando quiser. O plano segue ativo até o fim do ciclo já pago, e você leva seus arquivos e bancos num backup completo.</p>
+        </div></div>
+      </div>
+
+      <div class="acc__item">
+        <button class="acc__btn" aria-expanded="false">
+          <span class="acc__q">Posso trocar de plano depois?</span>
+          <span class="acc__ico" aria-hidden="true"></span>
+        </button>
+        <div class="acc__panel"><div>
+          <p class="acc__a">Sim, para cima ou para baixo, a qualquer momento. O upgrade vale na hora e cobramos apenas a diferença proporcional aos dias restantes. O downgrade entra no próximo ciclo, sem perder nada do que está publicado.</p>
+        </div></div>
+      </div>
+
+      <div class="acc__item">
+        <button class="acc__btn" aria-expanded="false">
+          <span class="acc__q">O Elementor Pro está mesmo incluído?</span>
+          <span class="acc__ico" aria-hidden="true"></span>
+        </button>
+        <div class="acc__panel"><div>
+          <p class="acc__a">Está, com licença oficial ativada direto no painel — não é versão anulada nem compartilhada. Vale para todos os sites dentro do seu plano, enquanto a assinatura estiver ativa.</p>
+        </div></div>
+      </div>
+
+      <div class="acc__item">
+        <button class="acc__btn" aria-expanded="false">
+          <span class="acc__q">Como funciona o backup?</span>
+          <span class="acc__ico" aria-hidden="true"></span>
+        </button>
+        <div class="acc__panel"><div>
+          <p class="acc__a">Backup diário automático dos últimos 30 dias, guardado fora do servidor principal. A restauração é feita por você mesmo, em um clique, escolhendo o dia — ou pelo suporte, se preferir.</p>
+        </div></div>
+      </div>
+
+      <div class="acc__item">
+        <button class="acc__btn" aria-expanded="false">
+          <span class="acc__q">O suporte atende em qual horário?</span>
+          <span class="acc__ico" aria-hidden="true"></span>
+        </button>
+        <div class="acc__panel"><div>
+          <p class="acc__a">Chat e WhatsApp das 8h às 22h, todos os dias. Fora desse horário, incidentes de indisponibilidade continuam monitorados por plantão e tratados na hora.</p>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════ POSTS ══════ -->
+  <section class="section">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+      <div>
+        <p class="eyebrow">Blog</p>
+        <h2 class="title">Para ler <em>depois</em></h2>
+      </div>
+      <button class="cta" style="margin-top:0">
+        Todos os posts
+        <span class="badge"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+    </div>
+
+    <div class="posts">
+      <a class="post" href="#">
+        <span class="post__media"><span class="post__tag">Performance</span></span>
+        <p class="post__meta">12 ago · 6 min</p>
+        <h3 class="post__title">O que realmente deixa um WordPress lento</h3>
+        <p class="post__text">Plugins não são o vilão principal. Medimos 40 sites e o gargalo estava em outro lugar.</p>
+        <span class="post__link">Ler <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+
+      <a class="post" href="#">
+        <span class="post__media"><span class="post__tag">Deploy</span></span>
+        <p class="post__meta">28 jul · 4 min</p>
+        <h3 class="post__title">Do commit ao ar em menos de um minuto</h3>
+        <p class="post__text">Como configurar deploy automático a cada push, com preview em pull request.</p>
+        <span class="post__link">Ler <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+
+      <a class="post" href="#">
+        <span class="post__media"><span class="post__tag">Negócios</span></span>
+        <p class="post__meta">03 jul · 8 min</p>
+        <h3 class="post__title">Quanto cobrar pela hospedagem do cliente</h3>
+        <p class="post__text">Três modelos de repasse que agências usam, com as contas abertas de cada um.</p>
+        <span class="post__link">Ler <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    </div>
+    <div class="dots" id="postDots"></div>
+  </section>
+
+  <!-- ══════ FOOTER ══════ -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <div class="logo" aria-label="Logo">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path class="fg" d="M6 6h58v18H30v13h30v18H30v18H6V6Z"/>
+            <rect class="fg" x="6" y="66" width="20" height="20"/>
+            <circle class="bg" cx="24" cy="17" r="4.6"/><circle class="bg" cx="40" cy="13" r="4"/>
+            <circle class="bg" cx="52" cy="22" r="3.4"/><circle class="bg" cx="20" cy="34" r="3.6"/>
+            <circle class="bg" cx="42" cy="45" r="3.2"/><circle class="bg" cx="20" cy="55" r="3"/>
+          </svg>
+        </div>
+        <p class="footer__pitch">Hospedagem, deploy e gestão em um só painel. Feito para quem cuida de vários projetos ao mesmo tempo.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke-width="1.6"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4" stroke-width="1.6"/><path d="M8 10.5v6M8 7.6v.1M12 16.5v-3.4a2.1 2.1 0 0 1 4.2 0v3.4" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+          <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M9 19c-4 1.2-4-2.2-5.5-2.8M15 21v-3.3c0-.9.3-1.5.7-1.9-2.6-.3-5.2-1.3-5.2-5.6 0-1.3.4-2.3 1.1-3.1-.1-.3-.5-1.4.1-2.9 0 0 .9-.3 2.9 1.1a9.7 9.7 0 0 1 5 0c2-1.4 2.9-1.1 2.9-1.1.6 1.5.2 2.6.1 2.9.7.8 1.1 1.8 1.1 3.1 0 4.3-2.6 5.3-5.2 5.6.4.4.8 1.1.8 2.2V21" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer__col">
+        <h4>Produto</h4>
+        <ul>
+          <li><a href="#">Hospedagem</a></li>
+          <li><a href="#">Deploy</a></li>
+          <li><a href="#">Domínios</a></li>
+          <li><a href="#">E-mails</a></li>
+          <li><a href="#">Preços</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Clientes</a></li>
+          <li><a href="#">Trabalhe conosco</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>Suporte</h4>
+        <ul>
+          <li><a href="#">Central de ajuda</a></li>
+          <li><a href="#">Status</a></li>
+          <li><a href="#">Documentação</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__news">
+      <div>
+        <p class="t">Uma vez por mês, nada mais</p>
+        <p class="s">Novidades da plataforma e um artigo bom. Sem spam.</p>
+      </div>
+      <div class="subscribe">
+        <input type="email" placeholder="seu@email.com" aria-label="E-mail">
+        <button aria-label="Assinar"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+
+    <div class="footer__base">
+      <span>Rockfy</span>
+      <nav>
+        <a href="#">Termos</a>
+        <a href="#">Privacidade</a>
+        <a href="#">Cookies</a>
+      </nav>
+    </div>
+  </footer>
+
+<!-- legacy script
+const root=document.documentElement;
+root.setAttribute('data-theme', matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+themeBtn.onclick=()=>root.setAttribute('data-theme',root.getAttribute('data-theme')==='dark'?'light':'dark');
+
+/* acordeão — abrir um fecha os outros */
+const items=[...document.querySelectorAll('.acc__item')];
+items.forEach(item=>{
+  const btn=item.querySelector('.acc__btn');
+  btn.onclick=()=>{
+    const open=item.classList.contains('is-open');
+    items.forEach(i=>{
+      i.classList.remove('is-open');
+      i.querySelector('.acc__btn').setAttribute('aria-expanded','false');
+    });
+    if(!open){
+      item.classList.add('is-open');
+      btn.setAttribute('aria-expanded','true');
+    }
+  };
+});
+
+/* ─── posts: arrastar e encaixar ─── */
+(function(){
+  const rail=document.querySelector('.posts');
+  const dots=document.getElementById('postDots');
+  if(!rail||!dots)return;
+
+  const cards=[...rail.children];
+  dots.innerHTML=cards.map((_,i)=>`<button data-i="${i}" aria-label="Post ${i+1}"></button>`).join('');
+
+  const step=()=>cards[0].getBoundingClientRect().width+parseFloat(getComputedStyle(rail).gap);
+  const sync=()=>{
+    const i=Math.round(rail.scrollLeft/step());
+    [...dots.children].forEach((d,k)=>d.classList.toggle('is-on',k===i));
+  };
+  const goTo=i=>rail.scrollTo({left:i*step(),behavior:'smooth'});
+  [...dots.children].forEach(d=>d.onclick=()=>goTo(+d.dataset.i));
+  rail.addEventListener('scroll',sync,{passive:true});
+  addEventListener('resize',sync);
+
+  let down=false,startX=0,startLeft=0,moved=false;
+  rail.addEventListener('pointerdown',e=>{
+    if(innerWidth>=900)return;
+    down=true;moved=false;startX=e.clientX;startLeft=rail.scrollLeft;
+    rail.setPointerCapture(e.pointerId);
+  });
+  rail.addEventListener('pointermove',e=>{
+    if(!down)return;
+    const dx=e.clientX-startX;
+    if(!moved&&Math.abs(dx)>5){moved=true;rail.classList.add('is-dragging')}
+    if(moved)rail.scrollLeft=startLeft-dx;
+  });
+  const release=()=>{
+    if(!down)return; down=false;
+    if(moved){rail.classList.remove('is-dragging');goTo(Math.round(rail.scrollLeft/step()))}
+  };
+  rail.addEventListener('pointerup',release);
+  rail.addEventListener('pointercancel',release);
+  /* impede que o arrasto vire clique no link */
+  cards.forEach(c=>c.addEventListener('click',e=>{if(moved)e.preventDefault()}));
+
+  sync();
+})();
+end legacy script -->
+</main>
+</div>
+<script src="scripts.js" defer></script>
+</body>
+</html>
