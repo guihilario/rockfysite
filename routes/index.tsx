@@ -23,13 +23,22 @@ export default function Home() {
       titulo="Rockfy | Sua nova nuvem: hospedagem, deploy e loja digital"
       descricao="Hospedagem WordPress, deploy de apps feitos com I.A, loja digital e e-mail profissional em um só painel. Infraestrutura Rockfy, servidor no Brasil."
       faqSchema
+      fluido
     >
-      <h1 class="headline">
-        <span class="l1">Bem-vindo</span>{" "}
-        <span class="l2">à sua nova nuvem</span>
-      </h1>
+      {
+        /* O h1 e os chips seguem limitados; o hero é a única faixa que
+          vai de ponta a ponta — é o que o `fluido` do Layout permite. */
+      }
+      <div class="conteudo">
+        <h1 class="headline">
+          <span class="l1">Bem-vindo</span>{" "}
+          <span class="l2">à sua nova nuvem</span>
+        </h1>
+      </div>
       <HeroSlot />
-      <Chips />
+      <div class="conteudo">
+        <Chips />
+      </div>
 
       <Audience />
       <Clients />

@@ -15,6 +15,12 @@ type Props = {
   /** A FAQPage só entra numa página, para não competir consigo mesma no
    *  rich result. Ver o comentário em `routes/index.tsx`. */
   faqSchema?: boolean;
+  /**
+   * Estrutura fluida: a `.screen` deixa de limitar a largura e cada faixa
+   * passa a ir de ponta a ponta, com um `.conteudo` interno segurando os
+   * 1440px. Sem isso a página segue no modelo antigo, de container único.
+   */
+  fluido?: boolean;
   children: ComponentChildren;
 };
 
@@ -30,7 +36,8 @@ function JsonLd({ data }: { data: unknown }) {
 
 /** O esqueleto de toda página: <head> com SEO, cabeçalho, conteúdo e rodapé. */
 export function Layout(
-  { rota, titulo, descricao, faqSchema = false, children }: Props,
+  { rota, titulo, descricao, faqSchema = false, fluido = false, children }:
+    Props,
 ) {
   const url = SITE + (rota === "/" ? "/" : rota);
 
@@ -130,7 +137,10 @@ export function Layout(
         )}
       </head>
       <body>
-        <div class="screen" id="site-content">
+        <div
+          class={fluido ? "screen screen--fluido" : "screen"}
+          id="site-content"
+        >
           <Header atual={rota} />
           <main id="main-content">{children}</main>
           <Footer />

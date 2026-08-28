@@ -77,63 +77,65 @@ export function Planos() {
     <>
       {/* ══════ PLANOS (trilho) ══════ */}
       <section class="section" id="planos">
-        <div class="head">
-          <div>
-            <p class="eyebrow">Let's Rock!</p>
-            <h2 class="title">
-              Escale seu negócio{" "}
-              <em>
-                <br />e simplifique seus custos
-              </em>
-            </h2>
+        <div class="conteudo">
+          <div class="head">
+            <div>
+              <p class="eyebrow">Let's Rock!</p>
+              <h2 class="title">
+                Escale seu negócio{" "}
+                <em>
+                  <br />e simplifique seus custos
+                </em>
+              </h2>
+            </div>
+            <div class="nav-arrows">
+              <button
+                type="button"
+                class="arrowbtn"
+                id="plansPrev"
+                aria-label="Anterior"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M15 5.5 8 12l7 6.5"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="arrowbtn"
+                id="plansNext"
+                aria-label="Próximo"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="m9 5.5 7 6.5-7 6.5"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
-          <div class="nav-arrows">
-            <button
-              type="button"
-              class="arrowbtn"
-              id="plansPrev"
-              aria-label="Anterior"
-            >
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M15 5.5 8 12l7 6.5"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-            <button
-              type="button"
-              class="arrowbtn"
-              id="plansNext"
-              aria-label="Próximo"
-            >
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="m9 5.5 7 6.5-7 6.5"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
 
-        <div class="rail" id="rail">
-          {plans.map((plano) => <Card key={plano.name} plano={plano} />)}
-        </div>
-        <div class="dots" id="plansDots">
-          {plans.map((_, i) => (
-            <button
-              type="button"
-              key={i}
-              data-i={i}
-              aria-label={`Plano ${i + 1}`}
-            >
-            </button>
-          ))}
+          <div class="rail" id="rail">
+            {plans.map((plano) => <Card key={plano.name} plano={plano} />)}
+          </div>
+          <div class="dots" id="plansDots">
+            {plans.map((_, i) => (
+              <button
+                type="button"
+                key={i}
+                data-i={i}
+                aria-label={`Plano ${i + 1}`}
+              >
+              </button>
+            ))}
+          </div>
         </div>
       </section>
     </>
