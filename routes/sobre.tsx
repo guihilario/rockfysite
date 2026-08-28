@@ -2,13 +2,14 @@ import { Layout } from "@/components/Layout.tsx";
 import { Blocos, HeroPagina } from "@/components/institucional/HeroPagina.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
+import { CollageDeploy, CollageElementor } from "@/components/Collages.tsx";
 import { site } from "@/data/site.ts";
 
 const VALORES = [
   {
     titulo: "Performance",
     texto:
-      "Cada milissegundo importa. Servidores otimizados para WordPress e monitoramento 24 horas por dia.",
+      "Cada milissegundo importa. Servidores afinados para o que roda neles, com monitoramento 24 horas por dia.",
   },
   {
     titulo: "Transparência",
@@ -18,7 +19,7 @@ const VALORES = [
   {
     titulo: "Suporte de verdade",
     texto:
-      "Pessoas que entendem de WordPress e resolvem o problema. Não usamos agente de IA no atendimento.",
+      "Pessoas que entendem da stack e resolvem o problema. Não usamos agente de IA no atendimento.",
   },
   {
     titulo: "Brasil primeiro",
@@ -31,12 +32,12 @@ const EQUIPE = [
   {
     titulo: "Desenvolvimento",
     texto:
-      "Equipe especializada em WordPress, PHP, infraestrutura e performance. Desenvolve as soluções da casa e mantém a plataforma sempre atualizada.",
+      "Equipe especializada em infraestrutura e performance, e nas plataformas que a gente hospeda — de WordPress a aplicações modernas. Desenvolve as soluções da casa e mantém tudo atualizado.",
   },
   {
     titulo: "Suporte",
     texto:
-      "Time dedicado ao atendimento. Todo mundo aqui entende de WordPress para valer, tem acesso ao servidor e autonomia para resolver.",
+      "Time dedicado ao atendimento. Todo mundo aqui mexe no servidor de verdade, tem acesso e autonomia para resolver — sem repassar seu chamado para outra fila.",
   },
 ];
 
@@ -50,6 +51,12 @@ const PRODUTOS = [
     titulo: "Hospedagem com Elementor Pro",
     texto: "Licença original inclusa e ativada na sua conta.",
     href: "/hospedagem-elementor-pro",
+  },
+  {
+    titulo: "Deploy [I.A]",
+    texto:
+      "Publique o app que você criou na I.A, sem servidor para administrar.",
+    href: "/deploy",
   },
   {
     titulo: "Loja digital",
@@ -85,20 +92,20 @@ export default async function Sobre() {
     <Layout
       rota="/sobre"
       titulo="Sobre a Rockfy | Rockfy"
-      descricao="A Rockfy é uma empresa brasileira de hospedagem WordPress, sediada em Jundiaí (SP). Servidor em São Paulo, suporte por pessoas e infraestrutura própria."
+      descricao="A Rockfy é a nuvem brasileira de quem constrói na internet: hospedagem, deploy de apps, loja digital e e-mail profissional num painel só. Servidor em São Paulo e suporte por pessoas."
       fluido
     >
       <HeroPagina
         tagline="Sobre a Rockfy"
         h1={
           <>
-            Hospedagem para quem leva <b>o próprio negócio a sério</b>
+            A nuvem brasileira para <b>tudo que você põe no ar</b>
           </>
         }
-        lede="A Rockfy nasceu da necessidade de ter hospedagem WordPress de verdade: rápida, estável e com suporte que realmente entende do assunto."
+        lede="Site, aplicação, loja e e-mail costumam morar em quatro lugares diferentes, cada um com um suporte que não resolve. A Rockfy existe para juntar isso num painel só, com servidor no Brasil e gente do outro lado."
         acoes={
           <>
-            <a class="cta" href="/hospedagem-wordpress#planos">
+            <a class="cta" href="/#planos">
               Ver planos
               <span class="badge">
                 <svg viewBox="0 0 24 24">
@@ -127,31 +134,24 @@ export default async function Sobre() {
                 Começou como <em>problema nosso</em>
               </h2>
               <p class="para">
-                Começamos como uma software house desenvolvendo projetos
-                WordPress para clientes corporativos. A cada projeto, o mesmo
-                problema: hospedagem genérica que não aguentava a carga, ou com
-                suporte insuficiente.
+                Começamos como uma software house, entregando projetos para
+                clientes corporativos. A cada entrega, o mesmo problema: a
+                hospedagem genérica não aguentava a carga, e o suporte do outro
+                lado não resolvia.
               </p>
               <p class="para">
-                Decidimos resolver isso. A Rockfy nasceu com foco em WordPress:
-                servidores otimizados, cache configurado do jeito certo e uma
-                equipe que entende da plataforma de verdade.
+                Decidimos cuidar da infraestrutura nós mesmos. A Rockfy começou
+                pela hospedagem — servidor afinado, cache configurado do jeito
+                certo — e foi crescendo junto com o que os nossos clientes
+                precisavam colocar no ar.
               </p>
               <p class="para">
-                Hoje atendemos desde quem tem o primeiro site até agências que
-                administram carteiras inteiras de clientes.
+                Hoje não é só site. É a aplicação que alguém montou com I.A, a
+                loja que vende no WhatsApp, o e-mail com domínio próprio. Mudou
+                o que se publica na internet; não mudou quem cuida disso.
               </p>
             </div>
-            <img
-              class="sobre-foto"
-              src="/img/hospedagem-gerenciada.webp"
-              alt=""
-              aria-hidden="true"
-              width="464"
-              height="600"
-              loading="lazy"
-              decoding="async"
-            />
+            <CollageDeploy />
           </div>
         </div>
       </section>
@@ -211,16 +211,7 @@ export default async function Sobre() {
                 errado, você resolve em outro fuso e em outro idioma.
               </p>
             </div>
-            <img
-              class="sobre-foto"
-              src="/img/hospedagem-para-agencia1.webp"
-              alt=""
-              aria-hidden="true"
-              width="464"
-              height="600"
-              loading="lazy"
-              decoding="async"
-            />
+            <CollageElementor />
           </div>
         </div>
       </section>

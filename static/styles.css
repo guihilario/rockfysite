@@ -1456,5 +1456,3 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .cta--ghost{border-color:var(--line);background:transparent;padding:14px 24px}
 .cta--ghost:hover{border-color:var(--ink)}
 .cta--ghost .badge{display:none}
-/* A foto das faixas de texto: mesma moldura das outras imagens do site. */
-.sobre-foto{width:100%;height:auto;border-radius:var(--r-lg);display:block}
