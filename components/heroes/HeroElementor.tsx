@@ -10,7 +10,7 @@ export function HeroElementor({ oculto }: { oculto?: boolean }) {
     >
       <img
         class="em-hero__wordmark"
-        src="/el-assets/elementor-word.svg"
+        src="/img/elementor-word.svg"
         alt=""
         aria-hidden="true"
         width="1280"
@@ -23,7 +23,7 @@ export function HeroElementor({ oculto }: { oculto?: boolean }) {
       </p>
       <img
         class="em-hero__photo"
-        src="/el-assets/image-01.webp"
+        src="/img/image-01.webp"
         alt="Profissional trabalhando em seu site"
         width="600"
         height="400"
@@ -32,7 +32,7 @@ export function HeroElementor({ oculto }: { oculto?: boolean }) {
       />
       <img
         class="em-hero__badge"
-        src="/el-assets/elementor-badge.svg"
+        src="/img/elementor-badge.svg"
         alt="Elementor"
         width="79"
         height="79"
@@ -42,7 +42,7 @@ export function HeroElementor({ oculto }: { oculto?: boolean }) {
       <span class="em-hero__pill em-hero__pill--pro">Elementor Pro</span>
       <span class="em-hero__pill em-hero__pill--mail">
         <img
-          src="/el-assets/star.svg"
+          src="/img/star.svg"
           alt=""
           aria-hidden="true"
           width="24"

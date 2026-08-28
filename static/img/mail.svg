@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24"
-  width="512" height="512">
+<svg width="22" height="18" viewBox="0 0 22 18" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
   <path
-    d="M19,1H5A5.006,5.006,0,0,0,0,6V18a5.006,5.006,0,0,0,5,5H19a5.006,5.006,0,0,0,5-5V6A5.006,5.006,0,0,0,19,1ZM5,3H19a3,3,0,0,1,2.78,1.887l-7.658,7.659a3.007,3.007,0,0,1-4.244,0L2.22,4.887A3,3,0,0,1,5,3ZM19,21H5a3,3,0,0,1-3-3V7.5L8.464,13.96a5.007,5.007,0,0,0,7.072,0L22,7.5V18A3,3,0,0,1,19,21Z" />
+    d="M21 4L12.009 9.727C11.7039 9.90421 11.3573 9.99755 11.0045 9.99755C10.6517 9.99755 10.3051 9.90421 10 9.727L1 4"
+    stroke="#DBAF52" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round" />
+  <path
+    d="M19 1H3C1.89543 1 1 1.89543 1 3V15C1 16.1046 1.89543 17 3 17H19C20.1046 17 21 16.1046 21 15V3C21 1.89543 20.1046 1 19 1Z"
+    stroke="#DBAF52" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round" />
 </svg>

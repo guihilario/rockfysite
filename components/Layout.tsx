@@ -1,6 +1,7 @@
 import type { ComponentChildren } from "preact";
 import { Header } from "@/components/Header.tsx";
 import { Footer } from "@/components/Footer.tsx";
+import { asset } from "fresh/runtime";
 import { faq } from "@/data/faq.ts";
 
 export const SITE = "https://rockfy.com";
@@ -60,15 +61,17 @@ export function Layout(
         <meta name="twitter:description" content={descricao} />
         <meta name="twitter:image" content={`${SITE}/img/rockfy-logo.svg`} />
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        {
+          /* A fonte é servida pelo próprio domínio (ver @font-face no topo do
+            styles.css). O preload evita o salto de texto: sem ele o navegador
+            só descobre o arquivo depois de baixar e interpretar o CSS. */
+        }
         <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
+          rel="preload"
+          href={asset("/fonts/instrument-sans-latin.woff2")}
+          as="font"
+          type="font/woff2"
           crossorigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap"
-          rel="stylesheet"
         />
         <link rel="stylesheet" href="/styles.css" />
 

@@ -10,7 +10,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
     >
       <img
         class="lj-hero__wordmark"
-        src="/lj-assets/loja.svg"
+        src="/img/loja.svg"
         alt=""
         aria-hidden="true"
         width="1280"
@@ -23,7 +23,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
       </p>
       <img
         class="lj-hero__photo"
-        src="/lj-assets/loja.webp"
+        src="/img/loja.webp"
         alt="Homem trabalhando no notebook"
         width="360"
         height="456"
@@ -32,7 +32,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
       />
       <img
         class="lj-hero__badge"
-        src="/lj-assets/cart.svg"
+        src="/img/cart.svg"
         alt="Carrinho"
         width="78"
         height="75"
@@ -41,7 +41,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
       />
       <img
         class="lj-hero__spark"
-        src="/lj-assets/sparkle.svg"
+        src="/img/sparkle.svg"
         alt=""
         aria-hidden="true"
         width="49"
@@ -51,7 +51,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
       />
       <span class="lj-hero__pill lj-hero__pill--loja">
         <img
-          src="/lj-assets/google.webp"
+          src="/img/google.webp"
           alt=""
           aria-hidden="true"
           width="125"
@@ -63,7 +63,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
       </span>
       <span class="lj-hero__pill lj-hero__pill--pedido">
         <img
-          src="/lj-assets/dollar.svg"
+          src="/img/dollar.svg"
           alt=""
           aria-hidden="true"
           width="16"

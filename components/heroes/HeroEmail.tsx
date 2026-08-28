@@ -10,7 +10,7 @@ export function HeroEmail({ oculto }: { oculto?: boolean }) {
     >
       <img
         class="em-hero__wordmark"
-        src="/em-assets/email.svg"
+        src="/img/email.svg"
         alt=""
         aria-hidden="true"
         width="1076"
@@ -23,7 +23,7 @@ export function HeroEmail({ oculto }: { oculto?: boolean }) {
       </p>
       <img
         class="em-hero__photo"
-        src="/em-assets/email.webp"
+        src="/img/email.webp"
         alt="Mulher sorrindo ao ar livre"
         width="360"
         height="456"
@@ -32,7 +32,7 @@ export function HeroEmail({ oculto }: { oculto?: boolean }) {
       />
       <img
         class="em-hero__badge"
-        src="/em-assets/send.svg"
+        src="/img/send.svg"
         alt="Enviar"
         width="87"
         height="83"
@@ -42,7 +42,7 @@ export function HeroEmail({ oculto }: { oculto?: boolean }) {
       <span class="em-hero__pill em-hero__pill--pro">emailPro</span>
       <span class="em-hero__pill em-hero__pill--mail">
         <img
-          src="/em-assets/mail.svg"
+          src="/img/mail.svg"
           alt=""
           aria-hidden="true"
           width="22"

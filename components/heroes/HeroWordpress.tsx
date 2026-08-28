@@ -10,7 +10,7 @@ export function HeroWordpress({ oculto }: { oculto?: boolean }) {
     >
       <img
         class="wp-hero__wordmark"
-        src="/wp-assets/wordpress.svg"
+        src="/img/wordpress.svg"
         alt=""
         aria-hidden="true"
         width="1280"
@@ -22,7 +22,7 @@ export function HeroWordpress({ oculto }: { oculto?: boolean }) {
       </p>
       <img
         class="wp-hero__photo"
-        src="/wp-assets/wordpress.webp"
+        src="/img/wordpress.webp"
         alt="Homem sorrindo trabalhando em um café"
         width="360"
         height="456"
@@ -31,7 +31,7 @@ export function HeroWordpress({ oculto }: { oculto?: boolean }) {
       />
       <img
         class="wp-hero__elementor"
-        src="/wp-assets/elementor.svg"
+        src="/img/elementor.svg"
         alt="Elementor"
         width="79"
         height="79"
@@ -40,7 +40,7 @@ export function HeroWordpress({ oculto }: { oculto?: boolean }) {
       />
       <span class="wp-hero__pill wp-hero__pill--modelos">
         <img
-          src="/wp-assets/star.svg"
+          src="/img/star.svg"
           alt=""
           aria-hidden="true"
           width="24"
@@ -51,7 +51,7 @@ export function HeroWordpress({ oculto }: { oculto?: boolean }) {
       </span>
       <span class="wp-hero__pill wp-hero__pill--recursos">
         <img
-          src="/wp-assets/bolt.svg"
+          src="/img/bolt.svg"
           alt=""
           aria-hidden="true"
           width="23"

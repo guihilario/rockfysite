@@ -5,7 +5,7 @@ export function DeployStage() {
     <div class="deploy-stage">
       <div class="deploy-stage__word">
         <img
-          src="/deploy-assets/deploy.svg"
+          src="/img/deploy.svg"
           width="1118"
           height="363"
           decoding="async"
@@ -24,7 +24,7 @@ export function DeployStage() {
         >
           <div class="deploy-card">
             <img
-              src="/deploy-assets/6.webp"
+              src="/img/6.webp"
               width="700"
               height="467"
               decoding="async"
@@ -34,7 +34,7 @@ export function DeployStage() {
           </div>
           <div class="deploy-card">
             <img
-              src="/deploy-assets/5.webp"
+              src="/img/5.webp"
               width="700"
               height="394"
               decoding="async"
@@ -44,7 +44,7 @@ export function DeployStage() {
           </div>
           <div class="deploy-card">
             <img
-              src="/deploy-assets/freelancer.webp"
+              src="/img/freelancer.webp"
               width="600"
               height="360"
               decoding="async"
@@ -54,7 +54,7 @@ export function DeployStage() {
           </div>
           <div class="deploy-card">
             <img
-              src="/deploy-assets/designer.webp"
+              src="/img/designer.webp"
               width="600"
               height="401"
               decoding="async"

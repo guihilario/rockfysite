@@ -21,7 +21,8 @@
     "fresh": "jsr:@fresh/core@^2.3.3",
     "fresh/dev": "jsr:@fresh/core@^2.3.3/dev",
     "preact": "npm:preact@^10.29.1",
-    "@/": "./"
+    "@/": "./",
+    "fresh/runtime": "jsr:@fresh/core@^2.3.3/runtime"
   },
   "compilerOptions": {
     "lib": [
