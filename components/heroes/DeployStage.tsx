@@ -1,6 +1,8 @@
 /** A cena do Deploy: wordmark, string binária e a pilha de quatro cartões.
  *  Aparece no topo da página de Deploy e como painel do chip na home. */
-export function DeployStage() {
+/** `adiada` marca as imagens como lazy — usado quando a cena entra como
+ *  painel escondido do slot e o navegador não deve baixá-la no load. */
+export function DeployStage({ adiada }: { adiada?: boolean } = {}) {
   return (
     <div class="deploy-stage">
       <div class="deploy-stage__word">
@@ -11,6 +13,7 @@ export function DeployStage() {
           decoding="async"
           alt=""
           aria-hidden="true"
+          loading={adiada ? "lazy" : "eager"}
         />
       </div>
       <p class="deploy-binary" aria-hidden="true">
@@ -30,6 +33,7 @@ export function DeployStage() {
               decoding="async"
               alt=""
               aria-hidden="true"
+              loading={adiada ? "lazy" : "eager"}
             />
           </div>
           <div class="deploy-card">
@@ -40,6 +44,7 @@ export function DeployStage() {
               decoding="async"
               alt=""
               aria-hidden="true"
+              loading={adiada ? "lazy" : "eager"}
             />
           </div>
           <div class="deploy-card">
@@ -50,6 +55,7 @@ export function DeployStage() {
               decoding="async"
               alt=""
               aria-hidden="true"
+              loading={adiada ? "lazy" : "eager"}
             />
           </div>
           <div class="deploy-card">
@@ -60,6 +66,7 @@ export function DeployStage() {
               decoding="async"
               alt=""
               aria-hidden="true"
+              loading={adiada ? "lazy" : "eager"}
             />
           </div>
           <div class="deploy-pill" aria-hidden="true">
@@ -95,7 +102,7 @@ export function HeroDeploy({ oculto }: { oculto?: boolean }) {
       aria-label="Deploy — seu app no ar"
       hidden={oculto}
     >
-      <DeployStage />
+      <DeployStage adiada={oculto} />
     </section>
   );
 }

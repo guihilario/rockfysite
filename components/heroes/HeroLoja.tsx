@@ -17,6 +17,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
         height="337"
         decoding="async"
         fetchpriority="low"
+        loading={oculto ? "lazy" : "eager"}
       />
       <p class="lj-hero__binary" aria-hidden="true">
         0101010101010101010101010101010101010101
@@ -29,6 +30,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
         height="456"
         decoding="async"
         fetchpriority="low"
+        loading={oculto ? "lazy" : "eager"}
       />
       <img
         class="lj-hero__badge"
@@ -38,6 +40,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
         height="75"
         decoding="async"
         fetchpriority="low"
+        loading={oculto ? "lazy" : "eager"}
       />
       <img
         class="lj-hero__spark"
@@ -48,6 +51,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
         height="68"
         decoding="async"
         fetchpriority="low"
+        loading={oculto ? "lazy" : "eager"}
       />
       <span class="lj-hero__pill lj-hero__pill--loja">
         <img
@@ -58,6 +62,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
           height="128"
           decoding="async"
           fetchpriority="low"
+          loading={oculto ? "lazy" : "eager"}
         />
         boné street
       </span>
@@ -70,6 +75,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
           height="26"
           decoding="async"
           fetchpriority="low"
+          loading={oculto ? "lazy" : "eager"}
         />
         novo pedido
       </span>

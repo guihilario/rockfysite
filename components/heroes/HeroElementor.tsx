@@ -17,6 +17,7 @@ export function HeroElementor({ oculto }: { oculto?: boolean }) {
         height="337"
         decoding="async"
         fetchpriority="low"
+        loading={oculto ? "lazy" : "eager"}
       />
       <p class="em-hero__binary" aria-hidden="true">
         0101010101010101010101010101010101010101
@@ -29,6 +30,7 @@ export function HeroElementor({ oculto }: { oculto?: boolean }) {
         height="400"
         decoding="async"
         fetchpriority="low"
+        loading={oculto ? "lazy" : "eager"}
       />
       <img
         class="em-hero__badge"
@@ -38,6 +40,7 @@ export function HeroElementor({ oculto }: { oculto?: boolean }) {
         height="79"
         decoding="async"
         fetchpriority="low"
+        loading={oculto ? "lazy" : "eager"}
       />
       <span class="em-hero__pill em-hero__pill--pro">Elementor Pro</span>
       <span class="em-hero__pill em-hero__pill--mail">
@@ -49,6 +52,7 @@ export function HeroElementor({ oculto }: { oculto?: boolean }) {
           height="25"
           decoding="async"
           fetchpriority="low"
+          loading={oculto ? "lazy" : "eager"}
         />
         licença oficial
       </span>

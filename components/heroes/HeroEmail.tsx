@@ -17,6 +17,7 @@ export function HeroEmail({ oculto }: { oculto?: boolean }) {
         height="372"
         decoding="async"
         fetchpriority="low"
+        loading={oculto ? "lazy" : "eager"}
       />
       <p class="em-hero__binary" aria-hidden="true">
         0101010101010101010101010101010101010101
@@ -29,6 +30,7 @@ export function HeroEmail({ oculto }: { oculto?: boolean }) {
         height="456"
         decoding="async"
         fetchpriority="low"
+        loading={oculto ? "lazy" : "eager"}
       />
       <img
         class="em-hero__badge"
@@ -38,6 +40,7 @@ export function HeroEmail({ oculto }: { oculto?: boolean }) {
         height="83"
         decoding="async"
         fetchpriority="low"
+        loading={oculto ? "lazy" : "eager"}
       />
       <span class="em-hero__pill em-hero__pill--pro">emailPro</span>
       <span class="em-hero__pill em-hero__pill--mail">
@@ -49,6 +52,7 @@ export function HeroEmail({ oculto }: { oculto?: boolean }) {
           height="18"
           decoding="async"
           fetchpriority="low"
+          loading={oculto ? "lazy" : "eager"}
         />
         lara@growth.com
       </span>

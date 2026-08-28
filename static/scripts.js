@@ -2,6 +2,17 @@
    Rockfy — comportamento da página
    ═══════════════════════════════════════════════════════════ */
 
+/* ─────────── palco da home: solta o marquee ─────────── */
+(function(){
+  const faixa=document.querySelector('.stage-track');
+  if(!faixa)return;
+  /* só começa depois do load: durante o carregamento inicial a animação
+     disputaria com a decodificação das imagens */
+  const soltar=()=>faixa.classList.add('is-running');
+  if(document.readyState==='complete')soltar();
+  else addEventListener('load',soltar,{once:true});
+})();
+
 /* ─────────── menus suspensos do cabeçalho ─────────── */
 (function(){
   const gatilhos=[...document.querySelectorAll('.dd__btn')];

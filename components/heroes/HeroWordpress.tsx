@@ -16,6 +16,7 @@ export function HeroWordpress({ oculto }: { oculto?: boolean }) {
         width="1280"
         height="337"
         decoding="async"
+        loading={oculto ? "lazy" : "eager"}
       />
       <p class="wp-hero__binary" aria-hidden="true">
         0101010101010101010101010101010101010101

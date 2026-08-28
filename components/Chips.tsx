@@ -26,7 +26,7 @@ export function Chips() {
           type="button"
           class="chip"
           data-hero="wordpress"
-          aria-pressed="true"
+          aria-pressed="false"
           aria-controls="heroSlot"
         >
           Hospedagem Wordpress
