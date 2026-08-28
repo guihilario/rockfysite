@@ -1,0 +1,85 @@
+/* Painel administrativo. Usa os mesmos tokens do site (styles.css não é
+   carregado aqui: o admin é uma superfície própria, mais densa). */
+:root{
+  --ink:#0a0a0a; --on-ink:#fff; --surface:#fff; --panel:#fafafa;
+  --line:#e2e2e2; --line-soft:#efefef; --gray-600:#8d8d8d; --gray-300:#c9c9c9;
+  --accent:#e2fb50; --danger:#c0392b; --ok:#1f9e4c;
+  --r:10px; --r-pill:999px;
+  --font:"Instrument Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body.adm{background:var(--panel);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5}
+a{color:inherit}
+
+.adm-top{
+  display:flex;align-items:center;gap:26px;flex-wrap:wrap;
+  background:var(--surface);border-bottom:1px solid var(--line);
+  padding:14px clamp(16px,4vw,32px);position:sticky;top:0;z-index:10;
+}
+.adm-marca{font-weight:600;letter-spacing:-.3px;text-decoration:none}
+.adm-nav{display:flex;gap:6px;margin-right:auto}
+.adm-nav a{padding:8px 14px;border-radius:var(--r-pill);color:var(--gray-600);text-decoration:none;transition:all .18s}
+.adm-nav a:hover{color:var(--ink);background:var(--panel)}
+.adm-nav a.is-on{color:var(--ink);background:var(--panel);font-weight:500}
+.adm-user{font-size:13px;color:var(--gray-600)}
+
+.adm-main{max-width:1080px;margin:0 auto;padding:clamp(22px,4vw,40px) clamp(16px,4vw,32px) 80px}
+.adm-cabeca{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+.adm-main h1{font-size:28px;letter-spacing:-.8px;font-weight:500}
+.adm-meta{font-size:13px;color:var(--gray-600);margin-top:4px}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:var(--r-pill);
+  background:var(--ink);color:var(--on-ink);font:500 14px var(--font);
+  padding:11px 20px;cursor:pointer;text-decoration:none;transition:transform .18s,opacity .18s}
+.btn:hover{transform:translateY(-1px)}
+.btn--ghost{background:transparent;color:var(--ink);border:1.4px solid var(--line)}
+.btn--ghost:hover{border-color:var(--ink)}
+.btn--perigo{background:transparent;color:var(--danger);border:1.4px solid var(--line)}
+.btn--perigo:hover{border-color:var(--danger)}
+.btn--sm{padding:7px 14px;font-size:13px}
+
+/* tabela */
+.adm-tabela{width:100%;border-collapse:collapse;background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.adm-tabela th,.adm-tabela td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+.adm-tabela th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-600);background:var(--panel)}
+.adm-tabela tr:last-child td{border-bottom:0}
+.adm-tabela td.acoes{text-align:right;white-space:nowrap}
+.adm-tabela td.acoes form{display:inline}
+.adm-titulo-cel a{font-weight:500;text-decoration:none}
+.adm-titulo-cel a:hover{text-decoration:underline}
+.adm-slug{display:block;font-size:12px;color:var(--gray-300);margin-top:3px}
+
+.selo{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 10px;border-radius:var(--r-pill);border:1px solid var(--line)}
+.selo--pub{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.selo--rascunho{color:var(--gray-600)}
+
+/* formulário */
+.form{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,3vw,28px)}
+.campo{margin-bottom:22px}
+.campo > label{display:block;font-size:13px;font-weight:500;margin-bottom:7px}
+.campo .dica{font-size:12px;color:var(--gray-600);margin-top:6px}
+.campo input[type=text],.campo input[type=file],.campo textarea,.campo select{
+  width:100%;border:1.4px solid var(--line);border-radius:var(--r);background:var(--surface);
+  color:var(--ink);font:400 15px var(--font);padding:11px 14px;transition:border-color .18s}
+.campo input:focus,.campo textarea:focus,.campo select:focus{outline:none;border-color:var(--ink)}
+.campo textarea{min-height:90px;resize:vertical}
+.form-acoes{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:28px;
+  border-top:1px solid var(--line-soft);padding-top:22px}
+.form-acoes .espaco{margin-left:auto}
+
+/* editor */
+#editor{background:var(--surface);border-radius:0 0 var(--r) var(--r);min-height:380px}
+.ql-toolbar.ql-snow{border-color:var(--line);border-radius:var(--r) var(--r) 0 0}
+.ql-container.ql-snow{border-color:var(--line);border-radius:0 0 var(--r) var(--r);font-family:var(--font);font-size:15px}
+.ql-editor{min-height:380px}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.aviso{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:var(--r);padding:14px 18px;margin-bottom:22px;font-size:14px}
+.aviso--erro{border-left-color:var(--danger)}
+.vazio{background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);
+  padding:40px;text-align:center;color:var(--gray-600)}
+.capa-atual{max-width:280px;border-radius:var(--r);display:block;margin-bottom:10px}

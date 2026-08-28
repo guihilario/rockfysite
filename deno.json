@@ -25,7 +25,11 @@
     "fresh/runtime": "jsr:@fresh/core@^2.3.3/runtime",
     "postgres": "jsr:@db/postgres@^0.19.5",
     "deno-dom": "jsr:@b-fuze/deno-dom@^0.1.56",
-    "s3-lite-client": "jsr:@bradenmacdonald/s3-lite-client@^0.7.6"
+    "s3-lite-client": "jsr:@bradenmacdonald/s3-lite-client@^0.7.6",
+    "@jsquash/png": "npm:@jsquash/png@^3.1.1",
+    "@jsquash/jpeg": "npm:@jsquash/jpeg@^1.5.0",
+    "@jsquash/webp": "npm:@jsquash/webp@^1.5.0",
+    "@jsquash/resize": "npm:@jsquash/resize@^2.1.1"
   },
   "compilerOptions": {
     "lib": [
