@@ -97,7 +97,7 @@ export function Footer() {
             <h4>Empresa</h4>
             <ul>
               <li>
-                <a href="#">Sobre</a>
+                <a href="/sobre">Sobre</a>
               </li>
               <li>
                 <a href="/blog">Blog</a>
@@ -124,7 +124,7 @@ export function Footer() {
                 <a href="#">Documentação</a>
               </li>
               <li>
-                <a href="#">Contato</a>
+                <a href="/contato">Contato</a>
               </li>
             </ul>
           </div>
@@ -157,9 +157,9 @@ export function Footer() {
         <div class="footer__base">
           <span>Rockfy</span>
           <nav>
-            <a href="#">Termos</a>
-            <a href="#">Privacidade</a>
-            <a href="#">Cookies</a>
+            <a href="/politicas#termos">Termos</a>
+            <a href="/politicas#privacidade">Privacidade</a>
+            <a href="/politicas#privacidade">Cookies</a>
           </nav>
         </div>
       </div>

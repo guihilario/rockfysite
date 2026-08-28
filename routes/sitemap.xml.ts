@@ -11,6 +11,12 @@ const PAGINAS = [
   ["/email-profissional", "0.8"],
   ["/blog", "0.7"],
   ["/ajuda", "0.7"],
+  ["/sobre", "0.6"],
+  ["/contato", "0.6"],
+  // Prioridade baixa: é página de consulta, não de entrada — mas precisa
+  // estar aqui, porque buscador que não a encontra trata o site como se
+  // não tivesse política de privacidade publicada.
+  ["/politicas", "0.3"],
 ];
 
 /** Sitemap gerado a cada requisição: as páginas fixas mais todo post
