@@ -96,7 +96,7 @@ export default define.page<typeof handler>(function Categorias({ data }) {
         </div>
       </form>
 
-      <h2 class="adm-meta" style={{ margin: "30px 0 12px" }}>
+      <h2 class="adm-meta adm-meta--secao">
         Subcategorias existentes
       </h2>
       {subs.length === 0

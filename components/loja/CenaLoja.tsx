@@ -26,30 +26,30 @@ const CENAS: Record<string, Cena> = {
   atendimento: {
     fundo: { src: "/img/tiker/s4-phone.webp", w: 1232, h: 1302 },
     domo: { src: "/img/tiker/circle-purple.webp", w: 1851, h: 603 },
-    frente: { src: "/img/tiker/s4-ilustra.webp", w: 1470, h: 1118 },
+    frente: { src: "/img/tiker/s4-ilustra.webp", w: 1400, h: 1065 },
   },
   catalogo: {
     fundo: { src: "/img/tiker/s3-phone.webp", w: 1232, h: 1302 },
     domo: { src: "/img/tiker/circle-pink.webp", w: 1922, h: 636 },
-    frente: { src: "/img/tiker/s3-ilustra.webp", w: 1410, h: 1188 },
+    frente: { src: "/img/tiker/s3-ilustra.webp", w: 1400, h: 1180 },
   },
   taxa: {
     fundo: { src: "/img/tiker/s2-phone.webp", w: 1376, h: 1302 },
-    frente: { src: "/img/tiker/s2-ilustra.webp", w: 1522, h: 1474 },
+    frente: { src: "/img/tiker/s2-ilustra.webp", w: 1400, h: 1356 },
   },
   atualize: {
     fundo: { src: "/img/tiker/s5-phone.webp", w: 1516, h: 1306 },
     domo: { src: "/img/tiker/circle-blue.webp", w: 1943, h: 644 },
-    frente: { src: "/img/tiker/s5-ilustra.webp", w: 1470, h: 1244 },
+    frente: { src: "/img/tiker/s5-ilustra.webp", w: 1400, h: 1185 },
   },
   planos: {
     domo: { src: "/img/tiker/circle-green.webp", w: 1943, h: 644 },
-    frente: { src: "/img/tiker/s-planos.webp", w: 1952, h: 1436 },
+    frente: { src: "/img/tiker/s-planos.webp", w: 1400, h: 1030 },
   },
   /* Reaproveita a maquete de celular do hero do projeto de origem. */
   montagem: {
     fundo: { src: "/img/tiker/hero-phone.webp", w: 1148, h: 1302 },
-    frente: { src: "/img/tiker/ilustra6.webp", w: 1988, h: 1578 },
+    frente: { src: "/img/tiker/ilustra6.webp", w: 1400, h: 1111 },
   },
 };
 

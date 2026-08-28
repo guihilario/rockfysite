@@ -1,4 +1,5 @@
 import type { ComponentChildren } from "preact";
+import { config } from "@/core/config.ts";
 import { Header } from "@/components/Header.tsx";
 import { Footer } from "@/components/Footer.tsx";
 import { asset } from "fresh/runtime";
@@ -52,7 +53,19 @@ export function Layout(
 
         <link rel="canonical" href={url} />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <meta name="robots" content="index,follow,max-image-preview:large" />
+        {
+          /* Enquanto o site roda no endereço temporário ele não pode ser
+             indexado, senão o Google acha conteúdo duplicado antes de a
+             migração terminar. `SEO_INDEXABLE=true` libera; a ausência da
+             variável bloqueia — o esquecimento mantém o site fora do
+             índice, e não o contrário. */
+        }
+        <meta
+          name="robots"
+          content={config.indexable
+            ? "index,follow,max-image-preview:large"
+            : "noindex,nofollow"}
+        />
 
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Rockfy" />
@@ -80,7 +93,12 @@ export function Layout(
           type="font/woff2"
           crossorigin="anonymous"
         />
-        <link rel="stylesheet" href="/styles.css" />
+        {
+          /* Com `asset()` o arquivo ganha o hash da build e passa a ser
+             servido com cache imutável. Sem ele vinha `no-store`, e os
+             95 KB de CSS+JS eram rebaixados a cada navegação. */
+        }
+        <link rel="stylesheet" href={asset("/styles.css")} />
 
         <JsonLd
           data={{
@@ -145,7 +163,7 @@ export function Layout(
           <main id="main-content">{children}</main>
           <Footer />
         </div>
-        <script src="/scripts.js" defer></script>
+        <script src={asset("/scripts.js")} defer></script>
       </body>
     </html>
   );

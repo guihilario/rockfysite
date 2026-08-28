@@ -25,22 +25,18 @@ export function Posts({ posts }: { posts: Post[] }) {
       {/* ══════ POSTS ══════ */}
       <section class="section">
         <div class="conteudo">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "space-between",
-              gap: "20px",
-              flexWrap: "wrap",
-            }}
-          >
+          {
+            /* `.head` faz este mesmo arranjo — o estilo inline aqui era
+              barrado pela CSP (style-src-attr). */
+          }
+          <div class="head">
             <div>
               <p class="eyebrow">Blog</p>
               <h2 class="title">
                 Para ler <em>depois</em>
               </h2>
             </div>
-            <a class="cta" href="/blog" style={{ marginTop: "0" }}>
+            <a class="cta cta--sem-topo" href="/blog">
               Todos os posts
               <span class="badge">
                 <svg viewBox="0 0 24 24">

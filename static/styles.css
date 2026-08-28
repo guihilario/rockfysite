@@ -207,7 +207,12 @@ body.is-locked{overflow:hidden}
   background:var(--surface);color:var(--ink);box-shadow:var(--wp-shadow);
   animation:wp-pill-right .75s cubic-bezier(.34,1.3,.5,1) .80s backwards;
 }
-@keyframes wp-rise-wide{from{opacity:0;transform:translateX(-50%) translateY(2.4cqw) scale(.985)}}
+/* Os três `*-rise-wide` animam o wordmark, que por ser o maior elemento do
+   hero é o LCP da página. Eles NÃO animam opacidade de propósito: nascendo
+   em `opacity:0` o LCP só era registrado quando a animação terminava, e a
+   métrica ficava em ~1,2s numa página que pinta em 60ms. O movimento é o
+   mesmo; o que saiu foi só o fade. */
+@keyframes wp-rise-wide{from{transform:translateX(-50%) translateY(2.4cqw) scale(.985)}}
 @keyframes wp-rise-center{from{opacity:0;transform:translateX(-50%) translateY(3.2cqw) scale(.96)}}
 @keyframes wp-pop{from{opacity:0;transform:translateY(1.2cqw) scale(.7)}}
 @keyframes wp-pill-left{from{opacity:0;transform:translateX(-2.4cqw) scale(.94)}}
@@ -418,7 +423,7 @@ body.is-locked{overflow:hidden}
    (contraste medido: 1,03:1). */
 [data-hero-panel="elementor"] .em-hero__pill--mail img{filter:invert(1)}
 
-@keyframes em-rise-wide{from{opacity:0;transform:translateX(-50%) translateY(2cqw) scale(.985)}}
+@keyframes em-rise-wide{from{transform:translateX(-50%) translateY(2cqw) scale(.985)}}
 @keyframes em-rise{from{opacity:0;transform:translateY(2.6cqw) scale(.96)}}
 @keyframes em-rise-center{from{opacity:0;transform:translateX(-50%) translateY(4cqw) scale(.96)}to{opacity:1;transform:translateX(-50%)}}
 @keyframes em-pop{from{opacity:0;transform:translateY(1cqw) scale(.7)}}
@@ -569,7 +574,7 @@ body.is-locked{overflow:hidden}
 }
 .lj-hero__pill--pedido img{width:2cqw;height:2cqw}
 
-@keyframes lj-rise-wide{from{opacity:0;transform:translateX(-50%) translateY(2cqw) scale(.985)}}
+@keyframes lj-rise-wide{from{transform:translateX(-50%) translateY(2cqw) scale(.985)}}
 @keyframes lj-rise{from{opacity:0;transform:translateY(2.6cqw) scale(.96)}}
 @keyframes lj-rise-center{from{opacity:0;transform:translateX(-50%) translateY(4cqw) scale(.96)}to{opacity:1;transform:translateX(-50%)}}
 @keyframes lj-pop{from{opacity:0;transform:translateY(1cqw) scale(.7)}}
@@ -1405,3 +1410,8 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .cena--montagem{aspect-ratio:588/440}
 .cena--montagem .cena__fundo{top:0;left:2%;width:42%}
 .cena--montagem .cena__frente{bottom:0;right:0;left:auto;width:73.129%}
+
+/* Modificadores no lugar de `style` inline: a CSP com nonce barra atributo
+   de estilo, e não há nonce que se aplique a um atributo. */
+.cta--sem-topo{margin-top:0}
+.adm-meta--secao{margin:30px 0 12px}
