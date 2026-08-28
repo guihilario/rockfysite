@@ -21,7 +21,7 @@ export function Posts() {
               Para ler <em>depois</em>
             </h2>
           </div>
-          <button type="button" class="cta" style={{ marginTop: "0" }}>
+          <a class="cta" href="/blog" style={{ marginTop: "0" }}>
             Todos os posts
             <span class="badge">
               <svg viewBox="0 0 24 24">
@@ -33,7 +33,7 @@ export function Posts() {
                 />
               </svg>
             </span>
-          </button>
+          </a>
         </div>
 
         <div class="posts">

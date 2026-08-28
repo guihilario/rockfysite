@@ -1,9 +1,9 @@
 {
   "nodeModulesDir": "none",
   "tasks": {
-    "dev": "deno run -A --watch=static/,routes/,components/,data/ dev.ts",
-    "build": "deno run -A dev.ts build",
-    "start": "deno serve -A --port 8000 _fresh/server.js",
+    "dev": "deno run -A --env-file=.env --watch=static/,routes/,components/,data/,domain/,core/ dev.ts",
+    "build": "deno run -A --env-file=.env dev.ts build",
+    "start": "deno serve -A --env-file=.env --port 8000 _fresh/server.js",
     "check": "deno fmt --check . && deno lint . && deno check"
   },
   "lint": {
@@ -22,7 +22,10 @@
     "fresh/dev": "jsr:@fresh/core@^2.3.3/dev",
     "preact": "npm:preact@^10.29.1",
     "@/": "./",
-    "fresh/runtime": "jsr:@fresh/core@^2.3.3/runtime"
+    "fresh/runtime": "jsr:@fresh/core@^2.3.3/runtime",
+    "postgres": "jsr:@db/postgres@^0.19.5",
+    "deno-dom": "jsr:@b-fuze/deno-dom@^0.1.56",
+    "s3-lite-client": "jsr:@bradenmacdonald/s3-lite-client@^0.7.6"
   },
   "compilerOptions": {
     "lib": [

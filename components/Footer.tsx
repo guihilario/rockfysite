@@ -99,7 +99,7 @@ export function Footer() {
               <a href="#">Sobre</a>
             </li>
             <li>
-              <a href="#">Blog</a>
+              <a href="/blog">Blog</a>
             </li>
             <li>
               <a href="#">Clientes</a>
@@ -114,7 +114,7 @@ export function Footer() {
           <h4>Suporte</h4>
           <ul>
             <li>
-              <a href="#">Central de ajuda</a>
+              <a href="/ajuda">Central de ajuda</a>
             </li>
             <li>
               <a href="#">Status</a>

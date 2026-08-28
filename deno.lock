@@ -1,13 +1,19 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@b-fuze/deno-dom@~0.1.56": "0.1.56",
+    "jsr:@db/postgres@~0.19.5": "0.19.5",
     "jsr:@deno/esbuild-plugin@^1.2.0": "1.2.1",
     "jsr:@deno/loader@~0.3.10": "0.3.14",
     "jsr:@fresh/build-id@1": "1.0.1",
     "jsr:@fresh/core@^2.3.3": "2.3.3",
+    "jsr:@std/bytes@^1.0.5": "1.0.6",
     "jsr:@std/bytes@^1.0.6": "1.0.6",
+    "jsr:@std/crypto@^1.0.4": "1.1.0",
     "jsr:@std/encoding@^1.0.10": "1.0.11",
     "jsr:@std/encoding@^1.0.11": "1.0.11",
+    "jsr:@std/encoding@^1.0.9": "1.0.11",
+    "jsr:@std/fmt@^1.0.6": "1.0.10",
     "jsr:@std/fmt@^1.0.8": "1.0.10",
     "jsr:@std/fs@^1.0.19": "1.0.24",
     "jsr:@std/html@^1.0.5": "1.0.7",
@@ -17,6 +23,7 @@
     "jsr:@std/jsonc@^1.0.2": "1.0.2",
     "jsr:@std/media-types@^1.1.0": "1.1.0",
     "jsr:@std/net@^1.0.6": "1.0.6",
+    "jsr:@std/path@^1.0.8": "1.1.6",
     "jsr:@std/path@^1.1.1": "1.1.6",
     "jsr:@std/path@^1.1.2": "1.1.6",
     "jsr:@std/path@^1.1.5": "1.1.6",
@@ -32,6 +39,19 @@
     "npm:preact@^10.29.1": "10.29.8_preact-render-to-string@6.7.0"
   },
   "jsr": {
+    "@b-fuze/deno-dom@0.1.56": {
+      "integrity": "8030e2dc1d8750f1682b53462ab893d9c3470f2287feecbe22f44a88c54ab148"
+    },
+    "@db/postgres@0.19.5": {
+      "integrity": "afdbe608bd066cda2ee5dba37c416d332098b9238c51aec223331108e281954c",
+      "dependencies": [
+        "jsr:@std/bytes@^1.0.5",
+        "jsr:@std/crypto",
+        "jsr:@std/encoding@^1.0.9",
+        "jsr:@std/fmt@^1.0.6",
+        "jsr:@std/path@^1.0.8"
+      ]
+    },
     "@deno/esbuild-plugin@1.2.1": {
       "integrity": "df629467913adc1f960149fdfa3a3430ba8c20381c310fba096db244e6c3c9f6",
       "dependencies": [
@@ -55,7 +75,7 @@
         "jsr:@deno/esbuild-plugin",
         "jsr:@fresh/build-id",
         "jsr:@std/encoding@^1.0.10",
-        "jsr:@std/fmt",
+        "jsr:@std/fmt@^1.0.8",
         "jsr:@std/fs",
         "jsr:@std/html",
         "jsr:@std/http",
@@ -76,6 +96,9 @@
     },
     "@std/bytes@1.0.6": {
       "integrity": "f6ac6adbd8ccd99314045f5703e23af0a68d7f7e58364b47d2c7f408aeb5820a"
+    },
+    "@std/crypto@1.1.0": {
+      "integrity": "b8d6d0a6377a32b213af2661ed7bf1062d94feac0c57def5526a8e74a95c3ec8"
     },
     "@std/encoding@1.0.11": {
       "integrity": "e7cef2f0b3153bccc17431e7c864a1de03a4b6d9647389c43e08aaa775d37385"
@@ -128,7 +151,7 @@
     "@std/uuid@1.1.1": {
       "integrity": "7b49060282d90f72fec64952f8c7a2914cbe6fdba3eca665f8cedc90830154a7",
       "dependencies": [
-        "jsr:@std/bytes"
+        "jsr:@std/bytes@^1.0.6"
       ]
     }
   },
@@ -331,6 +354,9 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@b-fuze/deno-dom@~0.1.56",
+      "jsr:@bradenmacdonald/s3-lite-client@~0.7.6",
+      "jsr:@db/postgres@~0.19.5",
       "jsr:@fresh/core@^2.3.3",
       "npm:preact@^10.29.1"
     ]

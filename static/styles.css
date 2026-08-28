@@ -1094,3 +1094,77 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 @media (min-width:900px){.top>.nav{display:none}}
 .rail,.posts{scroll-padding-left:32px}
 @media (max-width:899px){.rail,.posts{padding-left:calc(var(--gutter) + 16px);padding-right:calc(var(--gutter) + 16px)}}
+
+/* ══════════════════════════════════════════════════════════
+   BLOG e CENTRAL DE AJUDA
+   ══════════════════════════════════════════════════════════
+   As listagens reaproveitam o card `.post` da home. Lá ele vive num trilho
+   horizontal (`.posts` é flex); aqui vira grade — daí o modificador. */
+.posts--grid{display:grid;grid-template-columns:1fr;gap:22px;overflow:visible;margin-inline:0;padding:0;scroll-snap-type:none;cursor:auto;margin-top:40px}
+@media (min-width:640px){.posts--grid{grid-template-columns:repeat(2,1fr);gap:24px}}
+@media (min-width:1024px){.posts--grid{grid-template-columns:repeat(3,1fr);gap:28px}}
+.posts--grid .post{flex:none;width:auto}
+.post__media{overflow:hidden}
+.post__cover{width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--r-md)}
+
+/* busca e filtros */
+.blog-busca{display:flex;gap:10px;margin-top:26px;max-width:460px}
+.blog-busca input{
+  flex:1;min-width:0;border:1.4px solid var(--line);border-radius:var(--r-pill);
+  background:var(--surface);color:var(--ink);font:400 15px var(--font);
+  padding:12px 18px;transition:border-color var(--t);
+}
+.blog-busca input:focus{outline:none;border-color:var(--ink)}
+.blog-busca input::placeholder{color:var(--gray-300)}
+.blog-busca button{
+  flex:none;border:0;border-radius:var(--r-pill);background:var(--ink);color:var(--on-ink);
+  font:500 15px var(--font);padding:12px 24px;cursor:pointer;transition:transform var(--t);
+}
+.blog-busca button:hover{transform:translateY(-1px)}
+.blog-filtro{margin-top:16px;font-size:15px;color:var(--gray-600)}
+.blog-filtro a{text-decoration:underline;text-underline-offset:3px}
+
+/* paginação */
+.blog-paginacao{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:48px;font-size:15px}
+.blog-paginacao a{padding:11px 20px;border:1.4px solid var(--line);border-radius:var(--r-pill);transition:border-color var(--t)}
+.blog-paginacao a:hover{border-color:var(--ink)}
+.blog-paginacao__n{color:var(--gray-600)}
+
+/* ── página de um post ── */
+.post-page{max-width:1180px;margin:0 auto;padding-top:8px}
+.post-page__titulo{max-width:20ch;margin-top:10px}
+.post-page__lede{margin-top:18px;max-width:62ch}
+.post-page__capa{width:100%;height:auto;border-radius:var(--r-lg);margin-top:36px;display:block}
+.post-page__corpo{display:grid;gap:40px;margin-top:44px}
+@media (min-width:1024px){.post-page__corpo{grid-template-columns:minmax(0,1fr) 250px;gap:56px}
+  .post-sumario{order:2;position:sticky;top:28px;align-self:start}}
+
+/* sumário — os ids vêm do mesmo sanitizer que limpa o HTML */
+.post-sumario{border-top:1.4px solid var(--line);padding-top:18px}
+.post-sumario__t{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-600)}
+.post-sumario ol{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.post-sumario a{font-size:14.5px;line-height:1.4;color:var(--gray-600);transition:color var(--t)}
+.post-sumario a:hover{color:var(--ink)}
+.post-sumario li.is-sub{padding-left:14px}
+
+/* corpo do post: o HTML vem do editor, então estilizamos por tag */
+.post-conteudo{font-size:18px;line-height:1.7;color:var(--ink);max-width:68ch}
+.post-conteudo > * + *{margin-top:20px}
+.post-conteudo h2{font-size:28px;line-height:1.2;letter-spacing:-.8px;font-weight:500;margin-top:44px;scroll-margin-top:24px}
+.post-conteudo h3{font-size:21px;line-height:1.25;letter-spacing:-.4px;font-weight:500;margin-top:32px;scroll-margin-top:24px}
+.post-conteudo p{color:var(--gray-600)}
+.post-conteudo a{text-decoration:underline;text-underline-offset:3px}
+.post-conteudo ul,.post-conteudo ol{padding-left:22px;color:var(--gray-600)}
+.post-conteudo li + li{margin-top:8px}
+.post-conteudo img{max-width:100%;height:auto;border-radius:var(--r-md);display:block}
+.post-conteudo blockquote{border-left:2px solid var(--accent);padding-left:20px;color:var(--gray-600)}
+.post-conteudo pre{background:var(--card);border-radius:var(--r-sm);padding:18px;overflow-x:auto;font-size:14px}
+.post-conteudo code{font-size:.92em}
+.post-conteudo strong,.post-conteudo b{color:var(--ink);font-weight:600}
+
+.post-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:44px}
+.post-tags a{
+  font-size:13px;color:var(--gray-600);border:1.4px solid var(--line);
+  border-radius:var(--r-pill);padding:7px 14px;transition:all var(--t);
+}
+.post-tags a:hover{color:var(--ink);border-color:var(--ink)}
