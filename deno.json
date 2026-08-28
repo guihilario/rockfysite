@@ -1,0 +1,58 @@
+{
+  "nodeModulesDir": "none",
+  "tasks": {
+    "dev": "deno run -A --watch=static/,routes/,components/,data/ dev.ts",
+    "build": "deno run -A dev.ts build",
+    "start": "deno serve -A --port 8000 _fresh/server.js",
+    "check": "deno fmt --check . && deno lint . && deno check"
+  },
+  "lint": {
+    "rules": {
+      "tags": [
+        "fresh",
+        "recommended"
+      ]
+    }
+  },
+  "exclude": [
+    "**/_fresh/*"
+  ],
+  "imports": {
+    "fresh": "jsr:@fresh/core@^2.3.3",
+    "fresh/dev": "jsr:@fresh/core@^2.3.3/dev",
+    "preact": "npm:preact@^10.29.1",
+    "@/": "./"
+  },
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "deno.ns"
+    ],
+    "jsx": "precompile",
+    "jsxImportSource": "preact",
+    "jsxPrecompileSkipElements": [
+      "a",
+      "img",
+      "source",
+      "body",
+      "html",
+      "head",
+      "title",
+      "meta",
+      "script",
+      "link",
+      "style",
+      "base",
+      "noscript",
+      "template"
+    ]
+  },
+  "fmt": {
+    "exclude": [
+      "static/",
+      "_fresh/"
+    ]
+  }
+}
