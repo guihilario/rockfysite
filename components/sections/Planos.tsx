@@ -1,3 +1,4 @@
+import type { ComponentChildren } from "preact";
 import { type Plan, plans } from "@/data/plans.ts";
 
 /**
@@ -27,7 +28,11 @@ function Card({ plano }: { plano: Plan }) {
       <h3 class="plan__name">{plano.name}</h3>
       <div class="plan__price">
         <b>{plano.price}</b>
-        <span>/ mês</span>
+        {
+          /* `period: null` some com o sufixo: no plano sob consulta não há
+            valor mensal para qualificar. */
+        }
+        {plano.period !== null && <span>{plano.period ?? "/ mês"}</span>}
       </div>
       <p class="plan__note">{plano.note}</p>
       <div class="plan__rule"></div>
@@ -58,7 +63,7 @@ function Card({ plano }: { plano: Plan }) {
         ))}
       </ul>
       <button type="button" class="plan__cta">
-        Começar
+        {plano.cta ?? "Começar"}
         <svg viewBox="0 0 24 24">
           <path
             d="M5 12h14m-6-6 6 6-6 6"
@@ -72,7 +77,25 @@ function Card({ plano }: { plano: Plan }) {
   );
 }
 
-export function Planos() {
+type PropsPlanos = {
+  /** Os planos do trilho. O padrão é o de hospedagem, usado no site todo. */
+  planos?: Plan[];
+  eyebrow?: string;
+  titulo?: ComponentChildren;
+};
+
+export function Planos({
+  planos = plans,
+  eyebrow = "Let's Rock!",
+  titulo = (
+    <>
+      Escale seu negócio{" "}
+      <em>
+        <br />e simplifique seus custos
+      </em>
+    </>
+  ),
+}: PropsPlanos = {}) {
   return (
     <>
       {/* ══════ PLANOS (trilho) ══════ */}
@@ -80,13 +103,8 @@ export function Planos() {
         <div class="conteudo">
           <div class="head">
             <div>
-              <p class="eyebrow">Let's Rock!</p>
-              <h2 class="title">
-                Escale seu negócio{" "}
-                <em>
-                  <br />e simplifique seus custos
-                </em>
-              </h2>
+              <p class="eyebrow">{eyebrow}</p>
+              <h2 class="title">{titulo}</h2>
             </div>
             <div class="nav-arrows">
               <button
@@ -123,10 +141,10 @@ export function Planos() {
           </div>
 
           <div class="rail" id="rail">
-            {plans.map((plano) => <Card key={plano.name} plano={plano} />)}
+            {planos.map((plano) => <Card key={plano.name} plano={plano} />)}
           </div>
           <div class="dots" id="plansDots">
-            {plans.map((_, i) => (
+            {planos.map((_, i) => (
               <button
                 type="button"
                 key={i}

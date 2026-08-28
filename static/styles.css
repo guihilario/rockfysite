@@ -1361,3 +1361,47 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .stage-card--c4{height:77%;aspect-ratio:66/100;top:1.2%}
 .stage-card--c5{height:62%;aspect-ratio:68/100;top:30.5%}
 .stage-card--c6{height:65%;aspect-ratio:70/100;top:3.7%}
+
+/* ─── Cenas da loja digital ─────────────────────────────────────────
+   Três camadas empilhadas: aparelho (fundo) → domo colorido → ilustração.
+   As posições vêm do projeto de origem, onde eram pixels fixos com um
+   bloco de media query redesenhando o mobile. Aqui viraram porcentagem da
+   própria cena: a `aspect-ratio` de cada variante segura a proporção e o
+   mesmo conjunto de regras serve a todos os tamanhos. */
+.cena{position:relative;width:100%}
+.cena > img{position:absolute;height:auto;max-width:none;display:block}
+.cena__fundo{z-index:1}
+.cena__domo{z-index:2}
+.cena__frente{z-index:3}
+
+.cena--atendimento{aspect-ratio:700/700}
+.cena--atendimento .cena__fundo{top:0;left:42.857%;width:54.286%}
+.cena--atendimento .cena__domo{bottom:0;left:0;width:100%}
+.cena--atendimento .cena__frente{bottom:0;left:7.143%;width:70%}
+
+.cena--catalogo{aspect-ratio:745/620}
+.cena--catalogo .cena__fundo{top:0;left:4.564%;width:62.685%}
+.cena--catalogo .cena__domo{bottom:0;left:0;width:100%}
+.cena--catalogo .cena__frente{bottom:3.871%;left:31.544%;width:67.114%}
+
+/* Sem domo: esta cena tem só duas camadas, então é mais estreita. */
+.cena--taxa{aspect-ratio:560/620}
+.cena--taxa .cena__fundo{top:0;left:0;width:82.679%}
+.cena--taxa .cena__frente{bottom:0;left:10.714%;width:89.286%}
+
+.cena--atualize{aspect-ratio:886/760}
+.cena--atualize .cena__fundo{top:10%;left:39.616%;width:60.384%}
+.cena--atualize .cena__domo{bottom:0;left:0;width:88.375%}
+.cena--atualize .cena__frente{bottom:0;left:12.189%;width:56.433%}
+
+.cena--planos{aspect-ratio:620/420}
+.cena--planos .cena__domo{bottom:0;left:0;width:100%}
+.cena--planos .cena__frente{bottom:0;left:8.871%;width:80.645%}
+
+/* A cena do "configuramos sua loja". No original o aparelho vinha
+   recortado numa moldura horizontal, mas a arte é a maquete de um celular
+   em pé: cortada, virava um retângulo branco. Aqui ela fica inteira, como
+   nas outras cenas. */
+.cena--montagem{aspect-ratio:588/440}
+.cena--montagem .cena__fundo{top:0;left:2%;width:42%}
+.cena--montagem .cena__frente{bottom:0;right:0;left:auto;width:73.129%}

@@ -1,24 +1,40 @@
-import { faq } from "@/data/faq.ts";
+import type { ComponentChildren } from "preact";
+import { faq, type FaqItem } from "@/data/faq.ts";
 
 /** Perguntas frequentes. O acordeão abre uma por vez — a primeira já vem
  *  aberta, como no desenho original. */
-export function Faq() {
+type PropsFaq = {
+  /** As perguntas. O padrão é a lista geral do site. */
+  itens?: FaqItem[];
+  eyebrow?: string;
+  titulo?: ComponentChildren;
+  texto?: ComponentChildren;
+  cta?: string;
+};
+
+export function Faq({
+  itens = faq,
+  eyebrow = "Dúvidas",
+  titulo = (
+    <>
+      Perguntas <b>frequentes</b>
+    </>
+  ),
+  texto =
+    "Se ficar alguma dúvida, o suporte responde no chat e no WhatsApp, das 8h às 22h, todos os dias — gente de verdade, não robô.",
+  cta = "Falar com o suporte",
+}: PropsFaq = {}) {
   return (
     <>
       {/* ══════ FAQ ══════ */}
       <section class="section faq">
         <div class="conteudo">
           <div>
-            <p class="eyebrow">Dúvidas</p>
-            <h2 class="title">
-              Perguntas <b>frequentes</b>
-            </h2>
-            <p class="para">
-              Se ficar alguma dúvida, o suporte responde no chat e no WhatsApp,
-              das 8h às 22h, todos os dias — gente de verdade, não robô.
-            </p>
+            <p class="eyebrow">{eyebrow}</p>
+            <h2 class="title">{titulo}</h2>
+            <p class="para">{texto}</p>
             <button type="button" class="cta">
-              Falar com o suporte
+              {cta}
               <span class="badge">
                 <svg viewBox="0 0 24 24">
                   <path
@@ -33,7 +49,7 @@ export function Faq() {
           </div>
 
           <div class="acc" id="acc">
-            {faq.map((item, i) => (
+            {itens.map((item, i) => (
               <div
                 key={item.q}
                 class={i === 0 ? "acc__item is-open" : "acc__item"}

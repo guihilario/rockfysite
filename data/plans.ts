@@ -19,10 +19,15 @@ export type Plan = {
   tag: string;
   name: string;
   price: string;
+  /** O que vem depois do preço. `null` some com a linha — usado no plano
+   *  sob consulta, onde "/ mês" não faria sentido. */
+  period?: string | null;
   /** O plano com contorno em destaque no trilho. */
   featured?: boolean;
   note: string;
   items: PlanItem[];
+  /** O rótulo do botão. O padrão serve para os planos de hospedagem. */
+  cta?: string;
 };
 
 export const plans: Plan[] = [
