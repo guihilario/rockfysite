@@ -1,6 +1,6 @@
 import { generateUniqueSlug } from "@/domain/posts.ts";
 import { listAllCategories } from "@/domain/categories.ts";
-import { getOrCreateTagByName, setPostTags } from "@/domain/tags.ts";
+import { getOrCreateTagsByName, setPostTags } from "@/domain/tags.ts";
 import {
   generateImageKey,
   ImageValidationError,
@@ -83,14 +83,11 @@ export async function lerFormulario(form: FormData): Promise<CamposPost> {
   };
 }
 
-/** Cria as tags que ainda não existem e liga todas ao post. */
+/** Cria as tags que faltam e liga todas ao post — duas consultas no total,
+ *  independente de quantas tags forem. */
 export async function aplicarTags(postId: string, nomes: string[]) {
-  const ids: string[] = [];
-  for (const nome of nomes) {
-    const tag = await getOrCreateTagByName(nome);
-    ids.push(tag.id);
-  }
-  await setPostTags(postId, ids);
+  const tags = await getOrCreateTagsByName(nomes);
+  await setPostTags(postId, tags.map((t) => t.id));
 }
 
 export { generateUniqueSlug };

@@ -83,3 +83,25 @@ a{color:inherit}
 .vazio{background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);
   padding:40px;text-align:center;color:var(--gray-600)}
 .capa-atual{max-width:280px;border-radius:var(--r);display:block;margin-bottom:10px}
+
+/* miniatura da capa na listagem */
+.adm-capa-col{width:96px}
+.adm-capa-cel{width:96px;padding-right:0}
+.adm-thumb{
+  width:80px;height:50px;object-fit:cover;display:block;
+  border-radius:6px;background:var(--panel);border:1px solid var(--line-soft);
+}
+.adm-thumb--vazia{background:repeating-linear-gradient(45deg,var(--panel),var(--panel) 6px,#f2f2f2 6px,#f2f2f2 12px)}
+
+/* busca */
+.adm-busca{display:flex;gap:8px;margin-bottom:22px;max-width:560px}
+.adm-busca input{
+  flex:1;min-width:0;border:1.4px solid var(--line);border-radius:var(--r-pill);
+  background:var(--surface);color:var(--ink);font:400 15px var(--font);padding:11px 18px;
+  transition:border-color .18s;
+}
+.adm-busca input:focus{outline:none;border-color:var(--ink)}
+
+/* sentinela do scroll infinito */
+.adm-mais{display:flex;justify-content:center;padding:26px 0 8px}
+.adm-mais[hidden]{display:none}

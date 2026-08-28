@@ -76,9 +76,9 @@ export function CollageElementor() {
 
       <div class="wp-fl wp-fl--builder">
         <div class="wp-fl-box">
-          <p class="wp-fl-box__label">Page Builder</p>
+          <p class="wp-fl-box__label">Construa na I.A</p>
           <p class="wp-fl-box__value">
-            Elementor<br />Pro Incluso
+            A gente publica
           </p>
         </div>
       </div>

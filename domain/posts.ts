@@ -26,6 +26,13 @@ export type Post = {
   /** Nomes das tags (#assunto) — agregados na query da listagem pública
    * pra os cards mostrarem as pills sem N+1 (SPEC §28). */
   tagNames: string[];
+  /** Minutos de leitura. Vem calculado do SQL nas listagens, para elas
+   *  não precisarem baixar o corpo de cada artigo. */
+  readingMinutes: number;
+  /** Slug da categoria raiz ("blog" ou "ajuda") — decide a seção pública.
+   *  Vem no mesmo SELECT de `getPostBySlug`, para a página do post não
+   *  gastar uma segunda ida ao banco só para descobrir onde ele mora. */
+  sectionSlug?: string | null;
 };
 
 type PostRow = {
@@ -33,7 +40,8 @@ type PostRow = {
   title: string;
   slug: string;
   excerpt: string | null;
-  content: string;
+  /** Ausente nas listagens: elas não trazem o corpo do artigo. */
+  content?: string;
   cover_image_url: string | null;
   cover_image_width: number | null;
   cover_image_height: number | null;
@@ -45,6 +53,9 @@ type PostRow = {
   category_id: string | null;
   category_name?: string | null;
   tag_names?: string[] | null;
+  /** Só nas listagens (LIST_COLUMNS), calculado no SQL. */
+  reading_minutes?: number;
+  section_slug?: string | null;
 };
 
 function fromRow(row: PostRow): Post {
@@ -53,7 +64,7 @@ function fromRow(row: PostRow): Post {
     title: row.title,
     slug: row.slug,
     excerpt: row.excerpt,
-    content: row.content,
+    content: row.content ?? "",
     coverImageUrl: row.cover_image_url,
     coverImageWidth: row.cover_image_width,
     coverImageHeight: row.cover_image_height,
@@ -65,6 +76,14 @@ function fromRow(row: PostRow): Post {
     categoryId: row.category_id,
     categoryName: row.category_name ?? null,
     tagNames: row.tag_names ?? [],
+    /* Nas listagens vem do SQL; na leitura de um post só, calcula do corpo
+       que já está em mãos. */
+    sectionSlug: row.section_slug ?? null,
+    readingMinutes: row.reading_minutes ??
+      Math.max(
+        1,
+        Math.ceil((row.content ?? "").replace(/<[^>]+>/g, " ").length / 1100),
+      ),
   };
 }
 
@@ -75,6 +94,23 @@ const SELECT_COLUMNS = `
   posts.cover_image_url, posts.cover_image_width, posts.cover_image_height,
   posts.status, posts.published_at, posts.created_at,
   posts.updated_at, posts.author_id, posts.category_id
+`;
+
+/**
+ * As mesmas colunas, sem `content`.
+ *
+ * O corpo do artigo tem ~2 KB por post e a listagem só mostra o resumo —
+ * trazer os 12 corpos custava cerca de 19 ms por página, só de bytes na
+ * rede (o banco fica em São Paulo). O único uso que a listagem fazia do
+ * corpo era calcular o tempo de leitura, então esse cálculo desce para o
+ * SQL: volta um inteiro no lugar de dois quilobytes por linha.
+ */
+const LIST_COLUMNS = `
+  posts.id, posts.title, posts.slug, posts.excerpt,
+  posts.cover_image_url, posts.cover_image_width, posts.cover_image_height,
+  posts.status, posts.published_at, posts.created_at,
+  posts.updated_at, posts.author_id, posts.category_id,
+  GREATEST(1, CEIL(LENGTH(REGEXP_REPLACE(posts.content, '<[^>]+>', ' ', 'g')) / 1100.0))::int AS reading_minutes
 `;
 
 export type ListPostsFilter = {
@@ -124,7 +160,7 @@ export async function listPublishedPosts(
   const offset = (page - 1) * perPage;
   const result = await client.queryObject<PostRow>({
     text: `
-      SELECT ${SELECT_COLUMNS},
+      SELECT ${LIST_COLUMNS},
         cat.name AS category_name,
         tg.tag_names
       FROM posts
@@ -212,8 +248,15 @@ export async function getPostBySlug(
 ): Promise<Post | null> {
   const result = await client.queryObject<PostRow>({
     text: `
-      SELECT ${SELECT_COLUMNS} FROM posts
-      WHERE slug = $1 ${includeDrafts ? "" : "AND status = 'published'"}
+      SELECT ${SELECT_COLUMNS},
+        cat.name AS category_name,
+        root.slug AS section_slug
+      FROM posts
+      LEFT JOIN categories cat ON cat.id = posts.category_id
+      LEFT JOIN categories root ON root.id = COALESCE(cat.parent_id, cat.id)
+      WHERE posts.slug = $1 ${
+      includeDrafts ? "" : "AND posts.status = 'published'"
+    }
       LIMIT 1
     `,
     args: [slug],
@@ -266,17 +309,30 @@ export type ListAllPostsResult = {
 /** Todos os posts (draft + published), mais recentemente atualizados
  * primeiro — só pro admin, nunca exposto publicamente. */
 export async function listAllPosts(
-  { page = 1, perPage = 20 }: { page?: number; perPage?: number } = {},
+  { page = 1, perPage = 20, q }: {
+    page?: number;
+    perPage?: number;
+    /** Busca livre em título, resumo e slug. */
+    q?: string;
+  } = {},
   client: Queryable = db,
 ): Promise<ListAllPostsResult> {
   const offset = (page - 1) * perPage;
+  const busca = q?.trim() ? `%${q.trim()}%` : null;
   const result = await client.queryObject<PostRow>({
     text: `
-      SELECT ${SELECT_COLUMNS} FROM posts
-      ORDER BY updated_at DESC
+      SELECT ${LIST_COLUMNS},
+        cat.name AS category_name
+      FROM posts
+      LEFT JOIN categories cat ON cat.id = posts.category_id
+      WHERE ($3::text IS NULL
+             OR posts.title ILIKE $3
+             OR posts.excerpt ILIKE $3
+             OR posts.slug ILIKE $3)
+      ORDER BY posts.updated_at DESC
       LIMIT $1 OFFSET $2
     `,
-    args: [perPage + 1, offset],
+    args: [perPage + 1, offset, busca],
   });
   const rows = result.rows.map(fromRow);
   return { posts: rows.slice(0, perPage), hasMore: rows.length > perPage };

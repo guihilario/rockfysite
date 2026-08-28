@@ -6,50 +6,44 @@ import {
   unpublishPost,
 } from "@/domain/posts.ts";
 import { Shell } from "@/components/admin/Shell.tsx";
+import { LinhasPosts } from "@/components/admin/LinhasPosts.tsx";
 
-const POR_PAGINA = 30;
-
-function voltar(url: URL) {
-  return new Response(null, {
-    status: 303,
-    headers: { location: `/admin/posts${url.search}` },
-  });
-}
+const POR_PAGINA = 20;
 
 export const handler = define.handlers({
   async GET(ctx) {
     const u = new URL(ctx.req.url);
-    const pagina = Math.max(1, Number(u.searchParams.get("page") ?? 1) || 1);
-    const { posts, hasMore } = await listAllPosts({
-      page: pagina,
-      perPage: POR_PAGINA,
-    });
+    const q = u.searchParams.get("q")?.trim() || undefined;
+    const { posts, hasMore } = await listAllPosts({ perPage: POR_PAGINA, q });
     return {
       data: {
         posts,
         hasMore,
-        pagina,
+        q,
         usuario: ctx.state.usuario!,
         aviso: u.searchParams.get("ok") ?? undefined,
       },
     };
   },
 
-  /** Ações da listagem chegam como POST de um <form>, para funcionarem
-   *  sem JavaScript. */
+  /** Publicar, despublicar e excluir chegam como POST de um <form>, para
+   *  funcionarem mesmo sem JavaScript. */
   async POST(ctx) {
     const form = await ctx.req.formData();
     const id = String(form.get("id") ?? "");
     const acao = String(form.get("acao") ?? "");
-    if (!id) return voltar(new URL(ctx.req.url));
-
-    if (acao === "publicar") await publishPost(id);
-    else if (acao === "despublicar") await unpublishPost(id);
-    else if (acao === "excluir") await deletePost(id);
-
     const u = new URL(ctx.req.url);
-    u.searchParams.set("ok", acao);
-    return voltar(u);
+
+    if (id) {
+      if (acao === "publicar") await publishPost(id);
+      else if (acao === "despublicar") await unpublishPost(id);
+      else if (acao === "excluir") await deletePost(id);
+      u.searchParams.set("ok", acao);
+    }
+    return new Response(null, {
+      status: 303,
+      headers: { location: `/admin/posts${u.search}` },
+    });
   },
 });
 
@@ -63,101 +57,90 @@ const RECADO: Record<string, string> = {
 
 export default define.page<typeof handler>(function AdminPosts({ data }) {
   return (
-    <Shell titulo="Posts" usuario={data.usuario} atual="posts">
+    <Shell
+      titulo="Posts"
+      usuario={data.usuario}
+      atual="posts"
+      scripts={<script src="/js/admin-lista.js" defer></script>}
+    >
       <div class="adm-cabeca">
         <div>
           <h1>Posts</h1>
           <p class="adm-meta">
-            página {data.pagina} · {data.posts.length} nesta página
+            {data.q
+              ? (
+                <>
+                  resultados para <b>{data.q}</b>
+                </>
+              )
+              : "os mais recentes primeiro"}
           </p>
         </div>
         <a class="btn" href="/admin/posts/novo">Novo post</a>
       </div>
+
+      <form class="adm-busca" method="get" role="search">
+        <input
+          type="search"
+          name="q"
+          value={data.q ?? ""}
+          placeholder="Buscar por título, resumo ou endereço"
+          aria-label="Buscar posts"
+        />
+        <button class="btn btn--ghost" type="submit">Buscar</button>
+        {data.q && <a class="btn btn--ghost" href="/admin/posts">Limpar</a>}
+      </form>
 
       {data.aviso && RECADO[data.aviso] && (
         <p class="aviso">{RECADO[data.aviso]}</p>
       )}
 
       {data.posts.length === 0
-        ? <p class="vazio">Nenhum post ainda. Comece criando o primeiro.</p>
+        ? (
+          <p class="vazio">
+            {data.q
+              ? "Nenhum post encontrado para essa busca."
+              : "Nenhum post ainda. Comece criando o primeiro."}
+          </p>
+        )
         : (
-          <table class="adm-tabela">
-            <thead>
-              <tr>
-                <th>Título</th>
-                <th>Categoria</th>
-                <th>Status</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.posts.map((p) => (
-                <tr key={p.id}>
-                  <td class="adm-titulo-cel">
-                    <a href={`/admin/posts/${p.id}`}>{p.title}</a>
-                    <span class="adm-slug">/{p.slug}</span>
-                  </td>
-                  <td>{p.categoryName ?? "—"}</td>
-                  <td>
-                    <span
-                      class={p.status === "published"
-                        ? "selo selo--pub"
-                        : "selo selo--rascunho"}
-                    >
-                      {p.status === "published" ? "publicado" : "rascunho"}
-                    </span>
-                  </td>
-                  <td class="acoes">
-                    <form method="post">
-                      <input type="hidden" name="id" value={p.id} />
-                      <input
-                        type="hidden"
-                        name="acao"
-                        value={p.status === "published"
-                          ? "despublicar"
-                          : "publicar"}
-                      />
-                      <button class="btn btn--ghost btn--sm" type="submit">
-                        {p.status === "published" ? "Despublicar" : "Publicar"}
-                      </button>
-                    </form>{" "}
-                    <form
-                      method="post"
-                      data-confirmar="Excluir este post? Não dá pra desfazer."
-                    >
-                      <input type="hidden" name="id" value={p.id} />
-                      <input type="hidden" name="acao" value="excluir" />
-                      <button class="btn btn--perigo btn--sm" type="submit">
-                        Excluir
-                      </button>
-                    </form>
-                  </td>
+          <>
+            <table
+              class="adm-tabela"
+              id="tabelaPosts"
+              data-q={data.q ?? ""}
+              data-tem-mais={data.hasMore ? "1" : "0"}
+            >
+              <thead>
+                <tr>
+                  <th class="adm-capa-col"></th>
+                  <th>Título</th>
+                  <th>Categoria</th>
+                  <th>Status</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+              </thead>
+              <tbody id="corpoPosts">
+                <LinhasPosts posts={data.posts} />
+              </tbody>
+            </table>
 
-      {(data.pagina > 1 || data.hasMore) && (
-        <div class="form-acoes">
-          {data.pagina > 1 && (
-            <a
-              class="btn btn--ghost"
-              href={`/admin/posts?page=${data.pagina - 1}`}
-            >
-              ← Anteriores
-            </a>
-          )}
-          {data.hasMore && (
-            <a
-              class="btn btn--ghost espaco"
-              href={`/admin/posts?page=${data.pagina + 1}`}
-            >
-              Próximos →
-            </a>
-          )}
-        </div>
-      )}
+            {
+              /* Sentinela do scroll infinito. Sem JavaScript vira um link
+                comum para a próxima página. */
+            }
+            <div class="adm-mais" id="sentinela" hidden={!data.hasMore}>
+              <a
+                class="btn btn--ghost"
+                href={`/admin/posts/lote?page=2${
+                  data.q ? `&q=${encodeURIComponent(data.q)}` : ""
+                }`}
+              >
+                Carregar mais
+              </a>
+            </div>
+          </>
+        )}
     </Shell>
   );
 });

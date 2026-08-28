@@ -27,16 +27,13 @@ export function dataCurta(d: Date | null): string {
   return `${d.getUTCDate()} ${MESES[d.getUTCMonth()]}`;
 }
 
-/** ~200 palavras por minuto, arredondado pra cima, mínimo 1. */
-export function tempoLeitura(html: string): number {
-  const palavras = html.replace(/<[^>]+>/g, " ").trim().split(/\s+/).length;
-  return Math.max(1, Math.ceil(palavras / 200));
-}
+/* O tempo de leitura vem pronto em `post.readingMinutes`: é calculado no
+   SQL para a listagem não precisar baixar o corpo de cada artigo. */
 
 export function PostCard({ post, base }: { post: Post; base: string }) {
   const meta = [
     dataCurta(post.publishedAt),
-    `${tempoLeitura(post.content)} min`,
+    `${post.readingMinutes} min`,
   ]
     .filter(Boolean).join(" · ");
 

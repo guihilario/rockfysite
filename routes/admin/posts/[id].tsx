@@ -21,13 +21,18 @@ const RECADO: Record<string, string> = {
 async function carregar(id: string, usuario: { id: string; email: string }) {
   const post = await getPostById(id);
   if (!post) throw new HttpError(404);
-  const tags = await listTagsForPost(id);
-  // A seção real vem da categoria raiz — é o que decide a URL pública.
-  const secao = await getSectionSlugForCategory(post.categoryId);
+  /* As três consultas seguintes não dependem umas das outras. Em sequência
+     custavam três idas ao banco (~190 ms daqui); em paralelo, uma. */
+  const [tags, categorias, secao] = await Promise.all([
+    listTagsForPost(id),
+    categoriasComRotulo(),
+    // A seção real vem da categoria raiz — é o que decide a URL pública.
+    getSectionSlugForCategory(post.categoryId),
+  ]);
   return {
     post,
     tags: tags.map((t) => t.name).join(", "),
-    categorias: await categoriasComRotulo(),
+    categorias,
     secao,
     usuario,
   };

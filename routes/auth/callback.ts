@@ -1,6 +1,7 @@
 import { define } from "@/utils.ts";
 import { config } from "@/core/config.ts";
 import { exchangeCodeForProfile } from "@/core/auth/google.ts";
+import { redirectUriDe } from "@/core/auth/origem.ts";
 import { getOrCreateUserByGoogleSub } from "@/domain/users.ts";
 import { createSession } from "@/domain/sessions.ts";
 import {
@@ -38,7 +39,8 @@ export const handler = define.handlers({
       );
     }
 
-    const perfil = await exchangeCodeForProfile(code);
+    // mesma URI enviada no /auth/login — o Google compara as duas
+    const perfil = await exchangeCodeForProfile(code, redirectUriDe(ctx.req));
 
     // Sem sistema de permissões: só e-mails da allowlist viram admin.
     if (!config.adminEmails.includes(perfil.email.toLowerCase())) {

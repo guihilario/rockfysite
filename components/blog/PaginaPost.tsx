@@ -1,5 +1,5 @@
 import { Layout } from "@/components/Layout.tsx";
-import { dataCurta, tempoLeitura } from "@/components/blog/PostGrid.tsx";
+import { dataCurta } from "@/components/blog/PostGrid.tsx";
 import type { Post } from "@/domain/posts.ts";
 import type { Heading } from "@/core/content/sanitize.ts";
 
@@ -17,7 +17,7 @@ type Props = {
 export function PaginaPost({ post, html, headings, base, voltar }: Props) {
   const meta = [
     dataCurta(post.publishedAt),
-    `${tempoLeitura(post.content)} min de leitura`,
+    `${post.readingMinutes} min de leitura`,
   ]
     .filter(Boolean).join(" · ");
 

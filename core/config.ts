@@ -45,8 +45,18 @@ export const config = {
   google: {
     clientId: required("GOOGLE_CLIENT_ID"),
     clientSecret: required("GOOGLE_CLIENT_SECRET"),
+    /* Só usado como último recurso. Na prática o redirect_uri é derivado do
+       host da própria requisição (ver core/auth/origem.ts): amarrá-lo a uma
+       variável fazia o deploy de produção mandar o Google devolver o usuário
+       em localhost, porque a variável ficou para trás. */
     redirectUri: Deno.env.get("GOOGLE_REDIRECT_URI") ??
       `${appUrl}/auth/callback`,
+    /* Hosts em que o login pode acontecer. Cada um precisa estar também
+       registrado no Google Cloud — o Google recusa qualquer outro. */
+    origensPermitidas: (Deno.env.get("OAUTH_ORIGENS") ??
+      [appUrl, "https://rockfysite-capsula.rockfy.net", "https://rockfy.com"]
+        .join(","))
+      .split(",").map((o) => o.trim().replace(/\/$/, "")).filter(Boolean),
   },
   sessionSecret: required("SESSION_SECRET"),
   r2: {

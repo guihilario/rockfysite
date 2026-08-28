@@ -1,10 +1,7 @@
 import { HttpError } from "fresh";
 import { define } from "@/utils.ts";
 import { getPostBySlug } from "@/domain/posts.ts";
-import {
-  BLOG_SECTION_SLUG,
-  getSectionSlugForCategory,
-} from "@/domain/categories.ts";
+import { BLOG_SECTION_SLUG } from "@/domain/categories.ts";
 import { sanitizeContent } from "@/core/content/sanitize.ts";
 import { PaginaPost } from "@/components/blog/PaginaPost.tsx";
 
@@ -13,9 +10,8 @@ export const handler = define.handlers({
     const post = await getPostBySlug(ctx.params.slug);
     if (!post || post.status !== "published") throw new HttpError(404);
     // Um post de /ajuda não pode ser servido em /blog: é a categoria (uma
-    // por post) que decide a seção — tag é só #assunto e não serve pra isso.
-    const secao = await getSectionSlugForCategory(post.categoryId);
-    if (secao !== BLOG_SECTION_SLUG) throw new HttpError(404);
+    // por post) que decide a seção. A seção já vem no mesmo SELECT.
+    if (post.sectionSlug !== BLOG_SECTION_SLUG) throw new HttpError(404);
     const { html, headings } = sanitizeContent(post.content);
     return { data: { post, html, headings } };
   },

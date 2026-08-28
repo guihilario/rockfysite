@@ -7,10 +7,10 @@ const USERINFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 /** `state` é validado no callback contra um cookie próprio — protege o
  * fluxo OAuth em si contra CSRF (independente do §14, que é sobre as
  * mutações da própria aplicação). */
-export function buildGoogleAuthUrl(state: string): string {
+export function buildGoogleAuthUrl(state: string, redirectUri: string): string {
   const url = new URL(AUTH_URL);
   url.searchParams.set("client_id", config.google.clientId);
-  url.searchParams.set("redirect_uri", config.google.redirectUri);
+  url.searchParams.set("redirect_uri", redirectUri);
   url.searchParams.set("response_type", "code");
   url.searchParams.set("scope", "openid email profile");
   url.searchParams.set("state", state);
@@ -30,6 +30,9 @@ export type GoogleProfile = {
  * resultado já vem de uma origem confiável, sem precisar validar um JWT. */
 export async function exchangeCodeForProfile(
   code: string,
+  /* Precisa ser byte a byte o mesmo enviado no /auth/login — o Google
+     compara os dois e recusa a troca se diferirem. */
+  redirectUri: string,
 ): Promise<GoogleProfile> {
   const tokenResponse = await fetch(TOKEN_URL, {
     method: "POST",
@@ -38,7 +41,7 @@ export async function exchangeCodeForProfile(
       code,
       client_id: config.google.clientId,
       client_secret: config.google.clientSecret,
-      redirect_uri: config.google.redirectUri,
+      redirect_uri: redirectUri,
       grant_type: "authorization_code",
     }),
   });

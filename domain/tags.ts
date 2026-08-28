@@ -119,3 +119,46 @@ export async function createTag(
   });
   return result.rows[0];
 }
+
+/**
+ * Resolve vários nomes de tag numa consulta só.
+ *
+ * Antes o admin chamava `getOrCreateTagByName` num laço: cada nome custava
+ * uma ida e volta ao banco (~62 ms daqui até São Paulo), então salvar um
+ * post com três tags gastava quase 200 ms só nisso. O `ON CONFLICT` faz o
+ * insere-ou-devolve de todos de uma vez.
+ */
+export async function getOrCreateTagsByName(
+  names: string[],
+  client: Queryable = db,
+): Promise<Tag[]> {
+  const pares = names
+    .map((n) => ({ name: n.trim(), slug: slugify(n) }))
+    .filter((p) => p.slug);
+  if (pares.length === 0) return [];
+
+  // deduplica por slug: dois nomes podem gerar o mesmo ("Web" e "web")
+  const porSlug = new Map(pares.map((p) => [p.slug, p]));
+  const unicos = [...porSlug.values()];
+
+  const result = await client.queryObject<
+    { id: string; name: string; slug: string }
+  >({
+    text: `
+      WITH entrada AS (
+        SELECT * FROM UNNEST($1::text[], $2::text[]) AS t(name, slug)
+      ), inseridas AS (
+        INSERT INTO tags (name, slug)
+        SELECT name, slug FROM entrada
+        ON CONFLICT (slug) DO NOTHING
+        RETURNING id, name, slug
+      )
+      SELECT id, name, slug FROM inseridas
+      UNION
+      SELECT t.id, t.name, t.slug FROM tags t
+      JOIN entrada e ON e.slug = t.slug
+    `,
+    args: [unicos.map((p) => p.name), unicos.map((p) => p.slug)],
+  });
+  return result.rows;
+}
