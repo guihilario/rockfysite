@@ -76,7 +76,7 @@ export function Planos() {
   return (
     <>
       {/* ══════ PLANOS (trilho) ══════ */}
-      <section class="section">
+      <section class="section" id="planos">
         <div class="head">
           <div>
             <p class="eyebrow">Let's Rock!</p>

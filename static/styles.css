@@ -44,20 +44,10 @@
   --gap:14px;
 }
 @media (min-width:900px){:root{--gutter:46px;--max:1180px;--gap:18px}}
-html[data-theme="dark"]{
-  --ink:#f2f2f2; --on-ink:#0a0a0a;
-  --gray-600:#8a8a8a; --gray-500:#7c7c7c; --gray-300:#5a5a5a;
-  --line:#2a2a2a; --line-soft:#232323;
-  --ph:#232323; --ph-2:#1d1d1d; --frame:#2e2e2e; --beige:#22231e;
-  --surface:#111; --panel:#191919; --card:#1a1a1a;
-  --dot:#333; --wire:#454545;
-}
-
 /* ══════════════════════════════════════════════════════════
    2. BASE
    ══════════════════════════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html[data-theme="dark"] body{background:#000}
 button{font-family:inherit;color:inherit}
 a{color:inherit;text-decoration:none}
 
@@ -83,7 +73,7 @@ a{color:inherit;text-decoration:none}
 .topnav{display:none}
 @media (min-width:900px){
   .logo{width:120px;height:44px}
-  .topnav{display:flex;align-items:center;gap:6px;margin-left:auto;margin-right:18px}
+  .topnav{display:flex;align-items:center;gap:2px;margin-left:22px;margin-right:auto}
   .topnav a{
     padding:11px 18px;border-radius:var(--r-pill);border:1.4px solid transparent;
     font-size:15px;letter-spacing:-.2px;color:var(--gray-600);transition:all var(--t);
@@ -101,11 +91,6 @@ a{color:inherit;text-decoration:none}
 .nav.is-open .burger span:first-child{transform:translateY(3.3px) rotate(45deg)}
 .nav.is-open .burger span:last-child{width:100%;transform:translateY(-3.3px) rotate(-45deg)}
 .nav .label{color:var(--on-ink);font-size:17px;letter-spacing:-.2px}
-.moon{width:34px;height:34px;border-radius:50%;background:#2c2c2c;display:grid;place-items:center;border:0;cursor:pointer;flex:none;transition:transform var(--t)}
-html[data-theme="dark"] .moon{background:#c9c9c9}
-.moon:hover{transform:rotate(-18deg)}
-.moon svg{width:16px;height:16px;stroke:var(--on-ink);fill:none}
-
 /* ── menu mobile ── */
 .mmenu[hidden]{display:none}
 .mmenu{
@@ -115,11 +100,15 @@ html[data-theme="dark"] .moon{background:#c9c9c9}
 }
 @keyframes mmenu-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
 .mmenu__nav{display:flex;flex-direction:column}
-.mmenu__nav a{
+/* Só os itens do menu. Antes isto pegava qualquer <a> dentro do menu,
+   inclusive os botões de ação — o "Ver planos" herdava a cor escura e o
+   texto sumia no fundo preto. */
+.mmenu__grupo a{
+  display:block;
   font-size:22px;letter-spacing:-.4px;color:var(--ink);
-  padding:18px 2px;border-bottom:1.4px solid var(--line-soft);
+  padding:16px 2px;border-bottom:1.4px solid var(--line-soft);
 }
-.mmenu__nav a:last-child{border-bottom:0}
+.mmenu__grupo a:last-child{border-bottom:0}
 body.is-locked{overflow:hidden}
 @media (min-width:900px){.mmenu{display:none}}
 
@@ -175,8 +164,6 @@ body.is-locked{overflow:hidden}
   width:103%;height:auto;display:block;z-index:1;pointer-events:none;opacity:.14;
   animation:wp-rise-wide 1.1s cubic-bezier(.16,.84,.36,1) .05s backwards;
 }
-html[data-theme="dark"] .wp-hero__wordmark{filter:invert(1);opacity:.18}
-
 /* 2. string binária decorativa */
 .wp-hero__binary{
   position:absolute;top:12.80cqw;right:0;width:28.66cqw;margin:0;z-index:2;
@@ -218,8 +205,6 @@ html[data-theme="dark"] .wp-hero__wordmark{filter:invert(1);opacity:.18}
   background:var(--surface);color:var(--ink);box-shadow:var(--wp-shadow);
   animation:wp-pill-right .75s cubic-bezier(.34,1.3,.5,1) .80s backwards;
 }
-html[data-theme="dark"] .wp-hero__pill--recursos{background:var(--panel)}
-
 @keyframes wp-rise-wide{from{opacity:0;transform:translateX(-50%) translateY(2.4cqw) scale(.985)}}
 @keyframes wp-rise-center{from{opacity:0;transform:translateX(-50%) translateY(3.2cqw) scale(.96)}}
 @keyframes wp-pop{from{opacity:0;transform:translateY(1.2cqw) scale(.7)}}
@@ -392,7 +377,6 @@ html[data-theme="dark"] .wp-hero__pill--recursos{background:var(--panel)}
   width:88%;height:auto;display:block;z-index:1;pointer-events:none;opacity:.14;
   animation:em-rise-wide 1.1s cubic-bezier(.16,.84,.36,1) .05s backwards;
 }
-html[data-theme="dark"] .em-hero__wordmark{filter:invert(1);opacity:.18}
 .em-hero__binary{
   position:absolute;top:15.58cqw;right:0;width:29.01cqw;margin:0;z-index:2;
   font-family:var(--font);font-size:1.14cqw;line-height:1;letter-spacing:.02cqw;
@@ -425,11 +409,12 @@ html[data-theme="dark"] .em-hero__wordmark{filter:invert(1);opacity:.18}
   background:var(--surface);color:var(--ink);box-shadow:var(--em-shadow);
   animation:em-pill-right .75s cubic-bezier(.34,1.3,.5,1) .80s backwards;
 }
-html[data-theme="dark"] .em-hero__pill--mail{background:var(--panel)}
 /* star.svg é quase branco (#F8F8F6): no hero do WordPress ele cai sobre a
    pílula vermelha e lê bem, mas aqui a pílula é clara e ele sumia
    (contraste medido: 1,03:1). No tema escuro a pílula escurece e não precisa. */
-html[data-theme="light"] [data-hero-panel="elementor"] .em-hero__pill--mail img{filter:invert(1)}
+/* star.svg é quase branco (#F8F8F6) e sumia nesta pílula clara
+   (contraste medido: 1,03:1). */
+[data-hero-panel="elementor"] .em-hero__pill--mail img{filter:invert(1)}
 
 @keyframes em-rise-wide{from{opacity:0;transform:translateX(-50%) translateY(2cqw) scale(.985)}}
 @keyframes em-rise{from{opacity:0;transform:translateY(2.6cqw) scale(.96)}}
@@ -543,7 +528,6 @@ html[data-theme="light"] [data-hero-panel="elementor"] .em-hero__pill--mail img{
   width:102%;height:auto;display:block;z-index:1;pointer-events:none;opacity:.14;
   animation:lj-rise-wide 1.1s cubic-bezier(.16,.84,.36,1) .05s backwards;
 }
-html[data-theme="dark"] .lj-hero__wordmark{filter:invert(1);opacity:.18}
 .lj-hero__binary{
   position:absolute;top:11.67cqw;right:0;width:24.37cqw;margin:0;z-index:2;
   font-family:var(--font);font-size:1.12cqw;line-height:1;letter-spacing:.02cqw;
@@ -571,7 +555,6 @@ html[data-theme="dark"] .lj-hero__wordmark{filter:invert(1);opacity:.18}
   border-radius:999px;font-weight:500;letter-spacing:-.01em;line-height:1;white-space:nowrap;
   background:var(--surface);color:var(--ink);box-shadow:var(--lj-shadow);
 }
-html[data-theme="dark"] .lj-hero__pill{background:var(--panel)}
 .lj-hero__pill img{display:block;flex:none}
 .lj-hero__pill--loja{
   top:11.39cqw;left:27cqw;height:5cqw;padding:0 2cqw;font-size:1.45cqw;
@@ -1090,7 +1073,6 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 @media (min-width:900px){body{padding:0}.screen{padding-top:30px}}
 .logo img{width:100%;height:100%;display:block;object-fit:contain}
 .logo svg{display:none}
-.top>.nav>.moon{display:none}
 @media (min-width:900px){.top>.nav{display:none}}
 .rail,.posts{scroll-padding-left:32px}
 @media (max-width:899px){.rail,.posts{padding-left:calc(var(--gutter) + 16px);padding-right:calc(var(--gutter) + 16px)}}
@@ -1168,3 +1150,94 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   border-radius:var(--r-pill);padding:7px 14px;transition:all var(--t);
 }
 .post-tags a:hover{color:var(--ink);border-color:var(--ink)}
+
+/* ══════════════════════════════════════════════════════════
+   MENUS SUSPENSOS DO CABEÇALHO
+   ══════════════════════════════════════════════════════════
+   Painel ancorado sob o gatilho, com colunas de item = ícone + título +
+   descrição. Só no desktop: abaixo de 900px o cabeçalho usa o menu mobile. */
+.dd{position:relative}
+.dd__btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:11px 16px;border:1.4px solid transparent;border-radius:var(--r-pill);
+  background:none;font:400 15px var(--font);letter-spacing:-.2px;
+  color:var(--gray-600);cursor:pointer;transition:all var(--t);
+}
+.dd__btn:hover,.dd__btn[aria-expanded="true"]{color:var(--ink);border-color:var(--line)}
+.dd__btn.is-on{color:var(--ink);font-weight:500}
+.dd__seta{width:15px;height:15px;flex:none;transition:transform var(--t)}
+.dd__btn[aria-expanded="true"] .dd__seta{transform:rotate(180deg)}
+
+.dd__painel[hidden]{display:none}
+.dd__painel{
+  position:absolute;top:calc(100% + 10px);left:0;
+  z-index:70;width:max-content;max-width:min(680px,calc(100vw - 32px));
+  background:var(--surface);border:1.4px solid var(--line);
+  border-radius:var(--r-lg);box-shadow:0 18px 44px rgba(0,0,0,.10),0 2px 8px rgba(0,0,0,.05);
+  padding:18px;animation:dd-in .16s cubic-bezier(.4,0,.2,1);
+}
+@keyframes dd-in{from{opacity:0;transform:translateY(-6px)}}
+/* O painel abre 10px abaixo do gatilho. Esse vão não pertence a nenhum dos
+   dois, então o ponteiro "saía" do menu ao atravessá-lo e o painel fechava
+   antes de dar pra clicar. Esta faixa invisível liga os dois. */
+.dd__painel::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px}
+
+.dd__colunas{display:grid;gap:22px}
+@media (min-width:1024px){.dd__colunas{grid-auto-flow:column;grid-auto-columns:minmax(230px,1fr)}}
+.dd__col-t{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gray-300);padding:0 12px;margin-bottom:8px;
+}
+.dd__item{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:11px 12px;border-radius:var(--r-md);transition:background var(--t);
+}
+.dd__item:hover{background:var(--panel)}
+.dd__item.is-on{background:var(--panel)}
+.dd__item b{display:block;font-size:15px;font-weight:500;letter-spacing:-.2px;line-height:1.3}
+.dd__desc{display:block;font-size:13px;line-height:1.4;color:var(--gray-600);margin-top:3px;max-width:30ch}
+.dd__ico{
+  flex:none;width:34px;height:34px;border-radius:var(--r-sm);
+  display:grid;place-items:center;background:var(--panel);
+  border:1.4px solid var(--line-soft);color:var(--ink);
+}
+.dd__item:hover .dd__ico{background:var(--surface);border-color:var(--line)}
+.menu-icone{width:17px;height:17px}
+
+.dd__rodape{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  margin-top:16px;padding:14px 16px;border-radius:var(--r-md);
+  background:var(--panel);transition:background var(--t);
+}
+.dd__rodape:hover{background:var(--card)}
+.dd__rodape b{display:block;font-size:14.5px;font-weight:500;letter-spacing:-.2px}
+.dd__cta{flex:none;font-size:14px;font-weight:500;white-space:nowrap}
+
+/* grupos do menu mobile */
+.mmenu__grupo + .mmenu__grupo{margin-top:26px}
+.mmenu__grupo-t{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gray-300);margin-bottom:6px;
+}
+
+/* ── ações do cabeçalho: entrar (texto) + chamada (sólido) ── */
+.top__acoes{display:none}
+@media (min-width:900px){
+  .top__acoes{display:flex;align-items:center;gap:8px}
+}
+.top__entrar{
+  padding:11px 16px;border:0;background:none;border-radius:var(--r-pill);
+  font-size:15px;letter-spacing:-.2px;color:var(--gray-600);transition:color var(--t);
+}
+.top__entrar:hover{color:var(--ink)}
+.top__cta{
+  padding:11px 20px;border-radius:var(--r-pill);
+  background:var(--ink);color:var(--on-ink);
+  font-size:15px;font-weight:500;letter-spacing:-.2px;
+  transition:transform var(--t);
+}
+.top__cta:hover{transform:translateY(-1px)}
+
+/* no mobile as ações entram no fim do menu, empilhadas */
+.mmenu__acoes{display:flex;flex-direction:column;gap:10px;margin-top:32px;padding-top:26px;border-top:1.4px solid var(--line-soft)}
+.mmenu__acoes .top__entrar,.mmenu__acoes .top__cta{display:block;text-align:center;font-size:16px;padding:14px 20px}

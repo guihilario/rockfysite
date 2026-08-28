@@ -2,12 +2,72 @@
    Rockfy — comportamento da página
    ═══════════════════════════════════════════════════════════ */
 
-/* ─────────── tema ─────────── */
+/* ─────────── menus suspensos do cabeçalho ─────────── */
 (function(){
-  const root=document.documentElement;
-  const themeBtn=document.getElementById('themeBtn');
-  root.setAttribute('data-theme', matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-  if(themeBtn)themeBtn.onclick=()=>root.setAttribute('data-theme',root.getAttribute('data-theme')==='dark'?'light':'dark');
+  const gatilhos=[...document.querySelectorAll('.dd__btn')];
+  if(!gatilhos.length)return;
+
+  const painel=b=>document.getElementById(b.getAttribute('aria-controls'));
+
+  const fechar=b=>{
+    b.setAttribute('aria-expanded','false');
+    const p=painel(b); if(p)p.hidden=true;
+  };
+  const fecharTodos=exceto=>gatilhos.forEach(b=>{if(b!==exceto)fechar(b)});
+
+  /* Centraliza o painel no gatilho, mas sem deixar vazar da tela: o
+     "Recursos" fica à direita e o painel é largo, então centralizar puro
+     jogava a borda pra fora da viewport. */
+  const posicionar=(b,p)=>{
+    p.style.left='0px';
+    p.style.transform='none';
+    const g=b.getBoundingClientRect();
+    const largura=p.offsetWidth;
+    const margem=16;
+    /* alinha a borda esquerda do painel com a do gatilho; centralizar
+       fazia o painel parecer solto, longe do item que o abriu */
+    let x=g.left;
+    /* nunca passa da margem do conteúdo (a mesma do resto da página) */
+    const conteudo=document.querySelector('.screen').getBoundingClientRect();
+    const limiteDir=Math.min(innerWidth-margem,conteudo.right);
+    x=Math.max(Math.max(margem,conteudo.left),Math.min(x,limiteDir-largura));
+    p.style.left=`${x-b.closest('.dd').getBoundingClientRect().left}px`;
+  };
+
+  const abrir=b=>{
+    fecharTodos(b);
+    b.setAttribute('aria-expanded','true');
+    const p=painel(b);
+    if(p){p.hidden=false;posicionar(b,p)}
+  };
+
+  gatilhos.forEach(b=>{
+    b.addEventListener('click',e=>{
+      e.stopPropagation();
+      b.getAttribute('aria-expanded')==='true' ? fechar(b) : abrir(b);
+    });
+    /* no ponteiro fino o hover abre; no toque, só o clique — senão o
+       primeiro toque abriria e o segundo navegaria sem querer */
+    if(matchMedia('(hover: hover) and (pointer: fine)').matches){
+      const grupo=b.closest('.dd');
+      grupo.addEventListener('mouseenter',()=>abrir(b));
+      grupo.addEventListener('mouseleave',()=>fechar(b));
+    }
+  });
+
+  /* clique fora e Esc fecham; Esc devolve o foco ao gatilho */
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.dd'))fecharTodos(null);
+  });
+  addEventListener('keydown',e=>{
+    if(e.key!=='Escape')return;
+    const aberto=gatilhos.find(b=>b.getAttribute('aria-expanded')==='true');
+    if(aberto){fechar(aberto);aberto.focus()}
+  });
+  /* sair do painel pelo Tab fecha */
+  document.addEventListener('focusin',e=>{
+    if(!e.target.closest('.dd'))fecharTodos(null);
+  });
 })();
 
 /* ─────────── menu mobile ─────────── */

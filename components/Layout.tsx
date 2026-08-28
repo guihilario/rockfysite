@@ -35,7 +35,7 @@ export function Layout(
   const url = SITE + (rota === "/" ? "/" : rota);
 
   return (
-    <html lang="pt-BR" data-theme="light">
+    <html lang="pt-BR">
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

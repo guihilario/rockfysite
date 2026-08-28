@@ -91,7 +91,8 @@ export const plans: Plan[] = [
         n: null,
         label: "Gestão & Finanças",
         on: false,
-        hint: "Painel de receitas, despesas e cobrança recorrente.",
+        hint:
+          "Automatize faturas, gerencie os clientes, sites e aplicações em um só lugar",
       },
     ],
   },
@@ -126,7 +127,8 @@ export const plans: Plan[] = [
         n: null,
         label: "Gestão & Finanças",
         on: true,
-        hint: "Inclui repasse para clientes e relatórios por projeto.",
+        hint:
+          "Automatize faturas, gerencie os clientes, sites e aplicações em um só lugar",
       },
     ],
   },
@@ -160,7 +162,8 @@ export const plans: Plan[] = [
         n: null,
         label: "Gestão & Finanças",
         on: true,
-        hint: "Multi-tenant, API aberta e suporte com SLA.",
+        hint:
+          "Automatize faturas, gerencie os clientes, sites e aplicações em um só lugar",
       },
     ],
   },

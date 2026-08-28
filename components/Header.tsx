@@ -1,4 +1,6 @@
 import type { ComponentChildren } from "preact";
+import { menus } from "@/data/menu.ts";
+import { Icone } from "@/components/Icone.tsx";
 
 /** Cabeçalho e menu mobile. `atual` recebe o caminho da página para marcar
  *  o item correspondente no menu. */
@@ -53,17 +55,77 @@ export function Header({ atual }: { atual?: string }) {
             </text>
           </svg>
         </a>
-        <nav class="topnav">
-          <NavLink href="/hospedagem-elementor-pro" atual={atual}>
-            Hospedagem de Site
-          </NavLink>
-          <NavLink href="/deploy" atual={atual}>Deploy [I.A]</NavLink>
-          <NavLink href="#" atual={atual}>Aplicativos</NavLink>
-          <NavLink href="/loja-digital" atual={atual}>Loja digital</NavLink>
-          <NavLink href="/email-profissional" atual={atual}>
-            Email Profissional
-          </NavLink>
+        <nav class="topnav" aria-label="Principal">
+          {menus.map((m) => {
+            const dentro = m.colunas.some((c) =>
+              c.itens.some((i) => i.href === atual)
+            );
+            return (
+              <div class="dd" key={m.chave}>
+                <button
+                  type="button"
+                  class={dentro ? "dd__btn is-on" : "dd__btn"}
+                  aria-expanded="false"
+                  aria-controls={`dd-${m.chave}`}
+                  data-dd={m.chave}
+                >
+                  {m.rotulo}
+                  <svg class="dd__seta" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="m6 9 6 6 6-6"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+
+                <div class="dd__painel" id={`dd-${m.chave}`} hidden>
+                  <div class="dd__colunas">
+                    {m.colunas.map((col) => (
+                      <div class="dd__col" key={col.titulo}>
+                        <p class="dd__col-t">{col.titulo}</p>
+                        {col.itens.map((i) => (
+                          <a
+                            class={i.href === atual
+                              ? "dd__item is-on"
+                              : "dd__item"}
+                            href={i.href}
+                            key={i.href}
+                          >
+                            <span class="dd__ico">
+                              <Icone nome={i.icone} />
+                            </span>
+                            <span>
+                              <b>{i.titulo}</b>
+                              <span class="dd__desc">{i.descricao}</span>
+                            </span>
+                          </a>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                  {m.rodape && (
+                    <a class="dd__rodape" href={m.rodape.href}>
+                      <span>
+                        <b>{m.rodape.titulo}</b>
+                        <span class="dd__desc">{m.rodape.descricao}</span>
+                      </span>
+                      <span class="dd__cta">{m.rodape.cta} →</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </nav>
+        <div class="top__acoes">
+          <a class="top__entrar" href="https://area.rockfy.com">Entrar</a>
+          <a class="top__cta" href="/#planos">Ver planos</a>
+        </div>
+
         <nav class="nav">
           <button
             type="button"
@@ -78,34 +140,27 @@ export function Header({ atual }: { atual?: string }) {
           </button>
           <span class="label" id="menuLabel">Menu</span>
         </nav>
-        <button
-          type="button"
-          class="moon"
-          id="themeBtn"
-          aria-label="Alternar tema"
-        >
-          <svg viewBox="0 0 24 24">
-            <path
-              d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"
-              stroke-width="1.6"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
       </header>
 
       {/* ══════ MENU MOBILE ══════ */}
       <div class="mmenu" id="mobileMenu" hidden>
         <nav class="mmenu__nav" aria-label="Menu principal">
-          <NavLink href="/hospedagem-elementor-pro" atual={atual}>
-            Hospedagem de Site
-          </NavLink>
-          <NavLink href="/deploy" atual={atual}>Deploy [I.A]</NavLink>
-          <NavLink href="#" atual={atual}>Aplicativos</NavLink>
-          <NavLink href="/loja-digital" atual={atual}>Loja digital</NavLink>
-          <NavLink href="/email-profissional" atual={atual}>
-            Email Profissional
-          </NavLink>
+          {menus.map((m) =>
+            m.colunas.map((col) => (
+              <div class="mmenu__grupo" key={m.chave + col.titulo}>
+                <p class="mmenu__grupo-t">{col.titulo}</p>
+                {col.itens.map((i) => (
+                  <NavLink href={i.href} atual={atual} key={i.href}>
+                    {i.titulo}
+                  </NavLink>
+                ))}
+              </div>
+            ))
+          )}
+          <div class="mmenu__acoes">
+            <a class="top__entrar" href="https://area.rockfy.com">Entrar</a>
+            <a class="top__cta" href="/#planos">Ver planos</a>
+          </div>
         </nav>
       </div>
     </>

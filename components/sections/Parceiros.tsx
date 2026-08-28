@@ -11,9 +11,9 @@ export function Parceiros() {
               Hospede seus clientes <b>ganhe</b> todo <em>mês</em>
             </h2>
             <p class="para">
-              Migre ou indique seus clientes e comece a ganhar dinheiro com cada
-              projeto. A gente cuida da infraestrutura e você do relacionamento
-              direto com ele.
+              Migre seus clientes para uma infraestrutura pensada para o seu
+              modelo de negócio e crie uma fonte de renda recorrente. A gente
+              cuida da infraestrutura e você do relacionamento direto com ele.
             </p>
             <button type="button" class="cta">
               Seja um parceiro
