@@ -1,9 +1,12 @@
 import { PaginaServico } from "@/components/PaginaServico.tsx";
 import { HeroEmail } from "@/components/heroes/HeroEmail.tsx";
+import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 
-export default function EmailProfissional() {
+export default async function EmailProfissional() {
+  const posts = await carregarFaixaPosts();
   return (
     <PaginaServico
+      posts={posts}
       rota="/email-profissional"
       titulo="E-mail profissional com o seu domínio | Rockfy"
       descricao="seunome@suaempresa.com.br com antispam, backup diário e suporte humano. Incluso nos planos de hospedagem ou avulso."

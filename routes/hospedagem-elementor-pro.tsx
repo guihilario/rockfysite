@@ -1,9 +1,12 @@
 import { PaginaServico } from "@/components/PaginaServico.tsx";
 import { HeroElementor } from "@/components/heroes/HeroElementor.tsx";
+import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 
-export default function HospedagemElementorPro() {
+export default async function HospedagemElementorPro() {
+  const posts = await carregarFaixaPosts();
   return (
     <PaginaServico
+      posts={posts}
       rota="/hospedagem-elementor-pro"
       titulo="Hospedagem com Elementor Pro original incluso | Rockfy"
       descricao="Licença Elementor Pro oficial inclusa e ativada automaticamente. Servidor no Brasil, conta isolada e migração grátis."

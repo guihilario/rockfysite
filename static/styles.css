@@ -934,8 +934,15 @@ body.is-locked{overflow:hidden}
 .cta .badge svg{width:19px;height:19px;fill:none;stroke:var(--on-accent)}
 
 /* ════════════════════ FAQ ════════════════════ */
-.faq{display:grid;gap:8px}
-@media (min-width:900px){.faq{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:64px;align-items:start}}
+/* A FAQ é a única seção que distribui os próprios filhos. No modo
+   fluido quem tem os filhos é o `.conteudo`, então o grid mora nele. */
+.faq,.screen--fluido .faq > .conteudo{display:grid;gap:8px}
+@media (min-width:900px){
+  .faq,.screen--fluido .faq > .conteudo{
+    grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:64px;align-items:start;
+  }
+}
+.screen--fluido .faq{display:block}
 
 .acc{border-top:1.4px solid var(--line);margin-top:26px}
 @media (min-width:900px){.acc{margin-top:0}}
@@ -1100,6 +1107,28 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .screen--fluido .footer{margin-inline:0;padding-inline:0}
 /* O hero sai do `.conteudo` e vale por si — nada a compensar. */
 .screen--fluido .hero-slot{margin-inline:0}
+/* Mesma coisa na página de Deploy: a faixa vai inteira e quem segura a
+   largura é o `.conteudo` que ela passou a ter dentro. */
+.screen--fluido .deploy-hero{margin-inline:0;padding-inline:0}
+/* Nas páginas de serviço o slot NÃO sangra: os encaixes de cada arte são
+   percentuais (`margin-bottom:-1.5%`) medidos na largura do container, e
+   soltá-lo até a borda os aumentaria junto. Só a home tem faixa inteira,
+   porque lá o painel é o palco. */
+.screen--fluido .hero-slot--page{max-width:1440px;margin-inline:auto}
+
+/* A altura do slot vinha do `aspect-ratio`, então sangrar até a borda a
+   fazia crescer junto com a tela (1920px dava 748px de altura) e empurrava
+   os chips para fora da primeira dobra. A partir de 1440 a altura trava no
+   que ela já tinha nessa largura: telas maiores ganham mais palco na
+   horizontal, não cards maiores. */
+.screen--fluido .hero-slot [data-hero-panel]{
+  max-height:calc(1440px * 417 / 1071);
+}
+/* Só o palco sangra. Os outros heros são arte desenhada em `cqw`, que
+   esticaria fora do quadro se o container ficasse mais largo que o alto. */
+.screen--fluido .hero-slot [data-hero-panel]:not(.stage-hero){
+  max-width:1440px;margin-inline:auto;
+}
 .logo img{width:100%;height:100%;display:block;object-fit:contain}
 .logo svg{display:none}
 @media (min-width:900px){.top>.nav{display:none}}
@@ -1279,14 +1308,16 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    no HeroSlot resolve. Trazido do `.stage` do site antigo. */
 .stage-hero{
   position:relative;width:100%;overflow:hidden;
-  --palco-h:clamp(260px,35.5vw,500px);
   --card-gap:clamp(10px,1.8vw,30px);
   --marquee-tempo:56s;
 }
 /* Dentro do slot o palco usa a altura padronizada dos heros (o slot já
    impõe o aspect-ratio), para a troca pelo chip não dar salto. O
    --palco-h fica como piso, para o palco funcionar fora do slot também. */
-.stage-palco{position:relative;height:100%;min-height:var(--palco-h)}
+/* O piso de --palco-h vinha do palco original, solto na página. Dentro do
+   slot quem manda é a altura do painel, e no mobile (244px) o piso de
+   260px era maior que ela — os cards vazavam e ficavam cortados. */
+.stage-palco{position:relative;height:100%}
 
 /* a palavra em SVG ao fundo, alinhada pela base */
 .stage-word{position:absolute;left:0;right:0;bottom:-1vw;margin:0;pointer-events:none;user-select:none}

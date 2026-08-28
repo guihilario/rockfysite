@@ -1,9 +1,12 @@
 import { PaginaServico } from "@/components/PaginaServico.tsx";
 import { HeroWordpress } from "@/components/heroes/HeroWordpress.tsx";
+import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 
-export default function HospedagemWordpress() {
+export default async function HospedagemWordpress() {
+  const posts = await carregarFaixaPosts();
   return (
     <PaginaServico
+      posts={posts}
       rota="/hospedagem-wordpress"
       titulo="Hospedagem WordPress sem travas de construtor | Rockfy"
       descricao="WordPress puro numa conta cPanel isolada: instale os plugins e temas que quiser. Servidor em São Paulo, migração gratuita e sem fidelidade."

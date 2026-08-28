@@ -1,7 +1,25 @@
-import { posts } from "@/data/posts.ts";
+import type { Post } from "@/domain/posts.ts";
+import { PostCard } from "@/components/blog/PostGrid.tsx";
 
-/** Faixa do blog. No mobile o trilho arrasta (ver scripts.js). */
-export function Posts() {
+/**
+ * Faixa do blog, antes do rodapé. No mobile o trilho arrasta (ver
+ * scripts.js).
+ *
+ * Os cards vêm do banco, mas a consulta não pesa na renderização: o
+ * `listPublishedPostsOrNone` guarda o resultado por um minuto, então é
+ * uma ida ao Postgres por minuto por instância (~15 ms) em vez de uma por
+ * requisição. Ele também engole falha de banco devolvendo lista vazia —
+ * faixa decorativa não pode derrubar uma página de produto.
+ *
+ * Os posts chegam prontos da rota: o Fresh aguarda o componente de rota,
+ * mas não um componente aninhado — se este fosse `async`, o Preact
+ * renderizaria a Promise como vazio, sem erro nenhum.
+ */
+export function Posts({ posts }: { posts: Post[] }) {
+  // Sem post nenhum (banco fora do ar, ou seção vazia) a faixa inteira sai:
+  // melhor não existir do que existir vazia, com título e botão sozinhos.
+  if (posts.length === 0) return null;
+
   return (
     <>
       {/* ══════ POSTS ══════ */}
@@ -39,25 +57,13 @@ export function Posts() {
 
           <div class="posts">
             {posts.map((p) => (
-              <a key={p.title} class="post" href={p.href}>
-                <span class="post__media">
-                  <span class="post__tag">{p.tag}</span>
-                </span>
-                <p class="post__meta">{p.meta}</p>
-                <h3 class="post__title">{p.title}</h3>
-                <p class="post__text">{p.text}</p>
-                <span class="post__link">
-                  Ler{" "}
-                  <svg viewBox="0 0 24 24">
-                    <path
-                      d="M5 12h14m-6-6 6 6-6 6"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </span>
-              </a>
+              <PostCard
+                key={p.id}
+                post={p}
+                // A seção real do post é quem monta a URL: um artigo de
+                // ajuda vive em /ajuda, nunca em /blog.
+                base={`/${p.sectionSlug ?? "blog"}`}
+              />
             ))}
           </div>
           <div class="dots" id="postDots"></div>

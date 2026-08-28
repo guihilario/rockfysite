@@ -162,6 +162,9 @@ export async function listPublishedPosts(
     text: `
       SELECT ${LIST_COLUMNS},
         cat.name AS category_name,
+        -- A seção (blog/ajuda) vem da categoria raiz e é o que monta a
+        -- URL pública do post. O JOIN de root já existia para o filtro.
+        root.slug AS section_slug,
         tg.tag_names
       FROM posts
       LEFT JOIN categories cat ON cat.id = posts.category_id

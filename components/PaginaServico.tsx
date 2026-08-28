@@ -10,9 +10,12 @@ import { Planos } from "@/components/sections/Planos.tsx";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
+import type { Post } from "@/domain/posts.ts";
 
 type Props = {
   rota: string;
+  /** Os cards da faixa antes do rodapé, carregados pela rota. */
+  posts: Post[];
   titulo: string;
   descricao: string;
   /** O painel de hero da página — um só, sempre visível. */
@@ -34,16 +37,18 @@ type Props = {
  * HTML com ~97% de conteúdo repetido.
  */
 export function PaginaServico(
-  { rota, titulo, descricao, hero, h1, lede, cta, destaques }: Props,
+  { rota, titulo, descricao, hero, h1, lede, cta, destaques, posts }: Props,
 ) {
   return (
-    <Layout rota={rota} titulo={titulo} descricao={descricao}>
+    <Layout rota={rota} titulo={titulo} descricao={descricao} fluido>
       {
         /* hero-slot--page compensa a folga que cada arte deixa na moldura,
           para o vão até o texto ficar igual ao da página de Deploy */
       }
       <div class="hero-slot hero-slot--page">{hero}</div>
-      <HeroCopy h1={h1} lede={lede} cta={cta} destaques={destaques} />
+      <div class="conteudo">
+        <HeroCopy h1={h1} lede={lede} cta={cta} destaques={destaques} />
+      </div>
 
       <Audience />
       <Clients />
@@ -59,7 +64,7 @@ export function PaginaServico(
       <Planos />
       <Parceiros />
       <Faq />
-      <Posts />
+      <Posts posts={posts} />
     </Layout>
   );
 }

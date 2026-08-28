@@ -10,13 +10,15 @@ import { Planos } from "@/components/sections/Planos.tsx";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
+import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 
 /**
  * A home. É a única página que carrega o schema de FAQPage: a FAQ aparece
  * em todas, mas declarar o rich result em seis URLs faz elas competirem
  * entre si, então a raiz fica sendo a dona.
  */
-export default function Home() {
+export default async function Home() {
+  const posts = await carregarFaixaPosts();
   return (
     <Layout
       rota="/"
@@ -54,7 +56,7 @@ export default function Home() {
       <Planos />
       <Parceiros />
       <Faq />
-      <Posts />
+      <Posts posts={posts} />
     </Layout>
   );
 }
