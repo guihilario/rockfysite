@@ -369,6 +369,43 @@
   sync();
 })();
 
+/* ─────────── colagem de renda: número conta de 0 até o valor ─────────── */
+(function(){
+  const colagens=[...document.querySelectorAll('.rc-collage')];
+  if(!colagens.length)return;
+  const calmo=matchMedia('(prefers-reduced-motion: reduce)');
+
+  colagens.forEach(c=>{
+    const alvo=c.querySelector('[data-counter]');
+    if(!alvo)return;
+    const valor=Number(alvo.dataset.counter||0);
+    const prefixo=alvo.dataset.counterPrefix||'';
+    const sufixo=alvo.dataset.counterSuffix||'';
+    const casas=Number(alvo.dataset.counterDecimals||0);
+    const fmt=n=>prefixo+n.toLocaleString('pt-BR',{minimumFractionDigits:casas,maximumFractionDigits:casas})+sufixo;
+
+    /* sem JS ou com "reduzir movimento" o HTML já traz o valor final */
+    if(calmo.matches||!('IntersectionObserver' in window))return;
+    c.classList.add('is-ready');
+
+    let rodou=false;
+    new IntersectionObserver((es,obs)=>{
+      if(!es[0].isIntersecting||rodou)return;
+      rodou=true; obs.disconnect();
+      c.classList.add('is-animating');
+      const dur=1100, t0=performance.now();
+      const passo=t=>{
+        const p=Math.min((t-t0)/dur,1);
+        const eased=1-Math.pow(1-p,3);
+        alvo.textContent=fmt(Math.round(valor*eased*Math.pow(10,casas))/Math.pow(10,casas));
+        if(p<1)requestAnimationFrame(passo);
+        else alvo.textContent=fmt(valor);
+      };
+      requestAnimationFrame(passo);
+    },{threshold:.35}).observe(c);
+  });
+})();
+
 /* ─────────── acordeão (FAQ) ─────────── */
 (function(){
   const items=[...document.querySelectorAll('.acc__item')];

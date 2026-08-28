@@ -130,6 +130,23 @@ body.is-locked{overflow:hidden}
    Os elementos são posicionados em cqw (% da LARGURA), então mudar a
    altura só ajusta a moldura — nada reposiciona nem corta. */
 .hero-slot [data-hero-panel]{aspect-ratio:1071/417}
+/* Páginas de serviço: um hero só. A arte de cada um termina numa altura
+   diferente dentro da moldura padronizada, então o vão até o texto ia de
+   78px (wordpress) a 221px (elementor). A compensação abaixo aproxima esse
+   vão do da página de deploy (~56px). Em %, que resolve contra a largura
+   do slot — escala junto com a página. */
+@media (min-width:900px){
+  .hero-slot--page [data-hero-panel="wordpress"]{margin-bottom:-1.5%}
+  .hero-slot--page [data-hero-panel="email"]{margin-bottom:-4.2%}
+  .hero-slot--page [data-hero-panel="loja"]{margin-bottom:-7.7%}
+  .hero-slot--page [data-hero-panel="elementor"]{margin-bottom:-11.5%}
+}
+/* no mobile a composição muda (foto centralizada, wordmark maior), então a
+   folga é outra — elementor e wordpress precisam de um ajuste próprio */
+@media (max-width:899px){
+  .hero-slot--page [data-hero-panel="elementor"]{margin-bottom:-9%}
+  .hero-slot--page [data-hero-panel="wordpress"]{margin-bottom:-1.8%}
+}
 @media (max-width:640px){.hero-slot [data-hero-panel]{aspect-ratio:640/400}}
 
 .wp-hero{
@@ -508,7 +525,7 @@ html[data-theme="light"] [data-hero-panel="elementor"] .em-hero__pill--mail img{
     padding-inline:var(--gutter);
   }
   .audience-row::-webkit-scrollbar{display:none}
-  .audience-card{flex:0 0 min(78vw,340px);height:clamp(170px,44vw,230px);scroll-snap-align:start}
+  .audience-card{flex:0 0 min(78vw,340px);height:clamp(240px,78vw,330px);scroll-snap-align:start}
   .audience-card.is-active{flex-grow:0}
   .audience-card__media{filter:brightness(.9)}
   .audience-card__desc{max-height:4.5em;opacity:1;transform:none;margin-top:6px}
@@ -611,6 +628,16 @@ html[data-theme="dark"] .lj-hero__pill{background:var(--panel)}
   .lj-hero__pill--pedido img{width:3.1cqw;height:3.1cqw}
 }
 
+/* ── PASSOS (faixa de 3, na seção "a gente cuida de tudo") ──
+   Numeração no idioma que o projeto já usa: [ 01 ], como em .slide__idx
+   e nos itens de plano. Tipografia espelha os cards de post. */
+.steps{list-style:none;display:grid;gap:30px;margin-top:clamp(44px,5vw,64px)}
+@media (min-width:900px){.steps{grid-template-columns:repeat(3,1fr);gap:clamp(28px,3.4vw,48px)}}
+.step{border-top:1.4px solid var(--line);padding-top:18px}
+.step__n{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-600)}
+.step__t{margin-top:12px;font-size:19px;font-weight:500;letter-spacing:-.5px;line-height:1.25}
+.step__d{margin-top:9px;font-size:15px;line-height:1.5;color:var(--gray-600);max-width:34ch}
+
 /* ── COLAGEM Elementor (migrada de _local: .promise > .collage) ──
    O original vivia numa seção escura; aqui a seção acompanha o tema,
    então os rótulos que assumiam fundo escuro passaram a usar tokens. */
@@ -628,7 +655,10 @@ html[data-theme="dark"] .lj-hero__pill{background:var(--panel)}
   left:70%;top:14.8%;width:14.2%;aspect-ratio:1;
   display:grid;place-items:center;background:#34324a;border-radius:2.6cqw;
 }
-.wp-fl--logo svg{width:42%;height:auto;display:block}
+.wp-fl--logo svg,.wp-fl--logo img{width:42%;height:auto;display:block}
+/* na página de Deploy o slot traz a marca do parceiro (Cloudflare), que é
+   colorida e pede fundo neutro — ao contrário do roxo do Elementor */
+.wp-fl--logo.is-light{background:#fff}
 .wp-fl--latency{left:7.5%;top:41.9%;width:28%}
 .wp-fl--resources{left:.4%;top:84.2%;width:26%}
 .wp-fl--builder{left:64.6%;top:72.8%;width:25.8%}
@@ -658,6 +688,8 @@ html[data-theme="dark"] .lj-hero__pill{background:var(--panel)}
 .wp-fl--latency .wp-fl-box__label{color:var(--gray-600)}
 .wp-fl--latency .wp-fl-box__value{color:var(--ink);margin-top:1.4cqw}
 .wp-fl--latency .wp-flag{display:block;width:5.4cqw;height:auto;margin-top:2.4cqw;border-radius:.5cqw}
+/* na variante do Deploy a caixa começa pela bandeira (sem rótulo acima) */
+.wp-fl--latency .wp-flag:first-child{margin-top:0}
 .wp-fl--builder .wp-fl-box{background:#b3a4e6}
 .wp-fl--builder .wp-fl-box__label{color:#2a2542}
 .wp-fl--builder .wp-fl-box__value{color:#17142b;font-size:3.1cqw;margin-top:4cqw}
@@ -665,29 +697,77 @@ html[data-theme="dark"] .lj-hero__pill{background:var(--panel)}
 @media (min-width:900px){.wp-collage{margin-top:0}}
 
 /* — colagem B (agendamento) — */
-.col-b{aspect-ratio:542/567}
-.b-photo{left:24.7%;top:32.3%;width:49.1%;height:49.6%;background:var(--ph);border-radius:var(--r-sm);z-index:2}
-.b-lime{left:64.9%;top:20.6%;width:29.3%;height:29.6%;background:var(--accent);border-radius:2.6cqi;z-index:1;animation:float 7s ease-in-out infinite}
-.b-mark{
-  left:10.7%;top:69.1%;width:23.6%;height:21.5%;z-index:3;background:var(--surface);
-  border:1.4px solid var(--line);border-radius:2.6cqi;display:grid;place-items:center;
+/* ── COLAGEM renda recorrente (migrada de _local: .collage2 / StatBand) ──
+   Medidas do design isolado 611x594, em % e cqw — nada com tamanho fixo.
+   O original vivia numa faixa escura; as pílulas escuras passaram a usar
+   os tokens, então acompanham o tema. O painel do gráfico segue claro nos
+   dois temas, porque o r-chart.svg é traçado em quase-preto. */
+.rc-collage{position:relative;container-type:inline-size;width:100%;aspect-ratio:611/594;margin-top:38px}
+@media (min-width:900px){.rc-collage{margin-top:0}}
+
+.rc-shot{position:absolute;z-index:1;border-radius:1.31cqw;background:#26262a;overflow:hidden}
+.rc-media{width:100%;height:100%;object-fit:cover;display:block;border-radius:1.31cqw}
+.rc-dotmark{position:absolute;left:91.75%;top:-2.6%;width:2.36cqw;height:auto;z-index:3}
+.rc-shot--a{left:28.81%;top:13.13%;width:21.77%;height:16.5%;overflow:visible}
+.rc-shot--b{left:52.7%;top:13.3%;width:22.09%;height:16.67%}
+.rc-shot--c{left:49.1%;top:31.48%;width:21.77%;height:16.5%}
+.rc-shot--d{left:53.19%;top:50.17%;width:26.02%;height:16.5%;overflow:visible}
+
+.rc-rocket{position:absolute;left:70.65%;top:9.87%;width:7.69%;height:auto;z-index:3}
+.rc-dashes{position:absolute;left:8.61%;top:28.45%;width:6.89%;height:auto;z-index:2}
+/* arco que sai do foguete e termina atrás do painel */
+.rc-arc{position:absolute;left:50.08%;top:16.18%;width:44.5%;height:auto;z-index:0;pointer-events:none}
+/* seta que nasce atrás da foto e aponta para o ticket */
+.rc-arrow{position:absolute;left:65.3%;top:66.23%;width:12.24%;height:auto;z-index:0;pointer-events:none}
+
+.rc-gains{
+  position:absolute;left:14.08%;top:33.84%;width:32.08%;height:11.62%;z-index:2;
+  display:flex;align-items:center;gap:2.29cqw;padding-left:5.89cqw;
+  border-radius:999px;background:var(--ink);
 }
-.b-mark svg{width:42%;height:42%;fill:var(--ink)}
-.b-product{
-  left:68.6%;top:70.7%;width:31.4%;height:29.3%;z-index:3;background:var(--ph-2);
-  border:1.4px solid var(--line);border-radius:2.6cqi;display:grid;place-items:center;
+.rc-gains .rc-ico{width:2.29cqw;height:auto;flex:0 0 auto}
+.rc-gains p{margin:0;font-size:2cqw;line-height:1.32;color:var(--on-ink)}
+
+.rc-wallet{
+  position:absolute;left:26.68%;top:52.53%;width:33.06%;height:11.11%;z-index:3;
+  display:flex;align-items:center;gap:2.62cqw;padding-left:2.62cqw;
+  border-radius:1.64cqw;background:#6fffce;
 }
-.b-ui{left:0;top:0;width:39.9%;height:32.6%;z-index:4;background:var(--frame);border-radius:3.4cqi;padding:2.2cqi;animation:float 8.5s ease-in-out infinite .7s}
-.b-ui__inner{background:var(--surface);border-radius:2.4cqi;padding:2.6cqi 2.6cqi 5.4cqi;height:100%}
-.b-ui__label{font-size:max(9px,2cqi);color:var(--gray-600)}
-.b-ui__pill{display:flex;align-items:center;justify-content:center;border:1.2px solid var(--line);border-radius:var(--r-pill);padding:1.5cqi 2cqi;margin-top:1.8cqi;font-size:max(9px,2.2cqi)}
-.b-ui__pill--ghost{color:var(--gray-300);border-style:dashed}
-.b-ui__btn{
-  position:absolute;left:6.4cqi;right:6.4cqi;bottom:3.6cqi;background:var(--accent);
-  color:var(--on-accent);border:0;border-radius:2cqi;padding:2.2cqi;
-  font-size:max(11px,3.1cqi);font-weight:500;letter-spacing:-.4px;cursor:pointer;transition:transform var(--t);
+.rc-wallet .rc-ic{width:6.3cqw;height:auto;flex:0 0 auto}
+.rc-wallet p{margin:0;font-size:2cqw;line-height:1.4;color:#14201b}
+.rc-wallet p b{font-weight:600}
+
+.rc-ticket{
+  position:absolute;left:33.88%;top:83.5%;width:28.48%;height:9.6%;z-index:3;
+  display:grid;align-items:center;padding-left:4.75cqw;
+  border-radius:1.31cqw;background:var(--ink);
 }
-.b-ui__btn:hover{transform:translateY(-1px)}
+.rc-ticket p{margin:0;font-size:2.05cqw;line-height:1.45;color:var(--on-ink);opacity:.82}
+
+/* painel claro com o gráfico */
+.rc-dash{
+  position:absolute;left:15.06%;top:50.34%;width:34.86%;height:39.23%;z-index:1;
+  border-radius:1.64cqw;background:#e7e7e7;overflow:hidden;
+}
+.rc-dash .rc-chart{position:absolute;inset:0;width:100%;height:100%}
+.rc-info{position:absolute;left:3.11cqw;right:3.11cqw;top:13.26cqw}
+.rc-lbl{margin:0;font-size:1.9cqw;line-height:1.1;color:#5c605e}
+.rc-val{margin:.55cqw 0 0;font-size:5.4cqw;font-weight:500;line-height:1;letter-spacing:-.03em;color:#141514}
+.rc-dlt{margin:.67cqw 0 0;font-size:1.9cqw;line-height:1.1;font-weight:500;color:#5c605e}
+.rc-tag{
+  position:absolute;left:60.56%;top:45.06%;width:9.17cqw;height:4.75cqw;z-index:2;
+  display:grid;place-items:center;border-radius:999px;background:#a1a195;
+  font-size:1.8cqw;line-height:1;color:#2e302f;white-space:nowrap;
+}
+
+/* entrada das duas pílulas, junto com a contagem do número */
+@media (prefers-reduced-motion:no-preference){
+  .rc-collage.is-ready .rc-gains,
+  .rc-collage.is-ready .rc-wallet{opacity:0;transform:translateY(1.8cqw) scale(.96)}
+  .rc-collage.is-ready.is-animating .rc-gains{animation:rc-in .65s cubic-bezier(.22,.68,.24,1) .5s forwards}
+  .rc-collage.is-ready.is-animating .rc-wallet{animation:rc-in .65s cubic-bezier(.22,.68,.24,1) 1.25s forwards}
+}
+@keyframes rc-in{to{opacity:1;transform:none}}
 
 /* — colagem C (vertical) — */
 .col-c{aspect-ratio:500/640;max-width:500px;margin:38px auto 0}
