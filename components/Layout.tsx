@@ -34,6 +34,11 @@ type Props = {
   imagem?: string;
   /** Dados estruturados extras da página (trilha, artigo). */
   jsonLd?: unknown[];
+  /** A página desenha o próprio cabeçalho — usado quando ele fica sobre a
+   *  arte do topo, em vez de acima dela. */
+  cabecalhoProprio?: boolean;
+  /** Força `noindex` mesmo com o site liberado. Para páginas de teste. */
+  naoIndexar?: boolean;
   /** Trilha de navegação. Vira BreadcrumbList — é o que troca a URL crua
    *  por "rockfy.com › Blog › Título" no resultado de busca. */
   trilha?: Degrau[];
@@ -62,6 +67,8 @@ export function Layout(
     imagem,
     jsonLd,
     trilha,
+    cabecalhoProprio = false,
+    naoIndexar = false,
     children,
   }: Props,
 ) {
@@ -95,7 +102,7 @@ export function Layout(
         }
         <meta
           name="robots"
-          content={config.indexable
+          content={config.indexable && !naoIndexar
             ? "index,follow,max-image-preview:large"
             : "noindex,nofollow"}
         />
@@ -203,10 +210,14 @@ export function Layout(
       </head>
       <body>
         <div
-          class={fluido ? "screen screen--fluido" : "screen"}
+          class={[
+            "screen",
+            fluido && "screen--fluido",
+            cabecalhoProprio && "screen--colado",
+          ].filter(Boolean).join(" ")}
           id="site-content"
         >
-          <Header atual={rota} />
+          {!cabecalhoProprio && <Header atual={rota} />}
           <main id="main-content">{children}</main>
           <Footer />
         </div>

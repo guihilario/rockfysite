@@ -34,10 +34,19 @@ export function TestimonialDeck({ id }: { id: string }) {
           aria-label={`Depoimento ${i + 1} de ${testimonials.length}`}
         >
           <div class="slide__photo">
+            <img
+              class="slide__img"
+              src={d.foto}
+              alt={`Foto de ${d.name}`}
+              width="540"
+              height="521"
+              loading="lazy"
+              decoding="async"
+            />
             <div class="slide__box">
               <Marca />
               <div class="slide__name">{d.name}</div>
-              <div class="slide__role">{d.role}</div>
+              {d.role && <div class="slide__role">{d.role}</div>}
               <div class="slide__rule"></div>
               <div class="slide__grid">
                 <span class="slide__idx">

@@ -33,7 +33,10 @@
   --ph:#e3e3e3; --ph-2:#ededed; --frame:#cfcfcf; --beige:#e7e8e0;
   --surface:#fff; --panel:#fafafa; --card:#f2f1ee;
   --dot:#c9c9c9; --wire:#b9b9b9;
-  --accent:#e2fb50; --on-accent:#0a0a0a;
+  --accent:#e2fb50;
+  /* O verde da barra do logo. Estava cravado em seis lugares (colagens,
+     HeroCopy, faixa do deploy) sem nunca ter virado token. */
+  --mint:#6fffce; --on-accent:#0a0a0a;
   --r-sm:12px; --r-md:18px; --r-lg:26px; --r-xl:32px; --r-pill:999px;
   --font:"Instrument Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
   --t:.22s cubic-bezier(.4,0,.2,1);
@@ -1095,6 +1098,9 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    inerte — é o que permite as seções serem compartilhadas com as
    páginas de serviço sem mudar nada lá. */
 .screen--fluido{max-width:none;padding-inline:0;overflow:visible;overflow-x:clip}
+/* Quando a página traz o próprio cabeçalho, ele já encosta no topo: o
+   respiro que o shell reserva viraria uma faixa branca acima da arte. */
+.screen--colado{padding-top:0}
 /* Fora do modo fluido o wrapper não pode existir para o layout: várias
    seções distribuem os próprios filhos em grid/flex, e um div no meio
    colapsaria tudo numa coluna só. `display:contents` o torna inerte. */
@@ -1458,3 +1464,112 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .cta--ghost{border-color:var(--line);background:transparent;padding:14px 24px}
 .cta--ghost:hover{border-color:var(--ink)}
 .cta--ghost .badge{display:none}
+
+/* Retrato do depoimento. O quadro é 3:4 e as fotos são quase quadradas, então
+   `cover` recorta as laterais — os rostos estão centralizados, é onde o corte
+   menos custa. Fica atrás do cartão de texto, que tem fundo próprio. */
+.slide__img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center 30%;display:block;
+}
+
+/* ─── Hero alternativa (página /hero-teste) ─────────────────────────
+   Diagramação em duas peças e nada mais: a `.heroB` é uma grade de duas
+   linhas (cabeçalho / corpo) e o resto é flex onde há itens lado a lado.
+   O texto fica numa coluna só, à esquerda, sobre a área desfocada da foto
+   — que foi enquadrada para isso. Prefixo `heroB` para conviver com a hero
+   atual enquanto a comparação acontece. */
+.heroB{
+  position:relative;width:100%;min-height:min(92vh,860px);
+  display:grid;grid-template-rows:auto 1fr;
+  overflow:hidden;background:var(--ink);
+  --heroB-pad:clamp(120px,15vw,190px);   /* espaço que o divisor ocupa embaixo */
+}
+.heroB__foto{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:70% center;
+}
+/* Escurece a esquerda, onde o texto assenta, e um pouco o topo, para o
+   cabeçalho branco descolar do fundo claro. */
+.heroB__veu{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(10,10,10,.34) 0%,rgba(10,10,10,0) 22%),
+    linear-gradient(90deg,rgba(10,10,10,.86) 0%,rgba(10,10,10,.68) 34%,rgba(10,10,10,.16) 62%,rgba(10,10,10,0) 80%);
+}
+
+.heroB__topo{
+  position:relative;z-index:2;
+  display:flex;align-items:center;gap:clamp(20px,4vw,56px);
+  padding:22px var(--gutter);width:100%;max-width:1440px;margin-inline:auto;
+}
+.heroB__logo img{display:block;height:42px;width:auto}
+.heroB__nav{display:none;gap:clamp(18px,3.2vw,46px)}
+@media (min-width:1000px){.heroB__nav{display:flex}}
+.heroB__nav a{
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.86);white-space:nowrap;
+}
+.heroB__nav a:hover{color:#fff}
+.heroB__login{
+  /* O menta é o mesmo da barra do logo, não o limão dos CTAs do site:
+     aqui ele fecha com a marca desenhada logo ao lado. */
+  margin-left:auto;background:var(--mint);color:var(--ink);
+  padding:11px 20px;font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;white-space:nowrap;
+}
+
+/* Uma coluna só: título, texto e ações empilhados. */
+.heroB__corpo{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;justify-content:center;gap:22px;
+  padding:0 var(--gutter) var(--heroB-pad);
+  width:100%;max-width:1440px;margin-inline:auto;
+}
+.heroB__titulo{
+  margin:0;color:#fff;font-weight:400;max-width:13ch;
+  font-size:clamp(38px,5.4vw,62px);line-height:1.06;letter-spacing:-1.8px;
+}
+.heroB__texto{
+  margin:0;max-width:44ch;color:rgba(255,255,255,.9);
+  font-size:16px;line-height:1.55;
+}
+.heroB__acoes{display:flex;flex-wrap:wrap;align-items:center;gap:clamp(16px,3vw,34px);margin-top:8px}
+.heroB__cta{
+  background:var(--surface);color:var(--ink);padding:16px 30px;
+  font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+}
+.heroB__cta:hover{background:var(--accent)}
+.heroB__link{color:#fff;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase}
+.heroB__link:hover{color:var(--accent)}
+
+/* No estreito o degradê lateral não resolve: o sujeito ocupa o quadro
+   inteiro. Em vez de clarear a foto, o texto desce para a metade de baixo,
+   deixando o rosto livre em cima — e o véu escurece justamente a faixa onde
+   ele passa a assentar. */
+@media (max-width:860px){
+  /* O recorte no estreito é horizontal; 65% traz o rosto, que fica à
+     direita da foto, para o meio do quadro. */
+  .heroB__foto{object-position:65% center}
+  .heroB__veu{
+    background:linear-gradient(0deg,rgba(10,10,10,.9) 0%,rgba(10,10,10,.78) 34%,rgba(10,10,10,.3) 62%,rgba(10,10,10,.06) 84%,rgba(10,10,10,.2) 100%);
+  }
+  .heroB__corpo{justify-content:flex-end}
+}
+
+/* Encosta um pixel abaixo da borda para não deixar fio na emenda. */
+.heroB__divisor{
+  position:absolute;left:0;right:0;bottom:-1px;z-index:3;
+  width:100%;height:clamp(66px,15.7vw,201px);display:block;pointer-events:none;
+}
+/* A primeira seção depois da hero sobe: o respiro padrão de 96px, somado ao
+   que a faixa de barras já ocupa, abria um vão grande demais logo abaixo da
+   curva. Vale só aqui — as outras páginas seguem com o espaçamento do site. */
+.heroB__abaixo + .section{margin-top:clamp(18px,2.4vw,34px)}
+
+/* As barras do desenho, no mesmo traço que o site anterior usava. */
+.heroB__marcas{
+  display:block;margin-top:clamp(18px,2.4vw,28px);
+  width:clamp(120px,16vw,200px);height:16px;
+  background:repeating-linear-gradient(-72deg,var(--gray-300) 0 1.5px,transparent 1.5px 9px);
+}
