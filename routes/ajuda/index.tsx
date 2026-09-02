@@ -2,6 +2,7 @@ import { define } from "@/utils.ts";
 import { listPublishedPosts } from "@/domain/posts.ts";
 import { AJUDA_SECTION_SLUG } from "@/domain/categories.ts";
 import { ListagemBlog } from "@/components/blog/ListagemBlog.tsx";
+import { listaSchema } from "@/core/seo/meta.ts";
 
 export const handler = define.handlers({
   async GET(ctx) {
@@ -24,8 +25,13 @@ export default define.page<typeof handler>(function Ajuda({ data }) {
   return (
     <ListagemBlog
       rota="/ajuda"
-      titulo="Central de ajuda | Rockfy"
-      descricao="Guias e respostas para usar a Rockfy: migração, painel, e-mail, domínios e suporte."
+      titulo="Central de ajuda: guias e tutoriais | Rockfy"
+      descricao="Guias curtos para resolver sozinho, agora: migração de site, painel cPanel, contas de e-mail, domínios, DNS e backup na Rockfy."
+      jsonLd={[listaSchema({
+        nome: "Central de ajuda da Rockfy",
+        url: "/ajuda",
+        itens: data.posts,
+      })]}
       chapeu="Central de ajuda"
       h1={
         <>

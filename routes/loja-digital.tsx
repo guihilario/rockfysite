@@ -14,6 +14,7 @@ import { Planos } from "@/components/sections/Planos.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
 import { planosLoja } from "@/data/planosLoja.ts";
+import { planosSchema } from "@/core/seo/meta.ts";
 import { faqLoja } from "@/data/faqLoja.ts";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 
@@ -34,6 +35,18 @@ export default async function LojaDigital() {
       titulo="Loja digital pronta pra vender | Rockfy"
       descricao="Sua loja digital pronta pra vender: catálogo no celular, pedido montado no WhatsApp e PIX sem taxa direto na sua conta. Teste 7 dias grátis."
       fluido
+      /* A marcação de preço fica aqui porque esta é a única página que
+         mostra estes planos — ao contrário dos de hospedagem, que apareciam
+         em cinco e por isso foram para /planos. */
+      jsonLd={[
+        planosSchema({
+          nome: "Loja digital Rockfy",
+          descricao:
+            "Loja digital com catálogo no celular, pedido no WhatsApp e PIX sem taxa por pedido. A partir de R$47,90 por mês, com 7 dias grátis.",
+          url: "/loja-digital",
+          planos: planosLoja,
+        }),
+      ].filter(Boolean)}
     >
       <div class="hero-slot hero-slot--page">
         <HeroLoja />

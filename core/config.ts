@@ -34,13 +34,44 @@ if (adminEmails.length === 0) {
    o site fora do índice, e não o contrário. */
 const indexable = Deno.env.get("SEO_INDEXABLE") === "true";
 
+/**
+ * Qual banco atende a aplicação.
+ *
+ * O código de domínio não sabe de provedor: ele fala com a interface
+ * `Queryable` de `core/db`, e o driver é o mesmo `jsr:@db/postgres` nos dois
+ * casos — o Prisma Postgres atende no protocolo PostgreSQL padrão, então
+ * trocar de banco é trocar de string de conexão, não de biblioteca.
+ *
+ * Para mudar: `DATABASE_PROVIDER=prisma` (ou `neon`) no .env. Para somar um
+ * terceiro provedor amanhã, basta uma variável de URL e uma linha aqui.
+ *
+ * O padrão é `neon` de propósito: é onde os dados estão hoje, e esquecer a
+ * variável não pode significar apontar para um banco vazio.
+ */
+const PROVEDORES: Record<string, string> = {
+  neon: "DATABASE_URL",
+  prisma: "DATABASE_PRISMA_URL",
+};
+
+const provedor = Deno.env.get("DATABASE_PROVIDER") ?? "neon";
+const variavelDoBanco = PROVEDORES[provedor];
+if (!variavelDoBanco) {
+  throw new Error(
+    `DATABASE_PROVIDER="${provedor}" não existe. Use: ${
+      Object.keys(PROVEDORES).join(", ")
+    }`,
+  );
+}
+
 export const config = {
   port,
   appUrl,
   appEnv,
   indexable,
   isProduction: appEnv === "production",
-  databaseUrl: required("DATABASE_URL"),
+  /** Qual provedor está ativo — aparece no log de inicialização. */
+  dbProvedor: provedor,
+  databaseUrl: required(variavelDoBanco),
   adminEmails,
   google: {
     clientId: required("GOOGLE_CLIENT_ID"),

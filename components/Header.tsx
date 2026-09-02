@@ -123,7 +123,7 @@ export function Header({ atual }: { atual?: string }) {
         </nav>
         <div class="top__acoes">
           <a class="top__entrar" href="https://area.rockfy.com">Entrar</a>
-          <a class="top__cta" href="/#planos">Ver planos</a>
+          <a class="top__cta" href="/planos">Ver planos</a>
         </div>
 
         <nav class="nav">
@@ -159,7 +159,7 @@ export function Header({ atual }: { atual?: string }) {
           )}
           <div class="mmenu__acoes">
             <a class="top__entrar" href="https://area.rockfy.com">Entrar</a>
-            <a class="top__cta" href="/#planos">Ver planos</a>
+            <a class="top__cta" href="/planos">Ver planos</a>
           </div>
         </nav>
       </div>

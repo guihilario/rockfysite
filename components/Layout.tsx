@@ -3,6 +3,12 @@ import { config } from "@/core/config.ts";
 import { Header } from "@/components/Header.tsx";
 import { Footer } from "@/components/Footer.tsx";
 import { asset } from "fresh/runtime";
+import {
+  type Degrau,
+  imagemDaRota,
+  nomeDaRota,
+  trilhaSchema,
+} from "@/core/seo/meta.ts";
 import { faq } from "@/data/faq.ts";
 
 export const SITE = "https://rockfy.com";
@@ -22,6 +28,15 @@ type Props = {
    * 1440px. Sem isso a página segue no modelo antigo, de container único.
    */
   fluido?: boolean;
+  /** "article" nas páginas de post; o padrão serve para o resto. */
+  tipoOg?: "website" | "article";
+  /** Imagem de compartilhamento. Nos posts, a capa do próprio artigo. */
+  imagem?: string;
+  /** Dados estruturados extras da página (trilha, artigo). */
+  jsonLd?: unknown[];
+  /** Trilha de navegação. Vira BreadcrumbList — é o que troca a URL crua
+   *  por "rockfy.com › Blog › Título" no resultado de busca. */
+  trilha?: Degrau[];
   children: ComponentChildren;
 };
 
@@ -37,10 +52,28 @@ function JsonLd({ data }: { data: unknown }) {
 
 /** O esqueleto de toda página: <head> com SEO, cabeçalho, conteúdo e rodapé. */
 export function Layout(
-  { rota, titulo, descricao, faqSchema = false, fluido = false, children }:
-    Props,
+  {
+    rota,
+    titulo,
+    descricao,
+    faqSchema = false,
+    fluido = false,
+    tipoOg = "website",
+    imagem,
+    jsonLd,
+    trilha,
+    children,
+  }: Props,
 ) {
   const url = SITE + (rota === "/" ? "/" : rota);
+  const ogImagem = imagem ?? SITE + imagemDaRota(rota);
+  /* Sem trilha explícita, monta a de um nível a partir do nome da rota. As
+     páginas de post passam a sua, que tem três degraus. A home não tem
+     trilha: ela é a raiz. */
+  const degraus = trilha ??
+    (rota !== "/" && nomeDaRota(rota)
+      ? [{ nome: "Rockfy", url: "/" }, { nome: nomeDaRota(rota)!, url: rota }]
+      : undefined);
 
   return (
     <html lang="pt-BR">
@@ -67,19 +100,31 @@ export function Layout(
             : "noindex,nofollow"}
         />
 
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content={tipoOg} />
         <meta property="og:site_name" content="Rockfy" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:url" content={url} />
         <meta property="og:title" content={titulo} />
         <meta property="og:description" content={descricao} />
-        <meta property="og:image" content={`${SITE}/img/rockfy-logo.svg`} />
-        <meta property="og:image:alt" content="Rockfy" />
+        {
+          /* A capa do post quando existe. O logo é SVG e a maioria das
+             redes sociais ignora SVG em og:image — enquanto não houver um
+             PNG de 1200×630 da marca, o post com capa é o único que gera
+             prévia de verdade. */
+        }
+        <meta property="og:image" content={ogImagem} />
+        <meta property="og:image:alt" content={titulo} />
+        {
+          /* As dimensões evitam que a rede social tenha que baixar a imagem
+            para descobrir o formato antes de montar a prévia. */
+        }
+        {!imagem && <meta property="og:image:width" content="1200" />}
+        {!imagem && <meta property="og:image:height" content="630" />}
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={titulo} />
         <meta name="twitter:description" content={descricao} />
-        <meta name="twitter:image" content={`${SITE}/img/rockfy-logo.svg`} />
+        <meta name="twitter:image" content={ogImagem} />
 
         {
           /* A fonte é servida pelo próprio domínio (ver @font-face no topo do
@@ -140,6 +185,8 @@ export function Layout(
             inLanguage: "pt-BR",
           }}
         />
+        {degraus && <JsonLd data={trilhaSchema(degraus)} />}
+        {jsonLd?.map((d, i) => <JsonLd key={i} data={d} />)}
         {faqSchema && (
           <JsonLd
             data={{

@@ -4,6 +4,7 @@ import { SITE } from "@/components/Layout.tsx";
 
 const PAGINAS = [
   ["/", "1.0"],
+  ["/planos", "0.9"],
   ["/deploy", "0.8"],
   ["/hospedagem-elementor-pro", "0.8"],
   ["/hospedagem-wordpress", "0.8"],
@@ -24,16 +25,25 @@ const PAGINAS = [
 export const handler = define.handlers({
   async GET() {
     const posts = await listPublishedPostsForSitemap();
+    const maisRecente = posts
+      .map((p) => p.updatedAt.toISOString().slice(0, 10))
+      .sort()
+      .at(-1) ?? new Date().toISOString().slice(0, 10);
     const urls = [
+      /* As páginas fixas ganham como `lastmod` a data do post mais
+         recente: todas exibem a faixa do blog, então mudam de conteúdo
+         quando alguém publica. Sem `lastmod` o buscador não tem sinal
+         nenhum de frescor — e `changefreq`/`priority`, que estavam aqui
+         sozinhos, o Google declara ignorar. */
       ...PAGINAS.map(([loc, pri]) =>
-        `  <url>\n    <loc>${SITE}${loc}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>${pri}</priority>\n  </url>`
+        `  <url>\n    <loc>${SITE}${loc}</loc>\n    <lastmod>${maisRecente}</lastmod>\n    <priority>${pri}</priority>\n  </url>`
       ),
       ...posts.map((p) =>
         `  <url>\n    <loc>${SITE}${
           p.section === "ajuda" ? "/ajuda" : "/blog"
         }/${p.slug}</loc>\n    <lastmod>${
           p.updatedAt.toISOString().slice(0, 10)
-        }</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`
+        }</lastmod>\n    <priority>0.6</priority>\n  </url>`
       ),
     ];
     return new Response(

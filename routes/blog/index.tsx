@@ -2,6 +2,7 @@ import { define } from "@/utils.ts";
 import { listPublishedPosts } from "@/domain/posts.ts";
 import { BLOG_SECTION_SLUG } from "@/domain/categories.ts";
 import { ListagemBlog } from "@/components/blog/ListagemBlog.tsx";
+import { listaSchema } from "@/core/seo/meta.ts";
 
 export const handler = define.handlers({
   async GET(ctx) {
@@ -24,8 +25,13 @@ export default define.page<typeof handler>(function Blog({ data }) {
   return (
     <ListagemBlog
       rota="/blog"
-      titulo="Blog | Rockfy"
-      descricao="Artigos sobre hospedagem, deploy, WordPress e gestão de projetos digitais."
+      titulo="Blog da Rockfy: hospedagem, deploy e WordPress"
+      descricao="O que a gente aprendeu cuidando de infraestrutura: hospedagem, deploy de apps, WordPress, performance e gestão de projetos digitais."
+      jsonLd={[listaSchema({
+        nome: "Blog da Rockfy",
+        url: "/blog",
+        itens: data.posts,
+      })]}
       chapeu="Blog"
       h1={
         <>

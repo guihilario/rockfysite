@@ -1,0 +1,33 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  html,body{margin:0;padding:0;background:#fff}
+  .og{width:1200px;height:630px;position:relative;overflow:hidden;
+      background:var(--surface);display:flex;flex-direction:column;
+      justify-content:space-between;padding:72px 80px;box-sizing:border-box}
+  .og::before{content:"";position:absolute;inset:0;
+      background-image:radial-gradient(var(--dot) 1.6px,transparent 1.6px);
+      background-size:34px 34px;background-position:14px 14px;opacity:.5}
+  .og__topo,.og__base,.og__corpo{position:relative}
+  .og__marca{display:flex;align-items:center;gap:16px}
+  .og__marca img{height:52px;width:auto;display:block}
+  .og__eyebrow{font-size:22px;letter-spacing:.16em;text-transform:uppercase;
+      color:var(--gray-600);margin:0 0 22px}
+  .og__t{font-size:66px;line-height:1.04;letter-spacing:-2.4px;font-weight:500;
+      color:var(--ink);margin:0;max-width:19ch}
+  .og__t b{font-weight:500}
+  .og__t em{font-style:normal;color:var(--gray-500)}
+  .og__base{display:flex;align-items:center;gap:14px;font-size:24px;color:var(--gray-600)}
+  .og__pastilha{width:16px;height:16px;border-radius:50%;background:var(--accent);flex:none}
+</style></head><body>
+<div class="og">
+  <div class="og__topo"><div class="og__marca">
+    <img src="/img/rockfy-logo.svg" alt="Rockfy">
+  </div></div>
+  <div class="og__corpo">
+    <p class="og__eyebrow" id="eyebrow">Rockfy</p>
+    <h1 class="og__t" id="titulo">Sua nova nuvem</h1>
+  </div>
+  <div class="og__base"><span class="og__pastilha"></span><span id="rodape">rockfy.com</span></div>
+</div>
+</body></html>

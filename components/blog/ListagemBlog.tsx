@@ -6,6 +6,8 @@ type Props = {
   rota: string;
   titulo: string;
   descricao: string;
+  /** Dados estruturados da listagem (ItemList). */
+  jsonLd?: unknown[];
   chapeu: string;
   h1: preact.ComponentChildren;
   intro: string;
@@ -23,6 +25,7 @@ export function ListagemBlog(
     rota,
     titulo,
     descricao,
+    jsonLd,
     chapeu,
     h1,
     intro,
@@ -44,7 +47,12 @@ export function ListagemBlog(
   };
 
   return (
-    <Layout rota={rota} titulo={titulo} descricao={descricao}>
+    <Layout
+      rota={rota}
+      titulo={titulo}
+      descricao={descricao}
+      jsonLd={jsonLd}
+    >
       <section class="section">
         <div>
           <p class="eyebrow">{chapeu}</p>

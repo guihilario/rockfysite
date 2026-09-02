@@ -30,7 +30,16 @@ export function dataCurta(d: Date | null): string {
 /* O tempo de leitura vem pronto em `post.readingMinutes`: é calculado no
    SQL para a listagem não precisar baixar o corpo de cada artigo. */
 
-export function PostCard({ post, base }: { post: Post; base: string }) {
+/**
+ * `nivel` existe por causa da hierarquia de títulos: nas listagens o card é
+ * o conteúdo principal, logo abaixo do h1, e usar h3 ali pulava um nível.
+ * Na faixa do rodapé das outras páginas ele vem depois de um h2 ("Para ler
+ * depois"), e aí h3 é o certo.
+ */
+export function PostCard(
+  { post, base, nivel = 3 }: { post: Post; base: string; nivel?: 2 | 3 },
+) {
+  const Titulo = nivel === 2 ? "h2" : "h3";
   const meta = [
     dataCurta(post.publishedAt),
     `${post.readingMinutes} min`,
@@ -57,7 +66,7 @@ export function PostCard({ post, base }: { post: Post; base: string }) {
         </span>}
       </span>
       <p class="post__meta">{meta}</p>
-      <h3 class="post__title">{post.title}</h3>
+      <Titulo class="post__title">{post.title}</Titulo>
       {post.excerpt && <p class="post__text">{post.excerpt}</p>}
       <span class="post__link">
         Ler{" "}
@@ -74,13 +83,15 @@ export function PostCard({ post, base }: { post: Post; base: string }) {
   );
 }
 
-export function PostGrid({ posts, base }: { posts: Post[]; base: string }) {
+export function PostGrid(
+  { posts, base }: { posts: Post[]; base: string },
+) {
   if (posts.length === 0) {
     return <p class="para">Nenhum post encontrado por aqui ainda.</p>;
   }
   return (
     <div class="posts posts--grid">
-      {posts.map((p) => <PostCard key={p.id} post={p} base={base} />)}
+      {posts.map((p) => <PostCard key={p.id} post={p} base={base} nivel={2} />)}
     </div>
   );
 }

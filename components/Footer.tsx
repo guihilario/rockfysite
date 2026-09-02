@@ -73,7 +73,7 @@ export function Footer() {
           </div>
 
           <div class="footer__col">
-            <h4>Produto</h4>
+            <h2 class="footer__col-t">Produto</h2>
             <ul>
               <li>
                 <a href="/hospedagem-wordpress">Hospedagem</a>
@@ -94,7 +94,7 @@ export function Footer() {
           </div>
 
           <div class="footer__col">
-            <h4>Empresa</h4>
+            <h2 class="footer__col-t">Empresa</h2>
             <ul>
               <li>
                 <a href="/sobre">Sobre</a>
@@ -112,7 +112,7 @@ export function Footer() {
           </div>
 
           <div class="footer__col">
-            <h4>Suporte</h4>
+            <h2 class="footer__col-t">Suporte</h2>
             <ul>
               <li>
                 <a href="/ajuda">Central de ajuda</a>

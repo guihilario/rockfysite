@@ -1,4 +1,9 @@
 import { Layout } from "@/components/Layout.tsx";
+import {
+  artigoSchema,
+  resumirParaMeta,
+  trilhaSchema,
+} from "@/core/seo/meta.ts";
 import { dataCurta } from "@/components/blog/PostGrid.tsx";
 import type { Post } from "@/domain/posts.ts";
 import type { Heading } from "@/core/content/sanitize.ts";
@@ -25,7 +30,20 @@ export function PaginaPost({ post, html, headings, base, voltar }: Props) {
     <Layout
       rota={`${base}/${post.slug}`}
       titulo={`${post.title} | Rockfy`}
-      descricao={post.excerpt ?? `${post.title} — Rockfy`}
+      /* O resumo inteiro passava direto para a meta description; com
+         mediana de 235 caracteres, quase todo artigo saía truncado no meio
+         de uma palavra no resultado de busca. */
+      descricao={resumirParaMeta(post.excerpt ?? `${post.title} — Rockfy`)}
+      tipoOg="article"
+      imagem={post.coverImageUrl ?? undefined}
+      jsonLd={[
+        artigoSchema(post, base),
+        trilhaSchema([
+          { nome: "Rockfy", url: "/" },
+          { nome: voltar, url: base },
+          { nome: post.title, url: `${base}/${post.slug}` },
+        ]),
+      ]}
     >
       <article class="post-page">
         <p class="eyebrow">

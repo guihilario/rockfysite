@@ -80,8 +80,8 @@ export default function Contato() {
   return (
     <Layout
       rota="/contato"
-      titulo="Fale com a gente | Rockfy"
-      descricao="WhatsApp, e-mail e endereço da Rockfy. Atendimento feito por pessoas, em português."
+      titulo="Fale com a Rockfy: WhatsApp, e-mail e suporte"
+      descricao="Fale com a Rockfy por WhatsApp, e-mail ou Área do Cliente. Atendimento em português, feito por pessoas que mexem no servidor — não por robô."
       fluido
     >
       <HeroPagina

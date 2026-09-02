@@ -65,8 +65,8 @@ export default function Politicas() {
   return (
     <Layout
       rota="/politicas"
-      titulo="Políticas e Termos | Rockfy"
-      descricao="Política de Privacidade e Termos de Uso e Prestação de Serviços da Rockfy."
+      titulo="Política de privacidade e termos de uso | Rockfy"
+      descricao="Política de Privacidade e Termos de Uso e Prestação de Serviços da Rockfy: tratamento de dados sob a LGPD, suporte, pagamentos, backups e cancelamento."
       fluido
     >
       <section class="section pagina-topo" aria-labelledby="titulo-pagina">

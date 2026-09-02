@@ -91,8 +91,8 @@ export default async function Sobre() {
   return (
     <Layout
       rota="/sobre"
-      titulo="Sobre a Rockfy | Rockfy"
-      descricao="A Rockfy é a nuvem brasileira de quem constrói na internet: hospedagem, deploy de apps, loja digital e e-mail profissional num painel só. Servidor em São Paulo e suporte por pessoas."
+      titulo="Sobre a Rockfy: quem cuida da sua infraestrutura"
+      descricao="A nuvem brasileira de quem constrói na internet: hospedagem, deploy, loja digital e e-mail num painel só. Servidor em São Paulo e suporte por gente."
       fluido
     >
       <HeroPagina
@@ -105,7 +105,7 @@ export default async function Sobre() {
         lede="Site, aplicação, loja e e-mail costumam morar em quatro lugares diferentes, cada um com um suporte que não resolve. A Rockfy existe para juntar isso num painel só, com servidor no Brasil e gente do outro lado."
         acoes={
           <>
-            <a class="cta" href="/#planos">
+            <a class="cta" href="/planos">
               Ver planos
               <span class="badge">
                 <svg viewBox="0 0 24 24">

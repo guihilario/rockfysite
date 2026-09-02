@@ -9,7 +9,7 @@ export default async function HospedagemElementorPro() {
       posts={posts}
       rota="/hospedagem-elementor-pro"
       titulo="Hospedagem com Elementor Pro original incluso | Rockfy"
-      descricao="Licença Elementor Pro oficial inclusa e ativada automaticamente. Servidor no Brasil, conta isolada e migração grátis."
+      descricao="Licença Elementor Pro oficial inclusa e ativada automaticamente na sua conta. Servidor no Brasil, conta cPanel isolada, migração grátis e sem fidelidade."
       hero={<HeroElementor />}
       h1="Hospedagem com Elementor Pro original incluso"
       lede="A licença oficial já vem ativada na sua conta. Você não compra à parte, não renova em dólar e não depende de versão pirata."

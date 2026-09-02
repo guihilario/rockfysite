@@ -73,7 +73,7 @@ export const menus: Menu[] = [
     rodape: {
       titulo: "Não sabe por onde começar?",
       descricao: "A gente ajuda a escolher o plano certo para o seu caso.",
-      href: "/#planos",
+      href: "/planos",
       cta: "Ver planos",
     },
   },
