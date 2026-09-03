@@ -1,79 +1,66 @@
 import { testimonials } from "@/data/testimonials.ts";
 
 /**
- * Os slides dos depoimentos, servidos prontos.
+ * A faixa de depoimentos.
  *
- * Antes o `scripts.js` montava tudo por `innerHTML` — nenhum depoimento
- * existia no HTML. Agora o servidor entrega os slides e o JS só posiciona,
- * anima e responde às setas.
+ * A estrutura vem do site anterior: cada depoimento é um `figure` com foto
+ * pequena, citação e assinatura, e a faixa rola na horizontal com
+ * `scroll-snap`. É mais sóbria que o carrossel de cards sobrepostos que
+ * estava aqui — e bem mais barata: aquele posicionava cada slide por
+ * JavaScript a cada quadro; este é rolagem nativa, e o script só empurra o
+ * trilho quando a seta é clicada.
  *
- * `id` distingue o carrossel solto do embutido na seção de clientes, porque
- * os dois aparecem na mesma página e precisam de ids únicos.
+ * O estilo é o nosso: fundo claro, tokens do site, mesma tipografia. O
+ * original era uma seção escura, que não existe no nosso desenho.
+ *
+ * `id` distingue instâncias — a seção de clientes tem a sua, e o contrato
+ * com o `scripts.js` é `<id>` no trilho e `<id>Prev` / `<id>Next` nas setas.
  */
-function Marca() {
-  return (
-    <svg class="slide__mark" viewBox="0 0 24 24">
-      <path
-        d="M12 6.5S10 4.5 4 4.5v13c6 0 8 2 8 2s2-2 8-2v-13c-6 0-8 2-8 2Z"
-        stroke-width="1.5"
-        stroke-linejoin="round"
-      />
-      <path d="M12 6.5v13" stroke-width="1.5" />
-    </svg>
-  );
-}
-
 export function TestimonialDeck({ id }: { id: string }) {
   return (
-    <div class="deck" id={id}>
-      {testimonials.map((d, i) => (
-        <article
-          key={i}
-          class="slide"
-          data-i={i}
-          aria-label={`Depoimento ${i + 1} de ${testimonials.length}`}
-        >
-          <div class="slide__photo">
-            <img
-              class="slide__img"
-              src={d.foto}
-              alt={`Foto de ${d.name}`}
-              width="540"
-              height="521"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="slide__box">
-              <Marca />
-              <div class="slide__name">{d.name}</div>
-              {d.role && <div class="slide__role">{d.role}</div>}
-              <div class="slide__rule"></div>
-              <div class="slide__grid">
-                <span class="slide__idx">
-                  [ {String(i + 1).padStart(2, "0")} ]
-                </span>
-                <p class="slide__quote">{d.quote}</p>
-              </div>
+    <div
+      class="depo"
+      id={id}
+      tabIndex={0}
+      role="region"
+      aria-label="Depoimentos de clientes"
+    >
+      <div class="depo__trilho">
+        {testimonials.map((d) => (
+          <figure class="depo__item" key={d.name}>
+            <div class="depo__foto">
+              <img
+                src={d.foto}
+                alt={`Foto de ${d.name}`}
+                width="540"
+                height="521"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
-          </div>
-        </article>
-      ))}
+            <blockquote class="depo__texto">“{d.quote}”</blockquote>
+            <figcaption class="depo__autor">
+              <b>{d.name}</b>
+              {d.role ? ` — ${d.role}` : ""}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
     </div>
   );
 }
 
+/**
+ * Os pontos de posição.
+ *
+ * Continuam existindo porque a faixa rola e nem todo mundo percebe que há
+ * mais depoimentos à direita — mas agora só indicam, sem controlar: quem
+ * controla é a rolagem e as setas.
+ */
 export function TestimonialDots({ id }: { id: string }) {
   return (
-    <div class="dots" id={id}>
-      {testimonials.map((_, i) => (
-        <button
-          type="button"
-          key={i}
-          data-i={i}
-          aria-label={`Ir para ${i + 1}`}
-        >
-        </button>
-      ))}
+    <div class="dots depo__pontos" id={id} aria-hidden="true">
+      {testimonials.map((d) => <span key={d.name}></span>)}
     </div>
   );
 }

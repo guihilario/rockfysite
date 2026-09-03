@@ -11,42 +11,48 @@ import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
+import { HeroFoto } from "@/components/heroes/HeroFoto.tsx";
 
 /**
- * A home. É a única página que carrega o schema de FAQPage: a FAQ aparece
- * em todas, mas declarar o rich result em seis URLs faz elas competirem
- * entre si, então a raiz fica sendo a dona.
+ * Home v2 — a versão com a faixa de foto abrindo a página e o palco descido
+ * para a segunda seção.
+ *
+ * Fica numa rota própria enquanto a decisão não é tomada: assim ela
+ * continua navegável e comparável lado a lado com a `/`, em vez de virar
+ * um arquivo parado que ninguém abre.
+ *
+ * Entra com `noindex` e sem o schema de FAQPage — esse é da home de
+ * verdade, e declarar o mesmo rich result em duas URLs faria as duas
+ * competirem entre si.
  */
-export default async function Home() {
+export default async function HomeV2() {
   const posts = await carregarFaixaPosts();
   return (
     <Layout
-      rota="/"
-      titulo="Rockfy | Sua nova nuvem: hospedagem, deploy e loja digital"
+      rota="/v2"
+      titulo="Home v2 | Rockfy"
       descricao="Hospedagem WordPress, deploy de apps feitos com I.A, loja digital e e-mail profissional em um só painel. Infraestrutura Rockfy, servidor no Brasil."
-      faqSchema
+      naoIndexar
+      cabecalhoFlutuante
       fluido
     >
+      <HeroFoto />
+
       {
-        /* O h1 e os chips seguem limitados; o hero é a única faixa que
-          vai de ponta a ponta — é o que o `fluido` do Layout permite. */
+        /* A prova social vem imediatamente depois da foto: aqui a abertura
+           é a hero, então esta é a segunda seção de fato. */
       }
-      <div class="conteudo">
-        <h1 class="headline">
-          <span class="l1">Bem-vindo</span>{" "}
-          <span class="l2">à sua nova nuvem</span>
-        </h1>
-      </div>
+      <Clients />
+
+      {
+        /* O palco e os chips descem para depois dela, e sem título próprio:
+           quem apresenta a página é a faixa de cima, e um segundo título
+           logo abaixo dela repetia a função. */
+      }
       <HeroSlot />
       <div class="conteudo">
         <Chips />
       </div>
-
-      {
-        /* A rede de clientes vem logo depois da abertura: é a prova
-          social, e ela rende mais perto do topo do que no meio. */
-      }
-      <Clients />
       <Audience />
       <CuidaDeTudo
         titulo={

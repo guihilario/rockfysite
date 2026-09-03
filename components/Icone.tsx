@@ -1,5 +1,21 @@
 /** Ícones do menu. Traço de 1.6 herdando a cor do texto, como o resto do site. */
 const CAMINHOS: Record<string, preact.JSX.Element> = {
+  /* Os dois primeiros são dos gatilhos do topo — os outros, dos itens de
+     dentro do painel. */
+  produtos: (
+    <>
+      <rect x="3" y="3" width="7.5" height="7.5" rx="1.6" />
+      <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.6" />
+      <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.6" />
+      <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.6" />
+    </>
+  ),
+  recursos: (
+    <>
+      <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z" />
+      <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z" />
+    </>
+  ),
   site: (
     <>
       <rect x="3" y="4" width="18" height="16" rx="2.5" />

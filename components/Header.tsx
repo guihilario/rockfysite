@@ -23,10 +23,12 @@ function NavLink(
   );
 }
 
-export function Header({ atual }: { atual?: string }) {
+export function Header(
+  { atual, flutuante = false }: { atual?: string; flutuante?: boolean },
+) {
   return (
     <>
-      <header class="top">
+      <header class={flutuante ? "top top--flutuante" : "top"}>
         <a class="logo" href="/" aria-label="Rockfy — página inicial">
           <img
             src="/img/rockfy-logo.svg"
@@ -69,6 +71,9 @@ export function Header({ atual }: { atual?: string }) {
                   aria-controls={`dd-${m.chave}`}
                   data-dd={m.chave}
                 >
+                  <span class="dd__btn-ico" aria-hidden="true">
+                    <Icone nome={m.chave} />
+                  </span>
                   {m.rotulo}
                   <svg class="dd__seta" viewBox="0 0 24 24" aria-hidden="true">
                     <path

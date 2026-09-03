@@ -307,39 +307,10 @@ body.is-locked{overflow:hidden}
 .counter b{color:var(--ink);font-weight:500}
 
 .voices-embedded{min-width:0}
-.voices-embedded .deck{height:430px;margin-inline:0}
-.voices-embedded .slide{width:min(300px,72vw)}
 .voices-embedded .dots{margin-top:20px}
 .voices__controls{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:18px}
 @media (max-width:899px){.voices-embedded{margin-top:54px}}
 
-.deck{
-  position:relative;height:520px;display:grid;place-items:center;
-  margin:0 calc(var(--gutter)*-1);overflow:hidden;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
-}
-@media (min-width:900px){.deck{height:600px}}
-@media (min-width:1280px){.deck{height:660px}}
-.slide{position:absolute;top:50%;left:50%;width:min(340px,72vw);cursor:pointer;will-change:transform,opacity;transition:transform var(--slide),opacity var(--slide)}
-@media (min-width:900px){.slide{width:400px}}
-@media (min-width:1280px){.slide{width:452px}}
-.slide__photo{position:relative;background:var(--ph);border-radius:var(--r-lg);aspect-ratio:3/4;overflow:hidden}
-.slide__photo::after{content:"";position:absolute;inset:0;background:var(--gray-300);opacity:0;transition:opacity var(--slide)}
-.slide:not(.is-active) .slide__photo::after{opacity:.28}
-.slide__box{
-  position:absolute;left:10px;right:10px;bottom:10px;background:var(--surface);
-  border-radius:22px;padding:20px 20px 18px;opacity:0;transform:translateY(14px);
-  transition:opacity var(--slide),transform var(--slide);pointer-events:none;
-}
-.slide.is-active .slide__box{opacity:1;transform:none;pointer-events:auto}
-.slide__name{font-size:23px;font-weight:400;letter-spacing:-.9px;line-height:1.12}
-.slide__role{font-size:12.5px;color:var(--gray-600);margin-top:6px}
-.slide__mark{position:absolute;top:20px;right:20px;width:20px;height:20px;stroke:var(--ink);fill:none;opacity:.85}
-.slide__rule{height:1px;background:var(--line-soft);margin:16px 0 14px}
-.slide__grid{display:flex;gap:18px;align-items:flex-start}
-.slide__idx{font-size:11.5px;color:var(--gray-600);flex:none;padding-top:2px}
-.slide__quote{font-size:12.8px;line-height:1.5}
 
 /* ══════════════════════════════════════════════════════════
    7. HERO SECUNDÁRIA
@@ -1229,8 +1200,10 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    descrição. Só no desktop: abaixo de 900px o cabeçalho usa o menu mobile. */
 .dd{position:relative}
 .dd__btn{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:11px 16px;border:1.4px solid transparent;border-radius:var(--r-pill);
+  display:inline-flex;align-items:center;gap:8px;
+  /* Sem cantos de pílula: o gatilho agora carrega ícone e rótulo, e a
+     forma arredondada competia com as pílulas de fato do site. */
+  padding:11px 14px;border:1.4px solid transparent;border-radius:var(--r-sm);
   background:none;font:400 15px var(--font);letter-spacing:-.2px;
   color:var(--gray-600);cursor:pointer;transition:all var(--t);
 }
@@ -1465,26 +1438,23 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .cta--ghost:hover{border-color:var(--ink)}
 .cta--ghost .badge{display:none}
 
-/* Retrato do depoimento. O quadro é 3:4 e as fotos são quase quadradas, então
-   `cover` recorta as laterais — os rostos estão centralizados, é onde o corte
-   menos custa. Fica atrás do cartão de texto, que tem fundo próprio. */
-.slide__img{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:center 30%;display:block;
-}
 
 /* ─── Hero alternativa (página /hero-teste) ─────────────────────────
-   Diagramação em duas peças e nada mais: a `.heroB` é uma grade de duas
-   linhas (cabeçalho / corpo) e o resto é flex onde há itens lado a lado.
+   Diagramação em duas peças e nada mais: a `.heroB` é uma grade — uma
+   linha na home, duas quando a página embute o próprio cabeçalho — e o
+   resto é flex onde há itens lado a lado.
    O texto fica numa coluna só, à esquerda, sobre a área desfocada da foto
    — que foi enquadrada para isso. Prefixo `heroB` para conviver com a hero
    atual enquanto a comparação acontece. */
 .heroB{
   position:relative;width:100%;min-height:min(92vh,860px);
-  display:grid;grid-template-rows:auto 1fr;
+  /* Sem cabeçalho embutido é uma linha só; com ele (a /hero-teste), a
+     primeira linha é o topo e a segunda o corpo. */
+  display:grid;grid-template-rows:1fr;
   overflow:hidden;background:var(--ink);
   --heroB-pad:clamp(120px,15vw,190px);   /* espaço que o divisor ocupa embaixo */
 }
+.heroB--com-topo{grid-template-rows:auto 1fr}
 .heroB__foto{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:70% center;
@@ -1566,6 +1536,11 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    que a faixa de barras já ocupa, abria um vão grande demais logo abaixo da
    curva. Vale só aqui — as outras páginas seguem com o espaçamento do site. */
 .heroB__abaixo + .section{margin-top:clamp(18px,2.4vw,34px)}
+/* O que vem logo depois da faixa sobe: o palco tem 42px de margem própria e
+   a seção, 96px do espaçamento do site — somados à curva, abriam um vão que
+   soltava a segunda seção da abertura. */
+.heroB + .hero-slot{margin-top:clamp(6px,1.4vw,18px)}
+.heroB + .section,.heroB + .hero-slot + .conteudo + .section{margin-top:clamp(20px,3vw,44px)}
 
 /* As barras do desenho, no mesmo traço que o site anterior usava. */
 .heroB__marcas{
@@ -1573,3 +1548,123 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   width:clamp(120px,16vw,200px);height:16px;
   background:repeating-linear-gradient(-72deg,var(--gray-300) 0 1.5px,transparent 1.5px 9px);
 }
+
+/* Ícone do gatilho do menu. Mesmo traço dos ícones de dentro do painel, só
+   que menor e sem a caixa — no topo ele acompanha o rótulo, não o substitui. */
+.dd__btn-ico{display:grid;place-items:center;width:17px;height:17px;flex:none;color:var(--gray-600)}
+.dd__btn-ico svg{width:17px;height:17px}
+.dd__btn:hover .dd__btn-ico,.dd__btn.is-on .dd__btn-ico{color:var(--ink)}
+
+/* ─── Cabeçalho flutuante (v2) ──────────────────────────────────────
+   A ideia vem do site anterior: em vez de uma barra que ocupa espaço no
+   fluxo, uma casca branca que paira sobre o conteúdo. É isso que deixa a
+   foto da hero sangrar até a borda de cima da tela.
+
+   Diferente do original em dois pontos, por decisão: a tipografia é a
+   nossa (não entrou uma segunda família só para três rótulos) e o menu
+   suspenso continua sendo o nosso. */
+/* A especificidade acompanha a de `.screen--fluido .top`, que também define
+   largura e recuo: sem isso aquela regra vencia e a casca esticava até as
+   bordas, perdendo justamente o ar de peça solta. */
+.screen--fluido .top--flutuante,.top--flutuante{
+  position:fixed;top:10px;left:0;right:0;z-index:100;
+  width:calc(100% - 32px);max-width:1180px;margin-inline:auto;
+  padding:0 24px;min-height:64px;
+  background:var(--surface);border-radius:12px;
+  box-shadow:0 14px 34px -28px rgba(0,0,0,.45);
+  /* Ao rolar, encolhe o respiro de cima — o mesmo gesto do original. */
+  transition:top .3s ease,box-shadow .3s ease;
+}
+.screen--fluido .top--flutuante.is-scrolled,.top--flutuante.is-scrolled{
+  top:8px;box-shadow:0 18px 40px -26px rgba(0,0,0,.55);
+}
+
+/* ─── Rede de pessoas ───────────────────────────────────────────────
+   Anéis pontilhados girando, com rostos em órbita. A estrutura mora aqui;
+   os valores de cada órbita saem do componente, num bloco `<style>`, porque
+   são dados e não desenho (ver components/Rede.tsx). */
+.rede{
+  position:relative;width:100%;max-width:576px;aspect-ratio:1/1;
+  container-type:inline-size;margin-inline:auto;
+  /* O traço era `--line`, claro demais para um pontilhado fino. */
+  --rede-anel:var(--wire);--rede-cheio:var(--ph);--rede-suave:var(--ph-2);
+  --rede-no:var(--gray-300);
+}
+/* A dissolução vive aqui, não no componente inteiro: aplicada em `.rede`
+   ela desbotava também os retratos, e rosto de cliente meio apagado é o
+   oposto do que a peça existe para fazer. Só as linhas somem no fundo. */
+.rede__aneis{
+  position:absolute;inset:0;width:100%;height:100%;overflow:visible;
+  -webkit-mask-image:
+    linear-gradient(to top,transparent 0%,#000 44%),
+    linear-gradient(to left,transparent 0%,#000 44%);
+  mask-image:
+    linear-gradient(to top,transparent 0%,#000 44%),
+    linear-gradient(to left,transparent 0%,#000 44%);
+  -webkit-mask-composite:source-in;
+  mask-composite:intersect;
+}
+.rede__aneis circle{
+  fill:none;stroke:var(--rede-anel);stroke-width:2.6;
+  stroke-linecap:round;stroke-dasharray:.1 8;
+  transform-origin:288px 288px;
+  animation:rede-gira var(--dur) linear infinite var(--dir);
+}
+.orbita{position:absolute;inset:0;animation:rede-gira var(--dur) linear infinite var(--dir)}
+.orbe{position:absolute;left:50%;top:50%;transform:rotate(var(--a)) translateY(calc(var(--r) * -1))}
+/* O nó contra-gira na mesma velocidade: assim o rosto nunca fica de cabeça
+   para baixo enquanto o anel roda. */
+.orbe > span{
+  display:block;border-radius:50%;aspect-ratio:1;width:var(--size);
+  margin-left:calc(var(--size) / -2);margin-top:calc(var(--size) / -2);
+  animation:rede-gira var(--dur) linear infinite var(--contra);
+  background:var(--rede-cheio) center/cover no-repeat;
+}
+.orbe--suave > span{background-color:var(--rede-suave)}
+.orbe--menta > span{background-color:var(--mint)}
+.orbe--cinza > span{background-color:var(--rede-no)}
+@keyframes rede-gira{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){
+  .rede__aneis circle,.orbita,.orbe > span{animation:none}
+}
+
+/* ─── Faixa de depoimentos ──────────────────────────────────────────
+   Estrutura do site anterior — foto pequena, citação, assinatura, rolando
+   na horizontal com snap — vestida com os nossos tokens. Duas visíveis por
+   vez no desktop, uma no estreito. */
+.depo{
+  --depo-gap:clamp(20px,3.8vw,36px);
+  container-type:inline-size;width:100%;
+  margin-top:clamp(30px,4.6vw,52px);
+  overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  scrollbar-width:none;overscroll-behavior-x:contain;
+}
+.depo::-webkit-scrollbar{display:none}
+.depo:focus-visible{outline:2px solid var(--ink);outline-offset:6px;border-radius:var(--r-md)}
+.depo__trilho{display:flex;gap:var(--depo-gap);width:max-content;margin:0;padding:0}
+.depo__item{
+  flex:0 0 100cqw;min-width:0;margin:0;
+  display:flex;flex-direction:column;align-items:flex-start;
+  scroll-snap-align:start;
+}
+@media (min-width:760px){
+  .depo__item{flex-basis:calc((100cqw - var(--depo-gap)) / 2)}
+}
+.depo__foto{
+  width:clamp(84px,11vw,100px);aspect-ratio:100/96;
+  border-radius:var(--r-sm);overflow:hidden;background:var(--ph);flex:none;
+}
+.depo__foto img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block}
+.depo__texto{
+  margin:26px 0 0;font-size:clamp(14px,1.55vw,15.5px);line-height:1.7;
+  color:var(--ink);
+}
+.depo__autor{margin:22px 0 0;font-size:13px;line-height:1.4;color:var(--gray-600)}
+.depo__autor b{font-weight:500;color:var(--ink)}
+/* Só indicam posição: quem controla é a rolagem e as setas. */
+.depo__pontos span{
+  /* `span` é inline: sem `block` não recebe largura nem altura. */
+  display:block;width:7px;height:7px;border-radius:50%;background:var(--line);
+  transition:background var(--t),width var(--t);
+}
+.depo__pontos span.is-on{width:20px;border-radius:var(--r-pill);background:var(--ink)}

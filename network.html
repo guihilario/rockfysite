@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Componente · Rede de pessoas</title>
+<style>
+:root{
+  --surface:#fff;
+  --ring:#dedede;
+  --ph:#d9d9d9;
+  --ph-soft:#e6e6e6;
+  --node:#c4c4c4;
+  --mint:#4ee6a8;
+  --fade:44%;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--surface);
+  min-height:100dvh;display:grid;place-items:center;padding:24px;
+}
+
+/* ════════════ PALCO ════════════ */
+.net{
+  position:relative;width:100%;max-width:576px;aspect-ratio:1/1;
+  container-type:inline-size;
+
+  /* some de baixo para cima e da direita para a esquerda */
+  -webkit-mask-image:
+    linear-gradient(to top,  transparent 0%, #000 var(--fade)),
+    linear-gradient(to left, transparent 0%, #000 var(--fade));
+  mask-image:
+    linear-gradient(to top,  transparent 0%, #000 var(--fade)),
+    linear-gradient(to left, transparent 0%, #000 var(--fade));
+  -webkit-mask-composite:source-in;
+  mask-composite:intersect;
+}
+
+/* ── anéis: um só SVG, então o pontilhado é idêntico em todos ── */
+.net__rings{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.net__rings circle{
+  fill:none;stroke:var(--ring);stroke-width:1.6;
+  stroke-linecap:round;stroke-dasharray:.1 8;
+  transform-origin:288px 288px;
+  animation:spin var(--dur) linear infinite var(--dir);
+}
+
+/* ── camada de órbita: gira junto com o anel ── */
+.orbit{
+  position:absolute;inset:0;
+  animation:spin var(--dur) linear infinite var(--dir);
+}
+.orb{
+  position:absolute;left:50%;top:50%;
+  transform:rotate(var(--a)) translateY(calc(var(--r) * -1));
+}
+.orb > span{
+  display:block;border-radius:50%;aspect-ratio:1;width:var(--size);
+  margin-left:calc(var(--size) / -2);margin-top:calc(var(--size) / -2);
+  animation:spin var(--dur) linear infinite var(--counter);
+  background:var(--ph);background-size:cover;background-position:center;
+}
+.orb--soft > span{background:var(--ph-soft)}
+.orb--mint > span{background:var(--mint)}
+.orb--gray > span{background:var(--node)}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.net__rings circle,.orbit,.orb > span{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="net" id="net"></div>
+
+<script>
+/* raio em px (palco 576) e em cqi — cada anel gira para um lado */
+const RINGS=[
+  {px:58,  r:10.07, dur:'90s',  dir:'normal'},
+  {px:106, r:18.40, dur:'115s', dir:'reverse'},
+  {px:154, r:26.74, dur:'145s', dir:'normal'},
+  {px:202, r:35.07, dur:'175s', dir:'reverse'},
+  {px:248, r:43.06, dur:'210s', dir:'normal'},
+  {px:283, r:49.13, dur:'250s', dir:'reverse'}
+];
+
+/* [anel, ângulo°, tamanho cqi, tipo] — 0° = topo, cresce no sentido horário */
+const ITEMS=[
+  [0,-150, 9.72,'av'],   [0, -30, 8.68,'av'],   [0,  90, 8.33,'av'],
+
+  [1, 126, 8.68,'av'],
+  [1, -30, 2.08,'mint'], [1,  30, 1.74,'mint'], [1,-170, 1.39,'mint'], [1,-100, 1.39,'gray'],
+
+  [2,-170, 9.38,'soft'], [2,-115, 8.68,'av'],   [2, -60, 9.38,'av'],
+  [2,  -5, 8.68,'soft'], [2,  50, 9.38,'av'],   [2, 110, 1.39,'gray'],
+
+  [3,-140, 9.03,'av'],   [3, -40, 1.39,'gray'], [3,  60, 1.39,'gray'],
+
+  [4,-120, 9.03,'av'],   [4, -70, 8.33,'av'],   [4, -19, 9.72,'av'],
+  [4,  30, 9.38,'av'],   [4,  80, 1.74,'mint'], [4, 140, 2.08,'mint'],
+
+  [5,-160, 8.68,'av'],   [5,  20, 9.03,'av'],   [5, -95, 2.08,'mint']
+];
+
+const CLS={av:'',soft:' orb--soft',mint:' orb--mint',gray:' orb--gray'};
+const net=document.getElementById('net');
+
+/* anéis */
+const rings=RINGS.map(r=>
+  `<circle cx="288" cy="288" r="${r.px}" style="--dur:${r.dur};--dir:${r.dir}"/>`).join('');
+
+/* órbitas */
+const orbits=RINGS.map((ring,i)=>{
+  const counter=ring.dir==='normal'?'reverse':'normal';
+  const orbs=ITEMS.filter(it=>it[0]===i).map(([,a,size,type])=>`
+      <span class="orb${CLS[type]}" style="--a:${a}deg;--r:${ring.r}cqi;--dur:${ring.dur};--counter:${counter}">
+        <span style="--size:${size}cqi"></span>
+      </span>`).join('');
+  return `<div class="orbit" style="--dur:${ring.dur};--dir:${ring.dir}">${orbs}</div>`;
+}).join('');
+
+net.innerHTML=`<svg class="net__rings" viewBox="0 0 576 576" aria-hidden="true">${rings}</svg>${orbits}`;
+</script>
+</body>
+</html>

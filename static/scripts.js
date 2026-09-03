@@ -248,71 +248,82 @@
   },{threshold:.25}).observe(row);
 })();
 
-/* ─────────── carrossel de depoimentos ─────────── */
+/* ─────────── faixa de depoimentos ─────────── */
 (function(){
-  const id=x=>document.getElementById(x);
-  /* qualquer combinação de decks serve: a seção solta saiu, a embutida ficou */
-  const decks=[['deck','dots'],['deckClients','dotsClients']]
-    .map(([d,p])=>({deck:id(d),dots:id(p)}))
-    .filter(x=>x.deck&&x.dots);
-  if(!decks.length)return;
-  const setas=[['prev','next'],['prevEmbedded','nextEmbedded']]
-    .map(([a,b])=>({prev:id(a),next:id(b)}))
-    .filter(x=>x.prev&&x.next);
-  const cur=id('cur'), tot=id('tot');
+  /* O carrossel antigo posicionava cada slide por JavaScript — transform,
+     opacity e z-index recalculados a cada troca e a cada resize. A faixa
+     nova é rolagem nativa com scroll-snap: aqui só sobra empurrar o trilho
+     quando a seta é clicada e acender o ponto certo ao rolar. */
+  var faixa=document.getElementById('deckClients');
+  if(!faixa)return;
+  var trilho=faixa.firstElementChild;
+  var pontos=document.getElementById('dotsClients');
+  var prev=document.getElementById('prevEmbedded');
+  var next=document.getElementById('nextEmbedded');
 
-
-  /* os slides já vêm servidos: aqui só se guarda a referência */
-  decks.forEach(d=>{ d.slides=[...d.deck.children]; });
-  const total=decks[0].slides.length;
-  if(tot)tot.textContent=String(total).padStart(2,'0');
-
-  let index=0;
-  function renderSlides(items,indicators){
-    const w=innerWidth, wide=w>=900, xtra=w>=1280?62:(wide?58:52), n=total;
-    items.forEach((s,i)=>{
-      let o=i-index;
-      if(o>n/2)o-=n; if(o<-n/2)o+=n;
-      const a=Math.abs(o);
-      s.style.transform=`translate(-50%,-50%) translateX(${o*xtra}%) translateY(${a*(wide?26:18)}px) scale(${a===0?1:(a===1?.8:.66)})`;
-      s.style.opacity=a===0?1:(a===1?.5:0);
-      s.style.zIndex=10-a;
-      s.style.pointerEvents=a>1?'none':'auto';
-      s.classList.toggle('is-active',a===0);
-    });
-    if(indicators)[...indicators.children].forEach((d,i)=>d.classList.toggle('is-on',i===index));
+  function passo(){
+    var item=trilho.firstElementChild;
+    if(!item)return faixa.clientWidth;
+    var gap=parseFloat(getComputedStyle(trilho).columnGap||'0')||0;
+    return item.getBoundingClientRect().width+gap;
   }
-  function render(){
-    decks.forEach(d=>renderSlides(d.slides,d.dots));
-    if(cur)cur.textContent=String(index+1).padStart(2,'0');
+  function marcar(){
+    if(!pontos)return;
+    var i=Math.round(faixa.scrollLeft/passo());
+    [].forEach.call(pontos.children,function(p,n){p.classList.toggle('is-on',n===i)});
   }
-  const go=i=>{index=(i+total)%total;render()};
+  function anda(dir){faixa.scrollBy({left:dir*passo(),behavior:'smooth'})}
 
-  setas.forEach(({prev,next})=>{
-    next.onclick=()=>go(index+1);
-    prev.onclick=()=>go(index-1);
-  });
-  decks.forEach(d=>{
-    d.slides.forEach(s=>s.onclick=()=>{if(!s.classList.contains('is-active'))go(+s.dataset.i)});
-    [...d.dots.children].forEach(x=>x.onclick=()=>go(+x.dataset.i));
-  });
-  addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(index+1);if(e.key==='ArrowLeft')go(index-1)});
+  if(next)next.onclick=function(){anda(1)};
+  if(prev)prev.onclick=function(){anda(-1)};
+  faixa.addEventListener('scroll',marcar,{passive:true});
+  addEventListener('resize',marcar,{passive:true});
+  marcar();
 
-  let x0=null;
-  decks.forEach(d=>d.deck.addEventListener('pointerdown',e=>x0=e.clientX));
-  addEventListener('pointerup',e=>{
-    if(x0===null)return;
-    const dx=e.clientX-x0; x0=null;
-    if(Math.abs(dx)>44)go(index+(dx<0?1:-1));
-  });
-  addEventListener('resize',render);
-  render();
+  /* Autoplay. Três cuidados que a faixa antiga não tinha:
 
-  let timer=setInterval(()=>go(index+1),5000);
-  document.querySelectorAll('.voices__controls,.deck').forEach(el=>{
-    el.addEventListener('mouseenter',()=>clearInterval(timer));
-    el.addEventListener('mouseleave',()=>{clearInterval(timer);timer=setInterval(()=>go(index+1),5000)});
+     • Só roda enquanto a seção está na tela (IntersectionObserver). Girar
+       um carrossel que ninguém está vendo é trabalho jogado fora, e no
+       celular custa bateria.
+     • Para quando o ponteiro entra, quando algo ali recebe foco pelo
+       teclado, ou quando a pessoa rola a faixa na mão.
+     • Não roda se o sistema pede menos movimento. */
+  var pausado=false, visivel=false, relogio=null;
+  var semMovimento=matchMedia('(prefers-reduced-motion: reduce)');
+
+  function fim(){
+    return faixa.scrollLeft >= faixa.scrollWidth - faixa.clientWidth - 2;
+  }
+  function tique(){
+    if(fim()) faixa.scrollTo({left:0,behavior:'smooth'});
+    else anda(1);
+  }
+  function toca(){
+    para();
+    if(pausado||!visivel||semMovimento.matches)return;
+    relogio=setInterval(tique,5000);
+  }
+  function para(){ if(relogio){clearInterval(relogio);relogio=null;} }
+
+  ['mouseenter','focusin','pointerdown'].forEach(function(ev){
+    faixa.addEventListener(ev,function(){pausado=true;para()});
   });
+  ['mouseleave','focusout'].forEach(function(ev){
+    faixa.addEventListener(ev,function(){pausado=false;toca()});
+  });
+  var controles=document.querySelector('.voices__controls');
+  if(controles){
+    controles.addEventListener('mouseenter',function(){pausado=true;para()});
+    controles.addEventListener('mouseleave',function(){pausado=false;toca()});
+  }
+  semMovimento.addEventListener('change',toca);
+
+  if('IntersectionObserver' in globalThis){
+    new IntersectionObserver(function(e){
+      visivel=e[0].isIntersecting;
+      toca();
+    },{threshold:.3}).observe(faixa);
+  } else { visivel=true; toca(); }
 })();
 
 /* ─────────── planos ─────────── */
@@ -469,4 +480,19 @@
   cards.forEach(c=>c.addEventListener('click',e=>{if(moved)e.preventDefault()}));
 
   sync();
+})();
+
+/* Cabeçalho flutuante (v2): encolhe o respiro de cima depois dos primeiros
+   pixels de rolagem. Só age se a casca flutuante existir na página — nas
+   outras o cabeçalho fica no fluxo e não tem esse estado. */
+(function () {
+  var topo = document.querySelector(".top--flutuante");
+  if (!topo) return;
+  var rolado = false;
+  addEventListener("scroll", function () {
+    var agora = scrollY > 18;
+    if (agora === rolado) return;
+    rolado = agora;
+    topo.classList.toggle("is-scrolled", agora);
+  }, { passive: true });
 })();

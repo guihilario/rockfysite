@@ -37,6 +37,9 @@ type Props = {
   /** A página desenha o próprio cabeçalho — usado quando ele fica sobre a
    *  arte do topo, em vez de acima dela. */
   cabecalhoProprio?: boolean;
+  /** O cabeçalho vira uma casca flutuante sobre o conteúdo, em vez de
+   *  ocupar espaço no fluxo — deixa a arte do topo sangrar até a borda. */
+  cabecalhoFlutuante?: boolean;
   /** Força `noindex` mesmo com o site liberado. Para páginas de teste. */
   naoIndexar?: boolean;
   /** Trilha de navegação. Vira BreadcrumbList — é o que troca a URL crua
@@ -68,6 +71,7 @@ export function Layout(
     jsonLd,
     trilha,
     cabecalhoProprio = false,
+    cabecalhoFlutuante = false,
     naoIndexar = false,
     children,
   }: Props,
@@ -213,11 +217,13 @@ export function Layout(
           class={[
             "screen",
             fluido && "screen--fluido",
-            cabecalhoProprio && "screen--colado",
+            (cabecalhoProprio || cabecalhoFlutuante) && "screen--colado",
           ].filter(Boolean).join(" ")}
           id="site-content"
         >
-          {!cabecalhoProprio && <Header atual={rota} />}
+          {!cabecalhoProprio && (
+            <Header atual={rota} flutuante={cabecalhoFlutuante} />
+          )}
           <main id="main-content">{children}</main>
           <Footer />
         </div>
