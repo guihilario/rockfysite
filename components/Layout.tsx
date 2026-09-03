@@ -37,9 +37,15 @@ type Props = {
   /** A página desenha o próprio cabeçalho — usado quando ele fica sobre a
    *  arte do topo, em vez de acima dela. */
   cabecalhoProprio?: boolean;
-  /** O cabeçalho vira uma casca flutuante sobre o conteúdo, em vez de
-   *  ocupar espaço no fluxo — deixa a arte do topo sangrar até a borda. */
-  cabecalhoFlutuante?: boolean;
+  /**
+   * A forma do cabeçalho.
+   *
+   * `padrao` fica no fluxo, acima do conteúdo. `flutuante` é a casca branca
+   * que paira sobre a página. `vidro` é transparente sobre a arte do topo e
+   * ganha fundo desfocado ao rolar. As duas últimas deixam a arte sangrar
+   * até a borda de cima.
+   */
+  cabecalho?: "padrao" | "flutuante" | "vidro";
   /** Força `noindex` mesmo com o site liberado. Para páginas de teste. */
   naoIndexar?: boolean;
   /** Trilha de navegação. Vira BreadcrumbList — é o que troca a URL crua
@@ -71,7 +77,7 @@ export function Layout(
     jsonLd,
     trilha,
     cabecalhoProprio = false,
-    cabecalhoFlutuante = false,
+    cabecalho = "padrao",
     naoIndexar = false,
     children,
   }: Props,
@@ -217,13 +223,12 @@ export function Layout(
           class={[
             "screen",
             fluido && "screen--fluido",
-            (cabecalhoProprio || cabecalhoFlutuante) && "screen--colado",
+            (cabecalhoProprio || cabecalho !== "padrao") &&
+            "screen--colado",
           ].filter(Boolean).join(" ")}
           id="site-content"
         >
-          {!cabecalhoProprio && (
-            <Header atual={rota} flutuante={cabecalhoFlutuante} />
-          )}
+          {!cabecalhoProprio && <Header atual={rota} forma={cabecalho} />}
           <main id="main-content">{children}</main>
           <Footer />
         </div>

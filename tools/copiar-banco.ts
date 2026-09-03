@@ -1,8 +1,11 @@
 /**
  * Copia o conteúdo de um banco para outro.
  *
- *   deno run -A --env-file=.env tools/copiar-banco.ts neon prisma
- *   deno run -A --env-file=.env tools/copiar-banco.ts neon prisma --executar
+ *   deno run -A --env-file=.env tools/copiar-banco.ts ORIGEM_URL DESTINO_URL
+ *   deno run -A --env-file=.env tools/copiar-banco.ts ORIGEM_URL DESTINO_URL --executar
+ *
+ * Os dois argumentos são nomes de variáveis de ambiente com a string de
+ * conexão de cada banco.
  *
  * Sem `--executar` é ensaio: lê a origem, confere o destino e diz o que
  * faria, sem escrever nada.
@@ -24,19 +27,22 @@
  */
 import { Pool } from "postgres";
 
-const PROVEDORES: Record<string, string> = {
-  neon: "DATABASE_URL",
-  prisma: "DATABASE_PRISMA_URL",
-};
+/* Os argumentos são NOMES DE VARIÁVEL de ambiente, não apelidos fixos. Na
+   primeira versão eram "neon" e "prisma", presos num mapa aqui dentro —
+   quando a migração terminou e o Neon saiu, o mapa virou mentira. Assim a
+   ferramenta serve a qualquer par de bancos sem precisar ser editada. */
 
 /** Ordem de dependência: quem é referenciado entra primeiro. */
 const TABELAS = ["users", "categories", "tags", "posts", "post_tags"];
 
-function conectar(nome: string) {
-  const variavel = PROVEDORES[nome];
-  if (!variavel) throw new Error(`provedor desconhecido: ${nome}`);
+function conectar(variavel: string) {
   const url = Deno.env.get(variavel);
-  if (!url) throw new Error(`${variavel} não está definida`);
+  if (!url) {
+    throw new Error(
+      `${variavel} não está definida no ambiente. Passe os nomes das ` +
+        `variáveis, ex.: DATABASE_URL DATABASE_ANTIGO_URL`,
+    );
+  }
   return new Pool(url, 1, true);
 }
 
@@ -57,7 +63,9 @@ async function colunas(c: {
 const [origemNome, destinoNome] = Deno.args;
 const executar = Deno.args.includes("--executar");
 if (!origemNome || !destinoNome) {
-  console.error("uso: copiar-banco.ts <origem> <destino> [--executar]");
+  console.error(
+    "uso: copiar-banco.ts <VAR_ORIGEM> <VAR_DESTINO> [--executar]",
+  );
   Deno.exit(1);
 }
 

@@ -25,11 +25,15 @@ function NavLink(
 }
 
 export function Header(
-  { atual, flutuante = false }: { atual?: string; flutuante?: boolean },
+  { atual, forma = "padrao" }: {
+    atual?: string;
+    forma?: "padrao" | "flutuante" | "vidro";
+  },
 ) {
+  const classe = forma === "padrao" ? "top" : `top top--${forma}`;
   return (
     <>
-      <header class={flutuante ? "top top--flutuante" : "top"}>
+      <header class={classe}>
         <a class="logo" href="/" aria-label="Rockfy — página inicial">
           <img
             src="/img/rockfy-logo.svg"

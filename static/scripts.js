@@ -536,11 +536,12 @@
   sync();
 })();
 
-/* Cabeçalho flutuante (v2): encolhe o respiro de cima depois dos primeiros
-   pixels de rolagem. Só age se a casca flutuante existir na página — nas
-   outras o cabeçalho fica no fluxo e não tem esse estado. */
+/* Estado de rolagem do cabeçalho (v2). A casca flutuante encolhe o respiro
+   de cima; a de vidro ganha fundo desfocado e inverte as cores. As duas
+   dependem da mesma classe, então um listener só serve às duas — e nas
+   páginas com cabeçalho no fluxo ele nem se registra. */
 (function () {
-  var topo = document.querySelector(".top--flutuante");
+  var topo = document.querySelector(".top--flutuante, .top--vidro");
   if (!topo) return;
   var rolado = false;
   addEventListener("scroll", function () {

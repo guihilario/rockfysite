@@ -1764,3 +1764,48 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .enviado .para{margin-top:16px}
 .enviado__volta{margin-top:28px;font-size:15px}
 .enviado__volta a{text-decoration:underline;text-underline-offset:3px;color:var(--gray-600)}
+
+/* ─── Cabeçalho de vidro (v2) ───────────────────────────────────────
+   Transparente sobre a arte do topo, com fundo desfocado ao rolar. A
+   dificuldade não é o desfoque, é a troca de cor: sobre a foto escura o
+   cabeçalho precisa ser claro, e sobre o conteúdo branco precisa inverter.
+   Por isso quase toda regra abaixo aparece em par — um estado e o outro. */
+.top--vidro{
+  position:fixed;inset:0 0 auto;z-index:100;
+  width:100%;max-width:none;margin:0;
+  padding:14px clamp(20px,4vw,48px);
+  background:transparent;
+  transition:background .3s ease,backdrop-filter .3s ease,
+             border-color .3s ease,padding .3s ease;
+  border-bottom:1px solid transparent;
+}
+/* Sobre a foto: tudo claro. */
+.top--vidro .logo img{filter:brightness(0) invert(1)}
+.top--vidro .dd__btn,.top--vidro .top__entrar{color:#fff}
+.top--vidro .dd__btn-ico{color:rgba(255,255,255,.7)}
+.top--vidro .dd__seta{color:rgba(255,255,255,.7)}
+.top--vidro .top__cta{background:var(--surface);color:var(--ink)}
+.top--vidro .burger span{background:#fff}
+.top--vidro .label{color:#fff}
+
+/* Rolado: o vidro entra e as cores voltam ao normal do site. */
+.top--vidro.is-scrolled{
+  background:rgba(255,255,255,.72);
+  -webkit-backdrop-filter:saturate(180%) blur(16px);
+  backdrop-filter:saturate(180%) blur(16px);
+  border-bottom-color:var(--line-soft);
+  padding-block:10px;
+}
+.top--vidro.is-scrolled .logo img{filter:none}
+.top--vidro.is-scrolled .dd__btn,.top--vidro.is-scrolled .top__entrar{color:var(--ink)}
+.top--vidro.is-scrolled .dd__btn-ico,
+.top--vidro.is-scrolled .dd__seta{color:var(--gray-600)}
+.top--vidro.is-scrolled .top__cta{background:var(--ink);color:var(--on-ink)}
+.top--vidro.is-scrolled .burger span{background:var(--ink)}
+.top--vidro.is-scrolled .label{color:var(--ink)}
+
+/* Sem suporte a desfoque o vidro viraria um branco lavado por cima do
+   conteúdo — nesse caso vale um fundo sólido, que ao menos é honesto. */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .top--vidro.is-scrolled{background:var(--surface)}
+}

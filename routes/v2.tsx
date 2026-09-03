@@ -33,7 +33,7 @@ export default async function HomeV2() {
       titulo="Home v2 | Rockfy"
       descricao="Hospedagem WordPress, deploy de apps feitos com I.A, loja digital e e-mail profissional em um só painel. Infraestrutura Rockfy, servidor no Brasil."
       naoIndexar
-      cabecalhoFlutuante
+      cabecalho="vidro"
       fluido
     >
       <HeroFoto rota="/v2" />
