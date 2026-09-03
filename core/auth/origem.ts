@@ -23,8 +23,15 @@ export function origemDaRequisicao(req: Request): string {
 
   if (config.google.origensPermitidas.includes(origem)) return origem;
 
-  // Host desconhecido: cai para a origem configurada, em vez de refletir
-  // de volta algo que o cliente escolheu.
+  /* Host desconhecido: cai para a origem configurada, em vez de refletir
+     de volta algo que o cliente escolheu. Avisa alto, porque daqui o
+     sintoma é um `redirect_uri_mismatch` genérico do Google, que não diz
+     qual domínio faltou — e essa linha diz. */
+  console.warn(
+    `[auth] origem "${origem}" não está em OAUTH_ORIGENS; usando ` +
+      `"${config.google.origensPermitidas[0]}". Se o login falhar com ` +
+      `redirect_uri_mismatch, é isto.`,
+  );
   return config.google.origensPermitidas[0];
 }
 

@@ -82,11 +82,22 @@ export const config = {
        em localhost, porque a variável ficou para trás. */
     redirectUri: Deno.env.get("GOOGLE_REDIRECT_URI") ??
       `${appUrl}/auth/callback`,
-    /* Hosts em que o login pode acontecer. Cada um precisa estar também
-       registrado no Google Cloud — o Google recusa qualquer outro. */
+    /* Hosts em que o login pode acontecer. A lista tem que ser a MESMA dos
+       "URIs de redirecionamento autorizados" no Google Cloud — se um
+       domínio existir aqui e não lá, o Google recusa com
+       `redirect_uri_mismatch`; se existir lá e não aqui, o código cai no
+       fallback e manda o domínio errado, com o mesmo resultado.
+
+       Foi o que aconteceu quando o site mudou de endereço: a lista ficou
+       com o `rockfysite-capsula`, que saiu do Google, e o login parou em
+       `new.rockfy.com`. */
     origensPermitidas: (Deno.env.get("OAUTH_ORIGENS") ??
-      [appUrl, "https://rockfysite-capsula.rockfy.net", "https://rockfy.com"]
-        .join(","))
+      [
+        appUrl,
+        "https://new.rockfy.com",
+        "https://site.rockfy.net",
+        "https://rockfy.com",
+      ].join(","))
       .split(",").map((o) => o.trim().replace(/\/$/, "")).filter(Boolean),
   },
   sessionSecret: required("SESSION_SECRET"),
