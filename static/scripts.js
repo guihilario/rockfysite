@@ -183,11 +183,51 @@
     return true;
   };
 
-  chips.forEach(c=>c.addEventListener('click',()=>{
+  const marcar=c=>{
     chips.forEach(x=>x.setAttribute('aria-pressed','false'));
     c.setAttribute('aria-pressed','true');
+  };
+
+  chips.forEach(c=>c.addEventListener('click',()=>{
+    parar(); pausado=true;          /* clicou: a partir daqui quem manda é a pessoa */
+    marcar(c);
     if(c.dataset.hero)show(c.dataset.hero);
   }));
+
+  /* Autoplay dos chips. Mesmos cuidados da faixa de depoimentos: só roda
+     com a seção na tela, para no ponteiro e no foco, e não roda se o
+     sistema pede menos movimento. Um clique encerra de vez — depois de a
+     pessoa escolher um hero, trocar sozinho seria atrapalhar. */
+  let atual=chips.findIndex(c=>c.getAttribute('aria-pressed')==='true');
+  let pausado=false, visivel=false, relogio=null;
+  const semMovimento=matchMedia('(prefers-reduced-motion: reduce)');
+  const faixa=chips[0].closest('.chips-wrap')||chips[0].parentElement;
+
+  function passo(){
+    for(let i=1;i<=chips.length;i++){
+      const c=chips[(atual+i+chips.length)%chips.length];
+      if(c.dataset.hero&&show(c.dataset.hero)){
+        atual=chips.indexOf(c); marcar(c); return;
+      }
+    }
+  }
+  function tocar(){
+    parar();
+    if(pausado||!visivel||semMovimento.matches)return;
+    relogio=setInterval(passo,4500);
+  }
+  function parar(){ if(relogio){clearInterval(relogio);relogio=null;} }
+
+  if(faixa){
+    ['mouseenter','focusin'].forEach(ev=>faixa.addEventListener(ev,()=>{pausado=true;parar()}));
+    faixa.addEventListener('mouseleave',()=>{ if(!chips.some(c=>c.dataset.tocado)){pausado=false;tocar()} });
+  }
+  semMovimento.addEventListener('change',tocar);
+
+  if('IntersectionObserver' in globalThis){
+    new IntersectionObserver(e=>{visivel=e[0].isIntersecting;tocar()},{threshold:.35})
+      .observe(faixa||chips[0]);
+  } else { visivel=true; tocar(); }
 })();
 
 /* ─────────── públicos: acordeão que gira sozinho ─────────── */

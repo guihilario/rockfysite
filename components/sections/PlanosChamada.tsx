@@ -1,5 +1,47 @@
-/** Chamada dos planos, logo antes do trilho. */
-export function PlanosChamada() {
+import type { ComponentChildren } from "preact";
+
+/**
+ * Chamada dos planos.
+ *
+ * Em duas formas. A padrão traz a colagem ao lado do texto e serve de
+ * abertura para o trilho de planos. A `centralizada` tira a colagem, alinha
+ * o texto ao centro e recebe conteúdo abaixo — usada quando a chamada
+ * apresenta o carrossel de heros em vez do trilho de preços.
+ *
+ * Na forma centralizada o botão "Ver planos" sai: ali embaixo vem o
+ * carrossel, e um botão que leva para outra página no meio do caminho
+ * disputaria com ele.
+ */
+export function PlanosChamada(
+  { centralizada = false, children }: {
+    centralizada?: boolean;
+    children?: ComponentChildren;
+  } = {},
+) {
+  const texto = (
+    <>
+      <span class="tagline">Planos simplificados</span>
+      <h2 class="title">
+        <b>Plano simples</b>, infinitas <em>possibilidades</em>
+      </h2>
+      <p class="para">
+        Escolha um plano que se adapte às suas necessidades. Economize e
+        simplifique seus custos
+      </p>
+    </>
+  );
+
+  if (centralizada) {
+    return (
+      <section class="section">
+        <div class="conteudo">
+          <div class="chamada-centro">{texto}</div>
+        </div>
+        {children}
+      </section>
+    );
+  }
+
   return (
     <>
       {/* ══════ 7 · COLAGEM VERTICAL ══════ */}
@@ -7,14 +49,7 @@ export function PlanosChamada() {
         <div class="conteudo">
           <div class="split split--rev">
             <div>
-              <span class="tagline">Planos simplificados</span>
-              <h2 class="title">
-                <b>Plano simples</b>, infinitas <em>possibilidades</em>
-              </h2>
-              <p class="para">
-                Escolha um plano que se adapte às suas necessidades. Economize e
-                simplifique seus custos
-              </p>
+              {texto}
               <button type="button" class="cta">
                 Ver planos
                 <span class="badge">

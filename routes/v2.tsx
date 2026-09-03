@@ -44,16 +44,19 @@ export default async function HomeV2() {
       }
       <Clients />
 
-      {
-        /* O palco e os chips descem para depois dela, e sem título próprio:
-           quem apresenta a página é a faixa de cima, e um segundo título
-           logo abaixo dela repetia a função. */
-      }
-      <HeroSlot />
-      <div class="conteudo">
-        <Chips />
-      </div>
       <Audience />
+
+      {
+        /* A chamada dos planos vira a introdução do carrossel: sem colagem,
+           texto centralizado, e o palco com os chips logo abaixo, dentro da
+           mesma seção. */
+      }
+      <PlanosChamada centralizada>
+        <HeroSlot />
+        <div class="conteudo">
+          <Chips />
+        </div>
+      </PlanosChamada>
       <CuidaDeTudo
         titulo={
           <>
@@ -62,7 +65,6 @@ export default async function HomeV2() {
         }
       />
       <AreaCliente />
-      <PlanosChamada />
       <Planos />
       <Parceiros />
       <Faq />

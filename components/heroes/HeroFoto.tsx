@@ -30,9 +30,9 @@ export function HeroFoto({ cabecalho }: { cabecalho?: ComponentChildren }) {
       <div class="heroB__corpo">
         <h1 class="heroB__titulo">Bem-vindo a sua nova nuvem</h1>
         <p class="heroB__texto">
-          Pronta para hospedar seus sites e apps feitos na sua I.A, WordPress
-          com Elementor Pro oficial e e-mail profissional. Em um único painel
-          você gerencia seus projetos, clientes e finanças.
+          Pronta para hospedar sites e apps feitos na sua I.A. WordPress
+          com Elementor Pro e E-mail profissional. Em um único painel
+          pra você gerenciar seus projetos, clientes e finanças.
         </p>
         <div class="heroB__acoes">
           <a class="heroB__cta" href="/planos">Ver planos</a>
