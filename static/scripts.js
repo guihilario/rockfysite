@@ -400,12 +400,19 @@
   let down=false,startX=0,startLeft=0,moved=false;
   rail.addEventListener('pointerdown',e=>{
     down=true;moved=false;startX=e.clientX;startLeft=rail.scrollLeft;
-    rail.setPointerCapture(e.pointerId);
+    /* A captura NÃO acontece aqui. Capturar no `pointerdown` manda todos
+       os eventos seguintes para o trilho, e o navegador deixa de entregar
+       o `click` ao botão de dentro do card — era isso que impedia o
+       popover dos planos de abrir. Ela entra no `pointermove`, quando o
+       arrasto começa de verdade. */
   });
   rail.addEventListener('pointermove',e=>{
     if(!down)return;
     const dx=e.clientX-startX;
-    if(!moved&&Math.abs(dx)>5){moved=true;rail.classList.add('is-dragging')}
+    if(!moved&&Math.abs(dx)>5){
+      moved=true;rail.classList.add('is-dragging');
+      rail.setPointerCapture(e.pointerId);   /* agora sim: é arrasto */
+    }
     if(moved)rail.scrollLeft=startLeft-dx;
   });
   const release=()=>{
@@ -502,12 +509,19 @@
   rail.addEventListener('pointerdown',e=>{
     if(innerWidth>=900)return;
     down=true;moved=false;startX=e.clientX;startLeft=rail.scrollLeft;
-    rail.setPointerCapture(e.pointerId);
+    /* A captura NÃO acontece aqui. Capturar no `pointerdown` manda todos
+       os eventos seguintes para o trilho, e o navegador deixa de entregar
+       o `click` ao botão de dentro do card — era isso que impedia o
+       popover dos planos de abrir. Ela entra no `pointermove`, quando o
+       arrasto começa de verdade. */
   });
   rail.addEventListener('pointermove',e=>{
     if(!down)return;
     const dx=e.clientX-startX;
-    if(!moved&&Math.abs(dx)>5){moved=true;rail.classList.add('is-dragging')}
+    if(!moved&&Math.abs(dx)>5){
+      moved=true;rail.classList.add('is-dragging');
+      rail.setPointerCapture(e.pointerId);   /* agora sim: é arrasto */
+    }
     if(moved)rail.scrollLeft=startLeft-dx;
   });
   const release=()=>{

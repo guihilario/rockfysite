@@ -36,7 +36,7 @@ export default async function HomeV2() {
       cabecalhoFlutuante
       fluido
     >
-      <HeroFoto />
+      <HeroFoto rota="/v2" />
 
       {
         /* A prova social vem imediatamente depois da foto: aqui a abertura

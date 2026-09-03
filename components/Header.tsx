@@ -1,6 +1,7 @@
 import type { ComponentChildren } from "preact";
 import { menus } from "@/data/menu.ts";
 import { Icone } from "@/components/Icone.tsx";
+import { alvoDosPlanos } from "@/core/navegacao.ts";
 
 /** Cabeçalho e menu mobile. `atual` recebe o caminho da página para marcar
  *  o item correspondente no menu. */
@@ -128,7 +129,7 @@ export function Header(
         </nav>
         <div class="top__acoes">
           <a class="top__entrar" href="https://area.rockfy.com">Entrar</a>
-          <a class="top__cta" href="/planos">Ver planos</a>
+          <a class="top__cta" href={alvoDosPlanos(atual)}>Ver planos</a>
         </div>
 
         <nav class="nav">
@@ -164,7 +165,7 @@ export function Header(
           )}
           <div class="mmenu__acoes">
             <a class="top__entrar" href="https://area.rockfy.com">Entrar</a>
-            <a class="top__cta" href="/planos">Ver planos</a>
+            <a class="top__cta" href={alvoDosPlanos(atual)}>Ver planos</a>
           </div>
         </nav>
       </div>

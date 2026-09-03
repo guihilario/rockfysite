@@ -30,7 +30,7 @@ export function CuidaDeTudo(
                 resolve. Você foca em gerar valor para o seu cliente, e a gente
                 da sua infra.
               </p>
-              <button type="button" class="cta">
+              <a class="cta" href="#planos">
                 Ver planos
                 <span class="badge">
                   <svg viewBox="0 0 40 40">
@@ -40,7 +40,7 @@ export function CuidaDeTudo(
                     <circle cx="8" cy="20" r="2.8" />
                   </svg>
                 </span>
-              </button>
+              </a>
             </div>
 
             {colagem === "deploy" ? <CollageDeploy /> : <CollageElementor />}

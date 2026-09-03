@@ -50,7 +50,7 @@ export function PlanosChamada(
           <div class="split split--rev">
             <div>
               {texto}
-              <button type="button" class="cta">
+              <a class="cta" href="#planos">
                 Ver planos
                 <span class="badge">
                   <svg viewBox="0 0 40 40">
@@ -60,7 +60,7 @@ export function PlanosChamada(
                     <circle cx="8" cy="20" r="2.8" />
                   </svg>
                 </span>
-              </button>
+              </a>
             </div>
 
             <div class="collage col-c">

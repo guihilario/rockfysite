@@ -1,4 +1,5 @@
 import type { ComponentChildren } from "preact";
+import { PopoverPlano } from "@/components/PopoverPlano.tsx";
 import { type Plan, plans } from "@/data/plans.ts";
 
 /**
@@ -21,7 +22,11 @@ function Check() {
   );
 }
 
-function Card({ plano }: { plano: Plan }) {
+/** Id estável do popover a partir do nome do plano. */
+const idPlano = (nome: string) =>
+  nome.toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g, "-");
+
+function Card({ plano, rota }: { plano: Plan; rota: string }) {
   return (
     <article class={plano.featured ? "plan plan--featured" : "plan"}>
       <span class="plan__tag">{plano.tag}</span>
@@ -62,7 +67,11 @@ function Card({ plano }: { plano: Plan }) {
           </li>
         ))}
       </ul>
-      <button type="button" class="plan__cta">
+      <button
+        type="button"
+        class="plan__cta"
+        popovertarget={`lead-${idPlano(plano.name)}`}
+      >
         {plano.cta ?? "Começar"}
         <svg viewBox="0 0 24 24">
           <path
@@ -73,6 +82,16 @@ function Card({ plano }: { plano: Plan }) {
           />
         </svg>
       </button>
+
+      {
+        /* Um popover por plano: assim o campo com o nome do plano já vem
+          preenchido, sem script para trocá-lo na abertura. */
+      }
+      <PopoverPlano
+        id={`lead-${idPlano(plano.name)}`}
+        plano={plano.name}
+        rota={rota}
+      />
     </article>
   );
 }
@@ -80,12 +99,15 @@ function Card({ plano }: { plano: Plan }) {
 type PropsPlanos = {
   /** Os planos do trilho. O padrão é o de hospedagem, usado no site todo. */
   planos?: Plan[];
+  /** Caminho da página, gravado junto do contato. */
+  rota?: string;
   eyebrow?: string;
   titulo?: ComponentChildren;
 };
 
 export function Planos({
   planos = plans,
+  rota = "/planos",
   eyebrow = "Let's Rock!",
   titulo = (
     <>
@@ -141,7 +163,9 @@ export function Planos({
           </div>
 
           <div class="rail" id="rail">
-            {planos.map((plano) => <Card key={plano.name} plano={plano} />)}
+            {planos.map((plano) => (
+              <Card key={plano.name} plano={plano} rota={rota} />
+            ))}
           </div>
           <div class="dots" id="plansDots">
             {planos.map((_, i) => (

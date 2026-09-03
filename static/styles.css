@@ -1677,3 +1677,90 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 }
 .chamada-centro .title{max-width:20ch}
 .chamada-centro .para{margin-top:18px;max-width:52ch}
+
+/* ─── Formulário dos planos (popover nativo) ────────────────────────
+   Abrir, fechar, Esc e clique fora são do navegador — nada aqui depende
+   de script. O envio também não: é POST comum, e o servidor responde com
+   o redirect para o WhatsApp. */
+.lead{
+  border:0;padding:0;background:transparent;
+  max-width:min(420px,calc(100vw - 32px));width:100%;
+  /* O navegador centraliza popover com `inset:0;margin:auto`, mas o reset
+     de margem do site zera esse `auto` — sem devolvê-lo, a caixa gruda no
+     canto superior esquerdo. */
+  inset:0;margin:auto;
+}
+.lead::backdrop{background:rgba(10,10,10,.45)}
+.lead__forma{
+  position:relative;display:grid;gap:14px;
+  background:var(--surface);border-radius:var(--r-lg);
+  padding:clamp(24px,4vw,34px);
+  box-shadow:0 40px 80px -40px rgba(0,0,0,.5);
+}
+.lead__chapeu{
+  margin:0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gray-600);
+}
+.lead__titulo{margin:0;font-size:26px;font-weight:500;letter-spacing:-.8px;line-height:1.15}
+.lead__lede{margin:0;font-size:15px;line-height:1.5;color:var(--gray-600)}
+.lead__campo{display:grid;gap:6px}
+.lead__campo span{font-size:13px;color:var(--gray-600)}
+.lead__campo input{
+  width:100%;border:1.4px solid var(--line);border-radius:var(--r-sm);
+  padding:13px 14px;font:400 16px var(--font);color:var(--ink);background:var(--surface);
+}
+.lead__campo input:focus-visible{outline:0;border-color:var(--ink)}
+.lead__enviar{
+  margin-top:4px;border:0;border-radius:var(--r-pill);cursor:pointer;
+  background:var(--ink);color:var(--on-ink);
+  padding:15px 24px;font:400 16px var(--font);
+}
+.lead__enviar:hover{background:#000}
+.lead__aviso{margin:0;font-size:12.5px;line-height:1.5;color:var(--gray-600)}
+.lead__aviso a{text-decoration:underline;text-underline-offset:2px}
+.lead__fechar{
+  position:absolute;top:12px;right:12px;width:34px;height:34px;
+  border:0;border-radius:50%;background:transparent;cursor:pointer;
+  font-size:22px;line-height:1;color:var(--gray-600);
+}
+.lead__fechar:hover{background:var(--panel);color:var(--ink)}
+
+/* ─── Painel: contatos ──────────────────────────────────────────── */
+.adm-bloco{margin:26px 0 34px;padding:20px;border:1.4px solid var(--line);border-radius:var(--r-md)}
+.adm-nota{margin:10px 0 0;font-size:14px;line-height:1.6;color:var(--gray-600);max-width:78ch}
+.adm-nota code{font-size:13px;background:var(--panel);padding:1px 5px;border-radius:4px}
+.adm-linha-forma{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.adm-input{
+  flex:1 1 320px;border:1.4px solid var(--line);border-radius:var(--r-sm);
+  padding:11px 13px;font:400 15px var(--font);
+}
+.adm-btn{
+  border:0;border-radius:var(--r-sm);background:var(--ink);color:var(--on-ink);
+  padding:11px 20px;font:400 15px var(--font);cursor:pointer;
+}
+.adm-tabela{width:100%;border-collapse:collapse;font-size:14px}
+.adm-tabela th{
+  text-align:left;font-weight:500;font-size:12px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--gray-600);
+  padding:10px 12px;border-bottom:1.4px solid var(--line);
+}
+.adm-tabela td{padding:14px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+.adm-selo{
+  display:inline-block;font-size:12px;padding:3px 9px;border-radius:var(--r-pill);
+  background:var(--panel);color:var(--gray-600);
+}
+.adm-selo.is-ok{background:var(--mint);color:var(--ink)}
+
+/* A âncora dos planos precisa de folga: na v2 o cabeçalho é fixo e taparia
+   o topo da seção ao rolar até ela. */
+#planos{scroll-margin-top:clamp(80px,10vh,110px)}
+
+/* Página de confirmação do formulário dos planos. Transitória: a pessoa
+   passa por ela por um instante, a caminho do WhatsApp. */
+.enviado{
+  max-width:52ch;margin:0 auto;padding:clamp(60px,14vh,140px) var(--gutter);
+  display:flex;flex-direction:column;align-items:flex-start;
+}
+.enviado .para{margin-top:16px}
+.enviado__volta{margin-top:28px;font-size:15px}
+.enviado__volta a{text-decoration:underline;text-underline-offset:3px;color:var(--gray-600)}
