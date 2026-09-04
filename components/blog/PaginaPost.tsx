@@ -26,6 +26,25 @@ export function PaginaPost({ post, html, headings, base, voltar }: Props) {
   ]
     .filter(Boolean).join(" · ");
 
+  /* O convite muda conforme a seção: quem lê o blog está se informando e
+     pode virar cliente; quem lê a ajuda quase sempre já é, e o que serve
+     ali é o caminho para uma pessoa. */
+  const convite = base === "/ajuda"
+    ? {
+      titulo: "Ainda com dúvida?",
+      lede:
+        "Se este artigo não resolveu, fale com a gente. Quem responde mexe no servidor de verdade.",
+      acao: "Falar com o suporte",
+      href: "/contato",
+    }
+    : {
+      titulo: "Pronto para pôr no ar?",
+      lede:
+        "Hospedagem, deploy, loja e e-mail no mesmo painel, com preço em reais e suporte em português.",
+      acao: "Ver planos",
+      href: "/planos",
+    };
+
   return (
     <Layout
       rota={`${base}/${post.slug}`}
@@ -76,6 +95,10 @@ export function PaginaPost({ post, html, headings, base, voltar }: Props) {
                   </li>
                 ))}
               </ol>
+              <div class="post-lateral-cta">
+                <p>{convite.lede}</p>
+                <a href={convite.href}>{convite.acao} &rarr;</a>
+              </div>
             </aside>
           )}
           {/* Conteúdo já sanitizado acima (allowlist de tags/atributos). */}
@@ -85,6 +108,26 @@ export function PaginaPost({ post, html, headings, base, voltar }: Props) {
             dangerouslySetInnerHTML={{ __html: html }}
           />
         </div>
+
+        <aside class="post-cta">
+          <div>
+            <p class="post-cta__t">{convite.titulo}</p>
+            <p class="post-cta__s">{convite.lede}</p>
+          </div>
+          <a class="cta" href={convite.href}>
+            {convite.acao}
+            <span class="badge">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M5 12h14M13 6l6 6-6 6"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </a>
+        </aside>
 
         {post.tagNames.length > 0 && (
           <p class="post-tags">

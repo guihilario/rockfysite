@@ -5,17 +5,20 @@ export function Footer() {
       <div class="conteudo">
         <div class="footer__grid">
           <div class="footer__brand">
-            <div class="logo" aria-label="Logo">
-              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path class="fg" d="M6 6h58v18H30v13h30v18H30v18H6V6Z" />
-                <rect class="fg" x="6" y="66" width="20" height="20" />
-                <circle class="bg" cx="24" cy="17" r="4.6" />
-                <circle class="bg" cx="40" cy="13" r="4" />
-                <circle class="bg" cx="52" cy="22" r="3.4" />
-                <circle class="bg" cx="20" cy="34" r="3.6" />
-                <circle class="bg" cx="42" cy="45" r="3.2" />
-                <circle class="bg" cx="20" cy="55" r="3" />
-              </svg>
+            <div class="logo">
+              {
+                /* Mesma imagem do cabeçalho. Aqui havia um SVG inline, de antes
+                  de o logo virar arquivo; a regra `.logo svg{display:none}`
+                  passou a escondê-lo e o rodapé ficou sem marca nenhuma. */
+              }
+              <img
+                src="/img/rockfy-logo.svg"
+                alt="Rockfy"
+                width="120"
+                height="44"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <p class="footer__pitch">
               Hospedagem, deploy e gestão em um só painel. Feito para quem cuida
@@ -79,16 +82,19 @@ export function Footer() {
                 <a href="/hospedagem-wordpress">Hospedagem</a>
               </li>
               <li>
+                <a href="/hospedagem-elementor-pro">Elementor Pro</a>
+              </li>
+              <li>
                 <a href="/deploy">Deploy</a>
               </li>
               <li>
-                <a href="#">Domínios</a>
+                <a href="/loja-digital">Loja digital</a>
               </li>
               <li>
                 <a href="/email-profissional">E-mails</a>
               </li>
               <li>
-                <a href="#">Preços</a>
+                <a href="/planos">Preços</a>
               </li>
             </ul>
           </div>

@@ -22,12 +22,17 @@ export function HeroElementor({ oculto }: { oculto?: boolean }) {
       <p class="em-hero__binary" aria-hidden="true">
         0101010101010101010101010101010101010101
       </p>
+      {
+        /* Dimensões reais do arquivo: estavam declaradas como 600x400, uma
+          proporção que a imagem nunca teve. O CSS depende delas para não
+          recortar as laterais. */
+      }
       <img
         class="em-hero__photo"
-        src="/img/image-01.webp"
+        src="/img/hospedagem-de-site.webp"
         alt="Profissional trabalhando em seu site"
-        width="600"
-        height="400"
+        width="429"
+        height="448"
         decoding="async"
         fetchpriority="low"
         loading={oculto ? "lazy" : "eager"}

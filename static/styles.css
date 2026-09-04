@@ -45,6 +45,10 @@
   --gutter:clamp(16px,4vw,64px);
   --max:1440px;
   --gap:14px;
+  /* Tamanho e recuo do botão flutuante de WhatsApp. São tokens porque
+     o rodapé precisa reservar exatamente esse canto: se os dois valores
+     divergirem, o botão volta a cobrir a barra legal. */
+  --zap:56px; --zap-recuo:clamp(16px,3vw,28px);
 }
 @media (min-width:900px){:root{--gutter:46px;--max:1180px;--gap:18px}}
 /* ══════════════════════════════════════════════════════════
@@ -366,7 +370,12 @@ body.is-locked{overflow:hidden}
   animation:em-type 1.05s steps(40,end) .95s backwards,em-caret .55s steps(1,end) .95s infinite;
 }
 .em-hero__photo{
-  position:absolute;top:1.30cqw;left:40.12cqw;width:22cqw;height:27.50cqw;
+  /* A caixa precisa ter a proporção do arquivo (429x448 = 0.958). Estava em
+     22x27.50cqw = 0.80, e o `object-fit:cover` comia 16,5% da largura — os
+     ombros saíam cortados dos dois lados. Mantida a altura e alargada a
+     caixa (27.50 x 0.958 = 26.33cqw), com o `left` recuado metade do
+     crescimento para o centro da composição não andar. */
+  position:absolute;top:1.30cqw;left:37.96cqw;width:26.33cqw;height:27.50cqw;
   object-fit:cover;object-position:50% 22%;border-radius:2.80cqw;display:block;z-index:3;
   animation:em-rise 1s cubic-bezier(.16,.84,.36,1) .28s backwards;
 }
@@ -418,7 +427,7 @@ body.is-locked{overflow:hidden}
 }
 @media (max-width:640px){
   .em-hero__wordmark{width:118%;top:23cqw}
-  .em-hero__photo{top:2cqw;left:50%;transform:translateX(-50%);width:36cqw;height:47cqw;border-radius:4.4cqw;animation-name:em-rise-center}
+  .em-hero__photo{top:2cqw;left:50%;transform:translateX(-50%);width:45cqw;height:47cqw;border-radius:4.4cqw;animation-name:em-rise-center}
   .em-hero__badge{top:4cqw;left:auto;right:5cqw;width:11.5cqw;height:11.5cqw}
   .em-hero__binary{display:none}
   .em-hero__pill{gap:1.4cqw}
@@ -1005,14 +1014,18 @@ body.is-locked{overflow:hidden}
 
 /* ════════════════════ FOOTER ════════════════════ */
 .footer{
-  margin:96px calc(var(--gutter)*-1) 0;padding:52px var(--gutter) 30px;
+  margin:96px calc(var(--gutter)*-1) 0;
+  /* O recuo de baixo soma o espaço do botão flutuante: ao chegar no fim
+     da página não há mais para onde rolar, então sem essa reserva ele
+     ficaria permanentemente por cima do último link da barra legal. */
+  padding:52px var(--gutter) calc(30px + var(--zap) + var(--zap-recuo));
   border-top:1.4px solid var(--line);
 }
 @media (min-width:900px){.footer{margin-top:130px}}
 .footer__grid{display:grid;gap:36px}
 @media (min-width:760px){.footer__grid{grid-template-columns:1.4fr repeat(3,1fr);gap:40px}}
 
-.footer__brand .logo{width:64px;height:64px}
+.footer__brand .logo{width:120px;height:44px}
 .footer__pitch{font-size:14.5px;line-height:1.55;color:var(--gray-600);margin-top:14px;max-width:32ch}
 .footer__social{display:flex;gap:8px;margin-top:20px}
 .footer__social a{
@@ -1158,7 +1171,17 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .post-page{max-width:1180px;margin:0 auto;padding-top:8px}
 .post-page__titulo{max-width:20ch;margin-top:10px}
 .post-page__lede{margin-top:18px;max-width:62ch}
-.post-page__capa{width:100%;height:auto;border-radius:var(--r-lg);margin-top:36px;display:block}
+/* A capa tinha `height:auto`, então cada post rendia uma altura diferente:
+   as imagens 1024x1024 do acervo apareciam a 1180x1180 — uma tela inteira de
+   foto antes da primeira linha de texto. Proporção fixa resolve os dois
+   problemas de uma vez, o tamanho e a falta de ritmo entre um post e outro. */
+.post-page__capa{
+  /* `height:auto` é necessário: o atributo height do <img> vira dica de
+     estilo e, sem isto, vence o aspect-ratio. */
+  width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:50% 50%;
+  max-height:min(60vh,520px);
+  border-radius:var(--r-lg);margin-top:36px;display:block;background:var(--ph);
+}
 .post-page__corpo{display:grid;gap:40px;margin-top:44px}
 @media (min-width:1024px){.post-page__corpo{grid-template-columns:minmax(0,1fr) 250px;gap:56px}
   .post-sumario{order:2;position:sticky;top:28px;align-self:start}}
@@ -1185,6 +1208,29 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .post-conteudo pre{background:var(--card);border-radius:var(--r-sm);padding:18px;overflow-x:auto;font-size:14px}
 .post-conteudo code{font-size:.92em}
 .post-conteudo strong,.post-conteudo b{color:var(--ink);font-weight:600}
+
+/* Chamada de fim de artigo. Quem chegou até aqui leu o assunto inteiro e é
+   o melhor momento para oferecer o produto — antes disso seria interrupção. */
+.post-cta{
+  margin-top:56px;padding:28px;border:1.4px solid var(--line);
+  border-radius:var(--r-lg);background:var(--panel);
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;
+}
+.post-cta__t{font-size:22px;line-height:1.2;letter-spacing:-.5px;font-weight:500}
+.post-cta__s{font-size:15px;line-height:1.5;color:var(--gray-600);margin-top:6px;max-width:46ch}
+.post-cta .cta{margin-top:0;flex:none}
+@media (max-width:620px){.post-cta{padding:22px}.post-cta .cta{width:100%;justify-content:space-between}}
+
+/* O mesmo convite, menor, ancorado abaixo do sumário — acompanha a leitura
+   em telas largas, onde a coluna lateral sobra. */
+.post-lateral-cta{
+  margin-top:26px;padding-top:20px;border-top:1.4px solid var(--line);
+}
+.post-lateral-cta p{font-size:14.5px;line-height:1.45;color:var(--gray-600)}
+.post-lateral-cta a{
+  display:inline-block;margin-top:12px;font-size:14.5px;
+  color:var(--ink);text-decoration:underline;text-underline-offset:3px;
+}
 
 .post-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:44px}
 .post-tags a{
@@ -1808,4 +1854,34 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    conteúdo — nesse caso vale um fundo sólido, que ao menos é honesto. */
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .top--vidro.is-scrolled{background:var(--surface)}
+}
+
+/* ─── Botão flutuante do WhatsApp ───────────────────────────────────────
+   z-index 60 é deliberado: acima do conteúdo, abaixo do painel do menu
+   mobile (80) e dos cabeçalhos fixos (100). Assim o botão some sozinho
+   quando o menu abre em tela cheia, sem precisar de JS para escondê-lo.
+   O popover dos planos usa a top layer do navegador e passa por cima de
+   qualquer z-index — não há conflito a resolver ali. */
+.zap{
+  position:fixed;z-index:60;
+  right:var(--zap-recuo);bottom:var(--zap-recuo);
+  width:var(--zap);height:var(--zap);border-radius:50%;
+  display:grid;place-items:center;
+  background:#25d366;
+  box-shadow:0 6px 18px rgba(37,211,102,.34),0 2px 6px rgba(0,0,0,.12);
+  transition:transform var(--t),box-shadow var(--t),background var(--t);
+}
+.zap svg{width:29px;height:29px;fill:#fff;display:block}
+.zap:hover{background:#1fbc59;transform:translateY(-2px);box-shadow:0 10px 24px rgba(37,211,102,.42),0 3px 8px rgba(0,0,0,.14)}
+.zap:active{transform:translateY(0) scale(.96)}
+.zap:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+@media (max-width:640px){
+  :root{--zap:52px}
+  .zap svg{width:27px;height:27px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .zap{transition:none}
+  .zap:hover,.zap:active{transform:none}
 }

@@ -22,9 +22,9 @@ const VALORES = [
       "Pessoas que entendem da stack e resolvem o problema. Não usamos agente de IA no atendimento.",
   },
   {
-    titulo: "Brasil primeiro",
+    titulo: "Em português, em reais",
     texto:
-      "Infraestrutura em São Paulo, atendimento em português, nota fiscal em reais e contrato sob a lei brasileira.",
+      "Atendimento em português, pagamento e nota fiscal em reais, contrato sob a lei brasileira. A infraestrutura fica onde cada produto pede.",
   },
 ];
 
@@ -92,7 +92,7 @@ export default async function Sobre() {
     <Layout
       rota="/sobre"
       titulo="Sobre a Rockfy: quem cuida da sua infraestrutura"
-      descricao="A nuvem brasileira de quem constrói na internet: hospedagem, deploy, loja digital e e-mail num painel só. Servidor em São Paulo e suporte por gente."
+      descricao="A nuvem brasileira de quem constrói na internet: hospedagem, deploy, loja digital e e-mail num painel só. Atendimento em português, pagamento em reais e suporte por gente."
       fluido
     >
       <HeroPagina
@@ -192,7 +192,7 @@ export default async function Sobre() {
             <div>
               <span class="tagline">Empresa brasileira</span>
               <h2 class="title" id="empresa">
-                Empresa brasileira, <b>servidor brasileiro</b>
+                Empresa brasileira, <b>atendimento de gente daqui</b>
               </h2>
               <p class="para">
                 A Rockfy é marca da {site.razaoSocial}, CNPJ{" "}
@@ -200,16 +200,11 @@ export default async function Sobre() {
                 {site.endereco.split(" — ")[0]}.
               </p>
               <p class="para">
-                Nossos servidores ficam em datacenter em São Paulo, com
-                LiteSpeed, NVMe SSD e backup diário. Emitimos nota fiscal em
-                reais, o contrato é regido pela lei brasileira e o foro é a
-                Comarca de Jundiaí.
+                A infraestrutura fica onde cada produto pede: temos servidores
+                no Brasil, nas Américas e na Europa. O que não muda é o resto:
+                atendimento em português, pagamento em reais e atendimento humanizado de verdade.
               </p>
-              <p class="para">
-                Isso não é burocracia: é diferencial. Boa parte da hospedagem
-                barata tem servidor aqui e empresa no exterior — se algo der
-                errado, você resolve em outro fuso e em outro idioma.
-              </p>
+              
             </div>
             <CollageElementor />
           </div>

@@ -2,6 +2,7 @@ import type { ComponentChildren } from "preact";
 import { config } from "@/core/config.ts";
 import { Header } from "@/components/Header.tsx";
 import { Footer } from "@/components/Footer.tsx";
+import { BotaoWhatsApp } from "@/components/BotaoWhatsApp.tsx";
 import { asset } from "fresh/runtime";
 import {
   type Degrau,
@@ -103,6 +104,12 @@ export function Layout(
 
         <link rel="canonical" href={url} />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        {
+          /* O SVG cobre os navegadores atuais; o PNG existe porque iOS ignora
+            ícone vetorial ao salvar na tela de início. Ambos saem do mesmo
+            arquivo — ver o comentário em static/icon.svg. */
+        }
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         {
           /* Enquanto o site roda no endereço temporário ele não pode ser
              indexado, senão o Google acha conteúdo duplicado antes de a
@@ -231,6 +238,7 @@ export function Layout(
           {!cabecalhoProprio && <Header atual={rota} forma={cabecalho} />}
           <main id="main-content">{children}</main>
           <Footer />
+          <BotaoWhatsApp />
         </div>
         <script src={asset("/scripts.js")} defer></script>
       </body>
