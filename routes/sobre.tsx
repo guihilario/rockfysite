@@ -102,7 +102,7 @@ export default async function Sobre() {
             A nuvem brasileira para <b>tudo que você põe no ar</b>
           </>
         }
-        lede="Site, aplicação, loja e e-mail costumam morar em quatro lugares diferentes, cada um com um suporte que não resolve. A Rockfy existe para juntar isso num painel só, com servidor no Brasil e gente do outro lado."
+        lede="Site, aplicação, loja e e-mail costumam morar em quatro lugares diferentes, cada um com um suporte que não resolve. A Rockfy existe para juntar isso num painel só, com preço em reais e gente do outro lado."
         acoes={
           <>
             <a class="cta" href="/planos">

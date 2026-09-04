@@ -83,7 +83,7 @@ export function DeployStage({ adiada }: { adiada?: boolean } = {}) {
                 font-weight="600"
                 fill="var(--on-accent)"
               >
-                em construção
+                no ar em segundos
               </text>
             </svg>
           </div>

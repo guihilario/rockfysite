@@ -11,6 +11,7 @@ import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
+import { faqDeploy } from "@/data/faqDeploy.ts";
 
 /** A página de Deploy. É a única em que "como funciona" (colagem + os três
  *  passos) sobe para segunda seção, logo depois da hero. */
@@ -20,7 +21,7 @@ export default async function Deploy() {
     <Layout
       rota="/deploy"
       titulo="Deploy de apps feitos com I.A | Rockfy"
-      descricao="Publique a aplicação que você criou na I.A com um link pronto para usar, sem lidar com servidor. Deploy gerenciado pela Rockfy, servidor no Brasil."
+      descricao="Publique a aplicação que você criou na I.A com um link pronto para usar, sem lidar com servidor. Deploy gerenciado, preço em reais e suporte em português."
       fluido
     >
       <section class="deploy-hero" aria-labelledby="hero-title">
@@ -29,7 +30,7 @@ export default async function Deploy() {
           <HeroCopy
             h1="Crie na sua I.A e a gente coloca no ar"
             lede="Sua aplicação ou site feita na I.A com um link pronto para usar, sem você precisar lidar com servidor."
-            cta="Entrar na lista de espera"
+            cta="Ver planos"
             destaques={[
               { titulo: "Link pronto", linha2: "para usar" },
               { titulo: "Sem lidar", linha2: "com servidor" },
@@ -53,7 +54,15 @@ export default async function Deploy() {
       <PlanosChamada />
       <Planos />
       <Parceiros />
-      <Faq />
+      <Faq
+        itens={faqDeploy}
+        titulo={
+          <>
+            Perguntas sobre o <b>Deploy</b>
+          </>
+        }
+        texto="Se ficar alguma dúvida, o suporte responde no WhatsApp — gente de verdade, não robô."
+      />
       <Posts posts={posts} />
     </Layout>
   );
