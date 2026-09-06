@@ -30,8 +30,9 @@ export function seguranca<S>(): Middleware<S> {
 /**
  * Compressão gzip das respostas de texto.
  *
- * Sem isto o HTML ia com 65 KB e o CSS com 77 KB crus — nem o Deno Deploy
- * nem nada na frente comprimia. Comprimidos, viram ~12 KB e ~19 KB.
+ * Sem isto o HTML ia com 65 KB e o CSS com 77 KB crus: não dá para contar
+ * com compressão de quem estiver na frente. Comprimidos, viram ~12 KB e
+ * ~19 KB.
  *
  * Só entra em texto: imagem, fonte e vídeo já vêm comprimidos, e passá-los
  * pelo gzip gasta CPU para não economizar nada.

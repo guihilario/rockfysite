@@ -1,4 +1,5 @@
 import type { ComponentChildren } from "preact";
+import { alvoDosPlanos } from "@/core/navegacao.ts";
 
 type Destaque = { titulo: string; linha2: string };
 
@@ -6,19 +7,27 @@ type Props = {
   h1: ComponentChildren;
   lede: ComponentChildren;
   cta: string;
+  /** Caminho da página, para o CTA decidir entre rolar até o trilho de
+   *  planos e navegar para /planos. */
+  rota?: string;
   /** Os dois destaques abaixo do botão: faísca vermelha e raio menta. */
   destaques: [Destaque, Destaque];
 };
 
 /** O bloco de texto que acompanha a hero nas páginas de serviço e na de
  *  Deploy: H1, lede, botão e dois destaques. */
-export function HeroCopy({ h1, lede, cta, destaques }: Props) {
+export function HeroCopy({ h1, lede, cta, rota, destaques }: Props) {
   return (
     <div class="deploy-content">
       <h1 id="hero-title">{h1}</h1>
       <div class="deploy-pitch">
         <p>{lede}</p>
-        <button type="button" class="deploy-cta">{cta}</button>
+        {
+          /* Era um <button> sem type de ação, sem popovertarget e sem nada
+            em scripts.js escutando por ele: o CTA principal da hero não
+            fazia absolutamente nada ao ser clicado. */
+        }
+        <a class="deploy-cta" href={alvoDosPlanos(rota)}>{cta}</a>
         <div class="deploy-features">
           <div class="deploy-feature">
             <svg

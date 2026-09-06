@@ -44,12 +44,19 @@ export function PostForm({ post, categorias, tags, erro }: Props) {
 
       <div class="campo">
         <label for="excerpt">Resumo</label>
+        {
+          /* O valor vai como filho, não como `value`: o
+            preact-render-to-string emite `value` como atributo literal, e
+            <textarea> não tem esse atributo em HTML. O navegador o ignora,
+            o campo nasce vazio e o save grava o vazio por cima. */
+        }
         <textarea
           id="excerpt"
           name="excerpt"
           placeholder="Uma ou duas frases — aparece nos cards e na busca do Google."
-          value={post?.excerpt ?? ""}
-        />
+        >
+          {post?.excerpt ?? ""}
+        </textarea>
       </div>
 
       <div class="campo">
@@ -104,12 +111,18 @@ export function PostForm({ post, categorias, tags, erro }: Props) {
       <div class="campo">
         <label for="content">Conteúdo</label>
         <div id="editor"></div>
+        {
+          /* Mesmo motivo do resumo acima. Aqui o efeito era pior: o Quill
+            lia o textarea vazio, montava um editor em branco e o sync
+            devolvia "<p><br></p>", apagando o post ao salvar. */
+        }
         <textarea
           id="content"
           name="content"
           required
-          value={post?.content ?? ""}
-        />
+        >
+          {post?.content ?? ""}
+        </textarea>
       </div>
 
       <div class="form-acoes">

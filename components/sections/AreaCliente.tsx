@@ -1,3 +1,4 @@
+import { site } from "@/data/site.ts";
 /** "Uma conta, todos os seus projetos" — o fluxo do painel. */
 export function AreaCliente() {
   return (
@@ -16,7 +17,16 @@ export function AreaCliente() {
                 projetos diversos. Serviços, finanças e suporte. Integre o seu
                 gateway de pagamento e gerencie num só lugar.
               </p>
-              <button type="button" class="cta">
+              {
+                /* Era um <button> sem handler. O destino natural é o próprio painel,
+                  que é o que a seção descreve. */
+              }
+              <a
+                class="cta"
+                href={site.areaCliente}
+                target="_blank"
+                rel="noopener"
+              >
                 Ver como funciona
                 <span class="badge">
                   <svg viewBox="0 0 40 40">
@@ -26,7 +36,7 @@ export function AreaCliente() {
                     <circle cx="8" cy="20" r="2.8" />
                   </svg>
                 </span>
-              </button>
+              </a>
             </div>
 
             <div

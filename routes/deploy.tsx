@@ -7,6 +7,7 @@ import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
 import { AreaCliente } from "@/components/sections/AreaCliente.tsx";
 import { PlanosChamada } from "@/components/sections/PlanosChamada.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
+import { planosDeploy } from "@/data/planosDeploy.ts";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
@@ -31,6 +32,7 @@ export default async function Deploy() {
             h1="Crie na sua I.A e a gente coloca no ar"
             lede="Sua aplicação ou site feita na I.A com um link pronto para usar, sem você precisar lidar com servidor."
             cta="Ver planos"
+            rota="/deploy"
             destaques={[
               { titulo: "Link pronto", linha2: "para usar" },
               { titulo: "Sem lidar", linha2: "com servidor" },
@@ -52,7 +54,16 @@ export default async function Deploy() {
       <Clients />
       <AreaCliente />
       <PlanosChamada />
-      <Planos />
+      <Planos
+        planos={planosDeploy}
+        rota="/deploy"
+        eyebrow="Planos de Deploy"
+        titulo={
+          <>
+            Publique o app e <b>conecte seu domínio</b>
+          </>
+        }
+      />
       <Parceiros />
       <Faq
         itens={faqDeploy}

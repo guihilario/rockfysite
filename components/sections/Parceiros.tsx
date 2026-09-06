@@ -16,7 +16,11 @@ export function Parceiros() {
                 modelo de negócio e crie uma fonte de renda recorrente. A gente
                 cuida da infraestrutura e você do relacionamento direto com ele.
               </p>
-              <button type="button" class="cta">
+              {
+                /* Era um <button> sem handler. Não existe página de parceiros; o
+                  contato é onde a conversa começa. */
+              }
+              <a class="cta" href="/contato">
                 Seja um parceiro
                 <span class="badge">
                   <svg viewBox="0 0 40 40">
@@ -26,7 +30,7 @@ export function Parceiros() {
                     <circle cx="8" cy="20" r="2.8" />
                   </svg>
                 </span>
-              </button>
+              </a>
             </div>
 
             <div class="rc-collage" aria-hidden="true">

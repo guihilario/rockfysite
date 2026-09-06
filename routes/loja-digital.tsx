@@ -56,6 +56,7 @@ export default async function LojaDigital() {
           h1="Sua loja digital pronta pra vender em todo lugar"
           lede="Seus produtos em um só lugar pra seu cliente comprar pelo celular e no WhatsApp."
           cta="Começar grátis"
+          rota="/loja-digital"
           destaques={[
             { titulo: "PIX sem taxa", linha2: "na sua conta" },
             { titulo: "Pedido pronto", linha2: "no WhatsApp" },

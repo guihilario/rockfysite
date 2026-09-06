@@ -10,6 +10,9 @@ type PropsFaq = {
   titulo?: ComponentChildren;
   texto?: ComponentChildren;
   cta?: string;
+  /** Destino do botão. O padrão é o contato, que reúne os canais que o
+   *  texto acima promete. */
+  ctaHref?: string;
 };
 
 export function Faq({
@@ -23,6 +26,7 @@ export function Faq({
   texto =
     "Se ficar alguma dúvida, o suporte responde no chat e no WhatsApp, das 8h às 22h, todos os dias — gente de verdade, não robô.",
   cta = "Falar com o suporte",
+  ctaHref = "/contato",
 }: PropsFaq = {}) {
   return (
     <>
@@ -33,7 +37,8 @@ export function Faq({
             <p class="eyebrow">{eyebrow}</p>
             <h2 class="title">{titulo}</h2>
             <p class="para">{texto}</p>
-            <button type="button" class="cta">
+            {/* Era um <button> sem handler: o único CTA da FAQ não fazia nada. */}
+            <a class="cta" href={ctaHref}>
               {cta}
               <span class="badge">
                 <svg viewBox="0 0 24 24">
@@ -45,7 +50,7 @@ export function Faq({
                   />
                 </svg>
               </span>
-            </button>
+            </a>
           </div>
 
           <div class="acc" id="acc">

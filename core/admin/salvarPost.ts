@@ -37,6 +37,25 @@ export type CamposPost = {
 export class ErroDeFormulario extends Error {}
 
 /**
+ * Um editor vazio não devolve string vazia: o Quill devolve `<p><br></p>`.
+ * Testar só `!content` deixava isso passar como conteúdo válido e o UPDATE
+ * gravava o vazio por cima do post — foi assim que um artigo de 3.526
+ * caracteres virou 11.
+ *
+ * Não basta remover as tags e olhar o texto: um post pode ser legitimamente
+ * só uma imagem ou um vídeo incorporado. Por isso a presença de mídia conta
+ * como conteúdo.
+ */
+function vazioDeVerdade(html: string): boolean {
+  if (/<(img|iframe|video|embed|figure)\b/i.test(html)) return false;
+  const texto = html
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .trim();
+  return texto.length === 0;
+}
+
+/**
  * Lê o formulário e, quando há arquivo, processa e sobe a capa para o R2.
  *
  * A imagem passa pelo pipeline (orientação EXIF, redimensionamento, WebP)
@@ -46,7 +65,9 @@ export async function lerFormulario(form: FormData): Promise<CamposPost> {
   const title = String(form.get("title") ?? "").trim();
   const content = String(form.get("content") ?? "").trim();
   if (!title) throw new ErroDeFormulario("O título é obrigatório.");
-  if (!content) throw new ErroDeFormulario("O conteúdo é obrigatório.");
+  if (vazioDeVerdade(content)) {
+    throw new ErroDeFormulario("O conteúdo é obrigatório.");
+  }
 
   const excerptBruto = String(form.get("excerpt") ?? "").trim();
   const categoryId = String(form.get("categoryId") ?? "").trim() || null;

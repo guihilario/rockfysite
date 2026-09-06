@@ -7,6 +7,7 @@ import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
 import { AreaCliente } from "@/components/sections/AreaCliente.tsx";
 import { PlanosChamada } from "@/components/sections/PlanosChamada.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
+import type { Plan } from "@/data/plans.ts";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
@@ -14,6 +15,12 @@ import type { Post } from "@/domain/posts.ts";
 
 type Props = {
   rota: string;
+  /** Os planos desta rota. Cada linha de produto tem a sua tabela (spec §5-7);
+   *  sem isto todas as páginas mostrariam os planos de hospedagem. */
+  planos?: Plan[];
+  /** Chapéu e título do trilho, quando o padrão não serve à página. */
+  planosEyebrow?: string;
+  planosTitulo?: ComponentChildren;
   /** Os cards da faixa antes do rodapé, carregados pela rota. */
   posts: Post[];
   titulo: string;
@@ -37,7 +44,20 @@ type Props = {
  * HTML com ~97% de conteúdo repetido.
  */
 export function PaginaServico(
-  { rota, titulo, descricao, hero, h1, lede, cta, destaques, posts }: Props,
+  {
+    rota,
+    titulo,
+    descricao,
+    hero,
+    h1,
+    lede,
+    cta,
+    destaques,
+    posts,
+    planos,
+    planosEyebrow,
+    planosTitulo,
+  }: Props,
 ) {
   return (
     <Layout rota={rota} titulo={titulo} descricao={descricao} fluido>
@@ -47,7 +67,13 @@ export function PaginaServico(
       }
       <div class="hero-slot hero-slot--page">{hero}</div>
       <div class="conteudo">
-        <HeroCopy h1={h1} lede={lede} cta={cta} destaques={destaques} />
+        <HeroCopy
+          h1={h1}
+          lede={lede}
+          cta={cta}
+          rota={rota}
+          destaques={destaques}
+        />
       </div>
 
       <Audience />
@@ -61,7 +87,12 @@ export function PaginaServico(
       />
       <AreaCliente />
       <PlanosChamada />
-      <Planos />
+      <Planos
+        planos={planos}
+        rota={rota}
+        eyebrow={planosEyebrow}
+        titulo={planosTitulo}
+      />
       <Parceiros />
       <Faq />
       <Posts posts={posts} />

@@ -202,9 +202,9 @@ export default async function Sobre() {
               <p class="para">
                 A infraestrutura fica onde cada produto pede: temos servidores
                 no Brasil, nas Américas e na Europa. O que não muda é o resto:
-                atendimento em português, pagamento em reais e atendimento humanizado de verdade.
+                atendimento em português, pagamento em reais e atendimento
+                humanizado de verdade.
               </p>
-              
             </div>
             <CollageElementor />
           </div>

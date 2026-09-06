@@ -2,9 +2,10 @@ import { ConnectionError, Pool } from "postgres";
 import type { PoolClient } from "postgres";
 import { config } from "@/core/config.ts";
 
-// Pool sobre a connection string pooled do Neon — sem segundo pool local
-// por cima dela (SPEC §2, "Banco"). Tamanho pequeno: Cloud Run tende a rodar
-// várias instâncias, cada uma com seu próprio pool.
+// Pool sobre a connection string pooled do provedor — sem segundo pool local
+// por cima dela (SPEC §2, "Banco"). Tamanho pequeno de propósito: o site pode
+// rodar em várias instâncias, cada uma com o seu próprio pool, e o limite de
+// conexões é do banco, não de uma instância.
 export const pool = new Pool(config.databaseUrl, 3, true);
 
 /**

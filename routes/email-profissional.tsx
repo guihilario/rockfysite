@@ -1,4 +1,5 @@
 import { PaginaServico } from "@/components/PaginaServico.tsx";
+import { planosEmail } from "@/data/planosEmail.ts";
 import { HeroEmail } from "@/components/heroes/HeroEmail.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 
@@ -14,6 +15,13 @@ export default async function EmailProfissional() {
       h1="Seu e-mail com a cara do seu negócio"
       lede="Seu negócio com um endereço de e-mail comercial (seunome@empresa.com). Mais confiança, a partir de R$ 19,90/mês e suporte humano."
       cta="Ver planos"
+      planos={planosEmail}
+      planosEyebrow="E-mail profissional"
+      planosTitulo={
+        <>
+          Sem pagar por <b>cada endereço</b>
+        </>
+      }
       destaques={[
         { titulo: "Com o seu", linha2: "domínio" },
         { titulo: "Sem custo", linha2: "por caixa" },
