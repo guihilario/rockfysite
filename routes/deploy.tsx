@@ -21,16 +21,16 @@ export default async function Deploy() {
   return (
     <Layout
       rota="/deploy"
-      titulo="Deploy de apps feitos com I.A | Rockfy"
-      descricao="Publique a aplicação que você criou na I.A com um link pronto para usar, sem lidar com servidor. Deploy gerenciado, preço em reais e suporte em português."
+      titulo="Deploy de apps feitos com IA | Rockfy"
+      descricao="Publique a aplicação que você criou na IA com um link pronto para usar, sem lidar com servidor. Deploy gerenciado, preço em reais e suporte em português."
       fluido
     >
       <section class="deploy-hero" aria-labelledby="hero-title">
         <div class="conteudo">
           <DeployStage />
           <HeroCopy
-            h1="Crie na sua I.A e a gente coloca no ar"
-            lede="Sua aplicação ou site feita na I.A com um link pronto para usar, sem você precisar lidar com servidor."
+            h1="Seu site escalável e no piloto automático"
+            lede="O poder de escala e infraestrutura do Google. Simples e sem você lidar com servidor."
             cta="Ver planos"
             rota="/deploy"
             destaques={[

@@ -53,9 +53,9 @@ const PRODUTOS = [
     href: "/hospedagem-elementor-pro",
   },
   {
-    titulo: "Deploy [I.A]",
+    titulo: "Deploy [IA]",
     texto:
-      "Publique o app que você criou na I.A, sem servidor para administrar.",
+      "Publique o app que você criou na IA, sem servidor para administrar.",
     href: "/deploy",
   },
   {
@@ -92,14 +92,14 @@ export default async function Sobre() {
     <Layout
       rota="/sobre"
       titulo="Sobre a Rockfy: quem cuida da sua infraestrutura"
-      descricao="A nuvem brasileira de quem constrói na internet: hospedagem, deploy, loja digital e e-mail num painel só. Atendimento em português, pagamento em reais e suporte por gente."
+      descricao="A nuvem de quem constrói na internet: hospedagem, deploy, loja digital e e-mail num painel só. Atendimento em português, pagamento em reais e suporte por gente."
       fluido
     >
       <HeroPagina
         tagline="Sobre a Rockfy"
         h1={
           <>
-            A nuvem brasileira para <b>tudo que você põe no ar</b>
+            A nuvem para <b>tudo que você põe no ar</b>
           </>
         }
         lede="Site, aplicação, loja e e-mail costumam morar em quatro lugares diferentes, cada um com um suporte que não resolve. A Rockfy existe para juntar isso num painel só, com preço em reais e gente do outro lado."
@@ -146,7 +146,7 @@ export default async function Sobre() {
                 precisavam colocar no ar.
               </p>
               <p class="para">
-                Hoje não é só site. É a aplicação que alguém montou com I.A, a
+                Hoje não é só site. É a aplicação que alguém montou com IA, a
                 loja que vende no WhatsApp, o e-mail com domínio próprio. Mudou
                 o que se publica na internet; não mudou quem cuida disso.
               </p>

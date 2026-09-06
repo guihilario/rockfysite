@@ -50,8 +50,8 @@ export const menus: Menu[] = [
         titulo: "Construir e vender",
         itens: [
           {
-            titulo: "Deploy [I.A]",
-            descricao: "Publique o app que você criou na I.A, sem servidor.",
+            titulo: "Deploy [IA]",
+            descricao: "Publique o app que você criou na IA, sem servidor.",
             href: "/deploy",
             icone: "deploy",
           },

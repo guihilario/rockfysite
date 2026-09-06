@@ -27,7 +27,7 @@ const base: Plan[] = [
       { n: "[1]", label: "Migração gratuita" },
       { n: null, label: "SSL incluso" },
       { n: null, label: "Backup diário por 30 dias" },
-      { n: null, label: "Servidor em São Paulo" },
+      { n: null, label: "Servidor otimizado" },
     ],
     cta: "Hospedar meu site",
   },

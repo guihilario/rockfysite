@@ -636,7 +636,7 @@ body.is-locked{overflow:hidden}
 /* na página de Deploy o slot traz a marca do parceiro (Cloudflare), que é
    colorida e pede fundo neutro — ao contrário do roxo do Elementor */
 .wp-fl--logo.is-light{background:#fff}
-.wp-fl--latency{left:7.5%;top:41.9%;width:28%}
+.wp-fl--perf{left:7.5%;top:41.9%;width:28%}
 .wp-fl--resources{left:.4%;top:84.2%;width:26%}
 .wp-fl--builder{left:64.6%;top:72.8%;width:25.8%}
 
@@ -658,15 +658,15 @@ body.is-locked{overflow:hidden}
 .wp-fl--models .wp-fl-box{background:#e9e9e7}
 .wp-fl--models .wp-fl-box__label{color:#17181a;font-size:2.7cqw}
 /* o vidro fosco pressupunha fundo escuro atrás; aqui vira cartão do tema */
-.wp-fl--latency .wp-fl-box{
+.wp-fl--perf .wp-fl-box{
   background:var(--surface);border:1.4px solid var(--line);
   box-shadow:0 2cqw 4cqw rgba(0,0,0,.07);
 }
-.wp-fl--latency .wp-fl-box__label{color:var(--gray-600)}
-.wp-fl--latency .wp-fl-box__value{color:var(--ink);margin-top:1.4cqw}
-.wp-fl--latency .wp-flag{display:block;width:5.4cqw;height:auto;margin-top:2.4cqw;border-radius:.5cqw}
+.wp-fl--perf .wp-fl-box__label{color:var(--gray-600)}
+.wp-fl--perf .wp-fl-box__value{color:var(--ink);margin-top:1.4cqw}
+.wp-fl--perf .wp-flag{display:block;width:5.4cqw;height:auto;margin-top:2.4cqw;border-radius:.5cqw}
 /* na variante do Deploy a caixa começa pela bandeira (sem rótulo acima) */
-.wp-fl--latency .wp-flag:first-child{margin-top:0}
+.wp-fl--perf .wp-flag:first-child{margin-top:0}
 .wp-fl--builder .wp-fl-box{background:#b3a4e6}
 .wp-fl--builder .wp-fl-box__label{color:#2a2542}
 .wp-fl--builder .wp-fl-box__value{color:#17142b;font-size:3.1cqw;margin-top:4cqw}

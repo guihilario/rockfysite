@@ -9,7 +9,7 @@ export function Audience() {
         <div class="conteudo">
           <div class="voices__head">
             <div>
-              <p class="eyebrow">Infraestrutura no Brasil</p>
+              <p class="eyebrow">Infraestrutura otimizada</p>
               <h2 class="voices__title" id="audience-title">
                 Feito pra quem <br />
                 <b>faz acontecer</b>

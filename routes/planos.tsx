@@ -9,7 +9,7 @@ import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 import { site } from "@/data/site.ts";
 
 const DESCRICAO =
-  "Planos de hospedagem Rockfy a partir de R$37 por mês: conta cPanel isolada, servidor em São Paulo, SSL, backup diário e migração grátis. Sem fidelidade.";
+  "Planos de hospedagem Rockfy a partir de R$37 por mês: conta cPanel isolada, servidor otimizado, SSL, backup diário e migração grátis. Sem fidelidade.";
 
 /**
  * A página dona do preço.
@@ -48,7 +48,7 @@ export default async function PaginaPlanos() {
             Escolha o plano, <b>o resto a gente resolve</b>
           </>
         }
-        lede="Todos os planos vêm com conta isolada, servidor em São Paulo, SSL, backup diário e migração feita pelo nosso time. Cobrança mensal, sem fidelidade."
+        lede="Todos os planos vêm com conta isolada, servidor otimizado, SSL, backup diário e migração feita pelo nosso time. Cobrança mensal, sem fidelidade."
         acoes={
           <>
             <a class="cta cta--ghost" href={site.whatsapp}>
@@ -75,10 +75,10 @@ export default async function PaginaPlanos() {
               </p>
             </li>
             <li class="step">
-              <h3 class="step__t">Servidor em São Paulo</h3>
+              <h3 class="step__t">Servidor otimizado</h3>
               <p class="step__d">
-                Latência baixa para quem acessa do Brasil, nota fiscal em reais
-                e contrato sob a lei brasileira.
+                Infraestrutura afinada para o que roda nela. Nota fiscal em
+                reais e contrato sob a lei brasileira.
               </p>
             </li>
             <li class="step">

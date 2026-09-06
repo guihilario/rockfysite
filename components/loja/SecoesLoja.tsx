@@ -120,7 +120,7 @@ export function Atualize() {
           Atualize fácil <em>e pelo celular</em>
         </>
       }
-      texto="Mais simples que postar no Instagram, tão rápido quanto responder um WhatsApp. E a nossa I.A te ajuda."
+      texto="Mais simples que postar no Instagram, tão rápido quanto responder um WhatsApp. E a nossa IA te ajuda."
     />
   );
 }

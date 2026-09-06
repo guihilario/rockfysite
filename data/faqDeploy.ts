@@ -10,10 +10,10 @@ import type { FaqItem } from "@/data/faq.ts";
  * Cada resposta se apoia em algo que a página já promete. As perguntas
  * sobre limites e preço ficaram de fora até alguém confirmar os números.
  *
- * Não há pergunta sobre onde a aplicação roda: a hospedagem fica em São
- * Paulo, o deploy não, e levantar isso numa FAQ criaria uma objeção que o
- * visitante não trouxe. O cuidado que sobra é não AFIRMAR o contrário — por
- * isso nenhum texto do produto promete servidor no Brasil.
+ * Não há pergunta sobre onde a aplicação roda. A infraestrutura é global e
+ * cada produto fica onde entrega melhor desempenho; levantar geografia numa
+ * FAQ criaria uma objeção que o visitante não trouxe. O que a página promete
+ * é performance, não endereço.
  */
 export const faqDeploy: FaqItem[] = [
   {

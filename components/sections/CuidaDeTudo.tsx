@@ -28,7 +28,7 @@ export function CuidaDeTudo(
                 Configuramos e deixamos tudo pronto pra você operar, sem custo
                 extra, ativação de licenças oficiais e suporte humanizado que
                 resolve. Você foca em gerar valor para o seu cliente, e a gente
-                da sua infra.
+                cuida da sua infra.
               </p>
               <a class="cta" href="#planos">
                 Ver planos

@@ -9,7 +9,7 @@ export function Parceiros() {
             <div>
               <span class="tagline">Parceiros</span>
               <h2 class="title">
-                Hospede seus clientes <b>ganhe</b> todo <em>mês</em>
+                Hospede seus clientes, <b>ganhe</b> todo <em>mês</em>
               </h2>
               <p class="para">
                 Migre seus clientes para uma infraestrutura pensada para o seu

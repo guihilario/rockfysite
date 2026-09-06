@@ -49,16 +49,39 @@ export function CollageElementor() {
         </svg>
       </div>
 
-      <div class="wp-fl wp-fl--latency">
+      <div class="wp-fl wp-fl--perf">
         <div class="wp-fl-box">
-          <p class="wp-fl-box__label">Baixa Latência</p>
+          <p class="wp-fl-box__label">Performance</p>
+          {
+            /* Era a bandeira do Brasil: o servidor daqui era a promessa. A
+              infraestrutura agora é global e o que se promete é desempenho,
+              então o selo virou um ponteiro de medidor. */
+          }
           <svg class="wp-flag" viewBox="0 0 42 30" aria-hidden="true">
-            <rect width="42" height="30" rx="2" fill="#1f9e4c" />
-            <path d="M21 4.5 38 15 21 25.5 4 15z" fill="#f5d000" />
-            <circle cx="21" cy="15" r="6.4" fill="#1c3f97" />
+            <rect width="42" height="30" rx="2" fill="#f2f1ee" />
+            <path
+              d="M10 22a11 11 0 0 1 22 0"
+              fill="none"
+              stroke="#c9c9c9"
+              stroke-width="2.8"
+              stroke-linecap="round"
+            />
+            <path
+              d="M10 22A11 11 0 0 1 17.8 11.5"
+              fill="none"
+              stroke="#1f9e4c"
+              stroke-width="2.8"
+              stroke-linecap="round"
+            />
+            <path
+              d="M21 22 27 13.5"
+              stroke="#0a0a0a"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            />
           </svg>
           <p class="wp-fl-box__value">
-            Servidor<br />no Brasil
+            Servidor<br />otimizado
           </p>
         </div>
       </div>
@@ -76,7 +99,7 @@ export function CollageElementor() {
 
       <div class="wp-fl wp-fl--builder">
         <div class="wp-fl-box">
-          <p class="wp-fl-box__label">Construa na I.A</p>
+          <p class="wp-fl-box__label">Construa na IA</p>
           <p class="wp-fl-box__value">
             A gente publica
           </p>
@@ -130,12 +153,26 @@ export function CollageDeploy() {
         />
       </div>
 
-      <div class="wp-fl wp-fl--latency">
+      <div class="wp-fl wp-fl--perf">
         <div class="wp-fl-box">
+          {
+            /* Aqui o selo é sobre cobrança, não sobre servidor: um "R$" diz o
+              que a caixa afirma. Antes era a bandeira do Brasil, que
+              prometia a máquina daqui. */
+          }
           <svg class="wp-flag" viewBox="0 0 42 30" aria-hidden="true">
-            <rect width="42" height="30" rx="2" fill="#1f9e4c" />
-            <path d="M21 4.5 38 15 21 25.5 4 15z" fill="#f5d000" />
-            <circle cx="21" cy="15" r="6.4" fill="#1c3f97" />
+            <rect width="42" height="30" rx="2" fill="#f2f1ee" />
+            <text
+              x="21"
+              y="21"
+              text-anchor="middle"
+              font-family="Instrument Sans, Helvetica, Arial, sans-serif"
+              font-size="15"
+              font-weight="600"
+              fill="#0a0a0a"
+            >
+              R$
+            </text>
           </svg>
           <p class="wp-fl-box__value">
             Preços<br />em reais

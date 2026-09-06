@@ -37,7 +37,7 @@ export const faqLoja: FaqItem[] = [
   },
   {
     q: "Tenho muitos itens. Dá conta?",
-    a: "Dá. O plano de entrada vai até 80 produtos, o intermediário até 280 e o Especial não tem limite. E cadastrar é rápido: você fotografa pelo celular e a nossa I.A escreve a descrição.",
+    a: "Dá. O plano de entrada vai até 80 produtos, o intermediário até 280 e o Especial não tem limite. E cadastrar é rápido: você fotografa pelo celular e a nossa IA escreve a descrição.",
   },
   {
     q: "Consigo vender no balcão também?",

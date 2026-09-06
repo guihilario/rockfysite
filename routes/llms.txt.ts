@@ -44,15 +44,15 @@ export const handler = define.handlers({
     const texto = [
       `# ${site.nome}`,
       "",
-      "> Nuvem brasileira para quem constrói na internet: hospedagem de sites e WordPress, deploy de aplicações, loja digital e e-mail profissional, num painel só.",
+      "> Nuvem para quem constrói na internet: hospedagem de sites e WordPress, deploy de aplicações, loja digital e e-mail profissional, num painel só.",
       "",
-      `A ${site.nome} é marca da ${site.razaoSocial} (CNPJ ${site.cnpj}), com sede em ${site.cidade}. Os servidores ficam em datacenter em São Paulo; o contrato é regido pela lei brasileira e a nota fiscal é emitida em reais. O atendimento é feito por pessoas, em português.`,
+      `A ${site.nome} é marca da ${site.razaoSocial} (CNPJ ${site.cnpj}), com sede em ${site.cidade}. A infraestrutura é distribuída e cada produto roda onde entrega melhor desempenho. O contrato é regido pela lei brasileira, a nota fiscal é emitida em reais e o atendimento é feito por pessoas, em português.`,
       "",
       bloco("Produtos", produtos),
       bloco("Blog", artigos("blog", blog.posts)),
       bloco("Central de ajuda", artigos("ajuda", ajuda.posts)),
       bloco("Planos e preços", [
-        `- [Planos de hospedagem](${SITE}/planos): quatro faixas a partir de R$37/mês, com conta isolada, servidor em São Paulo, SSL, backup diário e migração grátis.`,
+        `- [Planos de hospedagem](${SITE}/planos): quatro faixas a partir de R$37/mês, com conta isolada, servidor otimizado, SSL, backup diário e migração grátis.`,
       ]),
       bloco("Institucional", [
         `- [Sobre a ${site.nome}](${SITE}/sobre): história, valores, equipe e dados da empresa.`,

@@ -31,7 +31,7 @@ export default async function HomeV2() {
     <Layout
       rota="/v2"
       titulo="Home v2 | Rockfy"
-      descricao="Hospedagem WordPress com servidor em São Paulo, deploy de apps de I.A, loja digital e e-mail profissional num painel só. Preço em reais e suporte por gente."
+      descricao="Hospedagem WordPress em servidor otimizado, deploy de apps de IA, loja digital e e-mail profissional num painel só. Preço em reais e suporte por gente."
       naoIndexar
       cabecalho="vidro"
       fluido

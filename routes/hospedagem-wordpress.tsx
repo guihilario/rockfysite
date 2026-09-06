@@ -10,10 +10,10 @@ export default async function HospedagemWordpress() {
       posts={posts}
       rota="/hospedagem-wordpress"
       titulo="Hospedagem WordPress sem travas de construtor | Rockfy"
-      descricao="WordPress puro numa conta cPanel isolada: instale os plugins e temas que quiser. Servidor em São Paulo, migração gratuita e sem fidelidade."
+      descricao="WordPress puro numa conta cPanel isolada: instale os plugins e temas que quiser. Servidor otimizado, migração gratuita e sem fidelidade."
       hero={<HeroWordpress />}
       h1="Hospedagem WordPress para construir do seu jeito"
-      lede="Nenhum construtor travado, nenhum tema fechado. WordPress puro, numa conta cPanel isolada, com servidor em São Paulo. A gente migra seu site sem custo."
+      lede="Nenhum construtor travado, nenhum tema fechado. WordPress puro, numa conta cPanel isolada, em servidor afinado para ele. A gente migra seu site sem custo."
       cta="Ver planos"
       planos={planosWordpress}
       planosEyebrow="Hospedagem"

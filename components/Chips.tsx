@@ -20,7 +20,7 @@ export function Chips() {
           aria-pressed="false"
           aria-controls="heroSlot"
         >
-          Deploy de Apps [I.A]
+          Deploy de Apps [IA]
         </button>
         <button
           type="button"

@@ -33,7 +33,7 @@ export function HeroFoto(
       <div class="heroB__corpo">
         <h1 class="heroB__titulo">Bem-vindo a sua nova nuvem</h1>
         <p class="heroB__texto">
-          Pronta para hospedar sites e apps feitos na sua I.A. WordPress com
+          Pronta para hospedar sites e apps feitos na sua IA. WordPress com
           Elementor Pro e E-mail profissional. Em um único painel pra você
           gerenciar seus projetos, clientes e finanças.
         </p>
