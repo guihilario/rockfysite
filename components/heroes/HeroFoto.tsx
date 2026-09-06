@@ -6,8 +6,7 @@ import { alvoDosPlanos } from "@/core/navegacao.ts";
  * A faixa de abertura com foto sangrando e o divisor curvo.
  *
  * O cabeçalho entra por `cabecalho` quando a página quer um sobreposto à
- * foto — é o caso da `/hero-teste`, que reproduz o mockup. Na home o slot
- * fica vazio: lá quem manda é o `Header` do site, com os menus suspensos.
+ * foto. Na home o slot fica vazio: lá quem manda é o `Header` do site.
  *
  * A foto foi enquadrada para este uso — sujeito à direita, fundo desfocado
  * à esquerda, que é onde o texto assenta.

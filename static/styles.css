@@ -143,11 +143,6 @@ body.is-locked{overflow:hidden}
 /* ══════════════════════════════════════════════════════════
    4. HERO · CATÁLOGO
    ══════════════════════════════════════════════════════════ */
-.headline{text-align:center;margin-top:56px;font-size:42px;line-height:1.06;letter-spacing:-1.6px}
-.headline .l1{font-weight:500}
-.headline .l2{font-weight:400;color:var(--gray-500);display:block}
-@media (min-width:900px){.headline{font-size:72px;letter-spacing:-3px;margin-top:64px}}
-@media (min-width:1280px){.headline{font-size:92px;letter-spacing:-4px;margin-top:80px}}
 
 /* ── HERO WordPress (migrado de _local/heros/wordpress.html) ──
    Referência 820x300. Tudo em cqw, então escala junto com a largura.
@@ -349,14 +344,6 @@ body.is-locked{overflow:hidden}
 
 .foot .scroll{letter-spacing:.06em}
 
-.chips-wrap{position:relative;margin:0 calc(var(--gutter)*-1)}
-.chips{display:flex;gap:10px;overflow-x:auto;padding:2px calc(var(--gutter) + 16px) 4px;scrollbar-width:none}
-@media (min-width:900px){.chips{flex-wrap:wrap;justify-content:center}}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1.4px solid var(--line);border-radius:var(--r-pill);background:var(--surface);color:var(--ink);padding:14px 26px;font-size:16px;letter-spacing:-.2px;white-space:nowrap;cursor:pointer;transition:all var(--t)}
-.chip:hover{border-color:var(--ink)}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
-.chip.ghost{color:var(--gray-300);border-color:var(--line-soft)}
 .fade{position:absolute;top:0;bottom:4px;width:34px;pointer-events:none}
 .fade.l{left:0;background:linear-gradient(90deg,var(--surface) 30%,transparent)}
 .fade.r{right:0;background:linear-gradient(270deg,var(--surface) 30%,transparent)}
@@ -401,7 +388,6 @@ body.is-locked{overflow:hidden}
 .voices__title b{font-weight:500}
 @media (min-width:900px){.voices__title{font-size:52px;letter-spacing:-2.5px}}
 @media (min-width:1280px){.voices__title{font-size:62px;letter-spacing:-3px}}
-.voices__nav{display:flex;align-items:center;gap:10px;flex:none}
 .arrowbtn:hover{border-color:var(--ink);transform:scale(1.05)}
 .arrowbtn:active{transform:scale(.96)}
 .counter{font-size:13px;color:var(--gray-600);min-width:56px;text-align:center}
@@ -418,23 +404,7 @@ body.is-locked{overflow:hidden}
    ══════════════════════════════════════════════════════════ */
 .shot{position:relative;margin-top:34px;padding:0 6px}
 @media (min-width:900px){.shot{margin-top:0}}
-.shot__img{background:var(--ph);border-radius:var(--r-lg);aspect-ratio:4/5;width:100%}
 @media (min-width:900px){.shot{max-width:520px;margin-left:auto;padding:0}.shot__img{aspect-ratio:5/6}}
-.tagpill{
-  position:absolute;top:26px;left:-6px;z-index:2;
-  display:inline-flex;align-items:center;gap:9px;
-  background:var(--accent);color:var(--on-accent);border-radius:var(--r-pill);
-  padding:9px 18px 9px 9px;font-size:14px;font-weight:500;letter-spacing:-.2px;
-  animation:float 5s ease-in-out infinite;
-}
-.tagpill .dotmark{width:26px;height:26px;border-radius:50%;background:var(--surface);display:grid;place-items:center;flex:none}
-.tagpill .dotmark svg{width:15px;height:15px;fill:var(--ink)}
-.markcard{
-  position:absolute;right:-4px;bottom:-20px;z-index:2;
-  width:92px;height:92px;border-radius:var(--r-md);background:var(--accent);
-  display:grid;place-items:center;animation:float 6.5s ease-in-out infinite .6s;
-}
-.markcard svg{width:44px;height:44px;fill:var(--on-accent)}
 
 /* ══════════════════════════════════════════════════════════
    8. COLAGENS
@@ -829,13 +799,6 @@ body.is-locked{overflow:hidden}
 @keyframes rc-in{to{opacity:1;transform:none}}
 
 /* — colagem C (vertical) — */
-.col-c{aspect-ratio:500/640;max-width:500px;margin:38px auto 0}
-@media (min-width:900px){.col-c{margin:0;max-width:none}}
-.c-back{left:57.6%;top:0;width:42.4%;height:28.4%;background:var(--beige);border-radius:3.4cqi;z-index:1}
-.c-photo{left:12.6%;top:8.3%;width:74%;height:77%;background:var(--ph);border-radius:3.4cqi;z-index:2}
-.c-lime{left:0;top:71.7%;width:25.6%;height:18.8%;background:var(--accent);border-radius:3.4cqi;z-index:3;display:grid;place-items:center;animation:float 7s ease-in-out infinite}
-.c-lime svg{width:46%;height:46%;fill:var(--on-accent)}
-.c-product{left:63.6%;top:70.9%;width:36.4%;height:29.1%;z-index:3;background:var(--ph-2);border:1.4px solid var(--line);border-radius:3.4cqi;display:grid;place-items:center;animation:float 8.5s ease-in-out infinite .8s}
 
 /* disco de produto (compartilhado) */
 .disc{width:58%;aspect-ratio:1;border-radius:50%;background:var(--ph);border:1.4px solid var(--line);position:relative}
@@ -875,7 +838,7 @@ body.is-locked{overflow:hidden}
 .n-u2{left:71.4%;top:82.5%}
 
 @media (prefers-reduced-motion:reduce){
-  .tagpill,.markcard,.a-lime,.msg,.b-lime,.b-ui,.c-lime,.c-product,.flow__wires path{animation:none}
+  .msg,.flow__wires path{animation:none}
   :root{--slide:.01ms}
 }
 
@@ -1888,12 +1851,6 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 
 /* Chamada centralizada: quando a seção apresenta o carrossel abaixo dela,
    em vez de ficar ao lado de uma colagem. */
-.chamada-centro{
-  display:flex;flex-direction:column;align-items:center;text-align:center;
-  max-width:62ch;margin-inline:auto;
-}
-.chamada-centro .title{max-width:20ch}
-.chamada-centro .para{margin-top:18px;max-width:52ch}
 
 /* ─── Formulário dos planos (popover nativo) ────────────────────────
    Abrir, fechar, Esc e clique fora são do navegador — nada aqui depende
