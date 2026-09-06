@@ -24,7 +24,7 @@ export function HeroEmail({ oculto }: { oculto?: boolean }) {
       </p>
       <img
         class="em-hero__photo"
-        src="/img/email.webp"
+        src="/img/email-profissional.webp"
         alt="Mulher sorrindo ao ar livre"
         width="360"
         height="456"

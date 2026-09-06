@@ -24,7 +24,7 @@ export function HeroLoja({ oculto }: { oculto?: boolean }) {
       </p>
       <img
         class="lj-hero__photo"
-        src="/img/loja.webp"
+        src="/img/loja-digital.webp"
         alt="Homem trabalhando no notebook"
         width="360"
         height="456"

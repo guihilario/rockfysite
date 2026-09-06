@@ -341,7 +341,15 @@ export async function listAllPosts(
   return { posts: rows.slice(0, perPage), hasMore: rows.length > perPage };
 }
 
-export type SitemapEntry = { slug: string; section: string; updatedAt: Date };
+export type SitemapEntry = {
+  slug: string;
+  section: string;
+  updatedAt: Date;
+  /** Para a extensão `image` do sitemap: o buscador precisa do título junto
+   *  da capa para associá-la à página. */
+  title: string;
+  coverImageUrl: string | null;
+};
 
 /**
  * Só o essencial pro sitemap (SPEC §35): posts publicados COM categoria —
@@ -352,10 +360,17 @@ export async function listPublishedPostsForSitemap(
   client: Queryable = db,
 ): Promise<SitemapEntry[]> {
   const result = await client.queryObject<
-    { slug: string; section: string; updated_at: Date }
+    {
+      slug: string;
+      section: string;
+      updated_at: Date;
+      title: string;
+      cover_image_url: string | null;
+    }
   >({
     text: `
-      SELECT posts.slug, root.slug AS section, posts.updated_at
+      SELECT posts.slug, root.slug AS section, posts.updated_at,
+             posts.title, posts.cover_image_url
       FROM posts
       JOIN categories cat ON cat.id = posts.category_id
       JOIN categories root ON root.id = COALESCE(cat.parent_id, cat.id)
@@ -367,6 +382,8 @@ export async function listPublishedPostsForSitemap(
     slug: row.slug,
     section: row.section,
     updatedAt: row.updated_at,
+    title: row.title,
+    coverImageUrl: row.cover_image_url,
   }));
 }
 

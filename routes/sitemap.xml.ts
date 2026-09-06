@@ -20,8 +20,24 @@ const PAGINAS = [
   ["/politicas", "0.3"],
 ];
 
+/** Escapa o que vai dentro de um nó XML. O título do post é texto livre de
+ *  editor: um `&` ou aspas ali quebram o documento inteiro, e um sitemap
+ *  malformado é descartado pelo buscador sem aviso. */
+function xml(t: string): string {
+  return t
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 /** Sitemap gerado a cada requisição: as páginas fixas mais todo post
- *  publicado, com `lastmod` vindo do banco. */
+ *  publicado, com `lastmod` vindo do banco.
+ *
+ *  Os posts declaram a capa pela extensão `image` do protocolo. É o que diz
+ *  ao buscador que aquela imagem pertence àquela página — sem isso ele
+ *  precisa inferir pelo HTML, e imagem servida de outro domínio (as capas
+ *  vêm do R2) é justamente o caso em que ele infere pior. */
 export const handler = define.handlers({
   async GET() {
     const posts = await listPublishedPostsForSitemap();
@@ -38,16 +54,24 @@ export const handler = define.handlers({
       ...PAGINAS.map(([loc, pri]) =>
         `  <url>\n    <loc>${SITE}${loc}</loc>\n    <lastmod>${maisRecente}</lastmod>\n    <priority>${pri}</priority>\n  </url>`
       ),
-      ...posts.map((p) =>
-        `  <url>\n    <loc>${SITE}${
+      ...posts.map((p) => {
+        const loc = `${SITE}${
           p.section === "ajuda" ? "/ajuda" : "/blog"
-        }/${p.slug}</loc>\n    <lastmod>${
+        }/${p.slug}`;
+        const capa = p.coverImageUrl
+          ? `\n    <image:image>\n      <image:loc>${
+            xml(p.coverImageUrl)
+          }</image:loc>\n      <image:title>${
+            xml(p.title)
+          }</image:title>\n    </image:image>`
+          : "";
+        return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${
           p.updatedAt.toISOString().slice(0, 10)
-        }</lastmod>\n    <priority>0.6</priority>\n  </url>`
-      ),
+        }</lastmod>\n    <priority>0.6</priority>${capa}\n  </url>`;
+      }),
     ];
     return new Response(
-      `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${
+      `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${
         urls.join("\n")
       }\n</urlset>\n`,
       { headers: { "content-type": "application/xml; charset=utf-8" } },
