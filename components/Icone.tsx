@@ -93,6 +93,13 @@ const CAMINHOS: Record<string, preact.JSX.Element> = {
       <rect x="2" y="4" width="20" height="16" rx="2" />
     </>
   ),
+  /* Login. Mesmo desenho do Lucide, com o traço 1.6 do resto do menu. */
+  usuario: (
+    <>
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </>
+  ),
 };
 
 export function Icone({ nome }: { nome: string }) {

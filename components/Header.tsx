@@ -28,9 +28,9 @@ function NavLink(
 export function Header(
   { atual, forma = "padrao", itens }: {
     atual?: string;
-    forma?: "padrao" | "flutuante" | "vidro";
+    forma?: "padrao" | "flutuante" | "vidro" | "fixo";
     /** Quando vem preenchido, o mega menu dá lugar a uma lista simples de
-     *  links com ícone — é o que a /v2 usa. Sem isto, nada muda. */
+     *  links com ícone — é o que a home usa. Sem isto, nada muda. */
     itens?: ItemNav[];
   },
 ) {
@@ -168,7 +168,10 @@ export function Header(
             })}
         </nav>
         <div class="top__acoes">
-          <a class="top__entrar" href="https://area.rockfy.com">Entrar</a>
+          <a class="top__entrar" href="https://area.rockfy.com">
+            <Icone nome="usuario" />
+            Entrar
+          </a>
           <a class="top__cta" href={alvoDosPlanos(atual)}>Ver planos</a>
         </div>
 
@@ -214,7 +217,10 @@ export function Header(
               ))
             )}
           <div class="mmenu__acoes">
-            <a class="top__entrar" href="https://area.rockfy.com">Entrar</a>
+            <a class="top__entrar" href="https://area.rockfy.com">
+              <Icone nome="usuario" />
+              Entrar
+            </a>
             <a class="top__cta" href={alvoDosPlanos(atual)}>Ver planos</a>
           </div>
         </nav>

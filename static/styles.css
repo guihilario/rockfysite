@@ -54,6 +54,10 @@
      o rodapé precisa reservar exatamente esse canto: se os dois valores
      divergirem, o botão volta a cobrir a barra legal. */
   --zap:56px; --zap-recuo:clamp(16px,3vw,28px);
+  /* Folga que todo alvo de âncora precisa reservar. O cabeçalho é fixo em
+     todas as páginas: sem isto o título rolado para uma âncora para por
+     baixo dele. Medido no estado rolado, que é o mais baixo (65px). */
+  --ancora:clamp(84px,10vh,108px);
 }
 @media (min-width:900px){:root{--gutter:46px;--max:1180px;--gap:18px}}
 /* ══════════════════════════════════════════════════════════
@@ -149,6 +153,84 @@ body.is-locked{overflow:hidden}
    Referência 820x300. Tudo em cqw, então escala junto com a largura.
    Cores originais do componente mapeadas para os tokens do site,
    para acompanhar o tema claro/escuro. */
+/* Vitrine de produto: a colagem da hero fora do slot. Os painéis não têm
+   altura própria — todo o desenho é `position:absolute` — então quem dá a
+   moldura é o contêiner. Sem esta proporção o bloco renderiza com 0px de
+   altura e a arte some. É a mesma razão do slot: os elementos são
+   posicionados em cqw (% da largura), então a moldura não reposiciona nada. */
+.vitrine__arte [data-hero-panel]{aspect-ratio:1071/417}
+/* O Deploy pede uma moldura mais alta que as outras colagens: o `.deploy-stack`
+   tem proporção 798/340 e, dentro de 1071/417, os quatro cartões vazavam por
+   baixo e a pílula passava 23px da direita. Na página do produto isso não
+   aparece porque o stack bate no teto de 1100px e sobra altura. */
+.vitrine__arte [data-hero-panel="deploy"]{aspect-ratio:1071/490}
+/* A pílula é posicionada em `right:-3%` do stack, de propósito: ela deve
+   passar da borda da pilha de cartões. Na página do produto o stack para em
+   1100px dentro de um painel de 1440, e essa sobra a acomoda. Aqui o stack
+   ocupava a largura inteira e a pílula caía fora do painel, que tem
+   `overflow:hidden`. Os 92% devolvem a margem que ela precisa. */
+.vitrine__arte .deploy-stack{width:92%}
+@media (max-width:640px){.vitrine__arte [data-hero-panel]{aspect-ratio:640/400}}
+
+/* Só acima do breakpoint compacto: abaixo de 640px o `@media` original
+   já reposiciona a colagem para telas estreitas, e estas regras, de
+   especificidade maior, venciam aquele bloco e produziam um híbrido —
+   tamanho novo com o `translateX` antigo, e 86px de vão sobrando. */
+@media (min-width:641px){
+  /* Na vitrine a colagem ocupa metade da largura que tem no topo da página, e
+     como tudo ali é dimensionado em cqw os elementos encolhem junto: a pílula
+     ficava com 9px de fonte. Aqui eles voltam a 1,35x.
+
+     O wordmark fica de fora de propósito — ele já é a moldura da composição, e
+     crescer junto só o faria estourar as bordas.
+
+     As posições foram recalculadas, não só os tamanhos: o topo da foto é o
+     âncora vertical e o centro horizontal de cada peça é preservado, senão a
+     composição se desmancha ao escalar. */
+  .vitrine__arte .em-hero__photo{
+    top:1.30cqw;left:32.35cqw;width:35.55cqw;height:37.13cqw;border-radius:3.78cqw;
+  }
+  .vitrine__arte .em-hero__badge{
+    top:5.22cqw;left:66.03cqw;width:9.59cqw;height:9.59cqw;
+  }
+  .vitrine__arte .em-hero__binary{
+    top:20.58cqw;width:39.16cqw;font-size:1.54cqw;letter-spacing:.027cqw;
+  }
+  .vitrine__arte .em-hero__pill{gap:1.28cqw}
+  .vitrine__arte .em-hero__pill img{width:2.13cqw;height:2.13cqw}
+  .vitrine__arte .em-hero__pill--pro{
+    top:26.28cqw;left:21.06cqw;height:5.86cqw;padding:0 2.55cqw;font-size:1.81cqw;
+  }
+  .vitrine__arte .em-hero__pill--mail{
+    top:30.87cqw;left:55.49cqw;height:6.60cqw;padding:0 2.77cqw;font-size:1.92cqw;
+  }
+
+  /* A colagem da loja tem outras proporções, então a escala é recalculada
+     para ela — não dá para reaproveitar os números do Elementor. Fator 1,32:
+     em 1,35 a foto passava 0,25cqw da moldura. Mesmo método: o topo da foto
+     é o âncora vertical, os centros horizontais são preservados, e o
+     wordmark fica de fora. */
+  .vitrine__arte .lj-hero__photo{
+    top:1cqw;left:38.85cqw;width:30.10cqw;height:37.34cqw;border-radius:2.71cqw;
+  }
+  .vitrine__arte .lj-hero__badge{
+    top:5.49cqw;left:68.42cqw;width:6.60cqw;height:6.60cqw;border-radius:1.69cqw;
+  }
+  .vitrine__arte .lj-hero__spark{top:28.46cqw;left:55.35cqw;width:5.54cqw}
+  .vitrine__arte .lj-hero__binary{
+    top:15.08cqw;width:32.17cqw;font-size:1.48cqw;letter-spacing:.026cqw;
+  }
+  .vitrine__arte .lj-hero__pill{gap:1.48cqw}
+  .vitrine__arte .lj-hero__pill--loja{
+    top:14.71cqw;left:18.39cqw;height:6.60cqw;padding:0 2.64cqw;font-size:1.91cqw;
+  }
+  .vitrine__arte .lj-hero__pill--loja img{width:2.90cqw;height:2.90cqw}
+  .vitrine__arte .lj-hero__pill--pedido{
+    top:32.02cqw;left:59.97cqw;height:6.07cqw;padding:0 2.44cqw;font-size:1.91cqw;
+  }
+  .vitrine__arte .lj-hero__pill--pedido img{width:2.64cqw;height:2.64cqw}
+}
+
 .hero-slot{margin:42px calc(var(--gutter)*-1) 30px}
 @media (min-width:900px){.hero-slot{margin-top:52px}}
 .hero-slot [data-hero-panel][hidden]{display:none}
@@ -1100,6 +1182,12 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 /* Quando a página traz o próprio cabeçalho, ele já encosta no topo: o
    respiro que o shell reserva viraria uma faixa branca acima da arte. */
 .screen--colado{padding-top:0}
+/* Com o cabeçalho fixo ele sai do fluxo, e sem esta reserva a primeira
+   seção passaria por baixo dele. A home não precisa: lá a hero ocupa o topo
+   de propósito, com o cabeçalho sobreposto à foto. */
+/* O piso de 100px não é estético: no estreito o cabeçalho mede 95px, e um
+   mínimo menor deixava a primeira seção do /deploy passar por baixo dele. */
+.screen--sob-fixo{padding-top:clamp(100px,9vw,104px)}
 /* Fora do modo fluido o wrapper não pode existir para o layout: várias
    seções distribuem os próprios filhos em grid/flex, e um div no meio
    colapsaria tudo numa coluna só. `display:contents` o torna inerte. */
@@ -1212,8 +1300,8 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 /* corpo do post: o HTML vem do editor, então estilizamos por tag */
 .post-conteudo{font-size:18px;line-height:1.7;color:var(--ink);max-width:68ch}
 .post-conteudo > * + *{margin-top:20px}
-.post-conteudo h2{font-size:28px;line-height:1.2;letter-spacing:-.8px;font-weight:500;margin-top:44px;scroll-margin-top:24px}
-.post-conteudo h3{font-size:21px;line-height:1.25;letter-spacing:-.4px;font-weight:500;margin-top:32px;scroll-margin-top:24px}
+.post-conteudo h2{font-size:28px;line-height:1.2;letter-spacing:-.8px;font-weight:500;margin-top:44px;scroll-margin-top:var(--ancora)}
+.post-conteudo h3{font-size:21px;line-height:1.25;letter-spacing:-.4px;font-weight:500;margin-top:32px;scroll-margin-top:var(--ancora)}
 .post-conteudo p{color:var(--texto)}
 .post-conteudo a{text-decoration:underline;text-underline-offset:3px}
 .post-conteudo ul,.post-conteudo ol{padding-left:22px;color:var(--texto)}
@@ -1331,9 +1419,13 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   .top__acoes{display:flex;align-items:center;gap:8px}
 }
 .top__entrar{
+  /* `inline-flex` para o ícone de usuário assentar na mesma linha do rótulo,
+     com o mesmo gap dos links de produto. */
+  display:inline-flex;align-items:center;gap:8px;
   padding:11px 16px;border:0;background:none;border-radius:var(--r-pill);
   font-size:15px;letter-spacing:-.2px;color:var(--gray-600);transition:color var(--t);
 }
+.top__entrar .menu-icone{width:18px;height:18px;flex:none}
 .top__entrar:hover{color:var(--ink)}
 .top__cta{
   padding:11px 20px;border-radius:var(--r-pill);
@@ -1510,14 +1602,11 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 /* Navegação simples da v2: link com ícone, sem painel suspenso. Herda a
    cor do cabeçalho, então funciona igual sobre a foto e sobre o vidro
    quando o topo fica sólido ao rolar. */
-.navsimples{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:15px;letter-spacing:-.2px;color:inherit;
-  padding:6px 2px;transition:opacity var(--t);
-}
+/* Só o necessário para o ícone caber ao lado do rótulo. Cor, recuo, pílula
+   e transição vêm do `.topnav a`, que já é a linguagem do cabeçalho — não
+   vale reescrever aqui o que a regra de cima já resolve. */
+.topnav a.navsimples{display:inline-flex;align-items:center;gap:8px}
 .navsimples .menu-icone{width:18px;height:18px;flex:none}
-.navsimples:hover{opacity:.62}
-.navsimples.is-aqui{font-weight:500}
 
 .heroB{
   position:relative;width:100%;min-height:min(96vh,960px);
@@ -1531,7 +1620,6 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
      linha de texto e o começo da curva. */
   --heroB-pad:clamp(150px,17.5vw,232px);
   --heroB-sobe:clamp(16px,3vw,48px);   /* quanto o pitch sobe do divisor */
-  --heroB-titulo-topo:clamp(96px,22vh,210px);  /* onde o título assenta */
 }
 .heroB--com-topo{grid-template-rows:auto 1fr}
 .heroB__foto{
@@ -1591,17 +1679,24 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    A proporção .68 e o gap são os mesmos do `.deploy-content`, para as duas
    heros do site terem a mesma métrica. */
 .heroB__corpo{
-  /* As duas colunas se alinham pela base (`align-items:end`). O `stretch` no
-     `align-self` faz a grade ocupar a altura da hero para que o padding de
-     baixo posicione o conjunto. */
-  position:relative;z-index:2;align-self:stretch;
+  /* Dois alinhamentos diferentes, e a distinção importa:
+
+     `align-self:end` ancora a LINHA inteira na parte baixa da hero, logo
+     acima do divisor. `align-items:start` alinha as duas colunas pelo TOPO
+     dessa linha. Como o pitch é o bloco mais alto, é ele que define a altura
+     da linha — e o título passa a começar na mesma altura do parágrafo,
+     que é o resultado desejado.
+
+     Com `stretch` a linha ocupava a hero inteira e o topo virava o padding;
+     com `align-items:end` os dois se alinhavam pela base e o título, mais
+     baixo, começava abaixo do parágrafo. */
+  position:relative;z-index:2;align-self:end;
   display:grid;grid-template-columns:1fr .68fr;
-  gap:clamp(32px,9.6vw,88px);align-items:end;
+  gap:clamp(32px,9.6vw,88px);align-items:start;
   /* Um shorthand só: um `padding-top` separado antes desta linha seria
      zerado por ela. O recuo de baixo soma `--heroB-sobe` para levantar o
      pitch sem comer a folga que protege do divisor. */
-  padding:var(--heroB-titulo-topo) var(--gutter)
-    calc(var(--heroB-pad) + var(--heroB-sobe));
+  padding:0 var(--gutter) calc(var(--heroB-pad) + var(--heroB-sobe));
   width:100%;max-width:1440px;margin-inline:auto;
 }
 .heroB__pitch{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
@@ -1875,7 +1970,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 
 /* A âncora dos planos precisa de folga: na v2 o cabeçalho é fixo e taparia
    o topo da seção ao rolar até ela. */
-#planos{scroll-margin-top:clamp(80px,10vh,110px)}
+#planos,.legal-doc [id],[id="termos"],[id="privacidade"]{scroll-margin-top:var(--ancora)}
 
 /* Página de confirmação do formulário dos planos. Transitória: a pessoa
    passa por ela por um instante, a caminho do WhatsApp. */
@@ -1892,10 +1987,14 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    dificuldade não é o desfoque, é a troca de cor: sobre a foto escura o
    cabeçalho precisa ser claro, e sobre o conteúdo branco precisa inverter.
    Por isso quase toda regra abaixo aparece em par — um estado e o outro. */
-.top--vidro{
+.top--vidro,
+.top--fixo{
   position:fixed;inset:0 0 auto;z-index:100;
   width:100%;max-width:none;margin:0;
-  padding:14px clamp(20px,4vw,48px);
+  /* 30px no topo é o mesmo recuo que o `.screen` dá às páginas internas —
+     é o que faz o logo da home nascer na mesma altura do das outras. O
+     rodapé menor mantém a barra enxuta. */
+  padding:30px clamp(20px,4vw,48px) 16px;
   background:transparent;
   transition:background .3s ease,backdrop-filter .3s ease,
              border-color .3s ease,padding .3s ease;
@@ -1915,9 +2014,9 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 /* Branco levemente transparente sobre a foto; no hover, branco cheio. O
    `opacity` genérico do `.navsimples` escureceria no hover, que é o oposto
    do que se quer aqui. */
-.top--vidro .navsimples{color:rgba(255,255,255,.78)}
-.top--vidro .navsimples:hover{color:#fff;opacity:1}
-.top--vidro.is-scrolled .navsimples{color:var(--ink)}
+.top--vidro .topnav a.navsimples{color:rgba(255,255,255,.78)}
+.top--vidro .topnav a.navsimples:hover{color:#fff}
+.top--vidro.is-scrolled .topnav a.navsimples{color:var(--ink)}
 .top--vidro .dd__btn-ico{color:rgba(255,255,255,.7)}
 .top--vidro .dd__seta{color:rgba(255,255,255,.7)}
 .top--vidro .top__cta{background:var(--surface);color:var(--ink)}
@@ -1925,7 +2024,8 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .top--vidro .label{color:#fff}
 
 /* Rolado: o vidro entra e as cores voltam ao normal do site. */
-.top--vidro.is-scrolled{
+.top--vidro.is-scrolled,
+.top--fixo.is-scrolled{
   background:rgba(255,255,255,.72);
   -webkit-backdrop-filter:saturate(180%) blur(16px);
   backdrop-filter:saturate(180%) blur(16px);
@@ -1943,7 +2043,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 /* Sem suporte a desfoque o vidro viraria um branco lavado por cima do
    conteúdo — nesse caso vale um fundo sólido, que ao menos é honesto. */
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .top--vidro.is-scrolled{background:var(--surface)}
+  .top--vidro.is-scrolled,.top--fixo.is-scrolled{background:var(--surface)}
 }
 
 /* ─── Botão flutuante do WhatsApp ───────────────────────────────────────

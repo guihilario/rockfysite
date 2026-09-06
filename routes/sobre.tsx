@@ -1,4 +1,5 @@
 import { Layout } from "@/components/Layout.tsx";
+import { HeroSlot } from "@/components/HeroSlot.tsx";
 import { Blocos, HeroPagina } from "@/components/institucional/HeroPagina.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
@@ -124,6 +125,13 @@ export default async function Sobre() {
           </>
         }
       />
+
+      {
+        /* A arte que abria a home antiga passou a abrir esta página. Vem sem
+          os chips: sem eles não há troca de painel, e o slot mostra só o
+          palco de entrada — que é o que se quer aqui. */
+      }
+      <HeroSlot />
 
       <section class="section dotted" aria-labelledby="historia">
         <div class="conteudo">

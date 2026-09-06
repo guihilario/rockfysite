@@ -12,7 +12,6 @@
  */
 const COM_TRILHO = new Set([
   "/",
-  "/v2",
   "/planos",
   "/deploy",
   "/loja-digital",

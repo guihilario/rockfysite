@@ -1,7 +1,8 @@
 /**
  * Navegação da v2: quatro links diretos, sem mega menu.
  *
- * A home oficial usa `data/menu.ts`, com painéis suspensos e colunas. Aqui a
+ * As páginas internas usam `data/menu.ts`, com painéis suspensos e colunas.
+ * Aqui a
  * ideia é outra — o visitante vê os quatro produtos de uma vez e clica. Por
  * isso é uma lista própria, e não uma variação do menu grande: as duas
  * estruturas não têm nada em comum além do href.

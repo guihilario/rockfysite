@@ -541,7 +541,7 @@
    dependem da mesma classe, então um listener só serve às duas — e nas
    páginas com cabeçalho no fluxo ele nem se registra. */
 (function () {
-  var topo = document.querySelector(".top--flutuante, .top--vidro");
+  var topo = document.querySelector(".top--flutuante, .top--vidro, .top--fixo");
   if (!topo) return;
   /* O fundo só entra quando a hero termina: sobre a foto o cabeçalho fica
      transparente, e o vidro aparece ao chegar na seção seguinte, que é

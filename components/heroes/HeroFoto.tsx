@@ -19,7 +19,7 @@ export function HeroFoto(
     <section class={cabecalho ? "heroB heroB--com-topo" : "heroB"}>
       <img
         class="heroB__foto"
-        src="/img/bg-hero10.webp"
+        src="/img/bg-hero13.webp"
         alt=""
         aria-hidden="true"
         width="1456"
@@ -42,7 +42,8 @@ export function HeroFoto(
         </h1>
         <div class="heroB__pitch">
           <p class="heroB__texto">
-            Hospede sites e apps gerados por inteligência artificial em uma única plataforma pronta para criar e expandir o seu negócio. 
+            Hospede sites e apps gerados por inteligência artificial em uma
+            única plataforma pronta para criar e expandir o seu negócio.
           </p>
           <div class="heroB__acoes">
             <a class="heroB__cta" href={alvoDosPlanos(rota)}>Ver planos</a>

@@ -1,7 +1,7 @@
 import type { ComponentChildren } from "preact";
 import { config } from "@/core/config.ts";
 import { Header } from "@/components/Header.tsx";
-import type { ItemNav } from "@/data/navV2.ts";
+import { type ItemNav, navV2 } from "@/data/navV2.ts";
 import { Footer } from "@/components/Footer.tsx";
 import { BotaoWhatsApp } from "@/components/BotaoWhatsApp.tsx";
 import { asset } from "fresh/runtime";
@@ -39,8 +39,9 @@ type Props = {
   /** A página desenha o próprio cabeçalho — usado quando ele fica sobre a
    *  arte do topo, em vez de acima dela. */
   cabecalhoProprio?: boolean;
-  /** Troca o mega menu por uma lista simples de links com ícone. Só a /v2
-   *  usa hoje — ver `data/navV2.ts`. */
+  /** Os links do cabeçalho. O padrão é a lista simples com ícone
+   *  (`data/navV2.ts`), usada no site inteiro; passar outra coisa só é
+   *  necessário se alguma página quiser um conjunto próprio. */
   navItens?: ItemNav[];
   /**
    * A forma do cabeçalho.
@@ -50,7 +51,10 @@ type Props = {
    * ganha fundo desfocado ao rolar. As duas últimas deixam a arte sangrar
    * até a borda de cima.
    */
-  cabecalho?: "padrao" | "flutuante" | "vidro";
+  /** "fixo" é o padrão: cabeçalho preso ao topo que ganha vidro ao rolar.
+   *  "vidro" é a variante da home, com as cores claras para assentar sobre a
+   *  foto da hero. */
+  cabecalho?: "padrao" | "flutuante" | "vidro" | "fixo";
   /** Força `noindex` mesmo com o site liberado. Para páginas de teste. */
   naoIndexar?: boolean;
   /** Trilha de navegação. Vira BreadcrumbList — é o que troca a URL crua
@@ -82,8 +86,8 @@ export function Layout(
     jsonLd,
     trilha,
     cabecalhoProprio = false,
-    cabecalho = "padrao",
-    navItens,
+    cabecalho = "fixo",
+    navItens = navV2,
     naoIndexar = false,
     children,
   }: Props,
@@ -237,6 +241,7 @@ export function Layout(
             fluido && "screen--fluido",
             (cabecalhoProprio || cabecalho !== "padrao") &&
             "screen--colado",
+            cabecalho === "fixo" && "screen--sob-fixo",
           ].filter(Boolean).join(" ")}
           id="site-content"
         >
