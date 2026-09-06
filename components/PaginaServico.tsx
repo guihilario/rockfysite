@@ -5,7 +5,6 @@ import { Audience } from "@/components/sections/Audience.tsx";
 import { Clients } from "@/components/sections/Clients.tsx";
 import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
 import { AreaCliente } from "@/components/sections/AreaCliente.tsx";
-import { PlanosChamada } from "@/components/sections/PlanosChamada.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
 import type { Plan } from "@/data/plans.ts";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
@@ -86,7 +85,6 @@ export function PaginaServico(
         }
       />
       <AreaCliente />
-      <PlanosChamada />
       <Planos
         planos={planos}
         rota={rota}

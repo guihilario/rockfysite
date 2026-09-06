@@ -5,7 +5,6 @@ import { Audience } from "@/components/sections/Audience.tsx";
 import { Clients } from "@/components/sections/Clients.tsx";
 import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
 import { AreaCliente } from "@/components/sections/AreaCliente.tsx";
-import { PlanosChamada } from "@/components/sections/PlanosChamada.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
@@ -56,7 +55,6 @@ export default async function Home() {
         }
       />
       <AreaCliente />
-      <PlanosChamada />
       <Planos />
       <Parceiros />
       <Faq />

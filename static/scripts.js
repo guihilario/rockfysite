@@ -543,9 +543,29 @@
 (function () {
   var topo = document.querySelector(".top--flutuante, .top--vidro");
   if (!topo) return;
+  /* O fundo só entra quando a hero termina: sobre a foto o cabeçalho fica
+     transparente, e o vidro aparece ao chegar na seção seguinte, que é
+     branca. Sem hero na página, volta ao gatilho curto de antes. */
+  var hero = document.querySelector(".heroB");
+  var divisor = document.querySelector(".heroB__divisor");
+  function limite() {
+    if (!hero) return 18;
+    /* Não é o fim da hero: é onde o branco começa. A curva do divisor ocupa
+       a faixa de baixo da hero e sobe até o topo dela na borda esquerda —
+       esperar a hero acabar deixava o texto branco do menu por cima da curva
+       branca, ilegível, por uns 150px de rolagem. */
+    /* `getBoundingClientRect`, não `offsetHeight`: o divisor é um <svg>, e
+       elemento SVG não tem offsetHeight — a conta virava NaN e o vidro nunca
+       ligava. */
+    var alturaDivisor = divisor
+      ? divisor.getBoundingClientRect().height
+      : 0;
+    var brancoComeca = hero.getBoundingClientRect().height - alturaDivisor;
+    return Math.max(0, brancoComeca - topo.getBoundingClientRect().height);
+  }
   var rolado = false;
   addEventListener("scroll", function () {
-    var agora = scrollY > 18;
+    var agora = scrollY > limite();
     if (agora === rolado) return;
     rolado = agora;
     topo.classList.toggle("is-scrolled", agora);

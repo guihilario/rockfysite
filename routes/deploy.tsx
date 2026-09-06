@@ -5,7 +5,6 @@ import { Audience } from "@/components/sections/Audience.tsx";
 import { Clients } from "@/components/sections/Clients.tsx";
 import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
 import { AreaCliente } from "@/components/sections/AreaCliente.tsx";
-import { PlanosChamada } from "@/components/sections/PlanosChamada.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
 import { planosDeploy } from "@/data/planosDeploy.ts";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
@@ -53,7 +52,6 @@ export default async function Deploy() {
       <Audience />
       <Clients />
       <AreaCliente />
-      <PlanosChamada />
       <Planos
         planos={planosDeploy}
         rota="/deploy"

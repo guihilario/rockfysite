@@ -60,6 +60,39 @@ const CAMINHOS: Record<string, preact.JSX.Element> = {
       <path d="M12 17.2h.01" />
     </>
   ),
+  /* Os quatro da navegação simples da v2 — desenhos do Lucide, redesenhados
+     aqui para herdarem o traço 1.6 do resto do site em vez dos 2 do
+     original, que destoaria ao lado dos outros ícones do menu. */
+  foguete: (
+    <>
+      <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" />
+      <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" />
+      <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" />
+    </>
+  ),
+  globo: (
+    <>
+      <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54" />
+      <path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17" />
+      <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
+      <circle cx="12" cy="12" r="10" />
+    </>
+  ),
+  carrinho: (
+    <>
+      <path d="m2.05 2.05 1.099-.028a1 1 0 0 1 1.008.815l2.69 14.347A1 1 0 0 0 7.83 18H18" />
+      <path d="M4.563 5h16.435a1 1 0 0 1 .981 1.204l-1.026 6.226A2 2 0 0 1 18.962 14H6.25" />
+      <circle cx="18" cy="20" r="2" />
+      <circle cx="8" cy="20" r="2" />
+    </>
+  ),
+  envelope: (
+    <>
+      <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+    </>
+  ),
 };
 
 export function Icone({ nome }: { nome: string }) {

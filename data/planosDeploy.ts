@@ -18,8 +18,7 @@ const emBreve = (n: string | null, label: string) => ({
   n,
   label: `${label} — em breve`,
   on: false,
-  hint:
-    "O Rockfy Database entra em produção em breve. Ainda não está incluso nem é contratável.",
+  hint: "PostgreSQL gerenciado entra em produção em breve.",
 });
 
 export const planosDeploy: Plan[] = [

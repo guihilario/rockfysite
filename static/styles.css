@@ -1507,13 +1507,31 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    O texto fica numa coluna só, à esquerda, sobre a área desfocada da foto
    — que foi enquadrada para isso. Prefixo `heroB` para conviver com a hero
    atual enquanto a comparação acontece. */
+/* Navegação simples da v2: link com ícone, sem painel suspenso. Herda a
+   cor do cabeçalho, então funciona igual sobre a foto e sobre o vidro
+   quando o topo fica sólido ao rolar. */
+.navsimples{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:15px;letter-spacing:-.2px;color:inherit;
+  padding:6px 2px;transition:opacity var(--t);
+}
+.navsimples .menu-icone{width:18px;height:18px;flex:none}
+.navsimples:hover{opacity:.62}
+.navsimples.is-aqui{font-weight:500}
+
 .heroB{
-  position:relative;width:100%;min-height:min(92vh,860px);
+  position:relative;width:100%;min-height:min(96vh,960px);
   /* Sem cabeçalho embutido é uma linha só; com ele (a /hero-teste), a
      primeira linha é o topo e a segunda o corpo. */
   display:grid;grid-template-rows:1fr;
   overflow:hidden;background:var(--ink);
-  --heroB-pad:clamp(120px,15vw,190px);   /* espaço que o divisor ocupa embaixo */
+  /* Precisa ser MAIOR que a altura do divisor (clamp(66px,15.7vw,201px)),
+     senão a curva branca passa por cima e corta o pé do título — o divisor
+     tem z-index 3, acima do corpo. A folga extra é o respiro entre a última
+     linha de texto e o começo da curva. */
+  --heroB-pad:clamp(150px,17.5vw,232px);
+  --heroB-sobe:clamp(16px,3vw,48px);   /* quanto o pitch sobe do divisor */
+  --heroB-titulo-topo:clamp(96px,22vh,210px);  /* onde o título assenta */
 }
 .heroB--com-topo{grid-template-rows:auto 1fr}
 .heroB__foto{
@@ -1525,7 +1543,22 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .heroB__veu{
   position:absolute;inset:0;
   background:
-    linear-gradient(180deg,rgba(10,10,10,.34) 0%,rgba(10,10,10,0) 22%),
+    /* A faixa do topo cobre a navegação. Com .34 o item mais à direita caía
+       para 4.1:1 de contraste sobre a área clara da foto, abaixo do mínimo
+       de 4.5:1 — o texto branco sumia. */
+    linear-gradient(180deg,rgba(10,10,10,.58) 0%,rgba(10,10,10,0) 30%),
+    /* Mancha suave sob o pitch, no canto inferior direito. O degradê lateral
+       já zerou aos 80%, então o parágrafo cai sobre a foto crua: medido, 62%
+       da área dele ficava abaixo de 4.5:1 e o link secundário sumia. Um
+       degradê ancorado ali resolve sem chapar a foto — vale mais que escurecer
+       a hero inteira, que apagaria o rosto.
+
+       O raio é justo de propósito: baixar o alfa reprovava o contraste, mas
+       encolher a mancha mantém a densidade sob o texto e devolve foto em
+       volta. Se a imagem mudar e a área clara for para outro canto, o que se
+       remede é a posição, não a opacidade. */
+    radial-gradient(66% 54% at 76% 57%,
+      rgba(10,10,10,.76) 0%,rgba(10,10,10,.50) 50%,rgba(10,10,10,0) 80%),
     linear-gradient(90deg,rgba(10,10,10,.86) 0%,rgba(10,10,10,.68) 34%,rgba(10,10,10,.16) 62%,rgba(10,10,10,0) 80%);
 }
 
@@ -1550,20 +1583,37 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   text-transform:uppercase;white-space:nowrap;
 }
 
-/* Uma coluna só: título, texto e ações empilhados. */
+/* Duas colunas, como o `.deploy-content` das outras páginas: o h1 à
+   esquerda e o texto com as ações à direita. `align-items:end` é o que põe as
+   duas na parte baixa da foto; `align-self:end` faz a grade inteira descer
+   dentro da hero, em vez de ficar centralizada verticalmente.
+
+   A proporção .68 e o gap são os mesmos do `.deploy-content`, para as duas
+   heros do site terem a mesma métrica. */
 .heroB__corpo{
-  position:relative;z-index:2;
-  display:flex;flex-direction:column;justify-content:center;gap:22px;
-  padding:0 var(--gutter) var(--heroB-pad);
+  /* As duas colunas se alinham pela base (`align-items:end`). O `stretch` no
+     `align-self` faz a grade ocupar a altura da hero para que o padding de
+     baixo posicione o conjunto. */
+  position:relative;z-index:2;align-self:stretch;
+  display:grid;grid-template-columns:1fr .68fr;
+  gap:clamp(32px,9.6vw,88px);align-items:end;
+  /* Um shorthand só: um `padding-top` separado antes desta linha seria
+     zerado por ela. O recuo de baixo soma `--heroB-sobe` para levantar o
+     pitch sem comer a folga que protege do divisor. */
+  padding:var(--heroB-titulo-topo) var(--gutter)
+    calc(var(--heroB-pad) + var(--heroB-sobe));
   width:100%;max-width:1440px;margin-inline:auto;
 }
+.heroB__pitch{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
 .heroB__titulo{
   margin:0;color:#fff;font-weight:400;max-width:13ch;
-  font-size:clamp(38px,5.4vw,62px);line-height:1.06;letter-spacing:-1.8px;
+  font-size:clamp(38px,5.4vw,52px);line-height:1.06;letter-spacing:-1.8px;
 }
 .heroB__texto{
-  margin:0;max-width:44ch;color:rgba(255,255,255,.9);
-  font-size:16px;line-height:1.55;
+  /* Branco cheio, não 90%: rende contraste de graça e permitiu encolher o
+     overlay em vez de escurecer mais a foto. */
+  margin:0;max-width:44ch;color:#fff;
+  font-size:22px;line-height:1.55;
 }
 .heroB__acoes{display:flex;flex-wrap:wrap;align-items:center;gap:clamp(16px,3vw,34px);margin-top:8px}
 .heroB__cta{
@@ -1581,11 +1631,19 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 @media (max-width:860px){
   /* O recorte no estreito é horizontal; 65% traz o rosto, que fica à
      direita da foto, para o meio do quadro. */
-  .heroB__foto{object-position:65% center}
+  /* O sujeito da foto nova fica por volta de 52% da largura. Aumentar o
+     object-position empurra o recorte para a direita da imagem e joga o
+     rosto para fora — o que resolve é diminuir: em 50% ele aparece inteiro,
+     à direita do quadro, com o texto assentando na área escura embaixo. */
+  .heroB__foto{object-position:50% center}
   .heroB__veu{
-    background:linear-gradient(0deg,rgba(10,10,10,.9) 0%,rgba(10,10,10,.78) 34%,rgba(10,10,10,.3) 62%,rgba(10,10,10,.06) 84%,rgba(10,10,10,.2) 100%);
+    /* Este bloco substitui o `background` inteiro, então o radial do pitch não
+       vale aqui: no estreito é esta faixa que precisa segurar sozinha a
+       legibilidade do parágrafo. */
+    background:linear-gradient(0deg,rgba(10,10,10,.9) 0%,rgba(10,10,10,.8) 34%,rgba(10,10,10,.42) 62%,rgba(10,10,10,.08) 84%,rgba(10,10,10,.2) 100%);
   }
-  .heroB__corpo{justify-content:flex-end}
+  .heroB__corpo{grid-template-columns:1fr;gap:22px;align-content:end;padding-top:0}
+  .heroB__titulo{align-self:auto}
 }
 
 /* Encosta um pixel abaixo da borda para não deixar fio na emenda. */
@@ -1601,7 +1659,10 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    a seção, 96px do espaçamento do site — somados à curva, abriam um vão que
    soltava a segunda seção da abertura. */
 .heroB + .hero-slot{margin-top:clamp(6px,1.4vw,18px)}
-.heroB + .section,.heroB + .hero-slot + .conteudo + .section{margin-top:clamp(20px,3vw,44px)}
+/* A curva do divisor já entrega bastante branco antes do conteúdo começar;
+   somar o respiro cheio de seção abria um vão grande demais logo abaixo
+   dela. Encurtado para o conteúdo da segunda seção subir. */
+.heroB + .section,.heroB + .hero-slot + .conteudo + .section{margin-top:clamp(0px,0.8vw,14px)}
 
 /* As barras do desenho, no mesmo traço que o site anterior usava. */
 .heroB__marcas{
@@ -1841,8 +1902,22 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   border-bottom:1px solid transparent;
 }
 /* Sobre a foto: tudo claro. */
-.top--vidro .logo img{filter:brightness(0) invert(1)}
+/* Sobre a foto vale o arquivo branco; rolado, o escuro. Os dois ocupam a
+   mesma célula da grade para a troca não mexer no layout. */
+.top--vidro .logo{display:grid}
+.top--vidro .logo img{grid-area:1/1}
+.top--vidro .logo__escuro{opacity:0}
+.top--vidro .logo__claro{opacity:1}
+.top--vidro.is-scrolled .logo__escuro{opacity:1}
+.top--vidro.is-scrolled .logo__claro{opacity:0}
+.top--vidro .logo img{transition:opacity .3s ease}
 .top--vidro .dd__btn,.top--vidro .top__entrar{color:#fff}
+/* Branco levemente transparente sobre a foto; no hover, branco cheio. O
+   `opacity` genérico do `.navsimples` escureceria no hover, que é o oposto
+   do que se quer aqui. */
+.top--vidro .navsimples{color:rgba(255,255,255,.78)}
+.top--vidro .navsimples:hover{color:#fff;opacity:1}
+.top--vidro.is-scrolled .navsimples{color:var(--ink)}
 .top--vidro .dd__btn-ico{color:rgba(255,255,255,.7)}
 .top--vidro .dd__seta{color:rgba(255,255,255,.7)}
 .top--vidro .top__cta{background:var(--surface);color:var(--ink)}
@@ -1857,7 +1932,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   border-bottom-color:var(--line-soft);
   padding-block:10px;
 }
-.top--vidro.is-scrolled .logo img{filter:none}
+
 .top--vidro.is-scrolled .dd__btn,.top--vidro.is-scrolled .top__entrar{color:var(--ink)}
 .top--vidro.is-scrolled .dd__btn-ico,
 .top--vidro.is-scrolled .dd__seta{color:var(--gray-600)}

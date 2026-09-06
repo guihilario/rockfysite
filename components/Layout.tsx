@@ -1,6 +1,7 @@
 import type { ComponentChildren } from "preact";
 import { config } from "@/core/config.ts";
 import { Header } from "@/components/Header.tsx";
+import type { ItemNav } from "@/data/navV2.ts";
 import { Footer } from "@/components/Footer.tsx";
 import { BotaoWhatsApp } from "@/components/BotaoWhatsApp.tsx";
 import { asset } from "fresh/runtime";
@@ -38,6 +39,9 @@ type Props = {
   /** A página desenha o próprio cabeçalho — usado quando ele fica sobre a
    *  arte do topo, em vez de acima dela. */
   cabecalhoProprio?: boolean;
+  /** Troca o mega menu por uma lista simples de links com ícone. Só a /v2
+   *  usa hoje — ver `data/navV2.ts`. */
+  navItens?: ItemNav[];
   /**
    * A forma do cabeçalho.
    *
@@ -79,6 +83,7 @@ export function Layout(
     trilha,
     cabecalhoProprio = false,
     cabecalho = "padrao",
+    navItens,
     naoIndexar = false,
     children,
   }: Props,
@@ -235,7 +240,9 @@ export function Layout(
           ].filter(Boolean).join(" ")}
           id="site-content"
         >
-          {!cabecalhoProprio && <Header atual={rota} forma={cabecalho} />}
+          {!cabecalhoProprio && (
+            <Header atual={rota} forma={cabecalho} itens={navItens} />
+          )}
           <main id="main-content">{children}</main>
           <Footer />
           <BotaoWhatsApp />

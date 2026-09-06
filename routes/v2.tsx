@@ -1,11 +1,11 @@
 import { Layout } from "@/components/Layout.tsx";
+import { navV2 } from "@/data/navV2.ts";
 import { HeroSlot } from "@/components/HeroSlot.tsx";
 import { Chips } from "@/components/Chips.tsx";
 import { Audience } from "@/components/sections/Audience.tsx";
 import { Clients } from "@/components/sections/Clients.tsx";
 import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
 import { AreaCliente } from "@/components/sections/AreaCliente.tsx";
-import { PlanosChamada } from "@/components/sections/PlanosChamada.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
@@ -34,6 +34,7 @@ export default async function HomeV2() {
       descricao="Hospedagem WordPress em servidor otimizado, deploy de apps de IA, loja digital e e-mail profissional num painel só. Preço em reais e suporte por gente."
       naoIndexar
       cabecalho="vidro"
+      navItens={navV2}
       fluido
     >
       <HeroFoto rota="/v2" />
@@ -51,12 +52,17 @@ export default async function HomeV2() {
            texto centralizado, e o palco com os chips logo abaixo, dentro da
            mesma seção. */
       }
-      <PlanosChamada centralizada>
+      {
+        /* Era a chamada "Plano simples" embrulhando o carrossel. O texto saiu
+          de todas as páginas; a seção fica, porque é ela que segura o
+          HeroSlot e os chips. */
+      }
+      <section class="section">
         <HeroSlot />
         <div class="conteudo">
           <Chips />
         </div>
-      </PlanosChamada>
+      </section>
       <CuidaDeTudo
         titulo={
           <>

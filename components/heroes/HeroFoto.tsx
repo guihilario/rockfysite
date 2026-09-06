@@ -19,7 +19,7 @@ export function HeroFoto(
     <section class={cabecalho ? "heroB heroB--com-topo" : "heroB"}>
       <img
         class="heroB__foto"
-        src="/img/nova-hero.webp"
+        src="/img/bg-hero10.webp"
         alt=""
         aria-hidden="true"
         width="1456"
@@ -30,18 +30,26 @@ export function HeroFoto(
 
       {cabecalho}
 
+      {
+        /* Mesmo arranjo do `HeroCopy` das outras páginas: o h1 numa coluna e
+          o texto com as ações na outra, à direita. A diferença é o
+          alinhamento — aqui as duas colunas assentam na parte baixa da foto,
+          acima do divisor. No estreito volta a ser uma coluna só. */
+      }
       <div class="heroB__corpo">
-        <h1 class="heroB__titulo">Bem-vindo a sua nova nuvem</h1>
-        <p class="heroB__texto">
-          Pronta para hospedar sites e apps feitos na sua IA. WordPress com
-          Elementor Pro e E-mail profissional. Em um único painel pra você
-          gerenciar seus projetos, clientes e finanças.
-        </p>
-        <div class="heroB__acoes">
-          <a class="heroB__cta" href={alvoDosPlanos(rota)}>Ver planos</a>
-          <a class="heroB__link" href={site.whatsapp}>
-            [ Falar com uma pessoa ]
-          </a>
+        <h1 class="heroB__titulo">
+          Sua nova nuvem para a era da IA
+        </h1>
+        <div class="heroB__pitch">
+          <p class="heroB__texto">
+            Hospede sites e apps gerados por inteligência artificial em uma única plataforma pronta para criar e expandir o seu negócio. 
+          </p>
+          <div class="heroB__acoes">
+            <a class="heroB__cta" href={alvoDosPlanos(rota)}>Ver planos</a>
+            <a class="heroB__link" href={site.whatsapp}>
+              [ Falar com uma pessoa ]
+            </a>
+          </div>
         </div>
       </div>
 
