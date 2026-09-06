@@ -126,9 +126,16 @@ export function artigoSchema(post: Post, base: string) {
     articleSection: post.categoryName ?? undefined,
     keywords: post.tagNames?.length ? post.tagNames.join(", ") : undefined,
     inLanguage: "pt-BR",
-    // Sem `author` pessoa: o site não publica assinatura em nenhum artigo, e
+    // `author` é obrigatório no Article, e omiti-lo é aviso de validação.
+    // Mas não é uma pessoa: o site não publica assinatura em nenhum artigo, e
     // declarar um nome que não aparece na página é o tipo de dado que o
-    // Google trata como inconsistente. A organização responde pelo texto.
+    // Google trata como inconsistente. Quem responde pelo texto é a
+    // organização — é isso que se declara.
+    author: {
+      "@type": "Organization",
+      name: "Rockfy",
+      url: SITE,
+    },
     publisher: {
       "@type": "Organization",
       name: "Rockfy",

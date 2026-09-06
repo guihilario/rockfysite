@@ -16,6 +16,7 @@ export default async function HospedagemWordpress() {
       lede="Nenhum construtor travado, nenhum tema fechado. WordPress puro, numa conta cPanel isolada, em servidor afinado para ele. A gente migra seu site sem custo."
       cta="Ver planos"
       planos={planosWordpress}
+      produtoSchema="Hospedagem WordPress Rockfy"
       planosEyebrow="Hospedagem"
       planosTitulo={
         <>

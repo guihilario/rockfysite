@@ -54,6 +54,8 @@ export function PaginaPost({ post, html, headings, base, voltar }: Props) {
          de uma palavra no resultado de busca. */
       descricao={resumirParaMeta(post.excerpt ?? `${post.title} — Rockfy`)}
       tipoOg="article"
+      publicadoEm={post.publishedAt?.toISOString()}
+      atualizadoEm={(post.updatedAt ?? post.publishedAt)?.toISOString()}
       imagem={post.coverImageUrl ?? undefined}
       jsonLd={[
         artigoSchema(post, base),

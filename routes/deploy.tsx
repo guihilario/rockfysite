@@ -7,6 +7,7 @@ import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
 import { AreaCliente } from "@/components/sections/AreaCliente.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
 import { planosDeploy } from "@/data/planosDeploy.ts";
+import { planosSchema } from "@/core/seo/meta.ts";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
@@ -22,6 +23,15 @@ export default async function Deploy() {
       rota="/deploy"
       titulo="Deploy de apps feitos com IA | Rockfy"
       descricao="Publique a aplicação que você criou na IA com um link pronto para usar, sem lidar com servidor. Deploy gerenciado, preço em reais e suporte em português."
+      jsonLd={[
+        planosSchema({
+          nome: "Rockfy CloudDeploy",
+          descricao:
+            "Publique a aplicação que você criou na IA com um link pronto para usar, sem lidar com servidor. Deploy gerenciado, preço",
+          url: "/deploy",
+          planos: planosDeploy,
+        }),
+      ].filter(Boolean)}
       fluido
     >
       <section class="deploy-hero" aria-labelledby="hero-title">

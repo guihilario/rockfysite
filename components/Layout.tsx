@@ -32,6 +32,11 @@ type Props = {
   fluido?: boolean;
   /** "article" nas páginas de post; o padrão serve para o resto. */
   tipoOg?: "website" | "article";
+  /** Datas do artigo, em ISO. Saem como `article:published_time` e
+   *  `article:modified_time` — o JSON-LD já as declara, mas há parser que só
+   *  lê Open Graph, e é barato atender os dois. */
+  publicadoEm?: string;
+  atualizadoEm?: string;
   /** Imagem de compartilhamento. Nos posts, a capa do próprio artigo. */
   imagem?: string;
   /** Dados estruturados extras da página (trilha, artigo). */
@@ -82,6 +87,8 @@ export function Layout(
     faqSchema = false,
     fluido = false,
     tipoOg = "website",
+    publicadoEm,
+    atualizadoEm,
     imagem,
     jsonLd,
     trilha,
@@ -112,6 +119,16 @@ export function Layout(
         <title>{titulo}</title>
 
         <link rel="canonical" href={url} />
+        {
+          /* Deixa o llms.txt achável por agente: sem isto ele só é encontrado
+            por quem já sabe que a convenção existe e chuta a URL. */
+        }
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={`${SITE}/llms.txt`}
+          title="Resumo do site em Markdown para agentes e LLMs"
+        />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         {
           /* O SVG cobre os navegadores atuais; o PNG existe porque iOS ignora
@@ -134,6 +151,12 @@ export function Layout(
         />
 
         <meta property="og:type" content={tipoOg} />
+        {publicadoEm && (
+          <meta property="article:published_time" content={publicadoEm} />
+        )}
+        {atualizadoEm && (
+          <meta property="article:modified_time" content={atualizadoEm} />
+        )}
         <meta property="og:site_name" content="Rockfy" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:url" content={url} />

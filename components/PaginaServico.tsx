@@ -7,6 +7,7 @@ import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
 import { AreaCliente } from "@/components/sections/AreaCliente.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
 import type { Plan } from "@/data/plans.ts";
+import { planosSchema } from "@/core/seo/meta.ts";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
@@ -17,6 +18,10 @@ type Props = {
   /** Os planos desta rota. Cada linha de produto tem a sua tabela (spec §5-7);
    *  sem isto todas as páginas mostrariam os planos de hospedagem. */
   planos?: Plan[];
+  /** Nome comercial do produto no dado estruturado. Sem ele a página não
+   *  declara `Product`/`AggregateOffer` — é o que decide se o preço pode
+   *  aparecer como rich result e se um agente consegue lê-lo. */
+  produtoSchema?: string;
   /** Chapéu e título do trilho, quando o padrão não serve à página. */
   planosEyebrow?: string;
   planosTitulo?: ComponentChildren;
@@ -54,12 +59,26 @@ export function PaginaServico(
     destaques,
     posts,
     planos,
+    produtoSchema,
     planosEyebrow,
     planosTitulo,
   }: Props,
 ) {
   return (
-    <Layout rota={rota} titulo={titulo} descricao={descricao} fluido>
+    <Layout
+      rota={rota}
+      titulo={titulo}
+      descricao={descricao}
+      fluido
+      jsonLd={produtoSchema && planos
+        ? [planosSchema({
+          nome: produtoSchema,
+          descricao,
+          url: rota,
+          planos,
+        })].filter(Boolean)
+        : undefined}
+    >
       {
         /* hero-slot--page compensa a folga que cada arte deixa na moldura,
           para o vão até o texto ficar igual ao da página de Deploy */

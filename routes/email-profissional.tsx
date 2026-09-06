@@ -16,6 +16,7 @@ export default async function EmailProfissional() {
       lede="Seu negócio com um endereço de e-mail comercial (seunome@empresa.com). Mais confiança, a partir de R$ 19,90/mês e suporte humano."
       cta="Ver planos"
       planos={planosEmail}
+      produtoSchema="E-mail profissional Rockfy"
       planosEyebrow="E-mail profissional"
       planosTitulo={
         <>

@@ -18,6 +18,9 @@ Disallow: /admin
 Disallow: /auth
 
 Sitemap: ${SITE}/sitemap.xml
+
+# Resumo do site em Markdown, para agentes e LLMs:
+# ${SITE}/llms.txt
 `;
 
 const BLOQUEADO = `User-agent: *
