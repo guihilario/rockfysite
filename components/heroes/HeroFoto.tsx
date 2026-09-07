@@ -41,7 +41,7 @@ export function HeroFoto(
         </h1>
         <div class="heroB__pitch">
           <p class="heroB__texto">
-            Hospede sites e apps gerados por inteligência artificial em uma
+            Hospede seus sites e apps gerados por I.A em uma
             única plataforma pronta para criar e expandir o seu negócio.
           </p>
           <div class="heroB__acoes">
