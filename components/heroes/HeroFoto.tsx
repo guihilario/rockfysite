@@ -41,8 +41,8 @@ export function HeroFoto(
         </h1>
         <div class="heroB__pitch">
           <p class="heroB__texto">
-            Hospede seus sites e apps gerados por I.A em uma
-            única plataforma pronta para criar e expandir o seu negócio.
+            Hospede seus sites e apps gerados por I.A em uma única plataforma
+            pronta para criar e expandir o seu negócio.
           </p>
           <div class="heroB__acoes">
             <a class="heroB__cta" href={alvoDosPlanos(rota)}>Ver planos</a>

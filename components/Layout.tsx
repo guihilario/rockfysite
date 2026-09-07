@@ -4,6 +4,7 @@ import { Header } from "@/components/Header.tsx";
 import { type ItemNav, navV2 } from "@/data/navV2.ts";
 import { Footer } from "@/components/Footer.tsx";
 import { BotaoWhatsApp } from "@/components/BotaoWhatsApp.tsx";
+import { Gtm, GtmNoScript } from "@/components/Gtm.tsx";
 import { asset } from "fresh/runtime";
 import {
   type Degrau,
@@ -118,6 +119,7 @@ export function Layout(
         <meta name="theme-color" content="#ffffff" />
         <title>{titulo}</title>
 
+        <Gtm />
         <link rel="canonical" href={url} />
         {
           /* Deixa o llms.txt achável por agente: sem isto ele só é encontrado
@@ -268,6 +270,7 @@ export function Layout(
           ].filter(Boolean).join(" ")}
           id="site-content"
         >
+          <GtmNoScript />
           {!cabecalhoProprio && (
             <Header atual={rota} forma={cabecalho} itens={navItens} />
           )}
