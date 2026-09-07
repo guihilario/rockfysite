@@ -1693,7 +1693,11 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
      object-position empurra o recorte para a direita da imagem e joga o
      rosto para fora — o que resolve é diminuir: em 50% ele aparece inteiro,
      à direita do quadro, com o texto assentando na área escura embaixo. */
-  .heroB__foto{object-position:50% center}
+  /* A imagem nova tem o sujeito por volta de 62% da largura: em 50% o rosto
+     ficava cortado na borda direita do quadro. Aumentar o object-position
+     desloca o recorte para a direita da imagem, o que traz o conteúdo para a
+     esquerda — é o contrário do que a intuição sugere. */
+  .heroB__foto{object-position:62% center}
   .heroB__veu{
     /* Este bloco substitui o `background` inteiro, então o radial do pitch não
        vale aqui: no estreito é esta faixa que precisa segurar sozinha a
