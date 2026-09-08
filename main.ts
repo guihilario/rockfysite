@@ -1,10 +1,15 @@
 import { App, csp, staticFiles } from "fresh";
 import { compressao, seguranca } from "@/core/http/seguranca.ts";
+import { legado } from "@/core/http/legado.ts";
 
 export const app = new App();
 
 app.use(seguranca());
 app.use(compressao());
+
+/* Antes da CSP e dos arquivos estáticos: um 301 não tem corpo, e não há
+   motivo para montar política nem procurar arquivo para uma resposta vazia. */
+app.use(legado());
 
 /* `useNonce` troca o `'unsafe-inline'` do padrão pelo nonce que o Fresh já
    coloca em cada <script> — inclusive nos blocos de JSON-LD. O único desvio
