@@ -1,8 +1,20 @@
-/** Os planos do site.
+/** Os planos do site — a tabela única, usada em todas as páginas.
  *
  * Ficavam dentro do `scripts.js` e eram injetados por `innerHTML`, então
  * preço, nome e itens não existiam no HTML servido — invisíveis para
  * buscadores e para IAs. Agora são dados, e a página renderiza no servidor.
+ *
+ * Por um tempo cada produto teve a sua própria tabela (`planosWordpress`,
+ * `planosEmail`, `planosDeploy`, `planosLoja`), com nome, preço e régua
+ * diferentes. Quem visitava duas páginas via duas ofertas e precisava
+ * descobrir sozinho como uma se relacionava com a outra. Voltou a ser uma
+ * tabela só: os mesmos quatro planos em todo lugar, e cada página muda
+ * apenas a chamada acima do trilho.
+ *
+ * Nenhum item traz quantidade. cPanel, caixa de e-mail e aplicação de
+ * Deploy já foram numerados aqui; contar empurra o cliente a economizar o
+ * que a gente quer que ele use, e o número certo muda de caso para caso.
+ * Quantidade virou conversa comercial, não linha de card.
  */
 export type PlanItem = {
   /** Quantidade entre colchetes, ex.: "[3]". `null` quando o item não tem número. */
@@ -30,6 +42,33 @@ export type Plan = {
   cta?: string;
 };
 
+/* Repetidos nos quatro cards: escritos uma vez para que mudar o texto não
+   dependa de acertar quatro cópias iguais. Cada linha de produto sai daqui
+   como um par rótulo/dica, porque separá-los deixava a dica desatualizada
+   quando o rótulo mudava. */
+const CPANEL = {
+  label: "Recursos isolados cPanel",
+  hint: "Conta cPanel com memória e recursos isolados só para o seu projeto.",
+};
+const PAGES = {
+  label: "Pages — Sites [HTML&JS]",
+  hint: "Publique seus sites criados por IA com 1 clique e domínio personalizado.",
+};
+const DEPLOY = {
+  label: "Deploy de Apps",
+  hint: "Hospede aplicativos na nuvem do Google com alta performance.",
+};
+const LOJA = {
+  label: "Loja digital",
+  hint:
+    "Catálogo, PIX sem taxa por pedido e pedidos no WhatsApp, inclusos a partir do Studio.",
+};
+const GESTAO = {
+  label: "Gestão & Finanças",
+  hint:
+    "Automatize faturas, gerencie os clientes, sites e aplicações em um só lugar",
+};
+
 export const plans: Plan[] = [
   {
     tag: "Para começar hoje",
@@ -38,31 +77,14 @@ export const plans: Plan[] = [
     note:
       "Pra quem está começando. Perfeito para seu projeto ou negócio pessoal",
     items: [
-      {
-        n: "[1]",
-        label: "Conta Isolada cPanel",
-      },
-      {
-        n: null,
-        label: "1 Domínio",
-      },
-      {
-        n: null,
-        label: "Elementor Pro Oficial",
-      },
-      {
-        n: "[3]",
-        label: "Emails Profissionais",
-      },
-      {
-        n: "[1]",
-        label: "Deploy de Apps & Sites",
-      },
-      {
-        n: null,
-        label: "Gestão & Finanças",
-        on: false,
-      },
+      { n: null, ...CPANEL },
+      { n: null, label: "1 Domínio" },
+      { n: null, label: "Elementor Pro Oficial" },
+      { n: null, label: "Emails Profissionais" },
+      { n: null, ...PAGES },
+      { n: null, ...DEPLOY, on: false },
+      { n: null, ...LOJA, on: false },
+      { n: null, ...GESTAO, on: false },
     ],
   },
   {
@@ -72,33 +94,14 @@ export const plans: Plan[] = [
     note:
       "Tudo o que você precisa para criar e expandir seu negócio sem se preocupar com infraestrutura.",
     items: [
-      {
-        n: "[2]",
-        label: "Contas Isoladas cPanel",
-      },
-      {
-        n: null,
-        label: "Domínios Ilimitados",
-      },
-      {
-        n: null,
-        label: "Elementor Pro Oficial",
-      },
-      {
-        n: "[8]",
-        label: "Emails Profissionais",
-      },
-      {
-        n: "[2]",
-        label: "Deploy de Apps & Sites",
-      },
-      {
-        n: null,
-        label: "Gestão & Finanças",
-        on: false,
-        hint:
-          "Automatize faturas, gerencie os clientes, sites e aplicações em um só lugar",
-      },
+      { n: null, ...CPANEL },
+      { n: null, label: "Domínios Ilimitados" },
+      { n: null, label: "Elementor Pro Oficial" },
+      { n: null, label: "Emails Profissionais" },
+      { n: null, ...PAGES },
+      { n: null, ...DEPLOY, on: true },
+      { n: null, ...LOJA, on: false },
+      { n: null, ...GESTAO, on: true },
     ],
   },
   {
@@ -108,33 +111,14 @@ export const plans: Plan[] = [
     featured: true,
     note: "Cobrado mensalmente, sem fidelidade. Cancele quando quiser.",
     items: [
-      {
-        n: "[8]",
-        label: "Contas Isoladas cPanel",
-      },
-      {
-        n: null,
-        label: "Domínios Ilimitados",
-      },
-      {
-        n: null,
-        label: "Elementor Pro Oficial",
-      },
-      {
-        n: "[15]",
-        label: "Emails Profissionais",
-      },
-      {
-        n: "[4]",
-        label: "Deploy de Apps & Sites",
-      },
-      {
-        n: null,
-        label: "Gestão & Finanças",
-        on: true,
-        hint:
-          "Automatize faturas, gerencie os clientes, sites e aplicações em um só lugar",
-      },
+      { n: null, ...CPANEL },
+      { n: null, label: "Domínios Ilimitados" },
+      { n: null, label: "Elementor Pro Oficial" },
+      { n: null, label: "Emails Profissionais" },
+      { n: null, ...PAGES },
+      { n: null, ...DEPLOY, on: true },
+      { n: null, ...LOJA, on: true },
+      { n: null, ...GESTAO, on: true },
     ],
   },
   {
@@ -143,33 +127,14 @@ export const plans: Plan[] = [
     price: "R$297",
     note: "Cobrado mensalmente, sem fidelidade. Cancele quando quiser.",
     items: [
-      {
-        n: "[15]",
-        label: "Contas Isoladas cPanel",
-      },
-      {
-        n: null,
-        label: "Domínios Ilimitados",
-      },
-      {
-        n: null,
-        label: "Elementor Pro Oficial",
-      },
-      {
-        n: "[25]",
-        label: "Emails Profissionais",
-      },
-      {
-        n: "[10]",
-        label: "Deploy de Apps & Sites",
-      },
-      {
-        n: null,
-        label: "Gestão & Finanças",
-        on: true,
-        hint:
-          "Automatize faturas, gerencie os clientes, sites e aplicações em um só lugar",
-      },
+      { n: null, ...CPANEL },
+      { n: null, label: "Domínios Ilimitados" },
+      { n: null, label: "Elementor Pro Oficial" },
+      { n: null, label: "Emails Profissionais" },
+      { n: null, ...PAGES },
+      { n: null, ...DEPLOY, on: true },
+      { n: null, ...LOJA, on: true },
+      { n: null, ...GESTAO, on: true },
     ],
   },
 ];

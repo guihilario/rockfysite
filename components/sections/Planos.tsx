@@ -1,6 +1,7 @@
 import type { ComponentChildren } from "preact";
 import { PopoverPlano } from "@/components/PopoverPlano.tsx";
 import { type Plan, plans } from "@/data/plans.ts";
+import { site } from "@/data/site.ts";
 
 /**
  * O trilho de planos.
@@ -177,6 +178,43 @@ export function Planos({
               >
               </button>
             ))}
+          </div>
+
+          {
+            /* Fica dentro da seção de preços de propósito: a dúvida sobre
+              qual plano escolher nasce olhando o trilho, e mandar a pessoa
+              procurar o contato no rodapé é onde ela desiste. */
+          }
+          <div class="planos-ajuda">
+            <div>
+              <p class="planos-ajuda__t">Não sabe qual escolher?</p>
+              <p class="planos-ajuda__s">
+                Fale com o nosso time agora que te ajudamos a encontrar o melhor
+                plano para seus projetos.
+              </p>
+            </div>
+            <a
+              class="cta cta--sem-topo"
+              href={`${site.whatsapp}?text=${
+                encodeURIComponent(
+                  "Oi! Estou vendo os planos e queria ajuda para escolher.",
+                )
+              }`}
+              target="_blank"
+              rel="noopener"
+            >
+              Falar com o time
+              <span class="badge">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M5 12h14m-6-6 6 6-6 6"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </a>
           </div>
         </div>
       </section>

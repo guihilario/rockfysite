@@ -17,7 +17,7 @@ import type { FaqItem } from "@/data/faq.ts";
 export const faqLoja: FaqItem[] = [
   {
     q: "Quanto custa?",
-    a: "A partir de R$47,90 por mês, com 7 dias grátis e sem cartão para testar. Não há taxa por pedido: o PIX do seu cliente cai direto na sua conta, sem intermediário.",
+    a: "A loja vem inclusa nos planos da Rockfy a partir do Studio, por R$157 por mês — sem contratar à parte. Não há taxa por pedido: o PIX do seu cliente cai direto na sua conta, sem intermediário.",
   },
   {
     q: "Preciso de CNPJ para começar?",
@@ -37,7 +37,7 @@ export const faqLoja: FaqItem[] = [
   },
   {
     q: "Tenho muitos itens. Dá conta?",
-    a: "Dá. O plano de entrada vai até 80 produtos, o intermediário até 280 e o Especial não tem limite. E cadastrar é rápido: você fotografa pelo celular e a nossa IA escreve a descrição.",
+    a: "Dá. E cadastrar é rápido: você fotografa pelo celular e a nossa IA escreve a descrição do produto.",
   },
   {
     q: "Consigo vender no balcão também?",
@@ -45,7 +45,7 @@ export const faqLoja: FaqItem[] = [
   },
   {
     q: "Mais de uma pessoa pode mexer na loja?",
-    a: "Pode. São até 5 usuários no plano de entrada, 10 no intermediário e sem limite no Especial, cada um com o próprio acesso.",
+    a: "Pode. Cada pessoa da equipe entra com o próprio acesso, então dá para separar quem cuida do catálogo de quem atende o pedido.",
   },
   {
     q: "As pessoas vão me achar no Google?",

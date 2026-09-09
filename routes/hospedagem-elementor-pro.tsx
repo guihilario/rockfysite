@@ -1,5 +1,4 @@
 import { PaginaServico } from "@/components/PaginaServico.tsx";
-import { planosElementor } from "@/data/planosWordpress.ts";
 import { HeroElementor } from "@/components/heroes/HeroElementor.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 
@@ -15,7 +14,7 @@ export default async function HospedagemElementorPro() {
       h1="Hospedagem com Elementor Pro original incluso"
       lede="A licença oficial já vem ativada na sua conta. Você não compra à parte, não renova em dólar e não depende de versão pirata."
       cta="Ver planos"
-      planos={planosElementor}
+      produtoSchema="Hospedagem Elementor Pro Rockfy"
       planosEyebrow="Hospedagem"
       planosTitulo={
         <>

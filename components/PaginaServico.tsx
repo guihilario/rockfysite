@@ -6,7 +6,7 @@ import { Clients } from "@/components/sections/Clients.tsx";
 import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
 import { AreaCliente } from "@/components/sections/AreaCliente.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
-import type { Plan } from "@/data/plans.ts";
+import { type Plan, plans } from "@/data/plans.ts";
 import { planosSchema } from "@/core/seo/meta.ts";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
@@ -15,8 +15,8 @@ import type { Post } from "@/domain/posts.ts";
 
 type Props = {
   rota: string;
-  /** Os planos desta rota. Cada linha de produto tem a sua tabela (spec §5-7);
-   *  sem isto todas as páginas mostrariam os planos de hospedagem. */
+  /** Os planos desta rota. O padrão é a tabela única do site; só passe algo
+   *  aqui se a página precisar de uma oferta diferente das outras. */
   planos?: Plan[];
   /** Nome comercial do produto no dado estruturado. Sem ele a página não
    *  declara `Product`/`AggregateOffer` — é o que decide se o preço pode
@@ -58,7 +58,7 @@ export function PaginaServico(
     cta,
     destaques,
     posts,
-    planos,
+    planos = plans,
     produtoSchema,
     planosEyebrow,
     planosTitulo,
@@ -70,7 +70,7 @@ export function PaginaServico(
       titulo={titulo}
       descricao={descricao}
       fluido
-      jsonLd={produtoSchema && planos
+      jsonLd={produtoSchema
         ? [planosSchema({
           nome: produtoSchema,
           descricao,

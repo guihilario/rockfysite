@@ -1,5 +1,4 @@
 import { PaginaServico } from "@/components/PaginaServico.tsx";
-import { planosEmail } from "@/data/planosEmail.ts";
 import { HeroEmail } from "@/components/heroes/HeroEmail.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 
@@ -13,9 +12,8 @@ export default async function EmailProfissional() {
       descricao="seunome@suaempresa.com.br com antispam, backup diário e suporte feito por gente. Incluso nos planos de hospedagem da Rockfy ou contratado avulso."
       hero={<HeroEmail />}
       h1="Seu e-mail com a cara do seu negócio"
-      lede="Seu negócio com um endereço de e-mail comercial (seunome@empresa.com). Mais confiança, a partir de R$ 19,90/mês e suporte humano."
+      lede="Seu negócio com um endereço de e-mail comercial (seunome@empresa.com). Mais confiança, sem contar caixa e com suporte humano."
       cta="Ver planos"
-      planos={planosEmail}
       produtoSchema="E-mail profissional Rockfy"
       planosEyebrow="E-mail profissional"
       planosTitulo={

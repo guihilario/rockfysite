@@ -1,5 +1,4 @@
 import { PaginaServico } from "@/components/PaginaServico.tsx";
-import { planosWordpress } from "@/data/planosWordpress.ts";
 import { HeroWordpress } from "@/components/heroes/HeroWordpress.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 
@@ -15,7 +14,6 @@ export default async function HospedagemWordpress() {
       h1="Hospedagem WordPress para construir do seu jeito"
       lede="Nenhum construtor travado, nenhum tema fechado. WordPress puro, numa conta cPanel isolada, em servidor afinado para ele. A gente migra seu site sem custo."
       cta="Ver planos"
-      planos={planosWordpress}
       produtoSchema="Hospedagem WordPress Rockfy"
       planosEyebrow="Hospedagem"
       planosTitulo={

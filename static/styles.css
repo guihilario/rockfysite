@@ -920,6 +920,14 @@ body.is-locked{overflow:hidden}
 .plan__item .num{color:var(--ink)}
 .plan__item.is-off{color:var(--gray-300)}
 .plan__item.is-off svg{stroke:var(--gray-300)}
+/* Com rótulo de duas linhas (Pages, Recursos isolados cPanel) o "?" parava
+   logo depois da última palavra, e cada linha o deixava numa distância
+   diferente — um rastro irregular no card estreito. Esticar o rótulo
+   encosta todos os "?" na mesma coluna. Só no mobile: no desktop os
+   rótulos cabem numa linha e o "?" fica melhor junto do texto. */
+@media (max-width:700px){
+  .plan__item > span:not(.hint){flex:1}
+}
 .hint{
   width:22px;height:22px;border-radius:50%;border:1.2px solid var(--line);
   display:grid;place-items:center;font-size:11px;color:var(--gray-500);
@@ -1070,6 +1078,23 @@ body.is-locked{overflow:hidden}
 .dots{display:flex;justify-content:center;gap:7px;margin-top:24px}
 .dots button{width:7px;height:7px;border-radius:50%;border:0;padding:0;cursor:pointer;background:var(--line);transition:all .3s}
 .dots button.is-on{background:var(--ink);width:24px;border-radius:var(--r-pill)}
+
+/* Caixa de ajuda no fim do trilho de planos. Mesma linguagem da chamada de
+   fim de artigo (.post-cta): fundo de painel, contorno fino, texto à
+   esquerda e ação à direita. Fica dentro da seção de preços porque é ali
+   que a dúvida aparece. */
+.planos-ajuda{
+  margin-top:40px;padding:26px 28px;
+  border:1.4px solid var(--line);border-radius:var(--r-lg);background:var(--panel);
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;
+}
+.planos-ajuda__t{font-size:22px;line-height:1.2;letter-spacing:-.5px;font-weight:500;color:var(--ink)}
+.planos-ajuda__s{font-size:15px;line-height:1.5;color:var(--texto);margin-top:6px;max-width:52ch}
+.planos-ajuda .cta{flex:none}
+@media (max-width:620px){
+  .planos-ajuda{padding:22px}
+  .planos-ajuda .cta{width:100%;justify-content:space-between}
+}
 @media (min-width:900px){.dots{display:none}}
 
 /* ════════════════════ FOOTER ════════════════════ */

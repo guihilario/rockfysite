@@ -6,7 +6,7 @@ import { Clients } from "@/components/sections/Clients.tsx";
 import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
 import { AreaCliente } from "@/components/sections/AreaCliente.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
-import { planosDeploy } from "@/data/planosDeploy.ts";
+import { plans } from "@/data/plans.ts";
 import { planosSchema } from "@/core/seo/meta.ts";
 import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
@@ -29,7 +29,7 @@ export default async function Deploy() {
           descricao:
             "Publique a aplicação que você criou na IA com um link pronto para usar, sem lidar com servidor. Deploy gerenciado, preço",
           url: "/deploy",
-          planos: planosDeploy,
+          planos: plans,
         }),
       ].filter(Boolean)}
       fluido
@@ -63,7 +63,7 @@ export default async function Deploy() {
       <Clients />
       <AreaCliente />
       <Planos
-        planos={planosDeploy}
+        planos={plans}
         rota="/deploy"
         eyebrow="Planos de Deploy"
         titulo={

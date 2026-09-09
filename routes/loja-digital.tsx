@@ -13,7 +13,7 @@ import { Clients } from "@/components/sections/Clients.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
-import { planosLoja } from "@/data/planosLoja.ts";
+import { plans } from "@/data/plans.ts";
 import { planosSchema } from "@/core/seo/meta.ts";
 import { faqLoja } from "@/data/faqLoja.ts";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
@@ -33,18 +33,18 @@ export default async function LojaDigital() {
     <Layout
       rota="/loja-digital"
       titulo="Loja digital pronta pra vender | Rockfy"
-      descricao="Sua loja digital pronta pra vender: catálogo no celular, pedido montado no WhatsApp e PIX sem taxa direto na sua conta. Teste 7 dias grátis."
+      descricao="Sua loja digital pronta pra vender: catálogo no celular, pedido montado no WhatsApp e PIX sem taxa direto na sua conta. Inclusa nos planos a partir do Studio."
       fluido
-      /* A marcação de preço fica aqui porque esta é a única página que
-         mostra estes planos — ao contrário dos de hospedagem, que apareciam
-         em cinco e por isso foram para /planos. */
+      /* O `Product` aqui nomeia a loja digital, mas as ofertas são as do
+         site: a loja passou a ser um item dos planos, incluso a partir do
+         Studio, e não mais uma tabela de preço própria. */
       jsonLd={[
         planosSchema({
           nome: "Loja digital Rockfy",
           descricao:
-            "Loja digital com catálogo no celular, pedido no WhatsApp e PIX sem taxa por pedido. A partir de R$47,90 por mês, com 7 dias grátis.",
+            "Loja digital com catálogo no celular, pedido no WhatsApp e PIX sem taxa por pedido. Inclusa nos planos Rockfy a partir do Studio.",
           url: "/loja-digital",
-          planos: planosLoja,
+          planos: plans,
         }),
       ].filter(Boolean)}
     >
@@ -55,7 +55,7 @@ export default async function LojaDigital() {
         <HeroCopy
           h1="Sua loja digital pronta pra vender em todo lugar"
           lede="Seus produtos em um só lugar pra seu cliente comprar pelo celular e no WhatsApp."
-          cta="Começar grátis"
+          cta="Ver planos"
           rota="/loja-digital"
           destaques={[
             { titulo: "PIX sem taxa", linha2: "na sua conta" },
@@ -92,11 +92,11 @@ export default async function LojaDigital() {
       </section>
 
       <Planos
-        planos={planosLoja}
+        planos={plans}
         eyebrow="Escolha o seu"
         titulo={
           <>
-            Comece com <b>7 dias grátis</b>
+            A loja está inclusa <b>a partir do Studio</b>
           </>
         }
       />
