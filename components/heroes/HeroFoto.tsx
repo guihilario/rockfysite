@@ -37,7 +37,7 @@ export function HeroFoto(
       }
       <div class="heroB__corpo">
         <h1 class="heroB__titulo">
-          Somos a sua nuvem para todos os seus projetos
+          A sua nuvem para todos os seus projetos.
         </h1>
         <div class="heroB__pitch">
           <p class="heroB__texto">
