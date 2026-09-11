@@ -1,4 +1,5 @@
 import { Layout } from "@/components/Layout.tsx";
+import { ProdutoRelacionado } from "@/components/blog/ProdutoRelacionado.tsx";
 import {
   artigoSchema,
   resumirParaMeta,
@@ -137,6 +138,16 @@ export function PaginaPost({ post, html, headings, base, voltar }: Props) {
               <a key={t} href={`${base}?tag=${encodeURIComponent(t)}`}>#{t}</a>
             ))}
           </p>
+        )}
+
+        {
+          /* Só na central de ajuda: o convite do blog já leva a /planos, e dois
+            caminhos comerciais na mesma página competem entre si. Aqui o CTA
+            acima resolve quem não conseguiu; este bloco fala com quem
+            conseguiu e ainda não é cliente. */
+        }
+        {base === "/ajuda" && (
+          <ProdutoRelacionado categoriaSlug={post.categorySlug} />
         )}
       </article>
     </Layout>

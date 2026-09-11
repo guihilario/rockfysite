@@ -52,7 +52,9 @@ function linhaDoPlano(p: Plan): string {
     .join(", ");
   // O `note` vem de card e nem sempre termina em ponto; sem isto a frase
   // emenda com "Inclui" e o arquivo fica com cara de texto quebrado.
-  const nota = /[.!?]$/.test(p.note.trim()) ? p.note.trim() : `${p.note.trim()}.`;
+  const nota = /[.!?]$/.test(p.note.trim())
+    ? p.note.trim()
+    : `${p.note.trim()}.`;
   return `- **${p.name}** — ${p.price}${periodo} (${p.tag}): ${nota} Inclui: ${inclui}.`;
 }
 

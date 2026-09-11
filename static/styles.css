@@ -1312,6 +1312,31 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .post-cta .cta{margin-top:0;flex:none}
 @media (max-width:620px){.post-cta{padding:22px}.post-cta .cta{width:100%;justify-content:space-between}}
 
+/* Produto relacionado, no fim do artigo de ajuda.
+   Deliberadamente mais quieto que o `.post-cta` acima: aquele resolve quem
+   não conseguiu e precisa de gente; este fala com quem resolveu e talvez
+   ainda não seja cliente. Dois botões com o mesmo peso na mesma página
+   competem, e o de suporte é o que não pode perder. */
+.produtoRel{
+  margin-top:44px;padding-top:26px;border-top:1.4px solid var(--line);
+}
+.produtoRel__chapeu{
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gray-500);margin:0 0 6px;
+}
+.produtoRel__titulo{
+  font-size:20px;line-height:1.22;letter-spacing:-.4px;font-weight:500;margin:0 0 6px;
+}
+.produtoRel__texto{
+  font-size:15px;line-height:1.55;color:var(--texto);margin:0;max-width:54ch;
+}
+.produtoRel__cta{
+  display:inline-block;margin-top:14px;font-size:15px;
+  color:var(--ink);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-thickness:1.5px;
+}
+.produtoRel__cta:hover{color:var(--accent)}
+
 /* O mesmo convite, menor, ancorado abaixo do sumário — acompanha a leitura
    em telas largas, onde a coluna lateral sobra. */
 .post-lateral-cta{

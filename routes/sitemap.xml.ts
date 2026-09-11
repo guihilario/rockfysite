@@ -60,7 +60,9 @@ export const handler = define.handlers({
          `changefreq`/`priority` o Google declara ignorar; ficam porque
          outros buscadores ainda leem. */
       ...PAGINAS.map(([loc, pri, mudaComPost]) => {
-        const lastmod = mudaComPost ? `\n    <lastmod>${maisRecente}</lastmod>` : "";
+        const lastmod = mudaComPost
+          ? `\n    <lastmod>${maisRecente}</lastmod>`
+          : "";
         return `  <url>\n    <loc>${SITE}${loc}</loc>${lastmod}\n    <priority>${pri}</priority>\n  </url>`;
       }),
       ...posts.map((p) => {

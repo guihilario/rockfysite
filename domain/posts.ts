@@ -23,6 +23,9 @@ export type Post = {
   /** Nome da categoria (join com `categories`) — só presente quando a
    * query junta a tabela (ex.: listagem pública). `null` nas demais. */
   categoryName: string | null;
+  /** Slug da categoria. Usado para decidir qual produto o artigo indica no
+   *  rodapé: o nome é editável no painel, o slug é estável. */
+  categorySlug: string | null;
   /** Nomes das tags (#assunto) — agregados na query da listagem pública
    * pra os cards mostrarem as pills sem N+1 (SPEC §28). */
   tagNames: string[];
@@ -52,6 +55,7 @@ type PostRow = {
   author_id: string;
   category_id: string | null;
   category_name?: string | null;
+  category_slug?: string | null;
   tag_names?: string[] | null;
   /** Só nas listagens (LIST_COLUMNS), calculado no SQL. */
   reading_minutes?: number;
@@ -75,6 +79,7 @@ function fromRow(row: PostRow): Post {
     authorId: row.author_id,
     categoryId: row.category_id,
     categoryName: row.category_name ?? null,
+    categorySlug: row.category_slug ?? null,
     tagNames: row.tag_names ?? [],
     /* Nas listagens vem do SQL; na leitura de um post só, calcula do corpo
        que já está em mãos. */
@@ -162,6 +167,7 @@ export async function listPublishedPosts(
     text: `
       SELECT ${LIST_COLUMNS},
         cat.name AS category_name,
+        cat.slug AS category_slug,
         -- A seção (blog/ajuda) vem da categoria raiz e é o que monta a
         -- URL pública do post. O JOIN de root já existia para o filtro.
         root.slug AS section_slug,
@@ -253,6 +259,7 @@ export async function getPostBySlug(
     text: `
       SELECT ${SELECT_COLUMNS},
         cat.name AS category_name,
+        cat.slug AS category_slug,
         root.slug AS section_slug
       FROM posts
       LEFT JOIN categories cat ON cat.id = posts.category_id
@@ -325,7 +332,8 @@ export async function listAllPosts(
   const result = await client.queryObject<PostRow>({
     text: `
       SELECT ${LIST_COLUMNS},
-        cat.name AS category_name
+        cat.name AS category_name,
+        cat.slug AS category_slug
       FROM posts
       LEFT JOIN categories cat ON cat.id = posts.category_id
       WHERE ($3::text IS NULL
