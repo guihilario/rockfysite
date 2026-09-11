@@ -56,7 +56,7 @@ export default async function Home() {
             Crie na sua I.A, <b>a gente coloca no ar</b>
           </>
         }
-        texto="Publique a aplicação que você criou com o poder de escala e infraestrutura do Google. Simples e sem você lidar com servidor."
+        texto="Publique a aplicação que você criou com o poder de escala e infraestrutura de ponta. Simples e sem você lidar com servidor."
         cta="Ver o CloudDeploy"
         href="/deploy"
       >

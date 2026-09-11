@@ -39,7 +39,7 @@ export default async function Deploy() {
           <DeployStage />
           <HeroCopy
             h1="Crie na sua I.A, a gente coloca no ar"
-            lede="Publique a aplicação que você criou com o poder de escala e infraestrutura do Google. Simples e sem você lidar com servidor."
+            lede="Publique a aplicação que você criou com o poder de escala e infraestrutura de ponta. Simples e sem você lidar com servidor."
             cta="Ver planos"
             rota="/deploy"
             destaques={[

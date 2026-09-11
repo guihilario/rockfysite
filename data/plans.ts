@@ -62,7 +62,7 @@ const PAGES = {
 };
 const DEPLOY = {
   label: "Deploy de Apps",
-  hint: "Hospede aplicativos na nuvem do Google com alta performance.",
+  hint: "Hospede aplicativos na nuvem com alta performance.",
 };
 const GESTAO = {
   label: "Gestão & Finanças",

@@ -20,7 +20,7 @@ const VALORES = [
   {
     titulo: "Suporte de verdade",
     texto:
-      "Pessoas que entendem da stack e resolvem o problema. Não usamos agente de IA no atendimento.",
+      "Quem atende entende da stack e resolve o problema, sem empurrar para o próximo nível.",
   },
   {
     titulo: "Em português, em reais",
@@ -120,7 +120,7 @@ export default async function Sobre() {
               </span>
             </a>
             <a class="cta cta--ghost" href={site.whatsapp}>
-              Falar com uma pessoa
+              Falar com a gente
             </a>
           </>
         }
@@ -185,7 +185,7 @@ export default async function Sobre() {
           <Blocos
             titulo={
               <>
-                Quem está <em>do outro lado</em>
+                Quem cuida <em>da sua infra</em>
               </>
             }
             itens={EQUIPE}

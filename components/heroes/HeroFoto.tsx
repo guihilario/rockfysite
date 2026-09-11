@@ -47,7 +47,7 @@ export function HeroFoto(
           <div class="heroB__acoes">
             <a class="heroB__cta" href={alvoDosPlanos(rota)}>Ver planos</a>
             <a class="heroB__link" href={site.whatsapp}>
-              [ Falar com uma pessoa ]
+              [ Falar com a gente ]
             </a>
           </div>
         </div>

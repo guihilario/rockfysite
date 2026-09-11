@@ -27,8 +27,7 @@ export function PopoverPlano(
         <p class="lead__chapeu">Plano {plano}</p>
         <h2 class="lead__titulo">Falta pouco</h2>
         <p class="lead__lede">
-          Deixe seu contato e a conversa continua no WhatsApp, com uma pessoa do
-          outro lado.
+          Deixe seu contato e a conversa continua no WhatsApp.
         </p>
 
         <label class="lead__campo">
