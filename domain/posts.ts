@@ -387,6 +387,45 @@ export async function listPublishedPostsForSitemap(
   }));
 }
 
+export type LlmsEntry = {
+  slug: string;
+  section: string;
+  title: string;
+  excerpt: string | null;
+};
+
+/** Todos os posts publicados, sem paginação, para o `/llms.txt`.
+ *
+ *  O arquivo listava 30 por seção porque reaproveitava a listagem paginada
+ *  do site. Com 49 artigos na central de ajuda, 19 ficavam invisíveis para
+ *  quem lê por máquina — que é justamente o público do arquivo.
+ *
+ *  Existe separado de `listPublishedPostsForSitemap` porque precisa do
+ *  `excerpt` e não precisa de data nem de capa; juntar os dois deixaria
+ *  cada um carregando coluna que não usa. */
+export async function listPublishedPostsForLlms(
+  client: Queryable = db,
+): Promise<LlmsEntry[]> {
+  const result = await client.queryObject<
+    { slug: string; section: string; title: string; excerpt: string | null }
+  >({
+    text: `
+      SELECT posts.slug, root.slug AS section, posts.title, posts.excerpt
+      FROM posts
+      JOIN categories cat ON cat.id = posts.category_id
+      JOIN categories root ON root.id = COALESCE(cat.parent_id, cat.id)
+      WHERE posts.status = 'published'
+      ORDER BY root.slug, posts.title
+    `,
+  });
+  return result.rows.map((row) => ({
+    slug: row.slug,
+    section: row.section,
+    title: row.title,
+    excerpt: row.excerpt,
+  }));
+}
+
 export type CreatePostInput = {
   title: string;
   slug: string;

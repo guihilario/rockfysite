@@ -25,6 +25,7 @@ export default define.page<typeof handler>(function Blog({ data }) {
   return (
     <ListagemBlog
       rota="/blog"
+      canonica={data.pagina > 1 ? `/blog?page=${data.pagina}` : "/blog"}
       titulo="Blog da Rockfy: hospedagem, deploy e WordPress"
       descricao="O que a gente aprendeu cuidando de infraestrutura: hospedagem, deploy de apps, WordPress, performance e gestão de projetos digitais."
       jsonLd={[listaSchema({

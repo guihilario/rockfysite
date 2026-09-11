@@ -4,6 +4,7 @@ import type { Post } from "@/domain/posts.ts";
 
 type Props = {
   rota: string;
+  canonica?: string;
   titulo: string;
   descricao: string;
   /** Dados estruturados da listagem (ItemList). */
@@ -23,6 +24,7 @@ type Props = {
 export function ListagemBlog(
   {
     rota,
+    canonica,
     titulo,
     descricao,
     jsonLd,
@@ -49,6 +51,7 @@ export function ListagemBlog(
   return (
     <Layout
       rota={rota}
+      canonica={canonica}
       titulo={titulo}
       descricao={descricao}
       jsonLd={jsonLd}

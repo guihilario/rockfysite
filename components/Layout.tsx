@@ -20,6 +20,12 @@ type Props = {
   /** Caminho da página, ex.: "/deploy". Vira canonical e og:url, e marca
    *  o item correspondente no menu. */
   rota: string;
+  /** Sobrescreve só a canonical e a og:url, mantendo `rota` para o menu e a
+   *  trilha. Existe para a paginação: `/ajuda?page=2` precisa apontar a
+   *  canonical para si mesma, senão se declara cópia de `/ajuda` e o
+   *  buscador consolida as duas — deixando de usar a página 2 como caminho
+   *  para os artigos que só aparecem nela. */
+  canonica?: string;
   titulo: string;
   descricao: string;
   /** A FAQPage só entra numa página, para não competir consigo mesma no
@@ -83,6 +89,7 @@ function JsonLd({ data }: { data: unknown }) {
 export function Layout(
   {
     rota,
+    canonica,
     titulo,
     descricao,
     faqSchema = false,
@@ -100,7 +107,8 @@ export function Layout(
     children,
   }: Props,
 ) {
-  const url = SITE + (rota === "/" ? "/" : rota);
+  const caminhoCanonico = canonica ?? rota;
+  const url = SITE + (caminhoCanonico === "/" ? "/" : caminhoCanonico);
   const ogImagem = imagem ?? SITE + imagemDaRota(rota);
   /* Sem trilha explícita, monta a de um nível a partir do nome da rota. As
      páginas de post passam a sua, que tem três degraus. A home não tem

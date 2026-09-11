@@ -2,22 +2,30 @@ import { define } from "@/utils.ts";
 import { listPublishedPostsForSitemap } from "@/domain/posts.ts";
 import { SITE } from "@/components/Layout.tsx";
 
-const PAGINAS = [
-  ["/", "1.0"],
-  ["/planos", "0.9"],
-  ["/deploy", "0.8"],
-  ["/hospedagem-elementor-pro", "0.8"],
-  ["/hospedagem-wordpress", "0.8"],
-  ["/loja-digital", "0.8"],
-  ["/email-profissional", "0.8"],
-  ["/blog", "0.7"],
-  ["/ajuda", "0.7"],
-  ["/sobre", "0.6"],
-  ["/contato", "0.6"],
+/** As páginas fixas. O terceiro campo diz se a página exibe a faixa do blog
+ *  — ou seja, se o conteúdo dela muda quando alguém publica um post.
+ *
+ *  Isso decide quem recebe `lastmod`. Antes todas recebiam a data do post
+ *  mais recente, inclusive `/contato` e `/politicas`, que não têm a faixa e
+ *  portanto não mudaram coisa nenhuma. `lastmod` impreciso é pior que
+ *  ausente: o Google declara que passa a ignorar o campo no site inteiro
+ *  quando percebe que ele não corresponde à mudança real. */
+const PAGINAS: [caminho: string, prioridade: string, mudaComPost: boolean][] = [
+  ["/", "1.0", true],
+  ["/planos", "0.9", true],
+  ["/deploy", "0.8", true],
+  ["/hospedagem-elementor-pro", "0.8", true],
+  ["/hospedagem-wordpress", "0.8", true],
+  ["/loja-digital", "0.8", true],
+  ["/email-profissional", "0.8", true],
+  ["/blog", "0.7", true],
+  ["/ajuda", "0.7", true],
+  ["/sobre", "0.6", true],
+  ["/contato", "0.6", false],
   // Prioridade baixa: é página de consulta, não de entrada — mas precisa
   // estar aqui, porque buscador que não a encontra trata o site como se
   // não tivesse política de privacidade publicada.
-  ["/politicas", "0.3"],
+  ["/politicas", "0.3", false],
 ];
 
 /** Escapa o que vai dentro de um nó XML. O título do post é texto livre de
@@ -46,14 +54,15 @@ export const handler = define.handlers({
       .sort()
       .at(-1) ?? new Date().toISOString().slice(0, 10);
     const urls = [
-      /* As páginas fixas ganham como `lastmod` a data do post mais
-         recente: todas exibem a faixa do blog, então mudam de conteúdo
-         quando alguém publica. Sem `lastmod` o buscador não tem sinal
-         nenhum de frescor — e `changefreq`/`priority`, que estavam aqui
-         sozinhos, o Google declara ignorar. */
-      ...PAGINAS.map(([loc, pri]) =>
-        `  <url>\n    <loc>${SITE}${loc}</loc>\n    <lastmod>${maisRecente}</lastmod>\n    <priority>${pri}</priority>\n  </url>`
-      ),
+      /* As páginas que exibem a faixa do blog ganham como `lastmod` a data
+         do post mais recente: elas mudam de conteúdo quando alguém publica.
+         As que não exibem saem sem `lastmod` — ver o comentário em PAGINAS.
+         `changefreq`/`priority` o Google declara ignorar; ficam porque
+         outros buscadores ainda leem. */
+      ...PAGINAS.map(([loc, pri, mudaComPost]) => {
+        const lastmod = mudaComPost ? `\n    <lastmod>${maisRecente}</lastmod>` : "";
+        return `  <url>\n    <loc>${SITE}${loc}</loc>${lastmod}\n    <priority>${pri}</priority>\n  </url>`;
+      }),
       ...posts.map((p) => {
         const loc = `${SITE}${
           p.section === "ajuda" ? "/ajuda" : "/blog"

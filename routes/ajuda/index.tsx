@@ -25,6 +25,7 @@ export default define.page<typeof handler>(function Ajuda({ data }) {
   return (
     <ListagemBlog
       rota="/ajuda"
+      canonica={data.pagina > 1 ? `/ajuda?page=${data.pagina}` : "/ajuda"}
       titulo="Central de ajuda: guias e tutoriais | Rockfy"
       descricao="Guias curtos para resolver sozinho, agora: migração de site, painel cPanel, contas de e-mail, domínios, DNS e backup na Rockfy."
       jsonLd={[listaSchema({
