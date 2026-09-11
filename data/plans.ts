@@ -1,15 +1,20 @@
-/** Os planos do site — a tabela única, usada em todas as páginas.
+/** Os planos do site — a tabela única das páginas de hospedagem.
  *
  * Ficavam dentro do `scripts.js` e eram injetados por `innerHTML`, então
  * preço, nome e itens não existiam no HTML servido — invisíveis para
  * buscadores e para IAs. Agora são dados, e a página renderiza no servidor.
  *
  * Por um tempo cada produto teve a sua própria tabela (`planosWordpress`,
- * `planosEmail`, `planosDeploy`, `planosLoja`), com nome, preço e régua
- * diferentes. Quem visitava duas páginas via duas ofertas e precisava
- * descobrir sozinho como uma se relacionava com a outra. Voltou a ser uma
- * tabela só: os mesmos quatro planos em todo lugar, e cada página muda
- * apenas a chamada acima do trilho.
+ * `planosEmail`, `planosDeploy`), com nome, preço e régua diferentes. Quem
+ * visitava duas páginas via duas ofertas e precisava descobrir sozinho como
+ * uma se relacionava com a outra. Voltou a ser uma tabela só: os mesmos
+ * quatro planos em todo lugar, e cada página muda apenas a chamada acima do
+ * trilho.
+ *
+ * A loja digital é a exceção, e de propósito. Ela cobra por catálogo e
+ * usuário, não por conta e domínio, e tem entrada mais barata que o Start:
+ * embutir isso aqui obrigaria quem só quer vender no WhatsApp a comprar
+ * hospedagem junto. Os planos dela vivem em `planosLoja.ts`.
  *
  * Nenhum item traz quantidade. cPanel, caixa de e-mail e aplicação de
  * Deploy já foram numerados aqui; contar empurra o cliente a economizar o
@@ -52,16 +57,12 @@ const CPANEL = {
 };
 const PAGES = {
   label: "Pages — Sites [HTML&JS]",
-  hint: "Publique seus sites criados por IA com 1 clique e domínio personalizado.",
+  hint:
+    "Publique seus sites criados por IA com 1 clique e domínio personalizado.",
 };
 const DEPLOY = {
   label: "Deploy de Apps",
   hint: "Hospede aplicativos na nuvem do Google com alta performance.",
-};
-const LOJA = {
-  label: "Loja digital",
-  hint:
-    "Catálogo, PIX sem taxa por pedido e pedidos no WhatsApp, inclusos a partir do Studio.",
 };
 const GESTAO = {
   label: "Gestão & Finanças",
@@ -83,7 +84,6 @@ export const plans: Plan[] = [
       { n: null, label: "Emails Profissionais" },
       { n: null, ...PAGES },
       { n: null, ...DEPLOY, on: false },
-      { n: null, ...LOJA, on: false },
       { n: null, ...GESTAO, on: false },
     ],
   },
@@ -100,7 +100,6 @@ export const plans: Plan[] = [
       { n: null, label: "Emails Profissionais" },
       { n: null, ...PAGES },
       { n: null, ...DEPLOY, on: true },
-      { n: null, ...LOJA, on: false },
       { n: null, ...GESTAO, on: true },
     ],
   },
@@ -117,7 +116,6 @@ export const plans: Plan[] = [
       { n: null, label: "Emails Profissionais" },
       { n: null, ...PAGES },
       { n: null, ...DEPLOY, on: true },
-      { n: null, ...LOJA, on: true },
       { n: null, ...GESTAO, on: true },
     ],
   },
@@ -133,7 +131,6 @@ export const plans: Plan[] = [
       { n: null, label: "Emails Profissionais" },
       { n: null, ...PAGES },
       { n: null, ...DEPLOY, on: true },
-      { n: null, ...LOJA, on: true },
       { n: null, ...GESTAO, on: true },
     ],
   },

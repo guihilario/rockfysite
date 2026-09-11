@@ -18,7 +18,7 @@ export function HeroFoto(
     <section class={cabecalho ? "heroB heroB--com-topo" : "heroB"}>
       <img
         class="heroB__foto"
-        src="/img/bg-hero13.webp"
+        src="/img/bg-hero2.webp"
         alt=""
         aria-hidden="true"
         width="1456"
