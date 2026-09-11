@@ -32,7 +32,7 @@ export default async function Home() {
     <Layout
       rota="/"
       titulo="Rockfy | Sua nova nuvem: hospedagem, deploy e loja digital"
-      descricao="Hospedagem WordPress em servidor otimizado, deploy de apps de IA, loja digital e e-mail profissional num painel só. Preço em reais e suporte por gente."
+      descricao="Hospedagem WordPress em servidor otimizado, deploy de apps de IA, loja digital e e-mail profissional num painel só. Preço em reais e suporte humanizado."
       faqSchema
       cabecalho="vidro"
       fluido

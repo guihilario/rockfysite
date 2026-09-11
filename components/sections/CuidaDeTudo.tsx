@@ -26,9 +26,9 @@ export function CuidaDeTudo(
               <h2 class="title">{titulo}</h2>
               <p class="para">
                 Configuramos e deixamos tudo pronto pra você operar, sem custo
-                extra, ativação de licenças oficiais e suporte humanizado que
-                resolve. Você foca em gerar valor para o seu cliente, e a gente
-                cuida da sua infra.
+                extra, ativação de licenças oficiais e suporte que resolve. Você
+                foca em gerar valor para o seu cliente, e a gente cuida da sua
+                infra.
               </p>
               <a class="cta" href="#planos">
                 Ver planos

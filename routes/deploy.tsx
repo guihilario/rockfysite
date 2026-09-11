@@ -80,7 +80,7 @@ export default async function Deploy() {
             Perguntas sobre o <b>Deploy</b>
           </>
         }
-        texto="Se ficar alguma dúvida, o suporte responde no WhatsApp — gente de verdade, não robô."
+        texto="Se ficar alguma dúvida, o suporte responde no WhatsApp, das 8h às 22h, todos os dias."
       />
       <Posts posts={posts} />
     </Layout>

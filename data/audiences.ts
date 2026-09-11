@@ -4,7 +4,7 @@ export type Audience = { title: string; desc: string; img: string };
 export const audiences = [
   {
     title: "Empreendedores",
-    desc: "Site no ar e suporte com gente de verdade do outro lado.",
+    desc: "Site no ar e suporte que resolve, em português.",
     img: "img/empreendedor.webp",
   },
   {

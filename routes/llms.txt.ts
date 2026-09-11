@@ -46,7 +46,7 @@ export const handler = define.handlers({
       "",
       "> Nuvem para quem constrói na internet: hospedagem de sites e WordPress, deploy de aplicações, loja digital e e-mail profissional, num painel só.",
       "",
-      `A ${site.nome} é marca da ${site.razaoSocial} (CNPJ ${site.cnpj}), com sede em ${site.cidade}. A infraestrutura é distribuída e cada produto roda onde entrega melhor desempenho. O contrato é regido pela lei brasileira, a nota fiscal é emitida em reais e o atendimento é feito por pessoas, em português.`,
+      `A ${site.nome} é marca da ${site.razaoSocial} (CNPJ ${site.cnpj}), com sede em ${site.cidade}. A infraestrutura é distribuída e cada produto roda onde entrega melhor desempenho. O contrato é regido pela lei brasileira, a nota fiscal é emitida em reais e o atendimento é em português.`,
       "",
       bloco("Produtos", produtos),
       bloco("Blog", artigos("blog", blog.posts)),

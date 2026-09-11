@@ -81,14 +81,14 @@ export default function Contato() {
     <Layout
       rota="/contato"
       titulo="Fale com a Rockfy: WhatsApp, e-mail e suporte"
-      descricao="Fale com a Rockfy por WhatsApp, e-mail ou Área do Cliente. Atendimento em português, feito por pessoas que mexem no servidor — não por robô."
+      descricao="Fale com a Rockfy por WhatsApp, e-mail ou Área do Cliente. Atendimento em português, no mesmo fuso, por quem tem acesso ao servidor."
       fluido
     >
       <HeroPagina
         tagline="Contato"
         h1={
           <>
-            Fala com a gente, <em>tem gente do outro lado</em>
+            Fala com a gente, <em>a gente responde</em>
           </>
         }
         lede="Escolha o canal que preferir — a gente responde no mesmo idioma e no mesmo fuso."

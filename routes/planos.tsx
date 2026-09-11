@@ -82,7 +82,7 @@ export default async function PaginaPlanos() {
               </p>
             </li>
             <li class="step">
-              <h3 class="step__t">SSL, backup e suporte por gente</h3>
+              <h3 class="step__t">SSL, backup e suporte humanizado</h3>
               <p class="step__d">
                 Certificado grátis renovado sozinho, backup diário e atendimento
                 de quem tem acesso ao servidor.

@@ -24,7 +24,7 @@ export function Faq({
     </>
   ),
   texto =
-    "Se ficar alguma dúvida, o suporte responde no chat e no WhatsApp, das 8h às 22h, todos os dias — gente de verdade, não robô.",
+    "Se ficar alguma dúvida, o suporte responde no chat e no WhatsApp, das 8h às 22h, todos os dias.",
   cta = "Falar com o suporte",
   ctaHref = "/contato",
 }: PropsFaq = {}) {

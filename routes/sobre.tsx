@@ -93,7 +93,7 @@ export default async function Sobre() {
     <Layout
       rota="/sobre"
       titulo="Sobre a Rockfy: quem cuida da sua infraestrutura"
-      descricao="A nuvem de quem constrói na internet: hospedagem, deploy, loja digital e e-mail num painel só. Atendimento em português, pagamento em reais e suporte por gente."
+      descricao="A nuvem de quem constrói na internet: hospedagem, deploy, loja digital e e-mail num painel só. Atendimento em português, pagamento em reais e suporte humanizado."
       fluido
     >
       <HeroPagina
@@ -103,7 +103,7 @@ export default async function Sobre() {
             A nuvem para <b>tudo que você põe no ar</b>
           </>
         }
-        lede="Site, aplicação, loja e e-mail costumam morar em quatro lugares diferentes, cada um com um suporte que não resolve. A Rockfy existe para juntar isso num painel só, com preço em reais e gente do outro lado."
+        lede="Site, aplicação, loja e e-mail costumam morar em quatro lugares diferentes, cada um com um suporte que não resolve. A Rockfy existe para juntar isso num painel só, com preço em reais e atendimento em português."
         acoes={
           <>
             <a class="cta" href="/planos">
@@ -200,7 +200,7 @@ export default async function Sobre() {
             <div>
               <span class="tagline">Empresa brasileira</span>
               <h2 class="title" id="empresa">
-                Empresa brasileira, <b>atendimento de gente daqui</b>
+                Empresa brasileira, <b>atendimento em português</b>
               </h2>
               <p class="para">
                 A Rockfy é marca da {site.razaoSocial}, CNPJ{" "}
@@ -210,8 +210,8 @@ export default async function Sobre() {
               <p class="para">
                 A infraestrutura fica onde cada produto pede: temos servidores
                 no Brasil, nas Américas e na Europa. O que não muda é o resto:
-                atendimento em português, pagamento em reais e atendimento
-                humanizado de verdade.
+                atendimento em português, pagamento em reais e suporte
+                humanizado.
               </p>
             </div>
             <CollageElementor />
