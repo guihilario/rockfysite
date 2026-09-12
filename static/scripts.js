@@ -17,39 +17,28 @@
 (function(){
   const gatilhos=[...document.querySelectorAll('.dd__btn')];
   if(!gatilhos.length)return;
+  const topo=gatilhos[0].closest('.top');
 
   const painel=b=>document.getElementById(b.getAttribute('aria-controls'));
+  const syncTopo=()=>topo?.classList.toggle('has-menu-open',gatilhos.some(b=>b.getAttribute('aria-expanded')==='true'));
+  let timerFechar;
+  const cancelarFechamento=()=>{
+    if(timerFechar){clearTimeout(timerFechar);timerFechar=undefined}
+  };
 
   const fechar=b=>{
     b.setAttribute('aria-expanded','false');
     const p=painel(b); if(p)p.hidden=true;
+    syncTopo();
   };
   const fecharTodos=exceto=>gatilhos.forEach(b=>{if(b!==exceto)fechar(b)});
-
-  /* Centraliza o painel no gatilho, mas sem deixar vazar da tela: o
-     "Recursos" fica à direita e o painel é largo, então centralizar puro
-     jogava a borda pra fora da viewport. */
-  const posicionar=(b,p)=>{
-    p.style.left='0px';
-    p.style.transform='none';
-    const g=b.getBoundingClientRect();
-    const largura=p.offsetWidth;
-    const margem=16;
-    /* alinha a borda esquerda do painel com a do gatilho; centralizar
-       fazia o painel parecer solto, longe do item que o abriu */
-    let x=g.left;
-    /* nunca passa da margem do conteúdo (a mesma do resto da página) */
-    const conteudo=document.querySelector('.screen').getBoundingClientRect();
-    const limiteDir=Math.min(innerWidth-margem,conteudo.right);
-    x=Math.max(Math.max(margem,conteudo.left),Math.min(x,limiteDir-largura));
-    p.style.left=`${x-b.closest('.dd').getBoundingClientRect().left}px`;
-  };
 
   const abrir=b=>{
     fecharTodos(b);
     b.setAttribute('aria-expanded','true');
     const p=painel(b);
-    if(p){p.hidden=false;posicionar(b,p)}
+    if(p)p.hidden=false;
+    syncTopo();
   };
 
   gatilhos.forEach(b=>{
@@ -61,8 +50,22 @@
        primeiro toque abriria e o segundo navegaria sem querer */
     if(matchMedia('(hover: hover) and (pointer: fine)').matches){
       const grupo=b.closest('.dd');
-      grupo.addEventListener('mouseenter',()=>abrir(b));
-      grupo.addEventListener('mouseleave',()=>fechar(b));
+      grupo.addEventListener('mouseenter',()=>{
+        cancelarFechamento();
+        abrir(b);
+      });
+      /* O painel é full-width e sai da caixa visual estreita do gatilho.
+         Uma tolerância curta mantém o menu aberto durante essa travessia. */
+      grupo.addEventListener('mouseleave',()=>{
+        cancelarFechamento();
+        timerFechar=setTimeout(()=>fechar(b),180);
+      });
+      const p=painel(b);
+      p?.addEventListener('mouseenter',cancelarFechamento);
+      p?.addEventListener('mouseleave',()=>{
+        cancelarFechamento();
+        timerFechar=setTimeout(()=>fechar(b),180);
+      });
     }
   });
 
@@ -86,6 +89,7 @@
   const btn=document.getElementById('menuBtn');
   const menu=document.getElementById('mobileMenu');
   const pill=document.querySelector('.top .nav');
+  const topo=pill?.closest('.top');
   const label=document.getElementById('menuLabel');
   if(!btn||!menu||!pill)return;
 
@@ -95,6 +99,7 @@
     btn.setAttribute('aria-expanded',String(open));
     btn.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');
     document.body.classList.toggle('is-locked',open);
+    topo?.classList.toggle('has-mobile-open',open);
     if(label)label.textContent=open?'Fechar':'Menu';
   };
 
@@ -472,7 +477,7 @@
    dependem da mesma classe, então um listener só serve às duas — e nas
    páginas com cabeçalho no fluxo ele nem se registra. */
 (function () {
-  var topo = document.querySelector(".top--flutuante, .top--vidro, .top--fixo");
+  var topo = document.querySelector(".top--vidro, .top--fixo");
   if (!topo) return;
   /* O fundo só entra quando a hero termina: sobre a foto o cabeçalho fica
      transparente, e o vidro aparece ao chegar na seção seguinte, que é

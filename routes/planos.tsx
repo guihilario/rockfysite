@@ -7,6 +7,7 @@ import { plans } from "@/data/plans.ts";
 import { planosSchema } from "@/core/seo/meta.ts";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 import { site } from "@/data/site.ts";
+import { Clients } from "@/components/sections/Clients.tsx";
 
 const DESCRICAO =
   "Planos de hospedagem Rockfy a partir de R$37 por mês: conta cPanel isolada, servidor otimizado, SSL, backup diário e migração grátis. Sem fidelidade.";
@@ -58,6 +59,7 @@ export default async function PaginaPlanos() {
         }
       />
 
+      <Clients />
       <Planos />
 
       <section class="section dotted" aria-labelledby="incluso">

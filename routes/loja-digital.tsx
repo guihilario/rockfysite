@@ -91,6 +91,7 @@ export default async function LojaDigital() {
         </div>
       </section>
 
+      <Clients />
       <Planos
         planos={planosLoja}
         eyebrow="Escolha o seu"
@@ -102,7 +103,6 @@ export default async function LojaDigital() {
       />
 
       <Montagem />
-      <Clients />
 
       <Faq
         itens={faqLoja}

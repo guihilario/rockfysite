@@ -23,37 +23,48 @@ export type Menu = {
   rodape?: { titulo: string; descricao: string; href: string; cta: string };
 };
 
+/** Links que não precisam de dropdown na navegação v2. */
+export const linksTopo = [
+  { titulo: "Preços", href: "/planos" },
+  { titulo: "Sobre", href: "/sobre" },
+];
+
 export const menus: Menu[] = [
   {
     rotulo: "Produtos",
     chave: "produtos",
     colunas: [
       {
-        titulo: "Hospedagem",
+        titulo: "Crie e publique",
         itens: [
           {
-            titulo: "Hospedagem de Site",
-            descricao: "Elementor Pro original incluso e ativado na sua conta.",
-            href: "/hospedagem-elementor-pro",
+            titulo: "siteOne",
+            descricao: "Sites HTML e JavaScript no ar em um clique.",
+            href: "/site-one",
             icone: "site",
           },
           {
-            titulo: "Hospedagem WordPress",
-            descricao:
-              "WordPress puro, conta isolada, sem trava de construtor.",
-            href: "/hospedagem-wordpress",
-            icone: "wordpress",
+            titulo: "CloudDeploy",
+            descricao: "Publique o app que você criou com IA.",
+            href: "/deploy",
+            icone: "deploy",
+          },
+          {
+            titulo: "myDocker",
+            descricao: "Container isolado em cloud no Brasil.",
+            href: "/my-docker",
+            icone: "container",
           },
         ],
       },
       {
-        titulo: "Construir e vender",
+        titulo: "Seu negócio",
         itens: [
           {
-            titulo: "Deploy [IA]",
-            descricao: "Publique o app que você criou na IA, sem servidor.",
-            href: "/deploy",
-            icone: "deploy",
+            titulo: "Hospedagem de site",
+            descricao: "Elementor Pro oficial incluso e ativado.",
+            href: "/hospedagem-elementor-pro",
+            icone: "wordpress",
           },
           {
             titulo: "Loja digital",
@@ -82,7 +93,7 @@ export const menus: Menu[] = [
     chave: "recursos",
     colunas: [
       {
-        titulo: "Conteúdo",
+        titulo: "Explore",
         itens: [
           {
             titulo: "Blog",
@@ -95,6 +106,12 @@ export const menus: Menu[] = [
             descricao: "Guias curtos para resolver sozinho, agora.",
             href: "/ajuda",
             icone: "ajuda",
+          },
+          {
+            titulo: "Contato",
+            descricao: "Fale com o time da Rockfy.",
+            href: "/contato",
+            icone: "email",
           },
         ],
       },

@@ -3,6 +3,12 @@ import { Blocos, HeroPagina } from "@/components/institucional/HeroPagina.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
+import { Clients } from "@/components/sections/Clients.tsx";
+import { plans } from "@/data/plans.ts";
+import { planosSchema } from "@/core/seo/meta.ts";
+
+const DESCRICAO =
+  "Publique sites HTML e JavaScript criados com IA, conecte seu domínio e conte com infraestrutura e suporte da Rockfy.";
 
 export default async function SiteOne() {
   const posts = await carregarFaixaPosts();
@@ -10,8 +16,14 @@ export default async function SiteOne() {
     <Layout
       rota="/site-one"
       titulo="siteOne | Publique sites HTML e JavaScript com a Rockfy"
-      descricao="Publique sites HTML e JavaScript criados com IA, conecte seu domínio e conte com infraestrutura e suporte da Rockfy."
+      descricao={DESCRICAO}
       fluido
+      jsonLd={[planosSchema({
+        nome: "Rockfy siteOne",
+        descricao: DESCRICAO,
+        url: "/site-one",
+        planos: plans,
+      })].filter(Boolean)}
     >
       <HeroPagina
         tagline="siteOne"
@@ -53,6 +65,7 @@ export default async function SiteOne() {
         </div>
       </section>
 
+      <Clients />
       <Planos rota="/site-one" eyebrow="Planos com siteOne" />
       <Posts posts={posts} />
     </Layout>

@@ -1,8 +1,7 @@
 import type { ComponentChildren } from "preact";
-import { menus } from "@/data/menu.ts";
+import { linksTopo, menus } from "@/data/menu.ts";
 import { Icone } from "@/components/Icone.tsx";
 import { alvoDosPlanos } from "@/core/navegacao.ts";
-import type { ItemNav } from "@/data/navV2.ts";
 
 /** Cabeçalho e menu mobile. `atual` recebe o caminho da página para marcar
  *  o item correspondente no menu. */
@@ -26,76 +25,63 @@ function NavLink(
 }
 
 export function Header(
-  { atual, forma = "padrao", itens }: {
+  { atual, forma = "padrao" }: {
     atual?: string;
-    forma?: "padrao" | "flutuante" | "vidro" | "fixo";
-    /** Quando vem preenchido, o mega menu dá lugar a uma lista simples de
-     *  links com ícone — é o que a home usa. Sem isto, nada muda. */
-    itens?: ItemNav[];
+    forma?: "padrao" | "vidro" | "fixo";
   },
 ) {
   const classe = forma === "padrao" ? "top" : `top top--${forma}`;
   return (
     <>
       <header class={classe}>
-        <a class="logo" href="/" aria-label="Rockfy — página inicial">
-          {
-            /* Sobre a foto entra a versão branca do arquivo, não o logo escuro
+        <div class="top__inner">
+          <a class="logo" href="/" aria-label="Rockfy — página inicial">
+            {
+              /* Sobre a foto entra a versão branca do arquivo, não o logo escuro
               filtrado: o filtro `brightness(0) invert(1)` pintava tudo de
               branco e apagava a barra menta, que o `-w.svg` preserva. */
-          }
-          {forma === "vidro" && (
+            }
+            {forma === "vidro" && (
+              <img
+                class="logo__claro"
+                src="/img/rockfy-logo-w.svg"
+                width="120"
+                height="44"
+                decoding="async"
+                alt=""
+                aria-hidden="true"
+              />
+            )}
             <img
-              class="logo__claro"
-              src="/img/rockfy-logo-w.svg"
+              class="logo__escuro"
+              src="/img/rockfy-logo.svg"
               width="120"
               height="44"
               decoding="async"
-              alt=""
-              aria-hidden="true"
+              alt="Rockfy"
             />
-          )}
-          <img
-            class="logo__escuro"
-            src="/img/rockfy-logo.svg"
-            width="120"
-            height="44"
-            decoding="async"
-            alt="Rockfy"
-          />
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path class="fg" d="M6 6h58v18H30v13h30v18H30v18H6V6Z" />
-            <rect class="fg" x="6" y="66" width="20" height="20" />
-            <circle class="bg" cx="24" cy="17" r="4.6" />
-            <circle class="bg" cx="40" cy="13" r="4" />
-            <circle class="bg" cx="52" cy="22" r="3.4" />
-            <circle class="bg" cx="20" cy="34" r="3.6" />
-            <circle class="bg" cx="42" cy="45" r="3.2" />
-            <circle class="bg" cx="20" cy="55" r="3" />
-            <text
-              class="fg"
-              x="72"
-              y="88"
-              font-family="Helvetica,Arial"
-              font-size="15"
-            >
-              ®
-            </text>
-          </svg>
-        </a>
-        <nav class="topnav" aria-label="Principal">
-          {itens
-            ? itens.map((i) => (
-              <a
-                class={i.href === atual ? "navsimples is-aqui" : "navsimples"}
-                href={i.href}
-                key={i.href}
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <path class="fg" d="M6 6h58v18H30v13h30v18H30v18H6V6Z" />
+              <rect class="fg" x="6" y="66" width="20" height="20" />
+              <circle class="bg" cx="24" cy="17" r="4.6" />
+              <circle class="bg" cx="40" cy="13" r="4" />
+              <circle class="bg" cx="52" cy="22" r="3.4" />
+              <circle class="bg" cx="20" cy="34" r="3.6" />
+              <circle class="bg" cx="42" cy="45" r="3.2" />
+              <circle class="bg" cx="20" cy="55" r="3" />
+              <text
+                class="fg"
+                x="72"
+                y="88"
+                font-family="Helvetica,Arial"
+                font-size="15"
               >
-                <Icone nome={i.icone} />
-                {i.titulo}
-              </a>
-            ))
-            : menus.map((m) => {
+                ®
+              </text>
+            </svg>
+          </a>
+          <nav class="topnav" aria-label="Principal">
+            {menus.map((m) => {
               const dentro = m.colunas.some((c) =>
                 c.itens.some((i) => i.href === atual)
               );
@@ -108,9 +94,6 @@ export function Header(
                     aria-controls={`dd-${m.chave}`}
                     data-dd={m.chave}
                   >
-                    <span class="dd__btn-ico" aria-hidden="true">
-                      <Icone nome={m.chave} />
-                    </span>
                     {m.rotulo}
                     <svg
                       class="dd__seta"
@@ -129,93 +112,102 @@ export function Header(
                   </button>
 
                   <div class="dd__painel" id={`dd-${m.chave}`} hidden>
-                    <div class="dd__colunas">
-                      {m.colunas.map((col) => (
-                        <div class="dd__col" key={col.titulo}>
-                          <p class="dd__col-t">{col.titulo}</p>
-                          {col.itens.map((i) => (
-                            <a
-                              class={i.href === atual
-                                ? "dd__item is-on"
-                                : "dd__item"}
-                              href={i.href}
-                              key={i.href}
-                            >
-                              <span class="dd__ico">
-                                <Icone nome={i.icone} />
-                              </span>
-                              <span>
-                                <b>{i.titulo}</b>
-                                <span class="dd__desc">{i.descricao}</span>
-                              </span>
-                            </a>
-                          ))}
-                        </div>
-                      ))}
+                    <div class="dd__corpo">
+                      <div class="dd__colunas">
+                        {m.colunas.map((col) => (
+                          <div class="dd__col" key={col.titulo}>
+                            <p class="dd__col-t">{col.titulo}</p>
+                            {col.itens.map((i) => (
+                              <a
+                                class={i.href === atual
+                                  ? "dd__item is-on"
+                                  : "dd__item"}
+                                href={i.href}
+                                key={i.href}
+                              >
+                                <span class="dd__ico">
+                                  <Icone nome={i.icone} />
+                                </span>
+                                <span>
+                                  <b>{i.titulo}</b>
+                                  <span class="dd__desc">
+                                    {i.descricao}
+                                  </span>
+                                </span>
+                              </a>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                      {m.rodape && (
+                        <a class="dd__rodape" href={m.rodape.href}>
+                          <span>
+                            <b>{m.rodape.titulo}</b>
+                            <span class="dd__desc">
+                              {m.rodape.descricao}
+                            </span>
+                          </span>
+                          <span class="dd__cta">{m.rodape.cta} →</span>
+                        </a>
+                      )}
                     </div>
-                    {m.rodape && (
-                      <a class="dd__rodape" href={m.rodape.href}>
-                        <span>
-                          <b>{m.rodape.titulo}</b>
-                          <span class="dd__desc">{m.rodape.descricao}</span>
-                        </span>
-                        <span class="dd__cta">{m.rodape.cta} →</span>
-                      </a>
-                    )}
                   </div>
                 </div>
               );
             })}
-        </nav>
-        <div class="top__acoes">
-          <a class="top__entrar" href="https://area.rockfy.com">
-            <Icone nome="usuario" />
-            Entrar
-          </a>
-          <a class="top__cta" href={alvoDosPlanos(atual)}>Ver planos</a>
-        </div>
+            {linksTopo.map((i) => (
+              <NavLink href={i.href} atual={atual} key={i.href}>
+                <span class="toplink">{i.titulo}</span>
+              </NavLink>
+            ))}
+          </nav>
+          <div class="top__acoes">
+            <a class="top__entrar" href="https://area.rockfy.com">
+              <Icone nome="usuario" />
+              Entrar
+            </a>
+            <a class="top__cta" href={alvoDosPlanos(atual)}>Ver planos</a>
+          </div>
 
-        <nav class="nav">
-          <button
-            type="button"
-            class="burger"
-            id="menuBtn"
-            aria-label="Abrir menu"
-            aria-expanded="false"
-            aria-controls="mobileMenu"
-          >
-            <span></span>
-            <span></span>
-          </button>
-          <span class="label" id="menuLabel">Menu</span>
-        </nav>
+          <nav class="nav">
+            <button
+              type="button"
+              class="burger"
+              id="menuBtn"
+              aria-label="Abrir menu"
+              aria-expanded="false"
+              aria-controls="mobileMenu"
+            >
+              <span></span>
+              <span></span>
+            </button>
+            <span class="label" id="menuLabel">Menu</span>
+          </nav>
+        </div>
       </header>
 
       {/* ══════ MENU MOBILE ══════ */}
       <div class="mmenu" id="mobileMenu" hidden>
         <nav class="mmenu__nav" aria-label="Menu principal">
-          {itens
-            ? (
-              <div class="mmenu__grupo">
-                {itens.map((i) => (
+          {menus.map((m) =>
+            m.colunas.map((col) => (
+              <div class="mmenu__grupo" key={m.chave + col.titulo}>
+                <p class="mmenu__grupo-t">{col.titulo}</p>
+                {col.itens.map((i) => (
                   <NavLink href={i.href} atual={atual} key={i.href}>
                     {i.titulo}
                   </NavLink>
                 ))}
               </div>
-            )
-            : menus.map((m) =>
-              m.colunas.map((col) => (
-                <div class="mmenu__grupo" key={m.chave + col.titulo}>
-                  <p class="mmenu__grupo-t">{col.titulo}</p>
-                  {col.itens.map((i) => (
-                    <NavLink href={i.href} atual={atual} key={i.href}>
-                      {i.titulo}
-                    </NavLink>
-                  ))}
-                </div>
-              ))
-            )}
+            ))
+          )}
+          <div class="mmenu__grupo mmenu__grupo--diretos">
+            {linksTopo.map((i) => (
+              <NavLink href={i.href} atual={atual} key={i.href}>
+                {i.titulo}
+              </NavLink>
+            ))}
+          </div>
           <div class="mmenu__acoes">
             <a class="top__entrar" href="https://area.rockfy.com">
               <Icone nome="usuario" />

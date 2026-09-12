@@ -20,8 +20,7 @@ import { HeroFoto } from "@/components/heroes/HeroFoto.tsx";
  * mas declarar o rich result em seis URLs faz elas competirem entre si,
  * então a raiz fica sendo a dona.
  *
- * A navegação aqui é a lista simples de `data/navV2.ts`, não o mega menu —
- * as páginas internas seguem com ele.
+ * A navegação usa o mesmo mega menu das páginas internas.
  */
 export default async function Home() {
   const posts = await carregarFaixaPosts();

@@ -95,7 +95,6 @@ export function PaginaServico(
       </div>
 
       <Audience />
-      <Clients />
       <CuidaDeTudo
         titulo={
           <>
@@ -104,6 +103,7 @@ export function PaginaServico(
         }
       />
       <AreaCliente />
+      <Clients />
       <Planos
         planos={planos}
         rota={rota}

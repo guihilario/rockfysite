@@ -60,8 +60,8 @@ export default async function Deploy() {
         passos
       />
       <Audience />
-      <Clients />
       <AreaCliente />
+      <Clients />
       <Planos
         planos={plans}
         rota="/deploy"

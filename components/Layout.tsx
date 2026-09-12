@@ -1,7 +1,6 @@
 import type { ComponentChildren } from "preact";
 import { config } from "@/core/config.ts";
 import { Header } from "@/components/Header.tsx";
-import { type ItemNav, navV2 } from "@/data/navV2.ts";
 import { Footer } from "@/components/Footer.tsx";
 import { BotaoWhatsApp } from "@/components/BotaoWhatsApp.tsx";
 import { Gtm, GtmNoScript } from "@/components/Gtm.tsx";
@@ -51,22 +50,16 @@ type Props = {
   /** A página desenha o próprio cabeçalho — usado quando ele fica sobre a
    *  arte do topo, em vez de acima dela. */
   cabecalhoProprio?: boolean;
-  /** Os links do cabeçalho. O padrão é a lista simples com ícone
-   *  (`data/navV2.ts`), usada no site inteiro; passar outra coisa só é
-   *  necessário se alguma página quiser um conjunto próprio. */
-  navItens?: ItemNav[];
   /**
    * A forma do cabeçalho.
    *
-   * `padrao` fica no fluxo, acima do conteúdo. `flutuante` é a casca branca
-   * que paira sobre a página. `vidro` é transparente sobre a arte do topo e
-   * ganha fundo desfocado ao rolar. As duas últimas deixam a arte sangrar
-   * até a borda de cima.
+   * `padrao` fica no fluxo, acima do conteúdo. `vidro` é transparente sobre
+   * a arte do topo e ganha fundo desfocado ao rolar.
    */
   /** "fixo" é o padrão: cabeçalho preso ao topo que ganha vidro ao rolar.
    *  "vidro" é a variante da home, com as cores claras para assentar sobre a
    *  foto da hero. */
-  cabecalho?: "padrao" | "flutuante" | "vidro" | "fixo";
+  cabecalho?: "padrao" | "vidro" | "fixo";
   /** Força `noindex` mesmo com o site liberado. Para páginas de teste. */
   naoIndexar?: boolean;
   /** Trilha de navegação. Vira BreadcrumbList — é o que troca a URL crua
@@ -102,7 +95,6 @@ export function Layout(
     trilha,
     cabecalhoProprio = false,
     cabecalho = "fixo",
-    navItens = navV2,
     naoIndexar = false,
     children,
   }: Props,
@@ -279,9 +271,7 @@ export function Layout(
           id="site-content"
         >
           <GtmNoScript />
-          {!cabecalhoProprio && (
-            <Header atual={rota} forma={cabecalho} itens={navItens} />
-          )}
+          {!cabecalhoProprio && <Header atual={rota} forma={cabecalho} />}
           <main id="main-content">{children}</main>
           <Footer />
           <BotaoWhatsApp />

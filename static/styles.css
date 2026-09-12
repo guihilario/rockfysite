@@ -94,7 +94,11 @@ a{color:inherit;text-decoration:none}
 /* ══════════════════════════════════════════════════════════
    3. HEADER
    ══════════════════════════════════════════════════════════ */
-.top{display:flex;align-items:center;justify-content:space-between;gap:14px;position:relative;z-index:90}
+.top{position:relative;z-index:90;width:100%}
+.top__inner{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  width:100%;max-width:1440px;margin-inline:auto;
+}
 .logo{width:120px;height:44px;flex:none;color:var(--ink)}
 .logo svg{display:none}
 .logo .fg{fill:currentColor}.logo .bg{fill:var(--surface)}
@@ -102,17 +106,15 @@ a{color:inherit;text-decoration:none}
 @media (min-width:900px){
   .logo{width:120px;height:44px}
   .topnav{display:flex;align-items:center;gap:2px;margin-left:22px;margin-right:auto}
-  .topnav a{
-    padding:11px 18px;border-radius:var(--r-pill);border:1.4px solid transparent;
+  .topnav > a{
+    padding:0;border:0;border-radius:0;
     font-size:15px;letter-spacing:-.2px;color:var(--gray-600);transition:all var(--t);
   }
-  .topnav a:hover{color:var(--ink);border-color:var(--line)}
-  .topnav a.is-on{color:var(--ink);font-weight:500}
-  .nav .burger,.nav .label{display:none}
-  .nav{padding:9px}
+  .topnav > a:hover{color:var(--ink)}
+  .topnav > a.is-on{color:var(--ink);font-weight:500}
 }
 .nav{display:flex;align-items:center;gap:12px;background:var(--ink);border-radius:var(--r-pill);padding:0 20px;height:48px;margin-left:auto;cursor:pointer}
-@media (min-width:900px){.nav{margin-left:0}}
+@media (min-width:900px){.nav{display:none}}
 .burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:22px;height:48px;background:none;border:0;cursor:pointer;padding:0;flex:none}
 .burger span{display:block;height:1.6px;background:var(--on-ink);border-radius:2px;width:100%;transition:transform var(--t),width var(--t)}
 .burger span:last-child{width:80%}
@@ -1184,10 +1186,13 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   display:block;width:100%;max-width:1440px;margin-inline:auto;
   padding-inline:var(--gutter);
 }
-/* O cabeçalho não tem faixa de fundo, então não precisa de wrapper:
-   basta ele mesmo respeitar o limite. */
+/* A faixa do cabeçalho sangra na viewport; só os elementos internos ficam
+   presos à grade de 1440px. O mega menu usa a mesma separação. */
 .screen--fluido .top{
-  width:100%;max-width:1440px;margin-inline:auto;padding-inline:var(--gutter);
+  width:100%;max-width:none;margin-inline:0;padding-inline:0;
+}
+.screen--fluido .top__inner{
+  max-width:1440px;margin-inline:auto;padding-inline:var(--gutter);
 }
 /* A malha de pontos não precisa mais furar o gutter — a faixa já é 100%. */
 .screen--fluido .dotted::before{inset:0}
@@ -1360,67 +1365,74 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    ══════════════════════════════════════════════════════════
    Painel ancorado sob o gatilho, com colunas de item = ícone + título +
    descrição. Só no desktop: abaixo de 900px o cabeçalho usa o menu mobile. */
-.dd{position:relative}
+.dd{position:static}
 .dd__btn{
-  display:inline-flex;align-items:center;gap:8px;
-  /* Sem cantos de pílula: o gatilho agora carrega ícone e rótulo, e a
-     forma arredondada competia com as pílulas de fato do site. */
-  padding:11px 14px;border:1.4px solid transparent;border-radius:var(--r-sm);
+  display:inline-flex;align-items:center;gap:5px;
+  padding:11px 12px;border:0;border-radius:0;
   background:none;font:400 15px var(--font);letter-spacing:-.2px;
-  color:var(--gray-600);cursor:pointer;transition:all var(--t);
+  color:var(--gray-600);cursor:pointer;transition:opacity var(--t),color var(--t);
 }
-.dd__btn:hover,.dd__btn[aria-expanded="true"]{color:var(--ink);border-color:var(--line)}
+.dd__btn:hover,.dd__btn[aria-expanded="true"]{color:var(--ink)}
 .dd__btn.is-on{color:var(--ink);font-weight:500}
-.dd__seta{width:15px;height:15px;flex:none;transition:transform var(--t)}
+.dd__seta{width:13px;height:13px;flex:none;transition:transform var(--t)}
 .dd__btn[aria-expanded="true"] .dd__seta{transform:rotate(180deg)}
+.toplink{
+  display:block;padding:11px 12px;border:0;border-radius:0;transition:opacity var(--t),color var(--t);
+}
+.topnav > a:hover .toplink,.topnav > a.is-on .toplink{
+  color:var(--ink);
+}
 
 .dd__painel[hidden]{display:none}
 .dd__painel{
-  position:absolute;top:calc(100% + 10px);left:0;
-  z-index:70;width:max-content;max-width:min(680px,calc(100vw - 32px));
-  background:var(--surface);border:1.4px solid var(--line);
-  border-radius:var(--r-lg);box-shadow:0 18px 44px rgba(0,0,0,.10),0 2px 8px rgba(0,0,0,.05);
-  padding:18px;animation:dd-in .16s cubic-bezier(.4,0,.2,1);
+  position:absolute;top:100%;left:0!important;right:0;
+  z-index:70;width:100%;max-width:none;transform:none!important;
+  background:var(--surface);border:0;border-top:1px solid var(--line-soft);
+  border-bottom:1px solid var(--line);border-radius:0;box-shadow:0 18px 40px rgba(0,0,0,.08);
+  padding:0;animation:dd-in .16s cubic-bezier(.4,0,.2,1);
 }
 @keyframes dd-in{from{opacity:0;transform:translateY(-6px)}}
 /* O painel abre 10px abaixo do gatilho. Esse vão não pertence a nenhum dos
    dois, então o ponteiro "saía" do menu ao atravessá-lo e o painel fechava
    antes de dar pra clicar. Esta faixa invisível liga os dois. */
-.dd__painel::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px}
+.dd__painel::before{display:none}
+.dd__corpo{
+  width:100%;max-width:1440px;margin-inline:auto;
+  padding:clamp(28px,3.2vw,46px) var(--gutter) clamp(24px,3vw,40px);
+}
 
-.dd__colunas{display:grid;gap:22px}
-@media (min-width:1024px){.dd__colunas{grid-auto-flow:column;grid-auto-columns:minmax(230px,1fr)}}
+.dd__colunas{display:grid;gap:clamp(36px,7vw,100px)}
+@media (min-width:1024px){.dd__colunas{grid-auto-flow:column;grid-auto-columns:minmax(280px,420px);justify-content:start}}
 .dd__col-t{
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--gray-300);padding:0 12px;margin-bottom:8px;
+  color:var(--gray-500);padding:0;margin-bottom:15px;
 }
 .dd__item{
-  display:flex;gap:12px;align-items:flex-start;
-  padding:11px 12px;border-radius:var(--r-md);transition:background var(--t);
+  display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;
+  padding:10px 0;border-radius:0;transition:opacity var(--t);
 }
-.dd__item:hover{background:var(--panel)}
-.dd__item.is-on{background:var(--panel)}
-.dd__item b{display:block;font-size:15px;font-weight:500;letter-spacing:-.2px;line-height:1.3}
-.dd__desc{display:block;font-size:13px;line-height:1.4;color:var(--texto);margin-top:3px;max-width:30ch}
+.dd__col:has(.dd__item:hover) .dd__item:not(:hover){opacity:.48}
+.dd__item.is-on b{font-weight:600}
+.dd__item b{display:block;font-size:15px;font-weight:450;letter-spacing:-.2px;line-height:1.3}
+.dd__desc{display:block;font-size:13px;line-height:1.4;color:var(--gray-500);margin-top:3px;max-width:34ch}
 .dd__ico{
-  flex:none;width:34px;height:34px;border-radius:var(--r-sm);
-  display:grid;place-items:center;background:var(--panel);
-  border:1.4px solid var(--line-soft);color:var(--ink);
+  width:20px;height:20px;display:grid;place-items:center;color:var(--gray-600);
 }
-.dd__item:hover .dd__ico{background:var(--surface);border-color:var(--line)}
-.menu-icone{width:17px;height:17px}
+.dd__item:hover .dd__ico{color:var(--ink)}
+.dd__ico .menu-icone{width:17px;height:17px}
 
 .dd__rodape{
   display:flex;align-items:center;justify-content:space-between;gap:18px;
-  margin-top:16px;padding:14px 16px;border-radius:var(--r-md);
-  background:var(--panel);transition:background var(--t);
+  margin-top:28px;padding:18px 0 0;border-radius:0;border-top:1px solid var(--line-soft);
+  background:transparent;transition:opacity var(--t);
 }
-.dd__rodape:hover{background:var(--card)}
+.dd__rodape:hover{opacity:.62}
 .dd__rodape b{display:block;font-size:14.5px;font-weight:500;letter-spacing:-.2px}
 .dd__cta{flex:none;font-size:14px;font-weight:500;white-space:nowrap}
 
 /* grupos do menu mobile */
 .mmenu__grupo + .mmenu__grupo{margin-top:26px}
+.mmenu__grupo--diretos{padding-top:18px;border-top:1.4px solid var(--line-soft)}
 .mmenu__grupo-t{
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--gray-300);margin-bottom:6px;
@@ -1612,15 +1624,6 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    O texto fica numa coluna só, à esquerda, sobre a área desfocada da foto
    — que foi enquadrada para isso. Prefixo `heroB` para conviver com a hero
    atual enquanto a comparação acontece. */
-/* Navegação simples da v2: link com ícone, sem painel suspenso. Herda a
-   cor do cabeçalho, então funciona igual sobre a foto e sobre o vidro
-   quando o topo fica sólido ao rolar. */
-/* Só o necessário para o ícone caber ao lado do rótulo. Cor, recuo, pílula
-   e transição vêm do `.topnav a`, que já é a linguagem do cabeçalho — não
-   vale reescrever aqui o que a regra de cima já resolve. */
-.topnav a.navsimples{display:inline-flex;align-items:center;gap:8px}
-.navsimples .menu-icone{width:18px;height:18px;flex:none}
-
 .heroB{
   position:relative;width:100%;min-height:min(96vh,960px);
   /* Sem cabeçalho embutido é uma linha só; com ele (a /hero-teste), a
@@ -1783,36 +1786,6 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   display:block;margin-top:clamp(18px,2.4vw,28px);
   width:clamp(120px,16vw,200px);height:16px;
   background:repeating-linear-gradient(-72deg,var(--gray-300) 0 1.5px,transparent 1.5px 9px);
-}
-
-/* Ícone do gatilho do menu. Mesmo traço dos ícones de dentro do painel, só
-   que menor e sem a caixa — no topo ele acompanha o rótulo, não o substitui. */
-.dd__btn-ico{display:grid;place-items:center;width:17px;height:17px;flex:none;color:var(--gray-600)}
-.dd__btn-ico svg{width:17px;height:17px}
-.dd__btn:hover .dd__btn-ico,.dd__btn.is-on .dd__btn-ico{color:var(--ink)}
-
-/* ─── Cabeçalho flutuante (v2) ──────────────────────────────────────
-   A ideia vem do site anterior: em vez de uma barra que ocupa espaço no
-   fluxo, uma casca branca que paira sobre o conteúdo. É isso que deixa a
-   foto da hero sangrar até a borda de cima da tela.
-
-   Diferente do original em dois pontos, por decisão: a tipografia é a
-   nossa (não entrou uma segunda família só para três rótulos) e o menu
-   suspenso continua sendo o nosso. */
-/* A especificidade acompanha a de `.screen--fluido .top`, que também define
-   largura e recuo: sem isso aquela regra vencia e a casca esticava até as
-   bordas, perdendo justamente o ar de peça solta. */
-.screen--fluido .top--flutuante,.top--flutuante{
-  position:fixed;top:10px;left:0;right:0;z-index:100;
-  width:calc(100% - 32px);max-width:1180px;margin-inline:auto;
-  padding:0 24px;min-height:64px;
-  background:var(--surface);border-radius:12px;
-  box-shadow:0 14px 34px -28px rgba(0,0,0,.45);
-  /* Ao rolar, encolhe o respiro de cima — o mesmo gesto do original. */
-  transition:top .3s ease,box-shadow .3s ease;
-}
-.screen--fluido .top--flutuante.is-scrolled,.top--flutuante.is-scrolled{
-  top:8px;box-shadow:0 18px 40px -26px rgba(0,0,0,.55);
 }
 
 /* ─── Rede de pessoas ───────────────────────────────────────────────
@@ -2007,11 +1980,16 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   /* 30px no topo é o mesmo recuo que o `.screen` dá às páginas internas —
      é o que faz o logo da home nascer na mesma altura do das outras. O
      rodapé menor mantém a barra enxuta. */
-  padding:30px clamp(20px,4vw,48px) 16px;
+  padding:0;
   background:transparent;
   transition:background .3s ease,backdrop-filter .3s ease,
              border-color .3s ease,padding .3s ease;
   border-bottom:1px solid transparent;
+}
+.top--vidro .top__inner,
+.top--fixo .top__inner{
+  padding:30px clamp(20px,4vw,48px) 16px;
+  transition:padding .3s ease;
 }
 /* Sobre a foto: tudo claro. */
 /* Sobre a foto vale o arquivo branco; rolado, o escuro. Os dois ocupam a
@@ -2024,17 +2002,26 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .top--vidro.is-scrolled .logo__claro{opacity:0}
 .top--vidro .logo img{transition:opacity .3s ease}
 .top--vidro .dd__btn,.top--vidro .top__entrar{color:#fff}
-/* Branco levemente transparente sobre a foto; no hover, branco cheio. O
-   `opacity` genérico do `.navsimples` escureceria no hover, que é o oposto
-   do que se quer aqui. */
-.top--vidro .topnav a.navsimples{color:rgba(255,255,255,.78)}
-.top--vidro .topnav a.navsimples:hover{color:#fff}
-.top--vidro.is-scrolled .topnav a.navsimples{color:var(--ink)}
-.top--vidro .dd__btn-ico{color:rgba(255,255,255,.7)}
+.top--vidro .topnav > a .toplink{color:rgba(255,255,255,.78)}
+.top--vidro .topnav > a:hover .toplink{color:#fff}
+.top--vidro.is-scrolled .topnav > a .toplink{color:var(--ink)}
 .top--vidro .dd__seta{color:rgba(255,255,255,.7)}
 .top--vidro .top__cta{background:var(--surface);color:var(--ink)}
 .top--vidro .burger span{background:#fff}
 .top--vidro .label{color:#fff}
+
+/* Ao abrir o mega menu sobre a hero, o cabeçalho vira parte da mesma
+   superfície branca. Isso evita a aparência de um card solto sobre a foto. */
+.top--vidro:is(.has-menu-open,.has-mobile-open){
+  background:var(--surface);border-bottom-color:var(--line-soft);
+}
+.top--vidro:is(.has-menu-open,.has-mobile-open) .logo__escuro{opacity:1}
+.top--vidro:is(.has-menu-open,.has-mobile-open) .logo__claro{opacity:0}
+.top--vidro:is(.has-menu-open,.has-mobile-open) .dd__btn,
+.top--vidro:is(.has-menu-open,.has-mobile-open) .top__entrar{color:var(--ink)}
+.top--vidro:is(.has-menu-open,.has-mobile-open) .topnav > a .toplink{color:var(--ink)}
+.top--vidro:is(.has-menu-open,.has-mobile-open) .dd__seta{color:var(--gray-600)}
+.top--vidro:is(.has-menu-open,.has-mobile-open) .top__cta{background:var(--ink);color:var(--on-ink)}
 
 /* Rolado: o vidro entra e as cores voltam ao normal do site. */
 .top--vidro.is-scrolled,
@@ -2043,11 +2030,11 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   -webkit-backdrop-filter:saturate(180%) blur(16px);
   backdrop-filter:saturate(180%) blur(16px);
   border-bottom-color:var(--line-soft);
-  padding-block:10px;
 }
+.top--vidro.is-scrolled .top__inner,
+.top--fixo.is-scrolled .top__inner{padding-block:10px}
 
 .top--vidro.is-scrolled .dd__btn,.top--vidro.is-scrolled .top__entrar{color:var(--ink)}
-.top--vidro.is-scrolled .dd__btn-ico,
 .top--vidro.is-scrolled .dd__seta{color:var(--gray-600)}
 .top--vidro.is-scrolled .top__cta{background:var(--ink);color:var(--on-ink)}
 .top--vidro.is-scrolled .burger span{background:var(--on-ink)}
