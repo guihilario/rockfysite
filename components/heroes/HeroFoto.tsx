@@ -60,7 +60,7 @@ export function HeroFoto(
       }
       <svg
         class="heroB__divisor"
-        viewBox="0 0 1280 201"
+        viewBox="0 0 1280 160"
         preserveAspectRatio="none"
         aria-hidden="true"
       >

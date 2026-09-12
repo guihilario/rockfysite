@@ -95,7 +95,7 @@ export const handler = define.handlers({
       bloco("Produtos", produtos),
 
       bloco("Planos de hospedagem", [
-        "Cobrança mensal, sem fidelidade. Todos os planos incluem conta cPanel isolada, SSL, backup diário, Elementor Pro com licença oficial e migração feita pela equipe, sem custo.",
+        "Cobrança mensal, sem fidelidade. Todos os planos incluem conta cPanel isolada, SSL, backup diário e migração feita pela equipe, sem custo. O Elementor Pro oficial faz parte da oferta específica de Hospedagem de Site.",
         "",
         ...plans.map(linhaDoPlano),
         "",

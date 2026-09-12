@@ -920,7 +920,7 @@ body.is-locked{overflow:hidden}
 .plan__item .num{color:var(--ink)}
 .plan__item.is-off{color:var(--gray-300)}
 .plan__item.is-off svg{stroke:var(--gray-300)}
-/* Com rótulo de duas linhas (Pages, Recursos isolados cPanel) o "?" parava
+/* Com rótulo de duas linhas (siteOne, Recursos isolados cPanel) o "?" parava
    logo depois da última palavra, e cada linha o deixava numa distância
    diferente — um rastro irregular no card estreito. Esticar o rótulo
    encosta todos os "?" na mesma coluna. Só no mobile: no desktop os
@@ -1627,13 +1627,14 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
      primeira linha é o topo e a segunda o corpo. */
   display:grid;grid-template-rows:1fr;
   overflow:hidden;background:var(--ink);
-  /* Precisa ser MAIOR que a altura do divisor (clamp(66px,15.7vw,201px)),
+  /* Precisa ser MAIOR que a altura do divisor (clamp(54px,12.5vw,160px)),
      senão a curva branca passa por cima e corta o pé do título — o divisor
      tem z-index 3, acima do corpo. A folga extra é o respiro entre a última
      linha de texto e o começo da curva. */
   --heroB-pad:clamp(150px,17.5vw,232px);
   --heroB-sobe:clamp(16px,3vw,48px);   /* quanto o pitch sobe do divisor */
 }
+@media (min-width:861px){.heroB{min-height:min(102vh,1000px)}}
 .heroB--com-topo{grid-template-rows:auto 1fr}
 .heroB__foto{
   position:absolute;inset:0;width:100%;height:100%;
@@ -1747,7 +1748,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
      ficava cortado na borda direita do quadro. Aumentar o object-position
      desloca o recorte para a direita da imagem, o que traz o conteúdo para a
      esquerda — é o contrário do que a intuição sugere. */
-  .heroB__foto{object-position:62% center}
+  .heroB__foto{object-position:68% center}
   .heroB__veu{
     /* Este bloco substitui o `background` inteiro, então o radial do pitch não
        vale aqui: no estreito é esta faixa que precisa segurar sozinha a
@@ -1761,7 +1762,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 /* Encosta um pixel abaixo da borda para não deixar fio na emenda. */
 .heroB__divisor{
   position:absolute;left:0;right:0;bottom:-1px;z-index:3;
-  width:100%;height:clamp(66px,15.7vw,201px);display:block;pointer-events:none;
+  width:100%;height:clamp(54px,12.5vw,160px);display:block;pointer-events:none;
 }
 /* A primeira seção depois da hero sobe: o respiro padrão de 96px, somado ao
    que a faixa de barras já ocupa, abria um vão grande demais logo abaixo da
@@ -1775,6 +1776,7 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
    somar o respiro cheio de seção abria um vão grande demais logo abaixo
    dela. Encurtado para o conteúdo da segunda seção subir. */
 .heroB + .section,.heroB + .hero-slot + .conteudo + .section{margin-top:clamp(0px,0.8vw,14px)}
+.heroB + .section .audience-row{margin-top:clamp(24px,3.5vw,44px)}
 
 /* As barras do desenho, no mesmo traço que o site anterior usava. */
 .heroB__marcas{
@@ -2048,8 +2050,8 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
 .top--vidro.is-scrolled .dd__btn-ico,
 .top--vidro.is-scrolled .dd__seta{color:var(--gray-600)}
 .top--vidro.is-scrolled .top__cta{background:var(--ink);color:var(--on-ink)}
-.top--vidro.is-scrolled .burger span{background:var(--ink)}
-.top--vidro.is-scrolled .label{color:var(--ink)}
+.top--vidro.is-scrolled .burger span{background:var(--on-ink)}
+.top--vidro.is-scrolled .label{color:var(--on-ink)}
 
 /* Sem suporte a desfoque o vidro viraria um branco lavado por cima do
    conteúdo — nesse caso vale um fundo sólido, que ao menos é honesto. */

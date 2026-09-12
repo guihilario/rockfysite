@@ -79,22 +79,22 @@ export function Footer() {
             <h2 class="footer__col-t">Produto</h2>
             <ul>
               <li>
-                <a href="/hospedagem-wordpress">Hospedagem</a>
+                <a href="/site-one">siteOne</a>
               </li>
               <li>
-                <a href="/hospedagem-elementor-pro">Elementor Pro</a>
+                <a href="/deploy">CloudDeploy</a>
               </li>
               <li>
-                <a href="/deploy">Deploy</a>
+                <a href="/my-docker">myDocker</a>
               </li>
               <li>
                 <a href="/loja-digital">Loja digital</a>
               </li>
               <li>
-                <a href="/email-profissional">E-mails</a>
+                <a href="/email-profissional">Email profissional</a>
               </li>
               <li>
-                <a href="/planos">Preços</a>
+                <a href="/hospedagem-elementor-pro">Hospedagem de site</a>
               </li>
             </ul>
           </div>

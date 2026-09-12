@@ -14,6 +14,8 @@ const PAGINAS: [caminho: string, prioridade: string, mudaComPost: boolean][] = [
   ["/", "1.0", true],
   ["/planos", "0.9", true],
   ["/deploy", "0.8", true],
+  ["/site-one", "0.8", true],
+  ["/my-docker", "0.8", true],
   ["/hospedagem-elementor-pro", "0.8", true],
   ["/hospedagem-wordpress", "0.8", true],
   ["/loja-digital", "0.8", true],

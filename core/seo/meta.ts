@@ -33,6 +33,8 @@ export function resumirParaMeta(texto: string, limite = 155): string {
  */
 const FORA_DO_MENU: Record<string, string> = {
   "/planos": "Planos",
+  "/site-one": "siteOne",
+  "/my-docker": "myDocker",
   "/sobre": "Sobre",
   "/contato": "Contato",
   "/politicas": "Políticas e termos",

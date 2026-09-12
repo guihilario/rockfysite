@@ -18,6 +18,8 @@ const COM_TRILHO = new Set([
   "/hospedagem-wordpress",
   "/hospedagem-elementor-pro",
   "/email-profissional",
+  "/site-one",
+  "/my-docker",
 ]);
 
 export function alvoDosPlanos(rota: string | undefined): string {

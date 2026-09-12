@@ -1,9 +1,6 @@
 import { Layout } from "@/components/Layout.tsx";
-import { VitrineProduto } from "@/components/sections/VitrineProduto.tsx";
-import { HeroDeploy } from "@/components/heroes/DeployStage.tsx";
-import { HeroElementor } from "@/components/heroes/HeroElementor.tsx";
-import { HeroEmail } from "@/components/heroes/HeroEmail.tsx";
-import { HeroLoja } from "@/components/heroes/HeroLoja.tsx";
+import { DeployStage } from "@/components/heroes/DeployStage.tsx";
+import { HeroCopy } from "@/components/HeroCopy.tsx";
 import { Audience } from "@/components/sections/Audience.tsx";
 import { Clients } from "@/components/sections/Clients.tsx";
 import { CuidaDeTudo } from "@/components/sections/CuidaDeTudo.tsx";
@@ -39,72 +36,26 @@ export default async function Home() {
     >
       <HeroFoto rota="/" />
 
-      {
-        /* A prova social vem imediatamente depois da foto: aqui a abertura
-           é a hero, então esta é a segunda seção de fato. */
-      }
-
-      <Clients />
-
       <Audience />
 
-      <VitrineProduto
-        invertido
-        tagline="CloudDeploy"
-        titulo={
-          <>
-            Crie na sua I.A, <b>a gente coloca no ar</b>
-          </>
-        }
-        texto="Publique a aplicação que você criou com o poder de escala e infraestrutura de ponta. Simples e sem você lidar com servidor."
-        cta="Ver o CloudDeploy"
-        href="/deploy"
-      >
-        <HeroDeploy />
-      </VitrineProduto>
-
-      <VitrineProduto
-        tagline="Hospedagem de site"
-        titulo={
-          <>
-            Elementor Pro <b>oficial</b>, já ativado
-          </>
-        }
-        texto="Conta cPanel isolada, licença original inclusa e migração feita pelo nosso time. Você constrói; a licença e o servidor são problema nosso."
-        cta="Ver hospedagem"
-        href="/hospedagem-elementor-pro"
-      >
-        <HeroElementor />
-      </VitrineProduto>
-
-      <VitrineProduto
-        invertido
-        tagline="Loja digital"
-        titulo={
-          <>
-            Sua loja no ar <b>sem taxa</b> por pedido
-          </>
-        }
-        texto="Catálogo, PIX que cai direto na sua conta e pedido chegando no WhatsApp. Você monta pelo celular e começa a vender no mesmo dia."
-        cta="Ver a loja digital"
-        href="/loja-digital"
-      >
-        <HeroLoja />
-      </VitrineProduto>
-
-      <VitrineProduto
-        tagline="E-mail profissional"
-        titulo={
-          <>
-            Seu endereço, <b>sem pagar por caixa</b>
-          </>
-        }
-        texto="Crie os e-mails da empresa com o seu domínio e divida o armazenamento entre as caixas. Antispam, webmail e configuração assistida inclusos."
-        cta="Ver e-mail profissional"
-        href="/email-profissional"
-      >
-        <HeroEmail />
-      </VitrineProduto>
+      <section class="deploy-hero" aria-labelledby="home-deploy-title">
+        <div class="conteudo">
+          <DeployStage />
+          <HeroCopy
+            nivel="h2"
+            tituloId="home-deploy-title"
+            tituloClass="title"
+            h1="Crie na sua I.A, a gente coloca no ar"
+            lede="Publique a aplicação que você criou com o poder de escala e infraestrutura de ponta. Simples e sem você lidar com servidor."
+            cta="Ver o CloudDeploy"
+            ctaHref="/deploy"
+            destaques={[
+              { titulo: "Link pronto", linha2: "para usar" },
+              { titulo: "Sem lidar", linha2: "com servidor" },
+            ]}
+          />
+        </div>
+      </section>
 
       <CuidaDeTudo
         titulo={
@@ -114,6 +65,7 @@ export default async function Home() {
         }
       />
       <AreaCliente />
+      <Clients />
       <Planos />
       <Parceiros />
       <Faq />

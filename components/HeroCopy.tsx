@@ -7,19 +7,36 @@ type Props = {
   h1: ComponentChildren;
   lede: ComponentChildren;
   cta: string;
+  /** Destino explícito quando o botão não aponta para os planos. */
+  ctaHref?: string;
   /** Caminho da página, para o CTA decidir entre rolar até o trilho de
    *  planos e navegar para /planos. */
   rota?: string;
   /** Os dois destaques abaixo do botão: faísca vermelha e raio menta. */
   destaques: [Destaque, Destaque];
+  /** A home reutiliza este bloco como seção, portanto o título vira h2. */
+  nivel?: "h1" | "h2";
+  tituloId?: string;
+  tituloClass?: string;
 };
 
 /** O bloco de texto que acompanha a hero nas páginas de serviço e na de
  *  Deploy: H1, lede, botão e dois destaques. */
-export function HeroCopy({ h1, lede, cta, rota, destaques }: Props) {
+export function HeroCopy({
+  h1,
+  lede,
+  cta,
+  ctaHref,
+  rota,
+  destaques,
+  nivel = "h1",
+  tituloId = "hero-title",
+  tituloClass,
+}: Props) {
+  const Titulo = nivel;
   return (
     <div class="deploy-content">
-      <h1 id="hero-title">{h1}</h1>
+      <Titulo class={tituloClass} id={tituloId}>{h1}</Titulo>
       <div class="deploy-pitch">
         <p>{lede}</p>
         {
@@ -27,7 +44,7 @@ export function HeroCopy({ h1, lede, cta, rota, destaques }: Props) {
             em scripts.js escutando por ele: o CTA principal da hero não
             fazia absolutamente nada ao ser clicado. */
         }
-        <a class="deploy-cta" href={alvoDosPlanos(rota)}>{cta}</a>
+        <a class="deploy-cta" href={ctaHref ?? alvoDosPlanos(rota)}>{cta}</a>
         <div class="deploy-features">
           <div class="deploy-feature">
             <svg

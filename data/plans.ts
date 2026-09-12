@@ -55,10 +55,14 @@ const CPANEL = {
   label: "Recursos isolados cPanel",
   hint: "Conta cPanel com memória e recursos isolados só para o seu projeto.",
 };
-const PAGES = {
-  label: "Pages — Sites [HTML&JS]",
+const SITE_ONE = {
+  label: "siteOne [Sites HTML&JS]",
   hint:
     "Publique seus sites criados por IA com 1 clique e domínio personalizado.",
+};
+const MY_DOCKER = {
+  label: "myDocker",
+  hint: "Container isolado para suas aplicações em Cloud no Brasil.",
 };
 const DEPLOY = {
   label: "Deploy de Apps",
@@ -80,9 +84,8 @@ export const plans: Plan[] = [
     items: [
       { n: null, ...CPANEL },
       { n: null, label: "1 Domínio" },
-      { n: null, label: "Elementor Pro Oficial" },
       { n: null, label: "Emails Profissionais" },
-      { n: null, ...PAGES },
+      { n: null, ...SITE_ONE },
       { n: null, ...DEPLOY, on: false },
       { n: null, ...GESTAO, on: false },
     ],
@@ -96,9 +99,8 @@ export const plans: Plan[] = [
     items: [
       { n: null, ...CPANEL },
       { n: null, label: "Domínios Ilimitados" },
-      { n: null, label: "Elementor Pro Oficial" },
       { n: null, label: "Emails Profissionais" },
-      { n: null, ...PAGES },
+      { n: null, ...SITE_ONE },
       { n: null, ...DEPLOY, on: true },
       { n: null, ...GESTAO, on: true },
     ],
@@ -112,9 +114,8 @@ export const plans: Plan[] = [
     items: [
       { n: null, ...CPANEL },
       { n: null, label: "Domínios Ilimitados" },
-      { n: null, label: "Elementor Pro Oficial" },
       { n: null, label: "Emails Profissionais" },
-      { n: null, ...PAGES },
+      { n: null, ...SITE_ONE },
       { n: null, ...DEPLOY, on: true },
       { n: null, ...GESTAO, on: true },
     ],
@@ -127,10 +128,10 @@ export const plans: Plan[] = [
     items: [
       { n: null, ...CPANEL },
       { n: null, label: "Domínios Ilimitados" },
-      { n: null, label: "Elementor Pro Oficial" },
       { n: null, label: "Emails Profissionais" },
-      { n: null, ...PAGES },
+      { n: null, ...SITE_ONE },
       { n: null, ...DEPLOY, on: true },
+      { n: null, ...MY_DOCKER },
       { n: null, ...GESTAO, on: true },
     ],
   },
