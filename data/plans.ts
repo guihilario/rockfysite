@@ -65,13 +65,8 @@ const MY_DOCKER = {
   hint: "Container isolado para suas aplicações em Cloud no Brasil.",
 };
 const DEPLOY = {
-  label: "Deploy de Apps",
+  label: "CloudDeploy",
   hint: "Hospede aplicativos na nuvem com alta performance.",
-};
-const GESTAO = {
-  label: "Gestão & Finanças",
-  hint:
-    "Automatize faturas, gerencie os clientes, sites e aplicações em um só lugar",
 };
 
 export const plans: Plan[] = [
@@ -82,12 +77,12 @@ export const plans: Plan[] = [
     note:
       "Pra quem está começando. Perfeito para seu projeto ou negócio pessoal",
     items: [
-      { n: null, ...CPANEL },
+      { n: null, ...SITE_ONE },
       { n: null, label: "1 Domínio" },
       { n: null, label: "Emails Profissionais" },
-      { n: null, ...SITE_ONE },
+      { n: null, ...CPANEL },
       { n: null, ...DEPLOY, on: false },
-      { n: null, ...GESTAO, on: false },
+      { n: null, ...MY_DOCKER, on: false },
     ],
   },
   {
@@ -97,12 +92,12 @@ export const plans: Plan[] = [
     note:
       "Tudo o que você precisa para criar e expandir seu negócio sem se preocupar com infraestrutura.",
     items: [
-      { n: null, ...CPANEL },
+      { n: null, ...SITE_ONE },
       { n: null, label: "Domínios Ilimitados" },
       { n: null, label: "Emails Profissionais" },
-      { n: null, ...SITE_ONE },
+      { n: null, ...CPANEL },
       { n: null, ...DEPLOY, on: true },
-      { n: null, ...GESTAO, on: true },
+      { n: null, ...MY_DOCKER, on: false },
     ],
   },
   {
@@ -112,12 +107,12 @@ export const plans: Plan[] = [
     featured: true,
     note: "Cobrado mensalmente, sem fidelidade. Cancele quando quiser.",
     items: [
-      { n: null, ...CPANEL },
+      { n: null, ...SITE_ONE },
       { n: null, label: "Domínios Ilimitados" },
       { n: null, label: "Emails Profissionais" },
-      { n: null, ...SITE_ONE },
+      { n: null, ...CPANEL },
       { n: null, ...DEPLOY, on: true },
-      { n: null, ...GESTAO, on: true },
+      { n: null, ...MY_DOCKER, on: false },
     ],
   },
   {
@@ -126,13 +121,12 @@ export const plans: Plan[] = [
     price: "R$297",
     note: "Cobrado mensalmente, sem fidelidade. Cancele quando quiser.",
     items: [
-      { n: null, ...CPANEL },
+      { n: null, ...SITE_ONE },
       { n: null, label: "Domínios Ilimitados" },
       { n: null, label: "Emails Profissionais" },
-      { n: null, ...SITE_ONE },
+      { n: null, ...CPANEL },
       { n: null, ...DEPLOY, on: true },
       { n: null, ...MY_DOCKER },
-      { n: null, ...GESTAO, on: true },
     ],
   },
 ];
