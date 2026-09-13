@@ -112,7 +112,7 @@ export const plans: Plan[] = [
       { n: null, label: "Emails Profissionais" },
       { n: null, ...CPANEL },
       { n: null, ...DEPLOY, on: true },
-      { n: null, ...MY_DOCKER, on: false },
+      { n: null, ...MY_DOCKER },
     ],
   },
   {
