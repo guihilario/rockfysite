@@ -85,6 +85,52 @@ export async function registrarEnvio(
   });
 }
 
+/* ── aviso ao sistema externo ───────────────────────────────────────── */
+
+/** Tempo máximo esperando o sistema externo antes de seguir sem ele. */
+const ESPERA_WEBHOOK_MS = 4000;
+
+/**
+ * Avisa o CRM/webhook de novo lead. A ordem importa: grava no banco
+ * primeiro, avisa o sistema externo depois. Se o CRM estiver fora do ar, o
+ * lead já está salvo — o contrário perderia o contato justamente no dia em
+ * que o outro lado falha.
+ */
+export async function avisarSistemaExterno(
+  lead: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    plan: string | null;
+    source: string | null;
+    createdAt: Date;
+  },
+  client: Queryable = db,
+): Promise<string> {
+  const url = await lerConfig(CHAVE_WEBHOOK, client);
+  if (!url) return "sem webhook";
+  try {
+    const r = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        id: lead.id,
+        nome: lead.name,
+        email: lead.email,
+        telefone: lead.phone,
+        plano: lead.plan,
+        origem: lead.source,
+        criado_em: lead.createdAt.toISOString(),
+      }),
+      signal: AbortSignal.timeout(ESPERA_WEBHOOK_MS),
+    });
+    return r.ok ? "ok" : `HTTP ${r.status}`;
+  } catch (e) {
+    return e instanceof Error ? e.message.slice(0, 200) : "falhou";
+  }
+}
+
 /* ── configuração do painel ─────────────────────────────────────────── */
 
 export async function lerConfig(

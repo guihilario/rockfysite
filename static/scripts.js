@@ -560,11 +560,35 @@
      um passo não consegue chegar ao envio com ele pendente. */
   const valida=i=>passos[i].checkValidity();
 
+  /* Avisa o servidor que a pessoa fechou a primeira fase. O lead nasce aqui
+     porque o formulário é um POST único no final: quem para no meio do
+     checkout sumiria sem nunca ter virado contato. Best effort — falhou a
+     rede, o usuário não fica preso, e o pedido (se fechado) ainda se salva;
+     o console avisa quando um lead se perde. */
+  const registrarLead=async()=>{
+    const dados=new FormData(forma);
+    try{
+      const r=await fetch('/api/leads',{
+        method:'POST',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({
+          name:dados.get('name'),
+          email:dados.get('email'),
+          phone:dados.get('phone'),
+          plan:dados.get('plan'),
+          source:dados.get('source'),
+        }),
+      });
+      if(!r.ok)console.warn('[checkout] lead não salvo: HTTP '+r.status);
+    }catch(e){ console.warn('[checkout] lead não salvo',e); }
+  };
+
   forma.addEventListener('click',e=>{
     const btn=e.target instanceof Element?e.target.closest('[data-toggle]'):null;
     if(!btn)return;
     const alvo=Number(btn.dataset.alvo);
     if(btn.dataset.toggle==='passar'&&!valida(atual))return;
+    if(btn.dataset.toggle==='passar'&&atual===0)registrarLead();
     mostrar(alvo-1,true);
   });
 

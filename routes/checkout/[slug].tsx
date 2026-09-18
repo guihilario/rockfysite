@@ -3,6 +3,7 @@ import { Layout } from "@/components/Layout.tsx";
 import { planoPorSlug, slugPlano } from "@/data/plans.ts";
 import { site } from "@/data/site.ts";
 import { criarPedido, formatarPreco } from "@/domain/orders.ts";
+import { enviarPedidoNovo } from "@/core/email/resend.ts";
 import {
   cepValido,
   documentoValido,
@@ -150,6 +151,36 @@ export const handler = define.handlers({
       `Pedido: ${pedido.plan}`,
       `Valor: ${formatarPreco(pedido.priceCents)}/mês`,
     ].join("\n");
+
+    /* Notificação por e-mail ao dono do site. A ordem já está salva: se o
+       Resend falhar, o checkout segue e o aviso fica no log — perder a venda
+       por causa da notificação seria trocar o certo pelo incerto. */
+    const envio = await enviarPedidoNovo({
+      pedidoId: pedido.id,
+      plano: pedido.plan,
+      preco: formatarPreco(pedido.priceCents),
+      pagamento: ROTULO_PAGAMENTO[paymentMethod] ?? paymentMethod,
+      cliente: pedido.name,
+      email: pedido.email,
+      telefone: pedido.phone,
+      documento: pedido.document,
+      endereco: [
+        pedido.address,
+        pedido.number,
+        pedido.complement,
+        pedido.city,
+        pedido.state,
+        pedido.cep,
+      ].filter(Boolean).join(", "),
+      linkWhatsapp: `https://wa.me/55${pedido.phone.replace(/\D/g, "")}?text=${
+        encodeURIComponent(
+          "Oi! Aqui é da Rockfy. Recebemos seu pedido, pode confirmar o pagamento?",
+        )
+      }`,
+    });
+    if (!envio.ok) {
+      console.warn(`[checkout] e-mail de pedido não enviado: ${envio.detalhe}`);
+    }
 
     return {
       data: {
@@ -318,6 +349,7 @@ export default define.page<typeof handler>(function Checkout({ data }) {
         <div class="ckout__painel">
           <form class="ckout__forma" method="POST" data-checkout>
             <input type="hidden" name="source" value={origem} />
+            <input type="hidden" name="plan" value={plano.name} />
 
             <div class="ckout__topo">
               <p class="ckout__chapeu">Checkout · Plano {plano.name}</p>

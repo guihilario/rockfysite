@@ -74,6 +74,16 @@ export const config = {
       .split(",").map((o) => o.trim().replace(/\/$/, "")).filter(Boolean),
   },
   sessionSecret: required("SESSION_SECRET"),
+  /* Resend: notificação de pedido no checkout. Nenhuma das três é `required`
+     de propósito: sem chave o site continua no ar (só não envia e-mail), e
+     derrubar o painel por uma integração opcional seria o pior dos mundos —
+     a ordem em si já está salva no banco. `emailTo` é o destinatário fixo
+     das notificações, não o cliente: o atendimento segue no WhatsApp. */
+  resend: {
+    apiKey: Deno.env.get("RESEND_API_KEY") ?? null,
+    from: Deno.env.get("EMAIL_FROM") ?? null,
+    to: Deno.env.get("EMAIL_TO") ?? null,
+  },
   r2: {
     accountId: required("R2_ACCOUNT_ID"),
     accessKeyId: required("R2_ACCESS_KEY_ID"),

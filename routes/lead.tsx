@@ -1,14 +1,10 @@
 import { define } from "@/utils.ts";
 import {
-  CHAVE_WEBHOOK,
+  avisarSistemaExterno,
   criarLead,
-  lerConfig,
   registrarEnvio,
 } from "@/domain/leads.ts";
 import { linkWhatsApp } from "@/components/PopoverPlano.tsx";
-
-/** Tempo máximo esperando o sistema externo antes de seguir sem ele. */
-const ESPERA_WEBHOOK_MS = 4000;
 
 /**
  * Recebe o formulário dos planos.
@@ -22,40 +18,6 @@ const ESPERA_WEBHOOK_MS = 4000;
  * interno, e segurar a pessoa numa tela de erro por isso seria perder a
  * conversa que o formulário existe para começar.
  */
-async function avisarSistemaExterno(
-  lead: {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    plan: string | null;
-    source: string | null;
-    createdAt: Date;
-  },
-): Promise<string> {
-  const url = await lerConfig(CHAVE_WEBHOOK);
-  if (!url) return "sem webhook";
-  try {
-    const r = await fetch(url, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        id: lead.id,
-        nome: lead.name,
-        email: lead.email,
-        telefone: lead.phone,
-        plano: lead.plan,
-        origem: lead.source,
-        criado_em: lead.createdAt.toISOString(),
-      }),
-      signal: AbortSignal.timeout(ESPERA_WEBHOOK_MS),
-    });
-    return r.ok ? "ok" : `HTTP ${r.status}`;
-  } catch (e) {
-    return e instanceof Error ? e.message.slice(0, 200) : "falhou";
-  }
-}
-
 function limpar(v: FormDataEntryValue | null, max: number): string {
   return String(v ?? "").replace(/\s+/g, " ").trim().slice(0, max);
 }
