@@ -507,3 +507,48 @@
     topo.classList.toggle("is-scrolled", agora);
   }, { passive: true });
 })();
+
+/* ─────────── checkout: passos do formulário ─────────── */
+(function(){
+  const forma=document.querySelector('form[data-checkout]');
+  if(!forma)return;
+  const passos=[...forma.querySelectorAll('[data-passo]')];
+  if(passos.length<2)return;
+  const indicador=document.querySelector('[data-passo-indicador]');
+  const itens=indicador?[...indicador.children]:[];
+  let atual=0;
+
+  /* A classe liga o wizard; sem ela os passos seguem empilhados e o envio
+     é um único submit — o formulário funciona igual, menos enfeitado. */
+  forma.classList.add('is-js');
+  passos.forEach(p=>{p.hidden=true});
+
+  const mostrar=(i,rolar)=>{
+    atual=i;
+    passos.forEach((p,idx)=>{p.hidden=idx!==i});
+    itens.forEach((li,idx)=>{
+      li.classList.toggle('is-on',idx===i);
+      li.classList.toggle('is-done',idx<i);
+    });
+    /* Só rola quando o passo muda por clique do usuário. Na abertura da
+       página manter o topo já é o comportamento natural de navegação —
+       chamar scrollIntoView no carregamento fazia o checkout pular para o
+       formulário em vez de abrir lá em cima. */
+    if(rolar)passos[i].scrollIntoView({behavior:'smooth',block:'start'});
+  };
+
+  /* Só avança com o passo atual válido. Campo escondido é "barrado" da
+     validação nativa, então checar o fieldset aqui evita buraco: quem pulou
+     um passo não consegue chegar ao envio com ele pendente. */
+  const valida=i=>passos[i].checkValidity();
+
+  forma.addEventListener('click',e=>{
+    const btn=e.target instanceof Element?e.target.closest('[data-toggle]'):null;
+    if(!btn)return;
+    const alvo=Number(btn.dataset.alvo);
+    if(btn.dataset.toggle==='passar'&&!valida(atual))return;
+    mostrar(alvo-1,true);
+  });
+
+  mostrar(0);
+})();

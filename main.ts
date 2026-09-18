@@ -45,8 +45,10 @@ app.use(csp({
        falha silenciosa, do tipo que só aparece semanas depois num relatório
        vazio. O `clarity.ms` está aqui porque o container também dispara o
        Microsoft Clarity; se você adicionar outra ferramenta no GTM, o
-       domínio dela precisa entrar nesta linha. */
-    "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.google-analytics.com https://www.googletagmanager.com https://*.clarity.ms",
+       domínio dela precisa entrar nesta linha. O preenchimento de endereço
+       do checkout busca o CEP na ViaCEP por fetch — sem este host a busca
+       era barrada pela CSP em silêncio. */
+    "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.google-analytics.com https://www.googletagmanager.com https://*.clarity.ms https://viacep.com.br",
     /* O `noscript` do GTM e o modo de pré-visualização usam iframe. */
     "frame-src https://www.googletagmanager.com",
   ],

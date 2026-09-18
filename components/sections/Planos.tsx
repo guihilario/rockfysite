@@ -1,6 +1,6 @@
 import type { ComponentChildren } from "preact";
 import { PopoverPlano } from "@/components/PopoverPlano.tsx";
-import { type Plan, plans } from "@/data/plans.ts";
+import { type Plan, plans, slugPlano } from "@/data/plans.ts";
 import { site } from "@/data/site.ts";
 
 /**
@@ -24,8 +24,7 @@ function Check() {
 }
 
 /** Id estável do popover a partir do nome do plano. */
-const idPlano = (nome: string) =>
-  nome.toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g, "-");
+const idPopover = (nome: string) => `lead-${slugPlano(nome)}`;
 
 function Card({ plano, rota }: { plano: Plan; rota: string }) {
   return (
@@ -68,31 +67,56 @@ function Card({ plano, rota }: { plano: Plan; rota: string }) {
           </li>
         ))}
       </ul>
-      <button
-        type="button"
-        class="plan__cta"
-        popovertarget={`lead-${idPlano(plano.name)}`}
-      >
-        {plano.cta ?? "Começar"}
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M5 12h14m-6-6 6 6-6 6"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </button>
+      {
+        /* Plano com preço fecha compra no checkout; plano sob consulta abre
+          o popover de contato. Dois destinos, um só design de botão. */
+      }
+      {plano.priceCents
+        ? (
+          <a
+            class="plan__cta"
+            href={`/checkout/${slugPlano(plano.name)}?origem=${rota}`}
+          >
+            {plano.cta ?? "Começar"}
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M5 12h14m-6-6 6 6-6 6"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </a>
+        )
+        : (
+          <button
+            type="button"
+            class="plan__cta"
+            popovertarget={idPopover(plano.name)}
+          >
+            {plano.cta ?? "Começar"}
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M5 12h14m-6-6 6 6-6 6"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        )}
 
       {
-        /* Um popover por plano: assim o campo com o nome do plano já vem
-          preenchido, sem script para trocá-lo na abertura. */
+        /* O popover só existe para o plano sob consulta; o de preço fechado
+          vai ao checkout e não precisa dele. */
       }
-      <PopoverPlano
-        id={`lead-${idPlano(plano.name)}`}
-        plano={plano.name}
-        rota={rota}
-      />
+      {!plano.priceCents && (
+        <PopoverPlano
+          id={idPopover(plano.name)}
+          plano={plano.name}
+          rota={rota}
+        />
+      )}
     </article>
   );
 }

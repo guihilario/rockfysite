@@ -39,6 +39,10 @@ const LEGADO: Record<string, string> = {
   // Título "Sobre Nós", h1 "Tecnologia de ponta, segura e performática".
   "/infra": "/sobre",
 
+  // O produto sites/HTML virou "Pages" (2026-09). O endereço antigo segue
+  // vivo nos links e no índice do Google; 301 concentra os sinais.
+  "/site-one": "/pages",
+
   // "Aprenda e Crie sites" / "Empoderamento através do conhecimento": era
   // conteúdo educativo, que hoje vive no blog. A /ajuda é suporte de
   // produto, outra intenção.

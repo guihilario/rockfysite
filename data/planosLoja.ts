@@ -15,6 +15,7 @@ export const planosLoja: Plan[] = [
     tag: "7 dias grátis, sem cartão",
     name: "Bora",
     price: "R$47,90",
+    priceCents: 4790,
     note: "Pra tirar a loja do papel e começar a receber pedido sem taxa.",
     items: [
       { n: "[80]", label: "Produtos no catálogo" },
@@ -32,6 +33,7 @@ export const planosLoja: Plan[] = [
     tag: "7 dias grátis, sem cartão",
     name: "Top",
     price: "R$87,90",
+    priceCents: 8790,
     featured: true,
     note: "Pra quem já vende e precisa de mais catálogo e mais gente junto.",
     items: [

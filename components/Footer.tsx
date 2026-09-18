@@ -79,7 +79,7 @@ export function Footer() {
             <h2 class="footer__col-t">Produto</h2>
             <ul>
               <li>
-                <a href="/site-one">siteOne</a>
+                <a href="/pages">Pages</a>
               </li>
               <li>
                 <a href="/deploy">CloudDeploy</a>

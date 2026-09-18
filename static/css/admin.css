@@ -54,6 +54,8 @@ a{color:inherit}
 .selo{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
   padding:4px 10px;border-radius:var(--r-pill);border:1px solid var(--line)}
 .selo--pub{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.selo--pendente{color:#b45f06;border-color:color-mix(in srgb,#b45f06 40%,transparent)}
+.selo--cancelado{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 40%,transparent)}
 .selo--rascunho{color:var(--gray-600)}
 
 /* formulário */

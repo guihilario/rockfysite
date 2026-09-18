@@ -38,9 +38,9 @@ export const menus: Menu[] = [
         titulo: "Crie e publique",
         itens: [
           {
-            titulo: "siteOne",
+            titulo: "Pages",
             descricao: "Sites HTML e JavaScript no ar em um clique.",
-            href: "/site-one",
+            href: "/pages",
             icone: "site",
           },
           {

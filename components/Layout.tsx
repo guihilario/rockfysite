@@ -277,6 +277,13 @@ export function Layout(
           <BotaoWhatsApp />
         </div>
         <script src={asset("/scripts.js")} defer></script>
+        {
+          /* Formulários com máscara (checkout hoje). O arquivo só entra onde a
+            rota pede, mas se atrela sozinho nos campos que encontrar. */
+        }
+        {rota.startsWith("/checkout") && (
+          <script src={asset("/js/formata.js")} defer></script>
+        )}
       </body>
     </html>
   );
