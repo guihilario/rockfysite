@@ -14,7 +14,7 @@ import { SITE } from "@/components/Layout.tsx";
  */
 const LIBERADO = `User-agent: *
 Allow: /
-Disallow: /admin
+Disallow: /mydash
 Disallow: /auth
 
 Sitemap: ${SITE}/sitemap.xml

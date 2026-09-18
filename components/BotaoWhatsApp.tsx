@@ -4,7 +4,7 @@ import { site } from "@/data/site.ts";
  * Botão flutuante de WhatsApp, presente em toda página pública.
  *
  * Fica no `Layout`, que é por onde passam todas elas — inclusive as que
- * chegam via `PaginaServico`, `ListagemBlog` e `PaginaPost`. O `/admin` usa
+ * chegam via `PaginaServico`, `ListagemBlog` e `PaginaPost`. O `/mydash` usa
  * outro shell e por isso não recebe o botão, que é o desejado: ali dentro
  * não há visitante para atender.
  *

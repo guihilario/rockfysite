@@ -42,7 +42,7 @@ export const handler = define.handlers({
     }
     return new Response(null, {
       status: 303,
-      headers: { location: `/admin/posts${u.search}` },
+      headers: { location: `/mydash/posts${u.search}` },
     });
   },
 });
@@ -76,7 +76,7 @@ export default define.page<typeof handler>(function AdminPosts({ data }) {
               : "os mais recentes primeiro"}
           </p>
         </div>
-        <a class="btn" href="/admin/posts/novo">Novo post</a>
+        <a class="btn" href="/mydash/posts/novo">Novo post</a>
       </div>
 
       <form class="adm-busca" method="get" role="search">
@@ -88,7 +88,7 @@ export default define.page<typeof handler>(function AdminPosts({ data }) {
           aria-label="Buscar posts"
         />
         <button class="btn btn--ghost" type="submit">Buscar</button>
-        {data.q && <a class="btn btn--ghost" href="/admin/posts">Limpar</a>}
+        {data.q && <a class="btn btn--ghost" href="/mydash/posts">Limpar</a>}
       </form>
 
       {data.aviso && RECADO[data.aviso] && (
@@ -132,7 +132,7 @@ export default define.page<typeof handler>(function AdminPosts({ data }) {
             <div class="adm-mais" id="sentinela" hidden={!data.hasMore}>
               <a
                 class="btn btn--ghost"
-                href={`/admin/posts/lote?page=2${
+                href={`/mydash/posts/lote?page=2${
                   data.q ? `&q=${encodeURIComponent(data.q)}` : ""
                 }`}
               >

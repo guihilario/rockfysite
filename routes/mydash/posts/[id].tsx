@@ -78,7 +78,9 @@ export const handler = define.handlers({
       return new Response(null, {
         status: 303,
         headers: {
-          location: `/admin/posts/${id}?ok=${publicar ? "publicado" : "salvo"}`,
+          location: `/mydash/posts/${id}?ok=${
+            publicar ? "publicado" : "salvo"
+          }`,
         },
       });
     } catch (e) {

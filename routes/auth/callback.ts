@@ -63,7 +63,7 @@ export const handler = define.handlers({
       expiresAt: new Date(Date.now() + SESSION_TTL_MS),
     });
 
-    const headers = new Headers({ location: "/admin" });
+    const headers = new Headers({ location: "/mydash" });
     headers.append("set-cookie", LIMPA_STATE);
     headers.append("set-cookie", cookieDeSessao(token));
     return new Response(null, { status: 302, headers });

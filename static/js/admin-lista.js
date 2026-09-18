@@ -2,7 +2,7 @@
 //
 // A sentinela no fim da tabela é, sem JavaScript, um link normal para a
 // próxima página — este script só o transforma em carregamento automático.
-// Cada lote vem pronto do servidor (/admin/posts/lote), então o cliente não
+// Cada lote vem pronto do servidor (/mydash/posts/lote), então o cliente não
 // remonta HTML: só move as linhas para dentro do <tbody>.
 (function () {
   const tabela = document.getElementById("tabelaPosts");
@@ -24,7 +24,7 @@
     carregando = true;
     rotulo();
     try {
-      const url = `/admin/posts/lote?page=${pagina + 1}` +
+      const url = `/mydash/posts/lote?page=${pagina + 1}` +
         (q ? `&q=${encodeURIComponent(q)}` : "");
       const r = await fetch(url, { headers: { accept: "text/html" } });
       if (!r.ok) throw new Error(String(r.status));

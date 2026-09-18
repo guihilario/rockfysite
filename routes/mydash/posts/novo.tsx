@@ -37,7 +37,7 @@ export const handler = define.handlers({
       if (campos.tags.length) await aplicarTags(post.id, campos.tags);
       return new Response(null, {
         status: 303,
-        headers: { location: `/admin/posts/${post.id}?ok=criado` },
+        headers: { location: `/mydash/posts/${post.id}?ok=criado` },
       });
     } catch (e) {
       if (!(e instanceof ErroDeFormulario)) throw e;

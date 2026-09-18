@@ -38,14 +38,14 @@ export const handler = define.handlers({
       }
       return new Response(null, {
         status: 303,
-        headers: { location: "/admin/categories" },
+        headers: { location: "/mydash/categories" },
       });
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Falhou.";
       return new Response(null, {
         status: 303,
         headers: {
-          location: `/admin/categories?erro=${encodeURIComponent(msg)}`,
+          location: `/mydash/categories?erro=${encodeURIComponent(msg)}`,
         },
       });
     }

@@ -66,7 +66,7 @@ export const handler = define.handlers({
     }
     return new Response(null, {
       status: 303,
-      headers: { location: "/admin/orders?ok=salvo" },
+      headers: { location: "/mydash/orders?ok=salvo" },
     });
   },
 });
