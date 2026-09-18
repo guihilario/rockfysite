@@ -511,7 +511,11 @@
 /* ─────────── checkout: passos do formulário ─────────── */
 (function(){
   const forma=document.querySelector('form[data-checkout]');
-  if(!forma)return;
+  /* Quem chega aqui sem formulário é a página de confirmação pós-pedido:
+     voltou de um envio que deu certo, então zera o rascunho para o próximo
+     checkout começar limpo. */
+  const chave='ckout:'+location.pathname;
+  if(!forma){ sessionStorage.removeItem(chave); return; }
   const passos=[...forma.querySelectorAll('[data-passo]')];
   if(passos.length<2)return;
   const indicador=document.querySelector('[data-passo-indicador]');
@@ -522,6 +526,20 @@
      é um único submit — o formulário funciona igual, menos enfeitado. */
   forma.classList.add('is-js');
   passos.forEach(p=>{p.hidden=true});
+
+  const salvarRascunho=()=>{
+    const dados={};
+    for(const c of forma.elements){
+      if(!(c instanceof HTMLInputElement)&&!(c instanceof HTMLSelectElement))continue;
+      if(c.type==='hidden')continue;
+      if(c.type==='radio'){ if(c.checked)dados[c.name]=c.value; continue; }
+      dados[c.name]=c.value;
+    }
+    try{ sessionStorage.setItem(chave,JSON.stringify({passo:atual,dados})); }
+    catch{ /* navegação anônima sem storage: o checkout segue sem rascunho */ void 0; }
+  };
+  forma.addEventListener('input',salvarRascunho);
+  forma.addEventListener('change',salvarRascunho);
 
   const mostrar=(i,rolar)=>{
     atual=i;
@@ -550,5 +568,20 @@
     mostrar(alvo-1,true);
   });
 
-  mostrar(0);
+  /* Tenta devolver o rascunho da sessão: quem atualizou a página ou voltou
+     do "aviso de erro" não precisa redigitar. `mostrar` já guarda o passo em
+     `atual`, então a próxima edição salva por cima sem cuidado especial. */
+  let salvo=null;
+  try{ salvo=JSON.parse(sessionStorage.getItem(chave)||'null'); }
+  catch{ salvo=null; }
+  if(salvo&&salvo.dados&&typeof salvo.dados==='object'){
+    for(const [nome,valor] of Object.entries(salvo.dados)){
+      const c=forma.elements.namedItem(nome);
+      if(c)c.value=String(valor);
+    }
+    const alvo=salvo.passo>=1&&salvo.passo<=passos.length?salvo.passo-1:0;
+    mostrar(alvo);
+  }else{
+    mostrar(0);
+  }
 })();

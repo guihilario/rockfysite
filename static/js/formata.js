@@ -93,11 +93,10 @@
     }catch{ return null; }
   };
 
-  /* ─────────── amarrar nos campos ─────────── */
-  /* São duas coisas amarradas num input: máscara/validação (`data-mascara`)
-     e preenchimento por CEP (`data-cep`). O mesmo elemento pode ter as duas
-     (o campo de CEP usa). A Set evita atrelar de novo ao chamar `.atrelar`
-     duas vezes sobre o mesmo nó. */
+  /* Amarra as duas coisas (máscara E busca por CEP) no mesmo passo: o campo
+     de CEP casa com ambas as regras, e guardá-lo na Set no primeiro loop
+     faria o segundo pulá-lo — a busca nunca atrelaria. Uma varredura só,
+     atrelando o que o input tiver. */
   const atrelados=new Set();
 
   /* Mantém o cursor no lugar certo depois da máscara: conta quantos dígitos
@@ -139,9 +138,12 @@
   };
 
   const atrelarCep=inp=>{
-    const forma=inp.form;
+    /* `inp.form` é o caminho curto, mas nem todo contexto anexa a referência
+       (alguns parsers/polyfills não ligam o controle ao formulário); o
+       `querySelector` cobre também os que só enfileiram o HTML. */
+    const forma=inp.closest?.("form")||inp.form;
     if(!forma)return;
-    const campo=nome=>forma.elements.namedItem(nome);
+    const campo=nome=>forma.elements?.namedItem?.(nome)||forma.querySelector(`[name="${nome}"]`);
 
     let timer;
     inp.addEventListener('input',()=>{
@@ -164,15 +166,11 @@
   };
 
   const atrelar=raiz=>{
-    raiz.querySelectorAll('input[data-mascara]').forEach(inp=>{
+    raiz.querySelectorAll('input[data-mascara], input[data-cep]').forEach(inp=>{
       if(atrelados.has(inp))return;
       atrelados.add(inp);
-      atrelarMascara(inp);
-    });
-    raiz.querySelectorAll('input[data-cep]').forEach(inp=>{
-      if(atrelados.has(inp))return;
-      atrelados.add(inp);
-      atrelarCep(inp);
+      if(inp.hasAttribute('data-mascara'))atrelarMascara(inp);
+      if(inp.hasAttribute('data-cep'))atrelarCep(inp);
     });
   };
 
