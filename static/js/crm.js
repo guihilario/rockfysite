@@ -18,6 +18,12 @@
   const kanban=document.querySelector("[data-crm-kanban]");
   if(!kanban)return;
 
+  /* Habilita o arrasto dos cards. O SSR não consegue emitir um atributo
+     `draggable="true"` utilizável (o Preact serializa o boolean como
+     `draggable=""`, que o browser interpreta como "não arrastável") — então
+     quem liga o drag é a propriedade do elemento, aqui no cliente. */
+  for(const c of kanban.querySelectorAll(".crm-card"))c.draggable=true;
+
   const perto=(e,sel)=>e.target instanceof Element?e.target.closest(sel):null;
   let card=null;
   let colOrigem=null;
@@ -66,26 +72,39 @@
 
   kanban.addEventListener("drop",async e=>{
     e.preventDefault();
+    /* Congela card/origem agora: o dragend dispara logo depois do drop e o
+       zera() dele limparia a variável global antes de a promessa do fetch
+       resolver. Com o card capturado no início o movimento nunca trava. */
+    const c=card;
+    const origem=colOrigem;
     const col=perto(e,".crm-coluna");
-    if(!col||!card)return zera();
+    if(!col||!c||!c.dataset.id)return zera();
     const etapa=col.dataset.etapaColuna;
-    if(!etapa||!card.dataset.id)return zera();
+    if(!etapa)return zera();
+    const alvo=col.querySelector(".crm-coluna-cartoes");
+    if(alvo)alvo.appendChild(c);
+    c.dataset.etapa=etapa;
+    col.classList.remove("is-sobre");
+    vazios();
+    conta(origem);
+    conta(col);
+    const devolve=()=>{
+      const volta=origem&&origem.querySelector(".crm-coluna-cartoes");
+      if(volta)volta.appendChild(c);
+      vazios();
+      conta(col);
+      conta(origem);
+    };
     try{
       const r=await fetch("/mydash/crm/etapa",{
         method:"POST",
         headers:{"content-type":"application/json"},
-        body:JSON.stringify({id:card.dataset.id,etapa}),
+        body:JSON.stringify({id:c.dataset.id,etapa}),
       });
-      if(!r.ok){ console.warn("[crm] etapa não salva: HTTP "+r.status); return zera(); }
-      card.dataset.etapa=etapa;
-      const alvo=col.querySelector(".crm-coluna-cartoes");
-      if(alvo)alvo.appendChild(card);
-      col.classList.remove("is-sobre");
-      vazios();
-      conta(colOrigem);
-      conta(col);
+      if(!r.ok){ console.warn("[crm] etapa não salva: HTTP "+r.status); devolve(); }
     }catch(err){
       console.warn("[crm] etapa não salva",err);
+      devolve();
     }
     zera();
   });

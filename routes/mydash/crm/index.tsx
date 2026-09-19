@@ -160,8 +160,9 @@ export default define.page<typeof handler>(function Crm({ data }) {
               href={comOrigem(`etapa=${e.chave}`)}
               class={data.etapa === e.chave ? "is-on" : undefined}
               data-etapa-crm={e.chave}
+              data-cor={e.chave}
             >
-              <i style={{ background: e.cor }} /> {e.rotulo}{" "}
+              <i /> {e.rotulo}{" "}
               <b data-conta-etapa={e.chave}>{data.contagem[e.chave] ?? 0}</b>
             </a>
           ))}
@@ -288,11 +289,11 @@ export default define.page<typeof handler>(function Crm({ data }) {
                 <section
                   class="crm-coluna"
                   data-etapa-coluna={e.chave}
-                  style={{ "--cor": e.cor } as Record<string, string>}
+                  data-cor={e.chave}
                 >
                   <header class="crm-coluna-topo">
                     <h2>
-                      <i style={{ background: e.cor }} /> {e.rotulo}
+                      <i /> {e.rotulo}
                     </h2>
                     <b data-conta-etapa={e.chave}>{cards.length}</b>
                   </header>
@@ -300,7 +301,6 @@ export default define.page<typeof handler>(function Crm({ data }) {
                     {cards.map((l) => (
                       <article
                         class="crm-card"
-                        draggable={true}
                         data-id={l.id}
                         data-etapa={l.etapa}
                         key={l.id}
@@ -320,10 +320,7 @@ export default define.page<typeof handler>(function Crm({ data }) {
                           {l.source ? ` · ${l.source}` : ""}
                         </p>
                         {l.proximoContato && (
-                          <p
-                            class="crm-prazo"
-                            style={{ "--cor": e.cor } as Record<string, string>}
-                          >
+                          <p class="crm-prazo" data-cor={e.chave}>
                             Retorno {quandoVoltar(l.proximoContato)}
                           </p>
                         )}

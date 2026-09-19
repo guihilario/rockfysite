@@ -141,15 +141,25 @@ a{color:inherit}
   color:var(--ink);font:400 13px var(--font);padding:7px 10px;
 }
 .js .crm-submit{display:none}
+/* Cores das etapas. A CSP do site bloqueia style inline, então a cor da fase
+   anda junto com o dado (data-cor) e cai no CSS, nunca em atributo style. */
+[data-cor="novo"]{--cor:#2563eb}
+[data-cor="contatado"]{--cor:#b45f06}
+[data-cor="proposta"]{--cor:#7c3aed}
+[data-cor="ganho"]{--cor:#1f9e4c}
+[data-cor="perdido"]{--cor:#8d8d8d}
+.crm-funil a i,.crm-coluna-topo h2 i{background:var(--cor,currentColor)}
 .crm-prazo{
   font-size:12px;font-weight:600;letter-spacing:.02em;white-space:nowrap;
+  color:var(--cor,var(--ink));
 }
 .crm-anotacao{max-width:260px}
 
-/* kanban */
-.crm-kanban{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 18px}
+/* kanban — grid responsivo sem scroll horizontal: cada coluna ocupa o que
+   sobra e, em janelas menores, as colunas quebram para a linha de baixo. */
+.crm-kanban{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;padding:4px 2px 18px}
 .crm-coluna{
-  flex:0 0 258px;min-width:258px;background:var(--surface);
+  min-width:0;background:var(--surface);
   border:1.4px solid var(--line);border-top:3px solid var(--cor,var(--line));
   border-radius:var(--r);display:flex;flex-direction:column;
 }
