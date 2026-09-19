@@ -1,0 +1,147 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - link "Rockfy · painel" [ref=e3] [cursor=pointer]:
+      - /url: /mydash/posts
+    - navigation [ref=e4]:
+      - link "Posts" [ref=e5] [cursor=pointer]:
+        - /url: /mydash/posts
+      - link "Categorias" [ref=e6] [cursor=pointer]:
+        - /url: /mydash/categories
+      - link "CRM" [ref=e7] [cursor=pointer]:
+        - /url: /mydash/crm
+      - link "Contatos" [ref=e8] [cursor=pointer]:
+        - /url: /mydash/leads
+      - link "Pedidos" [ref=e9] [cursor=pointer]:
+        - /url: /mydash/orders
+    - generic [ref=e10]:
+      - text: guilherme@capsula.com.br ·
+      - link "sair" [ref=e11] [cursor=pointer]:
+        - /url: /auth/logout
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - heading "CRM" [level=1] [ref=e15]
+        - paragraph [ref=e16]: 5 lead(s) · leads e pedidos juntos por pessoa
+      - generic [ref=e17]:
+        - button "Novo lead" [active] [ref=e18] [cursor=pointer]
+        - link "Novo pedido" [ref=e19] [cursor=pointer]:
+          - /url: /mydash/crm/novo-pedido
+    - generic [ref=e154]:
+      - heading "Cadastrar contato" [level=3] [ref=e155]
+      - paragraph [ref=e156]: Contato que chegou por fora do site. Vai para o funil e avisa o CRM externo, como qualquer outro.
+      - generic [ref=e157]:
+        - generic [ref=e158]:
+          - generic [ref=e159]: Nome
+          - textbox "Nome" [ref=e160]
+        - generic [ref=e161]:
+          - generic [ref=e162]: E-mail
+          - textbox "E-mail" [ref=e163]
+        - generic [ref=e164]:
+          - generic [ref=e165]: Telefone
+          - textbox "Telefone" [ref=e166]:
+            - /placeholder: (11) 99999-9999
+        - generic [ref=e167]:
+          - generic [ref=e168]: Plano
+          - textbox "Plano" [ref=e169]:
+            - /placeholder: Start
+        - generic [ref=e170]:
+          - generic [ref=e171]: Origem
+          - textbox "Origem" [ref=e172]:
+            - /placeholder: indicação
+        - generic [ref=e173]:
+          - generic [ref=e174]: Etapa inicial
+          - combobox "Etapa inicial" [ref=e175]:
+            - option "Novo" [selected]
+            - option "Em contato"
+            - option "Proposta"
+            - option "Ganho"
+            - option "Perdido"
+      - generic [ref=e176]:
+        - button "Salvar contato" [ref=e177] [cursor=pointer]
+        - button "Cancelar" [ref=e178] [cursor=pointer]
+    - navigation "Visão" [ref=e20]:
+      - link "Lista" [ref=e21] [cursor=pointer]:
+        - /url: /mydash/crm?visao=lista
+      - generic [ref=e22]: Kanban
+    - generic [ref=e23]:
+      - searchbox "Buscar por nome, e-mail ou telefone…" [ref=e24]
+      - button "Buscar" [ref=e25] [cursor=pointer]
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - heading "Novo" [level=2] [ref=e29]: Novo
+          - generic [ref=e31]:
+            - generic [ref=e32]: R$ 191,00
+            - generic [ref=e33]: "3"
+        - generic [ref=e34]:
+          - article [ref=e35]:
+            - paragraph [ref=e36]: R$ 77,00
+            - paragraph [ref=e37]: Pop Pro
+            - paragraph [ref=e38]: Pro
+            - paragraph [ref=e39]:
+              - link "Abrir ficha" [ref=e40] [cursor=pointer]:
+                - /url: /mydash/crm/cliente?e=pop%40teste.com
+              - link "WhatsApp de Pop Pro" [ref=e41] [cursor=pointer]:
+                - /url: https://wa.me/5511911110000
+          - article [ref=e42]:
+            - paragraph [ref=e43]: R$ 37,00
+            - paragraph [ref=e44]: safari
+            - paragraph [ref=e45]: Start · /planos
+            - paragraph [ref=e46]:
+              - link "Abrir ficha" [ref=e47] [cursor=pointer]:
+                - /url: /mydash/crm/cliente?e=guihilario%40gmail.com
+              - link "WhatsApp de safari" [ref=e48] [cursor=pointer]:
+                - /url: https://wa.me/5511995837366
+          - article [ref=e49]:
+            - paragraph [ref=e50]: R$ 77,00
+            - paragraph [ref=e51]: lea qualificado
+            - paragraph [ref=e52]: Pro · /planos
+            - paragraph [ref=e53]:
+              - link "Abrir ficha" [ref=e54] [cursor=pointer]:
+                - /url: /mydash/crm/cliente?e=lea%40gmail.com
+              - link "WhatsApp de lea qualificado" [ref=e55] [cursor=pointer]:
+                - /url: https://wa.me/5511995837366
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - heading "Em contato" [level=2] [ref=e58]: Em contato
+          - generic [ref=e60]:
+            - generic [ref=e61]: R$ 157,00
+            - generic [ref=e62]: "1"
+        - article [ref=e64]:
+          - paragraph [ref=e65]: R$ 157,00
+          - paragraph [ref=e66]: Pop Studio
+          - paragraph [ref=e67]: Studio
+          - paragraph [ref=e68]:
+            - link "Abrir ficha" [ref=e69] [cursor=pointer]:
+              - /url: /mydash/crm/cliente?e=stud%40teste.com
+            - link "WhatsApp de Pop Studio" [ref=e70] [cursor=pointer]:
+              - /url: https://wa.me/5511911110001
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - heading "Proposta" [level=2] [ref=e73]: Proposta
+          - generic [ref=e75]:
+            - generic [ref=e76]: R$ 0,00
+            - generic [ref=e77]: "0"
+        - paragraph [ref=e79]: Solte aqui um lead
+      - generic [ref=e80]:
+        - generic [ref=e81]:
+          - heading "Ganho" [level=2] [ref=e82]: Ganho
+          - generic [ref=e84]:
+            - generic [ref=e85]: R$ 37,00
+            - generic [ref=e86]: "1"
+        - article [ref=e88]:
+          - paragraph [ref=e89]: R$ 37,00
+          - paragraph [ref=e90]: test
+          - paragraph [ref=e91]: Start · test
+          - paragraph [ref=e92]:
+            - link "Abrir ficha" [ref=e93] [cursor=pointer]:
+              - /url: /mydash/crm/cliente?e=guihilario%40gmail.com
+            - link "WhatsApp de test" [ref=e94] [cursor=pointer]:
+              - /url: https://wa.me/5511995837366
+      - generic [ref=e95]:
+        - generic [ref=e96]:
+          - heading "Perdido" [level=2] [ref=e97]: Perdido
+          - generic [ref=e99]:
+            - generic [ref=e100]: R$ 0,00
+            - generic [ref=e101]: "0"
+        - paragraph [ref=e103]: Solte aqui um lead

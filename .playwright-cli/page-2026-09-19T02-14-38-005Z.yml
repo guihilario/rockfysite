@@ -1,0 +1,124 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "Rockfy · painel" [ref=e3] [cursor=pointer]:
+      - /url: /mydash/posts
+    - navigation [ref=e4]:
+      - link "Posts" [ref=e5] [cursor=pointer]:
+        - /url: /mydash/posts
+      - link "Categorias" [ref=e6] [cursor=pointer]:
+        - /url: /mydash/categories
+      - link "CRM" [ref=e7] [cursor=pointer]:
+        - /url: /mydash/crm
+      - link "Contatos" [ref=e8] [cursor=pointer]:
+        - /url: /mydash/leads
+      - link "Pedidos" [ref=e9] [cursor=pointer]:
+        - /url: /mydash/orders
+    - generic [ref=e10]:
+      - text: guilherme@capsula.com.br ·
+      - link "sair" [ref=e11] [cursor=pointer]:
+        - /url: /auth/logout
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - heading "CRM" [level=1] [ref=e15]
+        - paragraph [ref=e16]: 6 lead(s) · leads e pedidos juntos por pessoa
+      - generic [ref=e17]:
+        - button "Novo lead" [ref=e18] [cursor=pointer]
+        - link "Novo pedido" [ref=e19] [cursor=pointer]:
+          - /url: /mydash/crm/novo-pedido
+    - paragraph [ref=e20]: Lead criado.
+    - navigation "Visão" [ref=e21]:
+      - link "Lista" [ref=e22] [cursor=pointer]:
+        - /url: /mydash/crm?visao=lista
+      - generic [ref=e23]: Kanban
+    - generic [ref=e24]:
+      - searchbox "Buscar por nome, e-mail ou telefone…" [ref=e25]
+      - button "Buscar" [ref=e26] [cursor=pointer]
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - heading "Novo" [level=2] [ref=e30]: Novo
+          - generic [ref=e32]:
+            - generic [ref=e33]: R$ 268,00
+            - generic [ref=e34]: "4"
+        - generic [ref=e35]:
+          - article [ref=e36]:
+            - paragraph [ref=e37]: R$ 77,00
+            - paragraph [ref=e38]: Pop Novo Lead
+            - paragraph [ref=e39]: Pro · popover
+            - paragraph [ref=e40]:
+              - link "Abrir ficha" [ref=e41] [cursor=pointer]:
+                - /url: /mydash/crm/cliente?e=novolead%40teste.com
+              - link "WhatsApp de Pop Novo Lead" [ref=e42] [cursor=pointer]:
+                - /url: https://wa.me/5511922223333
+          - article [ref=e43]:
+            - paragraph [ref=e44]: R$ 77,00
+            - paragraph [ref=e45]: Pop Pro
+            - paragraph [ref=e46]: Pro
+            - paragraph [ref=e47]:
+              - link "Abrir ficha" [ref=e48] [cursor=pointer]:
+                - /url: /mydash/crm/cliente?e=pop%40teste.com
+              - link "WhatsApp de Pop Pro" [ref=e49] [cursor=pointer]:
+                - /url: https://wa.me/5511911110000
+          - article [ref=e50]:
+            - paragraph [ref=e51]: R$ 37,00
+            - paragraph [ref=e52]: safari
+            - paragraph [ref=e53]: Start · /planos
+            - paragraph [ref=e54]:
+              - link "Abrir ficha" [ref=e55] [cursor=pointer]:
+                - /url: /mydash/crm/cliente?e=guihilario%40gmail.com
+              - link "WhatsApp de safari" [ref=e56] [cursor=pointer]:
+                - /url: https://wa.me/5511995837366
+          - article [ref=e57]:
+            - paragraph [ref=e58]: R$ 77,00
+            - paragraph [ref=e59]: lea qualificado
+            - paragraph [ref=e60]: Pro · /planos
+            - paragraph [ref=e61]:
+              - link "Abrir ficha" [ref=e62] [cursor=pointer]:
+                - /url: /mydash/crm/cliente?e=lea%40gmail.com
+              - link "WhatsApp de lea qualificado" [ref=e63] [cursor=pointer]:
+                - /url: https://wa.me/5511995837366
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - heading "Em contato" [level=2] [ref=e66]: Em contato
+          - generic [ref=e68]:
+            - generic [ref=e69]: R$ 157,00
+            - generic [ref=e70]: "1"
+        - article [ref=e72]:
+          - paragraph [ref=e73]: R$ 157,00
+          - paragraph [ref=e74]: Pop Studio
+          - paragraph [ref=e75]: Studio
+          - paragraph [ref=e76]:
+            - link "Abrir ficha" [ref=e77] [cursor=pointer]:
+              - /url: /mydash/crm/cliente?e=stud%40teste.com
+            - link "WhatsApp de Pop Studio" [ref=e78] [cursor=pointer]:
+              - /url: https://wa.me/5511911110001
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - heading "Proposta" [level=2] [ref=e81]: Proposta
+          - generic [ref=e83]:
+            - generic [ref=e84]: R$ 0,00
+            - generic [ref=e85]: "0"
+        - paragraph [ref=e87]: Solte aqui um lead
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - heading "Ganho" [level=2] [ref=e90]: Ganho
+          - generic [ref=e92]:
+            - generic [ref=e93]: R$ 37,00
+            - generic [ref=e94]: "1"
+        - article [ref=e96]:
+          - paragraph [ref=e97]: R$ 37,00
+          - paragraph [ref=e98]: test
+          - paragraph [ref=e99]: Start · test
+          - paragraph [ref=e100]:
+            - link "Abrir ficha" [ref=e101] [cursor=pointer]:
+              - /url: /mydash/crm/cliente?e=guihilario%40gmail.com
+            - link "WhatsApp de test" [ref=e102] [cursor=pointer]:
+              - /url: https://wa.me/5511995837366
+      - generic [ref=e103]:
+        - generic [ref=e104]:
+          - heading "Perdido" [level=2] [ref=e105]: Perdido
+          - generic [ref=e107]:
+            - generic [ref=e108]: R$ 0,00
+            - generic [ref=e109]: "0"
+        - paragraph [ref=e111]: Solte aqui um lead
