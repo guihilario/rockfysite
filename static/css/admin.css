@@ -263,10 +263,12 @@ a{color:inherit}
   border-inline-start:1px solid var(--line);border-radius:0;
   font:400 14px var(--font);
 }
-.crm-popover--ficha:popover-open{animation:crm-slide-direita .3s cubic-bezier(.22,.8,.28,1)}
+.crm-popover--ficha:popover-open{animation:crm-fade-direita .24s ease-out}
 .crm-popover--ficha::backdrop{background:rgba(10,18,35,.36)}
-@keyframes crm-slide-direita{
-  from{opacity:0;transform:translateX(100%)}
+/* O popover fica ancorado no canto direito; ele só surge com fade, vindo de
+   um pouquinho mais à direita do que o lugar de repouso. */
+@keyframes crm-fade-direita{
+  from{opacity:0;transform:translateX(28px)}
   to{opacity:1;transform:none}
 }
 @media (prefers-reduced-motion: reduce){
