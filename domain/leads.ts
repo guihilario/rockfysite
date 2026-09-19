@@ -1,4 +1,5 @@
 import { db, type Queryable } from "@/core/db/index.ts";
+import { planoPorSlug, slugPlano } from "@/data/plans.ts";
 
 /**
  * Etapas do funil de vendas do painel. A ordem aqui é a ordem visual do
@@ -14,6 +15,14 @@ export const ETAPAS_CRM: { chave: string; rotulo: string; cor: string }[] = [
 ];
 
 export const CHAVES_ETAPA = new Set(ETAPAS_CRM.map((e) => e.chave));
+
+/** O "valor em potencial" de um lead: quanto ele representa por mês se fechar
+ *  o plano que ele escolheu. Vem do preço do plano (via slug), ou R$0 quando
+ *  não há plano ou o nome não casa com a tabela. */
+export function valorPotencialCents(plan: string | null | undefined): number {
+  if (!plan) return 0;
+  return planoPorSlug(slugPlano(plan))?.priceCents ?? 0;
+}
 
 export type Lead = {
   id: string;

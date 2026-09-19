@@ -5,8 +5,10 @@ import {
   contarPorEtapa,
   ETAPAS_CRM,
   listarLeads,
+  valorPotencialCents,
 } from "@/domain/leads.ts";
 import { digitosTelefone } from "@/domain/crm.ts";
+import { formatarPreco } from "@/domain/orders.ts";
 
 const MESES = [
   "jan",
@@ -46,9 +48,9 @@ export const handler = define.handlers({
     const u = new URL(ctx.req.url);
     const q = u.searchParams.get("q")?.trim() ?? "";
     const etapa = u.searchParams.get("etapa") ?? "";
-    /* Sem `visao`, cai na lista: é a que funciona sem JavaScript (o kanban
-       mexe card por arrasto). */
-    const visao = u.searchParams.get("visao") === "kanban" ? "kanban" : "lista";
+    /* O kanban é a visão que abre por padrão; `?visao=lista` troca para a
+       tabela (que funciona sem JavaScript). */
+    const visao = u.searchParams.get("visao") === "lista" ? "lista" : "kanban";
 
     const [leads, contagem] = await Promise.all([
       listarLeads({ limite: 500, busca: q, etapa }),
@@ -110,13 +112,77 @@ export default define.page<typeof handler>(function Crm({ data }) {
           </p>
         </div>
         <div class="crm-acoes">
-          <a class="btn btn--ghost btn--sm" href="/mydash/crm/novo-lead">
+          <button
+            class="btn btn--ghost btn--sm"
+            type="button"
+            popovertarget="popover-novo-lead"
+          >
             Novo lead
-          </a>
+          </button>
           <a class="btn btn--sm" href="/mydash/crm/novo-pedido">
             Novo pedido
           </a>
         </div>
+      </div>
+
+      <div id="popover-novo-lead" popover class="crm-popover crm-popover--form">
+        <form method="post" action="/mydash/crm/novo-lead" class="form">
+          <h3>Cadastrar contato</h3>
+          <p class="adm-meta">
+            Contato que chegou por fora do site. Vai para o funil e avisa o CRM
+            externo, como qualquer outro.
+          </p>
+          <div class="crm-grid">
+            <label class="campo">
+              <span>Nome</span>
+              <input type="text" name="name" required />
+            </label>
+            <label class="campo">
+              <span>E-mail</span>
+              <input type="text" name="email" required />
+            </label>
+            <label class="campo">
+              <span>Telefone</span>
+              <input
+                type="text"
+                name="phone"
+                required
+                placeholder="(11) 99999-9999"
+              />
+            </label>
+            <label class="campo">
+              <span>Plano</span>
+              <input type="text" name="plan" placeholder="Start" />
+            </label>
+            <label class="campo">
+              <span>Origem</span>
+              <input type="text" name="source" placeholder="indicação" />
+            </label>
+            <label class="campo">
+              <span>Etapa inicial</span>
+              <select name="etapa">
+                {ETAPAS_CRM.map((e) => (
+                  <option value={e.chave} selected={e.chave === "novo"}>
+                    {e.rotulo}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div class="form-acoes">
+            <button class="btn" type="submit">Salvar contato</button>
+            <button
+              class="btn btn--ghost espaco"
+              type="button"
+              popovertarget="popover-novo-lead"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div id="popover-ficha" popover class="crm-popover crm-popover--ficha">
       </div>
 
       {data.aviso && RECADO[data.aviso] && (
@@ -295,62 +361,75 @@ export default define.page<typeof handler>(function Crm({ data }) {
                     <h2>
                       <i /> {e.rotulo}
                     </h2>
-                    <b data-conta-etapa={e.chave}>{cards.length}</b>
+                    <span class="crm-coluna-contagem">
+                      <b class="crm-coluna-soma">
+                        {formatarPreco(
+                          cards.reduce(
+                            (soma, l) => soma + valorPotencialCents(l.plan),
+                            0,
+                          ),
+                        )}
+                      </b>
+                      <b data-conta-etapa={e.chave}>{cards.length}</b>
+                    </span>
                   </header>
                   <div class="crm-coluna-cartoes">
-                    {cards.map((l) => (
-                      <article
-                        class="crm-card"
-                        data-id={l.id}
-                        data-etapa={l.etapa}
-                        key={l.id}
-                      >
-                        <p class="crm-card-nome">
-                          <a
-                            draggable={false}
-                            href={`/mydash/crm/cliente?e=${
-                              encodeURIComponent(l.email)
-                            }`}
-                          >
-                            {l.name}
-                          </a>
-                        </p>
-                        <p class="crm-card-meta">
-                          {l.plan ?? "Sem plano"}
-                          {l.source ? ` · ${l.source}` : ""}
-                        </p>
-                        {l.proximoContato && (
-                          <p class="crm-prazo" data-cor={e.chave}>
-                            Retorno {quandoVoltar(l.proximoContato)}
+                    {cards.map((l) => {
+                      const valor = valorPotencialCents(l.plan);
+                      return (
+                        <article
+                          class="crm-card"
+                          data-id={l.id}
+                          data-etapa={l.etapa}
+                          data-email={l.email}
+                          data-cor={l.etapa}
+                          key={l.id}
+                        >
+                          {valor > 0 && (
+                            <p class="crm-card-valor">{formatarPreco(valor)}</p>
+                          )}
+                          <p class="crm-card-nome">{l.name}</p>
+                          <p class="crm-card-meta">
+                            {l.plan ?? "Sem plano"}
+                            {l.source ? ` · ${l.source}` : ""}
                           </p>
-                        )}
-                        {l.observacao && (
-                          <p class="crm-card-anotacao">
-                            {l.observacao.length > 70
-                              ? `${l.observacao.slice(0, 70)}…`
-                              : l.observacao}
+                          {l.proximoContato && (
+                            <p class="crm-prazo" data-cor={l.etapa}>
+                              Retorno {quandoVoltar(l.proximoContato)}
+                            </p>
+                          )}
+                          {l.observacao && (
+                            <p class="crm-card-anotacao">
+                              {l.observacao.length > 70
+                                ? `${l.observacao.slice(0, 70)}…`
+                                : l.observacao}
+                            </p>
+                          )}
+                          <p class="crm-card-fio">
+                            <a
+                              draggable={false}
+                              href={`/mydash/crm/cliente?e=${
+                                encodeURIComponent(l.email)
+                              }`}
+                            >
+                              Abrir ficha
+                            </a>
+                            <a
+                              class="crm-zap"
+                              draggable={false}
+                              href={`https://wa.me/55${
+                                digitosTelefone(l.phone)
+                              }`}
+                              aria-label={`WhatsApp de ${l.name}`}
+                              rel="noopener"
+                              target="_blank"
+                            >
+                              <img src="/img/whatsapp.svg" alt="" />
+                            </a>
                           </p>
-                        )}
-                        <p class="crm-card-fio">
-                          <a
-                            draggable={false}
-                            href={`/mydash/crm/cliente?e=${
-                              encodeURIComponent(l.email)
-                            }`}
-                          >
-                            Abrir ficha
-                          </a>
-                          <a
-                            draggable={false}
-                            href={`https://wa.me/55${digitosTelefone(l.phone)}`}
-                            rel="noopener"
-                            target="_blank"
-                          >
-                            WhatsApp
-                          </a>
-                        </p>
-                      </article>
-                    ))}
+                        </article>
+                      );
+                    })}
                     {cards.length === 0 && (
                       <p class="crm-coluna-vazia">Solte aqui um lead</p>
                     )}

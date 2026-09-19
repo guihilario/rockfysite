@@ -24,6 +24,47 @@
      quem liga o drag é a propriedade do elemento, aqui no cliente. */
   for(const c of kanban.querySelectorAll(".crm-card"))c.draggable=true;
 
+  /* Popover com native popover quando o browser suporta; sem suporte, o
+     botão de "Novo lead" vira o link da página de cadastro. */
+  const suportaPopover="showPopover" in HTMLElement.prototype;
+  if(!suportaPopover){
+    const btn=document.querySelector("[popovertarget='popover-novo-lead']");
+    if(btn){
+      const a=document.createElement("a");
+      a.href="/mydash/crm/novo-lead";
+      a.className=btn.className;
+      a.textContent="Novo lead";
+      btn.replaceWith(a);
+    }
+  }
+
+  /* Card clicado (fora dos links) abre a ficha no popover: o conteúdo vem do
+     servidor, busca `/mydash/crm/popover?e=…` e é injetado no elemento. */
+  const popFicha=document.querySelector("#popover-ficha");
+  const carregando="<p class='adm-nota crm-pop-carregando'>Carregando a ficha…</p>";
+  const falha="<p class='adm-nota crm-pop-carregando'>Não deu para carregar a ficha.</p>";
+  kanban.addEventListener("click",e=>{
+    if(e.target.closest("a,button"))return;
+    const card=e.target.closest(".crm-card");
+    if(!card||!popFicha)return;
+    const email=card.dataset.email;
+    if(!email)return;
+    popFicha.innerHTML=carregando;
+    fetch("/mydash/crm/popover?e="+encodeURIComponent(email))
+      .then(r=>{
+        if(!r.ok)throw new Error("HTTP "+r.status);
+        return r.text();
+      })
+      .then(html=>{
+        const doc=new DOMParser().parseFromString(html,"text/html");
+        const corpo=doc.querySelector(".crm-popover-corpo");
+        if(!corpo)throw new Error("fragmento sem corpo");
+        popFicha.innerHTML=corpo.outerHTML;
+      })
+      .catch(()=>{popFicha.innerHTML=falha;});
+    if(popFicha.showPopover)popFicha.showPopover();
+  });
+
   const perto=(e,sel)=>e.target instanceof Element?e.target.closest(sel):null;
   let card=null;
   let colOrigem=null;
