@@ -3,14 +3,14 @@ import type { ComponentChildren } from "preact";
 type Props = {
   titulo: string;
   usuario: { email: string };
-  atual: "posts" | "categorias" | "leads";
+  atual: "posts" | "categorias" | "crm" | "leads" | "pedidos";
   /** Scripts extras (o editor Quill, por exemplo). */
   scripts?: ComponentChildren;
   head?: ComponentChildren;
   children: ComponentChildren;
 };
 
-/** Casca das telas de /admin. Sempre `noindex`: o painel nunca deve ser
+/** Casca das telas de /mydash. Sempre `noindex`: o painel nunca deve ser
  *  indexado, e isso não pode depender de lembrar em cada página. */
 export function Shell(
   { titulo, usuario, atual, scripts, head, children }: Props,
@@ -28,25 +28,37 @@ export function Shell(
       </head>
       <body class="adm">
         <header class="adm-top">
-          <a class="adm-marca" href="/admin/posts">Rockfy · painel</a>
+          <a class="adm-marca" href="/mydash/posts">Rockfy · painel</a>
           <nav class="adm-nav">
             <a
-              href="/admin/posts"
+              href="/mydash/posts"
               class={atual === "posts" ? "is-on" : undefined}
             >
               Posts
             </a>
             <a
-              href="/admin/categories"
+              href="/mydash/categories"
               class={atual === "categorias" ? "is-on" : undefined}
             >
               Categorias
             </a>
             <a
-              href="/admin/leads"
+              href="/mydash/crm"
+              class={atual === "crm" ? "is-on" : undefined}
+            >
+              CRM
+            </a>
+            <a
+              href="/mydash/leads"
               class={atual === "leads" ? "is-on" : undefined}
             >
               Contatos
+            </a>
+            <a
+              href="/mydash/orders"
+              class={atual === "pedidos" ? "is-on" : undefined}
+            >
+              Pedidos
             </a>
           </nav>
           <span class="adm-user">

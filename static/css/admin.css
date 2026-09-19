@@ -23,7 +23,7 @@ a{color:inherit}
 .adm-nav a.is-on{color:var(--ink);background:var(--panel);font-weight:500}
 .adm-user{font-size:13px;color:var(--gray-600)}
 
-.adm-main{max-width:1080px;margin:0 auto;padding:clamp(22px,4vw,40px) clamp(16px,4vw,32px) 80px}
+.adm-main{max-width:1440px;margin:0 auto;padding:clamp(22px,4vw,40px) clamp(16px,4vw,32px) 80px}
 .adm-cabeca{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px}
 .adm-main h1{font-size:28px;letter-spacing:-.8px;font-weight:500}
 .adm-meta{font-size:13px;color:var(--gray-600);margin-top:4px}
@@ -54,6 +54,8 @@ a{color:inherit}
 .selo{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
   padding:4px 10px;border-radius:var(--r-pill);border:1px solid var(--line)}
 .selo--pub{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.selo--pendente{color:#b45f06;border-color:color-mix(in srgb,#b45f06 40%,transparent)}
+.selo--cancelado{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 40%,transparent)}
 .selo--rascunho{color:var(--gray-600)}
 
 /* formulário */
@@ -105,3 +107,204 @@ a{color:inherit}
 /* sentinela do scroll infinito */
 .adm-mais{display:flex;justify-content:center;padding:26px 0 8px}
 .adm-mais[hidden]{display:none}
+
+/* ── CRM ─────────────────────────────────────────────────────────────── */
+
+.crm-acoes{display:flex;gap:8px;flex-wrap:wrap}
+
+/* alternador Lista/Kanban */
+.crm-visao{display:flex;gap:6px;margin-bottom:18px}
+.crm-visao a,.crm-visao span{
+  padding:7px 16px;border-radius:var(--r-pill);font-size:13px;
+  color:var(--gray-600);text-decoration:none;border:1.4px solid var(--line);
+}
+.crm-visao span{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+
+/* funil de contagens */
+.crm-funil{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.crm-funil a{
+  display:inline-flex;align-items:center;gap:6px;font-size:13px;
+  padding:7px 13px;border:1.4px solid var(--line);border-radius:var(--r-pill);
+  color:var(--gray-600);text-decoration:none;background:var(--surface);
+}
+.crm-funil a b{color:var(--ink);font-weight:600}
+.crm-funil a i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.crm-funil a.is-on{border-color:var(--ink);color:var(--ink)}
+
+/* etiqueta da etapa (lista) */
+.crm-etiqueta{font-size:12px;font-weight:600;letter-spacing:.02em}
+
+/* troca de etapa inline na lista */
+.crm-inline{display:flex;gap:6px;align-items:center}
+.crm-inline .crm-etapa{
+  border:1.4px solid var(--line);border-radius:var(--r);background:var(--surface);
+  color:var(--ink);font:400 13px var(--font);padding:7px 10px;
+}
+.js .crm-submit{display:none}
+/* Cores das etapas. A CSP do site bloqueia style inline, então a cor da fase
+   anda junto com o dado (data-cor) e cai no CSS, nunca em atributo style. */
+[data-cor="novo"]{--cor:#2563eb}
+[data-cor="contatado"]{--cor:#b45f06}
+[data-cor="proposta"]{--cor:#7c3aed}
+[data-cor="ganho"]{--cor:#1f9e4c}
+[data-cor="perdido"]{--cor:#8d8d8d}
+.crm-funil a i,.crm-coluna-topo h2 i{background:var(--cor,currentColor)}
+.crm-prazo{
+  font-size:12px;font-weight:600;letter-spacing:.02em;white-space:nowrap;
+  color:var(--cor,var(--ink));
+}
+.crm-anotacao{max-width:260px}
+
+/* kanban — rolagem horizontal com colunas largas; no mobile cada coluna vira
+   um "card" do carousel (a próxima aparece 10% para dar continuidade). */
+.crm-kanban{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 18px;scrollbar-width:thin}
+.crm-coluna{
+  flex:0 0 300px;min-width:300px;background:var(--surface);
+  border:1.4px solid var(--line);border-top:3px solid var(--cor,var(--line));
+  border-radius:var(--r);display:flex;flex-direction:column;
+}
+@media (max-width:760px){
+  .crm-kanban{
+    /* carousel: uma coluna por vez + o começo da seguinte */
+    scroll-snap-type:x mandatory;
+  }
+  .crm-coluna{
+    /* width:90% da área visível: sobra ~10% para a coluna seguinte, dando
+       a sensação de continuidade do carousel */
+    flex:0 0 auto;width:90%;
+    min-width:0;
+    scroll-snap-align:start;
+  }
+}
+.crm-coluna.is-sobre{outline:2px dashed var(--cor,var(--ink));outline-offset:-2px}
+.crm-coluna-topo{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;border-bottom:1px solid var(--line-soft);
+}
+.crm-coluna-topo h2{font-size:13px;font-weight:600;display:flex;gap:7px;align-items:center}
+.crm-coluna-topo h2 i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.crm-coluna-topo b{font-size:12px;color:var(--gray-600)}
+.crm-coluna-cartoes{display:flex;flex-direction:column;gap:10px;padding:12px;min-height:96px}
+.crm-card{
+  background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:12px 13px;cursor:grab;
+  /* Sem isso o arrasto começa "selecionando texto" em vez de pegar o card:
+     o mousedown+move sobre um trecho de texto é interpretado como seleção
+     até o browser aceitar o drag. O card inteiro é non-selectable e os links
+     de dentro não puxam um arrasto próprio (ver `-webkit-user-drag`). */
+  user-select:none;-webkit-user-select:none;
+}
+.crm-card a{cursor:pointer;-webkit-user-drag:none}
+.crm-card.is-arrastando{opacity:.4;transform:rotate(1deg)}
+.crm-card-nome{font-size:14px;font-weight:500;margin-bottom:4px}
+.crm-card-nome a{text-decoration:none}
+.crm-card-nome a:hover{text-decoration:underline}
+.crm-card-meta{font-size:12px;color:var(--gray-600)}
+.crm-card .crm-prazo{margin-top:7px;font-size:11px}
+.crm-card-anotacao{
+  font-size:12px;color:var(--gray-600);margin-top:6px;line-height:1.45;
+}
+.crm-card-fio{display:flex;gap:10px;margin-top:9px;font-size:12px}
+.crm-card-fio a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.crm-card-fio a:hover{border-color:var(--ink)}
+.crm-coluna-vazia{
+  text-align:center;color:var(--gray-300);font-size:12px;
+  border:1.4px dashed var(--line);border-radius:var(--r);padding:18px 8px;
+}
+.crm-coluna-cartoes:has(.crm-coluna-vazia):empty{display:none}
+
+/* ficha do cliente */
+.crm-ficha-numeros{
+  display:flex;gap:18px;flex-wrap:wrap;margin:-8px 0 8px;
+  font-size:13px;color:var(--gray-600);
+}
+.crm-ficha-lista{display:flex;flex-direction:column;gap:18px;margin-top:10px}
+.crm-ficha-item{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;
+}
+.crm-linha-titulo{display:flex;gap:10px;align-items:baseline;margin-bottom:12px}
+.crm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px 16px}
+.campo--g,.crm-grid .campo--g{grid-column:1 / -1}
+.crm-grid .campo{margin-bottom:0}
+.crm-grid .campo > span{display:block;font-size:12px;font-weight:600;margin-bottom:6px}
+.crm-grid input,.crm-grid select,.crm-grid textarea{
+  width:100%;border:1.4px solid var(--line);border-radius:var(--r);background:var(--surface);
+  color:var(--ink);font:400 14px var(--font);padding:9px 12px;
+}
+.crm-grid textarea{min-height:72px;resize:vertical}
+.crm-grid input:focus,.crm-grid select:focus,.crm-grid textarea:focus{outline:none;border-color:var(--ink)}
+
+/* valor em potencial: linha do topo do card e soma no topo da coluna */
+.crm-card-valor{
+  font-size:12px;font-weight:700;letter-spacing:.02em;
+  margin:0 0 6px;color:var(--cor,var(--ink));
+}
+.crm-coluna-contagem{display:flex;gap:10px;align-items:baseline}
+.crm-coluna-soma{font-size:12px;font-weight:700;color:var(--cor,var(--ink))}
+
+/* botão WhatsApp como ícone (whatsapp.svg) */
+.crm-zap{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:50%;background:#25d366;
+  transition:transform .12s ease;
+}
+.crm-zap:hover{transform:scale(1.07)}
+.crm-zap img{width:16px;height:16px;display:block}
+
+/* corzinha de etapa no popover */
+.crm-ponto{width:8px;height:8px;border-radius:50%;background:var(--cor,var(--ink));display:inline-block}
+
+/* popover nativo: a ficha entra deslizando da direita */
+.crm-popover{
+  position:fixed;inset-block:0;inset-inline-start:auto;inset-inline-end:0;
+  width:min(420px,100%);height:100dvh;max-height:100dvh;
+  margin:0;padding:0;overflow-y:auto;
+  background:var(--panel);color:var(--ink);border:0;
+  border-inline-start:1px solid var(--line);border-radius:0;
+  font:400 14px var(--font);
+}
+.crm-popover--ficha:popover-open{animation:crm-fade-direita .24s ease-out}
+.crm-popover--ficha::backdrop{background:rgba(10,18,35,.36)}
+/* O popover fica ancorado no canto direito; ele só surge com fade, vindo de
+   um pouquinho mais à direita do que o lugar de repouso. */
+@keyframes crm-fade-direita{
+  from{opacity:0;transform:translateX(28px)}
+  to{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion: reduce){
+  .crm-popover--ficha:popover-open{animation:none}
+}
+/* o formulário de novo lead é um diálogo central, não uma gaveta */
+.crm-popover--form{
+  inset:0;margin:auto;width:min(520px,calc(100vw - 32px));
+  height:auto;max-height:calc(100dvh - 32px);border-radius:var(--r);
+  border:1px solid var(--line);box-shadow:0 24px 70px rgba(0,0,0,.22);
+  background:var(--surface);padding:22px;
+}
+.crm-popover--form:popover-open{animation:crm-pop-fade .16s ease-out}
+.crm-popover--form::backdrop{background:rgba(10,18,35,.4)}
+@keyframes crm-pop-fade{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
+}
+.crm-popover--form h3{margin:0 0 4px;font-size:18px}
+.crm-pop-carregando{margin:0}
+
+/* conteúdo da ficha dentro do popover */
+.crm-popover-corpo{padding:22px}
+.crm-pop-cabeca{margin-bottom:14px}
+.crm-pop-cabeca h3{margin:0 0 4px;font-size:18px}
+.crm-pop-acoes{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.crm-pop-acoes .crm-zap:hover{transform:none}
+.crm-pop-lista{
+  list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:12px;
+}
+.crm-pop-lista > li{padding-bottom:10px;border-bottom:1px solid var(--line-soft)}
+.crm-pop-lista > li:last-child{border-bottom:0;padding-bottom:0}
+.crm-pop-linha{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.crm-pop-linha em{font-style:normal;font-weight:700;color:var(--cor,var(--ink))}
+.crm-pop-lista blockquote{
+  margin:6px 0;padding:0 0 0 10px;border-left:3px solid var(--line);
+  font-size:12px;color:var(--gray-600);white-space:pre-line;
+}
+.crm-pop-lista small{display:block;margin-top:2px;font-size:12px;color:var(--gray-600)}

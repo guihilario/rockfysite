@@ -11,7 +11,7 @@ type Props = {
 };
 
 /**
- * Formulário de post, usado por /admin/posts/novo e /admin/posts/[id].
+ * Formulário de post, usado por /mydash/posts/novo e /mydash/posts/[id].
  *
  * O Quill monta em `#editor` e espelha o HTML no textarea `#content`
  * (ver /js/admin-editor.js). Sem JavaScript o textarea continua visível e
@@ -24,7 +24,7 @@ export function PostForm({ post, categorias, tags, erro }: Props) {
     <form
       class="form"
       method="post"
-      action={editando ? `/admin/posts/${post!.id}` : "/admin/posts/novo"}
+      action={editando ? `/mydash/posts/${post!.id}` : "/mydash/posts/novo"}
       enctype="multipart/form-data"
     >
       {erro && <p class="aviso aviso--erro">{erro}</p>}
@@ -139,7 +139,7 @@ export function PostForm({ post, categorias, tags, erro }: Props) {
             Salvar e publicar
           </button>
         )}
-        <a class="btn btn--ghost espaco" href="/admin/posts">Cancelar</a>
+        <a class="btn btn--ghost espaco" href="/mydash/posts">Cancelar</a>
       </div>
     </form>
   );

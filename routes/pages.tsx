@@ -10,23 +10,23 @@ import { planosSchema } from "@/core/seo/meta.ts";
 const DESCRICAO =
   "Publique sites HTML e JavaScript criados com IA, conecte seu domínio e conte com infraestrutura e suporte da Rockfy.";
 
-export default async function SiteOne() {
+export default async function PaginaPages() {
   const posts = await carregarFaixaPosts();
   return (
     <Layout
-      rota="/site-one"
-      titulo="siteOne | Publique sites HTML e JavaScript com a Rockfy"
+      rota="/pages"
+      titulo="Pages | Publique sites HTML e JavaScript com a Rockfy"
       descricao={DESCRICAO}
       fluido
       jsonLd={[planosSchema({
-        nome: "Rockfy siteOne",
+        nome: "Rockfy Pages",
         descricao: DESCRICAO,
-        url: "/site-one",
+        url: "/pages",
         planos: plans,
       })].filter(Boolean)}
     >
       <HeroPagina
-        tagline="siteOne"
+        tagline="Pages"
         h1={
           <>
             Seu site criado com IA, <b>no ar em um clique</b>
@@ -36,7 +36,7 @@ export default async function SiteOne() {
         acoes={<a class="cta" href="#planos">Ver planos</a>}
       />
 
-      <section class="section dotted" aria-labelledby="site-one-recursos">
+      <section class="section dotted" aria-labelledby="pages-recursos">
         <div class="conteudo">
           <Blocos
             titulo={
@@ -66,7 +66,7 @@ export default async function SiteOne() {
       </section>
 
       <Clients />
-      <Planos rota="/site-one" eyebrow="Planos com siteOne" />
+      <Planos rota="/pages" eyebrow="Planos com Pages" />
       <Posts posts={posts} />
     </Layout>
   );

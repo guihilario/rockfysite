@@ -507,3 +507,105 @@
     topo.classList.toggle("is-scrolled", agora);
   }, { passive: true });
 })();
+
+/* ─────────── checkout: passos do formulário ─────────── */
+(function(){
+  const forma=document.querySelector('form[data-checkout]');
+  /* Quem chega aqui sem formulário é a página de confirmação pós-pedido:
+     voltou de um envio que deu certo, então zera o rascunho para o próximo
+     checkout começar limpo. */
+  const chave='ckout:'+location.pathname;
+  if(!forma){ sessionStorage.removeItem(chave); return; }
+  const passos=[...forma.querySelectorAll('[data-passo]')];
+  if(passos.length<2)return;
+  const indicador=document.querySelector('[data-passo-indicador]');
+  const itens=indicador?[...indicador.children]:[];
+  let atual=0;
+
+  /* A classe liga o wizard; sem ela os passos seguem empilhados e o envio
+     é um único submit — o formulário funciona igual, menos enfeitado. */
+  forma.classList.add('is-js');
+  passos.forEach(p=>{p.hidden=true});
+
+  const salvarRascunho=()=>{
+    const dados={};
+    for(const c of forma.elements){
+      if(!(c instanceof HTMLInputElement)&&!(c instanceof HTMLSelectElement))continue;
+      if(c.type==='hidden')continue;
+      if(c.type==='radio'){ if(c.checked)dados[c.name]=c.value; continue; }
+      dados[c.name]=c.value;
+    }
+    try{ sessionStorage.setItem(chave,JSON.stringify({passo:atual,dados})); }
+    catch{ /* navegação anônima sem storage: o checkout segue sem rascunho */ void 0; }
+  };
+  forma.addEventListener('input',salvarRascunho);
+  forma.addEventListener('change',salvarRascunho);
+
+  const mostrar=(i,rolar)=>{
+    atual=i;
+    passos.forEach((p,idx)=>{p.hidden=idx!==i});
+    itens.forEach((li,idx)=>{
+      li.classList.toggle('is-on',idx===i);
+      li.classList.toggle('is-done',idx<i);
+    });
+    /* Só rola quando o passo muda por clique do usuário. Na abertura da
+       página manter o topo já é o comportamento natural de navegação —
+       chamar scrollIntoView no carregamento fazia o checkout pular para o
+       formulário em vez de abrir lá em cima. */
+    if(rolar)passos[i].scrollIntoView({behavior:'smooth',block:'start'});
+  };
+
+  /* Só avança com o passo atual válido. Campo escondido é "barrado" da
+     validação nativa, então checar o fieldset aqui evita buraco: quem pulou
+     um passo não consegue chegar ao envio com ele pendente. */
+  const valida=i=>passos[i].checkValidity();
+
+  /* Avisa o servidor que a pessoa fechou a primeira fase. O lead nasce aqui
+     porque o formulário é um POST único no final: quem para no meio do
+     checkout sumiria sem nunca ter virado contato. Best effort — falhou a
+     rede, o usuário não fica preso, e o pedido (se fechado) ainda se salva;
+     o console avisa quando um lead se perde. */
+  const registrarLead=async()=>{
+    const dados=new FormData(forma);
+    try{
+      const r=await fetch('/api/leads',{
+        method:'POST',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({
+          name:dados.get('name'),
+          email:dados.get('email'),
+          phone:dados.get('phone'),
+          plan:dados.get('plan'),
+          source:dados.get('source'),
+        }),
+      });
+      if(!r.ok)console.warn('[checkout] lead não salvo: HTTP '+r.status);
+    }catch(e){ console.warn('[checkout] lead não salvo',e); }
+  };
+
+  forma.addEventListener('click',e=>{
+    const btn=e.target instanceof Element?e.target.closest('[data-toggle]'):null;
+    if(!btn)return;
+    const alvo=Number(btn.dataset.alvo);
+    if(btn.dataset.toggle==='passar'&&!valida(atual))return;
+    if(btn.dataset.toggle==='passar'&&atual===0)registrarLead();
+    mostrar(alvo-1,true);
+  });
+
+  /* Tenta devolver o rascunho da sessão: quem atualizou a página ou voltou
+     do "aviso de erro" não precisa redigitar. `mostrar` já guarda o passo em
+     `atual`, então a próxima edição salva por cima sem cuidado especial. */
+  let salvo=null;
+  try{ salvo=JSON.parse(sessionStorage.getItem(chave)||'null'); }
+  catch{ salvo=null; }
+  if(salvo&&salvo.dados&&typeof salvo.dados==='object'){
+    for(const [nome,valor] of Object.entries(salvo.dados)){
+      const c=forma.elements.namedItem(nome);
+      if(c)c.value=String(valor);
+    }
+    const alvo=salvo.passo>=1&&salvo.passo<=passos.length?salvo.passo-1:0;
+    mostrar(alvo);
+  }else{
+    mostrar(0);
+  }
+})();

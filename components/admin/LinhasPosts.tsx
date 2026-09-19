@@ -23,7 +23,7 @@ export function LinhasPosts({ posts }: { posts: Post[] }) {
               : <span class="adm-thumb adm-thumb--vazia" aria-hidden="true" />}
           </td>
           <td class="adm-titulo-cel">
-            <a href={`/admin/posts/${p.id}`}>{p.title}</a>
+            <a href={`/mydash/posts/${p.id}`}>{p.title}</a>
             <span class="adm-slug">/{p.slug}</span>
           </td>
           <td>{p.categoryName ?? "—"}</td>
@@ -37,7 +37,7 @@ export function LinhasPosts({ posts }: { posts: Post[] }) {
             </span>
           </td>
           <td class="acoes">
-            <form method="post" action="/admin/posts">
+            <form method="post" action="/mydash/posts">
               <input type="hidden" name="id" value={p.id} />
               <input
                 type="hidden"
@@ -50,7 +50,7 @@ export function LinhasPosts({ posts }: { posts: Post[] }) {
             </form>{" "}
             <form
               method="post"
-              action="/admin/posts"
+              action="/mydash/posts"
               data-confirmar="Excluir este post? Não dá pra desfazer."
             >
               <input type="hidden" name="id" value={p.id} />

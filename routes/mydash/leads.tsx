@@ -56,13 +56,13 @@ export const handler = define.handlers({
     if (url && !/^https?:\/\/\S+$/i.test(url)) {
       return new Response(null, {
         status: 303,
-        headers: { location: "/admin/leads?ok=invalida" },
+        headers: { location: "/mydash/leads?ok=invalida" },
       });
     }
     await gravarConfig(CHAVE_WEBHOOK, url);
     return new Response(null, {
       status: 303,
-      headers: { location: "/admin/leads?ok=salvo" },
+      headers: { location: "/mydash/leads?ok=salvo" },
     });
   },
 });

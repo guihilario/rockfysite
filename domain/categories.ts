@@ -41,7 +41,7 @@ export async function listRootCategories(
 }
 
 /** Todas as categorias (raiz + subcategorias) — usado pra montar o select
- * agrupado do form de post e a tela /admin/categories. */
+ * agrupado do form de post e a tela /mydash/categories. */
 export async function listAllCategories(
   client: Queryable = db,
 ): Promise<Category[]> {
