@@ -256,18 +256,21 @@ a{color:inherit}
 
 /* popover nativo: a ficha entra deslizando da direita */
 .crm-popover{
-  position:fixed;inset-block:0;inset-inline-end:0;
+  position:fixed;inset-block:0;inset-inline-start:auto;inset-inline-end:0;
   width:min(420px,100%);height:100dvh;max-height:100dvh;
   margin:0;padding:0;overflow-y:auto;
   background:var(--panel);color:var(--ink);border:0;
   border-inline-start:1px solid var(--line);border-radius:0;
   font:400 14px var(--font);
 }
-.crm-popover--ficha:popover-open{animation:crm-slide-right .26s ease-out}
+.crm-popover--ficha:popover-open{animation:crm-slide-direita .3s cubic-bezier(.22,.8,.28,1)}
 .crm-popover--ficha::backdrop{background:rgba(10,18,35,.36)}
-@keyframes crm-slide-right{
-  from{opacity:0;transform:translateX(64px)}
+@keyframes crm-slide-direita{
+  from{opacity:0;transform:translateX(100%)}
   to{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion: reduce){
+  .crm-popover--ficha:popover-open{animation:none}
 }
 /* o formulário de novo lead é um diálogo central, não uma gaveta */
 .crm-popover--form{

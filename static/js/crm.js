@@ -39,30 +39,70 @@
   }
 
   /* Card clicado (fora dos links) abre a ficha no popover: o conteúdo vem do
-     servidor, busca `/mydash/crm/popover?e=…` e é injetado no elemento. */
+     servidor. Para o popover abrir sem "tela de carregar", a ficha é buscada
+     já no roçar o card (250ms) e guardada em cache — o clique então só injeta
+     o HTML pronto. Sem hover (touch) e sem cache, a promessa da busca é
+     deduplicada e o conteúdo chega na mesma quando pronto. */
   const popFicha=document.querySelector("#popover-ficha");
-  const carregando="<p class='adm-nota crm-pop-carregando'>Carregando a ficha…</p>";
-  const falha="<p class='adm-nota crm-pop-carregando'>Não deu para carregar a ficha.</p>";
+  const cacheFichas=new Map();
+  const baixando=new Map();
+  let abrindo="";
+  let timerHover=0;
+
+  const erroFicha="<p class='adm-nota crm-pop-carregando'>Não deu para carregar a ficha.</p>";
+
+  function buscarFicha(email){
+    let p=baixando.get(email);
+    if(!p){
+      p=fetch("/mydash/crm/popover?e="+encodeURIComponent(email))
+        .then(r=>{
+          if(!r.ok)throw new Error("HTTP "+r.status);
+          return r.text();
+        })
+        .then(html=>{
+          const corpo=new DOMParser()
+            .parseFromString(html,"text/html")
+            .querySelector(".crm-popover-corpo");
+          if(!corpo)throw new Error("fragmento sem corpo");
+          const pronto=corpo.outerHTML;
+          cacheFichas.set(email,pronto);
+          return pronto;
+        })
+        .finally(()=>baixando.delete(email));
+      baixando.set(email,p);
+    }
+    return p;
+  }
+
+  kanban.addEventListener("pointerenter",e=>{
+    const card=e.target instanceof Element?e.target.closest(".crm-card"):null;
+    if(!card){clearTimeout(timerHover);return;}
+    const email=card.dataset.email;
+    if(!email||cacheFichas.has(email)||baixando.has(email))return;
+    clearTimeout(timerHover);
+    timerHover=setTimeout(()=>{buscarFicha(email).catch(()=>{});},250);
+  },true);
+
   kanban.addEventListener("click",e=>{
-    if(e.target.closest("a,button"))return;
-    const card=e.target.closest(".crm-card");
+    if(e.target instanceof Element&&e.target.closest("a,button"))return;
+    const card=e.target instanceof Element?e.target.closest(".crm-card"):null;
     if(!card||!popFicha)return;
     const email=card.dataset.email;
     if(!email)return;
-    popFicha.innerHTML=carregando;
-    fetch("/mydash/crm/popover?e="+encodeURIComponent(email))
-      .then(r=>{
-        if(!r.ok)throw new Error("HTTP "+r.status);
-        return r.text();
-      })
-      .then(html=>{
-        const doc=new DOMParser().parseFromString(html,"text/html");
-        const corpo=doc.querySelector(".crm-popover-corpo");
-        if(!corpo)throw new Error("fragmento sem corpo");
-        popFicha.innerHTML=corpo.outerHTML;
-      })
-      .catch(()=>{popFicha.innerHTML=falha;});
+    abrindo=email;
     if(popFicha.showPopover)popFicha.showPopover();
+    const pronto=cacheFichas.get(email);
+    popFicha.innerHTML=pronto
+      ??"<p class='adm-nota crm-pop-carregando'>Carregando…</p>";
+    buscarFicha(email)
+      .then(corpo=>{
+        if(abrindo===email&&popFicha.matches(":popover-open")){
+          popFicha.innerHTML=corpo;
+        }
+      })
+      .catch(()=>{
+        if(abrindo===email)popFicha.innerHTML=erroFicha;
+      });
   });
 
   const perto=(e,sel)=>e.target instanceof Element?e.target.closest(sel):null;
@@ -136,6 +176,21 @@
       conta(col);
       conta(origem);
     };
+    const email=c.dataset.email;
+    const refrescaFicha=()=>{
+      /* A etapa mudou: a ficha em cache ficou velha. Descarta e baixa de
+         novo em segundo plano — se o popover estiver aberto para esse
+         contato, ele é reposto assim que a resposta chegar. */
+      if(!email)return;
+      cacheFichas.delete(email);
+      buscarFicha(email)
+        .then(corpo=>{
+          if(abrindo===email&&popFicha.matches(":popover-open")){
+            popFicha.innerHTML=corpo;
+          }
+        })
+        .catch(()=>{});
+    };
     try{
       const r=await fetch("/mydash/crm/etapa",{
         method:"POST",
@@ -143,6 +198,7 @@
         body:JSON.stringify({id:c.dataset.id,etapa}),
       });
       if(!r.ok){ console.warn("[crm] etapa não salva: HTTP "+r.status); devolve(); }
+      else refrescaFicha();
     }catch(err){
       console.warn("[crm] etapa não salva",err);
       devolve();
