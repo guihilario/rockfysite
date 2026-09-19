@@ -165,7 +165,13 @@ a{color:inherit}
 .crm-card{
   background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);
   padding:12px 13px;cursor:grab;
+  /* Sem isso o arrasto começa "selecionando texto" em vez de pegar o card:
+     o mousedown+move sobre um trecho de texto é interpretado como seleção
+     até o browser aceitar o drag. O card inteiro é non-selectable e os links
+     de dentro não puxam um arrasto próprio (ver `-webkit-user-drag`). */
+  user-select:none;-webkit-user-select:none;
 }
+.crm-card a{cursor:pointer;-webkit-user-drag:none}
 .crm-card.is-arrastando{opacity:.4;transform:rotate(1deg)}
 .crm-card-nome{font-size:14px;font-weight:500;margin-bottom:4px}
 .crm-card-nome a{text-decoration:none}

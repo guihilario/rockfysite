@@ -300,13 +300,14 @@ export default define.page<typeof handler>(function Crm({ data }) {
                     {cards.map((l) => (
                       <article
                         class="crm-card"
-                        draggable
+                        draggable={true}
                         data-id={l.id}
                         data-etapa={l.etapa}
                         key={l.id}
                       >
                         <p class="crm-card-nome">
                           <a
+                            draggable={false}
                             href={`/mydash/crm/cliente?e=${
                               encodeURIComponent(l.email)
                             }`}
@@ -335,6 +336,7 @@ export default define.page<typeof handler>(function Crm({ data }) {
                         )}
                         <p class="crm-card-fio">
                           <a
+                            draggable={false}
                             href={`/mydash/crm/cliente?e=${
                               encodeURIComponent(l.email)
                             }`}
@@ -342,6 +344,7 @@ export default define.page<typeof handler>(function Crm({ data }) {
                             Abrir ficha
                           </a>
                           <a
+                            draggable={false}
                             href={`https://wa.me/55${digitosTelefone(l.phone)}`}
                             rel="noopener"
                             target="_blank"
