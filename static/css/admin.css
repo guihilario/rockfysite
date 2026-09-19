@@ -107,3 +107,100 @@ a{color:inherit}
 /* sentinela do scroll infinito */
 .adm-mais{display:flex;justify-content:center;padding:26px 0 8px}
 .adm-mais[hidden]{display:none}
+
+/* ── CRM ─────────────────────────────────────────────────────────────── */
+
+.crm-acoes{display:flex;gap:8px;flex-wrap:wrap}
+
+/* alternador Lista/Kanban */
+.crm-visao{display:flex;gap:6px;margin-bottom:18px}
+.crm-visao a,.crm-visao span{
+  padding:7px 16px;border-radius:var(--r-pill);font-size:13px;
+  color:var(--gray-600);text-decoration:none;border:1.4px solid var(--line);
+}
+.crm-visao span{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+
+/* funil de contagens */
+.crm-funil{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.crm-funil a{
+  display:inline-flex;align-items:center;gap:6px;font-size:13px;
+  padding:7px 13px;border:1.4px solid var(--line);border-radius:var(--r-pill);
+  color:var(--gray-600);text-decoration:none;background:var(--surface);
+}
+.crm-funil a b{color:var(--ink);font-weight:600}
+.crm-funil a i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.crm-funil a.is-on{border-color:var(--ink);color:var(--ink)}
+
+/* etiqueta da etapa (lista) */
+.crm-etiqueta{font-size:12px;font-weight:600;letter-spacing:.02em}
+
+/* troca de etapa inline na lista */
+.crm-inline{display:flex;gap:6px;align-items:center}
+.crm-inline .crm-etapa{
+  border:1.4px solid var(--line);border-radius:var(--r);background:var(--surface);
+  color:var(--ink);font:400 13px var(--font);padding:7px 10px;
+}
+.js .crm-submit{display:none}
+.crm-prazo{
+  font-size:12px;font-weight:600;letter-spacing:.02em;white-space:nowrap;
+}
+.crm-anotacao{max-width:260px}
+
+/* kanban */
+.crm-kanban{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 18px}
+.crm-coluna{
+  flex:0 0 258px;min-width:258px;background:var(--surface);
+  border:1.4px solid var(--line);border-top:3px solid var(--cor,var(--line));
+  border-radius:var(--r);display:flex;flex-direction:column;
+}
+.crm-coluna.is-sobre{outline:2px dashed var(--cor,var(--ink));outline-offset:-2px}
+.crm-coluna-topo{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;border-bottom:1px solid var(--line-soft);
+}
+.crm-coluna-topo h2{font-size:13px;font-weight:600;display:flex;gap:7px;align-items:center}
+.crm-coluna-topo h2 i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.crm-coluna-topo b{font-size:12px;color:var(--gray-600)}
+.crm-coluna-cartoes{display:flex;flex-direction:column;gap:10px;padding:12px;min-height:96px}
+.crm-card{
+  background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:12px 13px;cursor:grab;
+}
+.crm-card.is-arrastando{opacity:.4;transform:rotate(1deg)}
+.crm-card-nome{font-size:14px;font-weight:500;margin-bottom:4px}
+.crm-card-nome a{text-decoration:none}
+.crm-card-nome a:hover{text-decoration:underline}
+.crm-card-meta{font-size:12px;color:var(--gray-600)}
+.crm-card .crm-prazo{margin-top:7px;font-size:11px}
+.crm-card-anotacao{
+  font-size:12px;color:var(--gray-600);margin-top:6px;line-height:1.45;
+}
+.crm-card-fio{display:flex;gap:10px;margin-top:9px;font-size:12px}
+.crm-card-fio a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.crm-card-fio a:hover{border-color:var(--ink)}
+.crm-coluna-vazia{
+  text-align:center;color:var(--gray-300);font-size:12px;
+  border:1.4px dashed var(--line);border-radius:var(--r);padding:18px 8px;
+}
+.crm-coluna-cartoes:has(.crm-coluna-vazia):empty{display:none}
+
+/* ficha do cliente */
+.crm-ficha-numeros{
+  display:flex;gap:18px;flex-wrap:wrap;margin:-8px 0 8px;
+  font-size:13px;color:var(--gray-600);
+}
+.crm-ficha-lista{display:flex;flex-direction:column;gap:18px;margin-top:10px}
+.crm-ficha-item{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;
+}
+.crm-linha-titulo{display:flex;gap:10px;align-items:baseline;margin-bottom:12px}
+.crm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px 16px}
+.campo--g,.crm-grid .campo--g{grid-column:1 / -1}
+.crm-grid .campo{margin-bottom:0}
+.crm-grid .campo > span{display:block;font-size:12px;font-weight:600;margin-bottom:6px}
+.crm-grid input,.crm-grid select,.crm-grid textarea{
+  width:100%;border:1.4px solid var(--line);border-radius:var(--r);background:var(--surface);
+  color:var(--ink);font:400 14px var(--font);padding:9px 12px;
+}
+.crm-grid textarea{min-height:72px;resize:vertical}
+.crm-grid input:focus,.crm-grid select:focus,.crm-grid textarea:focus{outline:none;border-color:var(--ink)}

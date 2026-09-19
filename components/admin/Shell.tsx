@@ -3,7 +3,7 @@ import type { ComponentChildren } from "preact";
 type Props = {
   titulo: string;
   usuario: { email: string };
-  atual: "posts" | "categorias" | "leads" | "pedidos";
+  atual: "posts" | "categorias" | "crm" | "leads" | "pedidos";
   /** Scripts extras (o editor Quill, por exemplo). */
   scripts?: ComponentChildren;
   head?: ComponentChildren;
@@ -41,6 +41,12 @@ export function Shell(
               class={atual === "categorias" ? "is-on" : undefined}
             >
               Categorias
+            </a>
+            <a
+              href="/mydash/crm"
+              class={atual === "crm" ? "is-on" : undefined}
+            >
+              CRM
             </a>
             <a
               href="/mydash/leads"

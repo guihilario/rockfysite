@@ -22,6 +22,7 @@ export type Pedido = {
   paymentMethod: string;
   status: PedidoStatus;
   source: string | null;
+  observacao: string;
   createdAt: Date;
 };
 
@@ -43,6 +44,7 @@ type LinhaPedido = {
   payment_method: string;
   status: PedidoStatus;
   source: string | null;
+  observacao: string;
   created_at: Date;
 };
 
@@ -65,6 +67,7 @@ function daLinha(l: LinhaPedido): Pedido {
     paymentMethod: l.payment_method,
     status: l.status,
     source: l.source,
+    observacao: l.observacao,
     createdAt: l.created_at,
   };
 }
@@ -148,4 +151,88 @@ export function formatarPreco(cents: number): string {
     style: "currency",
     currency: "BRL",
   }).format(cents / 100);
+}
+
+/** Atualiza só os campos enviados, com allowlist explícita — o mesmo
+ *  princípio do `atualizarLead`: a coluna não pode ser escolhida no SQL, só
+ *  os campos opinados em código. */
+export async function atualizarPedido(
+  id: string,
+  campos: {
+    plan?: string;
+    priceCents?: number;
+    name?: string;
+    email?: string;
+    phone?: string;
+    document?: string;
+    company?: string | null;
+    cep?: string;
+    address?: string;
+    number?: string;
+    complement?: string | null;
+    city?: string;
+    state?: string;
+    paymentMethod?: string;
+    status?: PedidoStatus;
+    observacao?: string;
+  },
+  client: Queryable = db,
+): Promise<boolean> {
+  const pares: [string, unknown][] = [];
+  const define = (coluna: string, valor: unknown): void => {
+    if (valor !== undefined) pares.push([coluna, valor ?? null]);
+  };
+  define("plan", campos.plan);
+  define("price_cents", campos.priceCents);
+  define("name", campos.name);
+  define("email", campos.email);
+  define("phone", campos.phone);
+  define("document", campos.document);
+  define("company", campos.company);
+  define("cep", campos.cep);
+  define("address", campos.address);
+  define("number", campos.number);
+  define("complement", campos.complement);
+  define("city", campos.city);
+  define("state", campos.state);
+  define("payment_method", campos.paymentMethod);
+  define("status", campos.status);
+  define("observacao", campos.observacao);
+  if (pares.length === 0) return false;
+
+  const sets = pares.map(([coluna], i) => `${coluna} = $${i + 1}`);
+  const r = await client.queryObject({
+    text: `UPDATE orders SET ${sets.join(", ")}, updated_at = now()` +
+      ` WHERE id = $${pares.length + 1}`,
+    args: [...pares.map(([, valor]) => valor), id],
+  });
+  return (r.rowCount ?? 0) > 0;
+}
+
+/** Todos os pedidos de uma pessoa, com o mesmo critério de contato do lead:
+ *  e-mail exato ou telefone com dígitos limpos. */
+export async function listarPorContato(
+  { email, telefone }: { email: string; telefone: string },
+  client: Queryable = db,
+): Promise<Pedido[]> {
+  const r = await client.queryObject<LinhaPedido>({
+    text: `SELECT * FROM orders
+           WHERE lower(email) = $1
+              OR regexp_replace(phone, '\D', '', 'g') = $2
+           ORDER BY created_at DESC`,
+    args: [email.toLowerCase(), telefone],
+  });
+  return r.rows.map(daLinha);
+}
+
+/** Apaga um pedido (ação deliberada do painel). Zero impacto em leads: a
+ *  ficha continua com o contato, só sem a compra. */
+export async function removerPedido(
+  id: string,
+  client: Queryable = db,
+): Promise<void> {
+  await client.queryObject({
+    text: `DELETE FROM orders WHERE id = $1`,
+    args: [id],
+  });
 }
