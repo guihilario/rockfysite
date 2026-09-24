@@ -12,6 +12,7 @@ import {
   generateUniqueSlug,
   listPostsResumo,
   publishPost,
+  unpublishPost,
   updatePost,
 } from "@/domain/posts.ts";
 import { SITE } from "@/components/Layout.tsx";
@@ -141,6 +142,84 @@ export async function executarFerramenta(
     return { texto: `Imagem destacada definida em ${post.slug}.` };
   }
 
+  if (nome === "editar_post") {
+    if (!tem(acesso, "posts:write")) {
+      return { texto: "Sem permissão para alterar posts.", erro: true };
+    }
+    const id = String(args.id ?? "").trim();
+    if (!id) return { texto: "Informe o id do post.", erro: true };
+
+    const patch: Parameters<typeof updatePost>[1] = {};
+    if (args.titulo != null) {
+      const title = String(args.titulo).trim();
+      if (!title) {
+        return { texto: "O título não pode ficar vazio.", erro: true };
+      }
+      patch.title = title;
+    }
+    if (args.conteudo != null) {
+      const content = texto(String(args.conteudo));
+      if (!content.replace(/<[^>]+>/g, "").trim()) {
+        return { texto: "O conteúdo não pode ficar vazio.", erro: true };
+      }
+      patch.content = content;
+    }
+    if (args.resumo != null) {
+      patch.excerpt = String(args.resumo).trim() || null;
+    }
+    if (args.categoria != null) {
+      const slugCategoria = String(args.categoria).trim();
+      if (slugCategoria) {
+        const categoria = await getCategoryBySlug(slugCategoria);
+        if (!categoria) {
+          return {
+            texto: `Categoria "${slugCategoria}" não existe.`,
+            erro: true,
+          };
+        }
+        patch.categoryId = categoria.id;
+      }
+    }
+    const imagem = args.imagem == null ? "" : String(args.imagem).trim();
+    if (imagem) {
+      const capa = await capaDe(imagem);
+      if (capa instanceof ErroDeCapa) {
+        return { texto: capa.message, erro: true };
+      }
+      patch.coverImageUrl = capa.url;
+      patch.coverImageWidth = capa.width;
+      patch.coverImageHeight = capa.height;
+    }
+    const tags = args.tags == null
+      ? null
+      : String(args.tags).split(",").map((t) => t.trim()).filter(Boolean);
+    if (Object.keys(patch).length === 0 && !tags?.length) {
+      return { texto: "Informe o que mudar nesse post.", erro: true };
+    }
+    const post = Object.keys(patch).length
+      ? await updatePost(id, patch)
+      : await updatePost(id, {});
+    if (!post) return { texto: "Post não encontrado.", erro: true };
+    if (tags?.length) await aplicarTags(post.id, tags);
+    const estado = post.status === "published" ? "continua no ar" : "rascunho";
+    return {
+      texto: `Post atualizado (${estado}).\nid: ${post.id}\nslug: ${post.slug}`,
+    };
+  }
+
+  if (nome === "despublicar_post") {
+    if (!tem(acesso, "posts:publish")) {
+      return { texto: "Esta autorização não inclui publicar.", erro: true };
+    }
+    const id = String(args.id ?? "").trim();
+    if (!id) return { texto: "Informe o id do post.", erro: true };
+    const post = await unpublishPost(id);
+    if (!post) return { texto: "Post não encontrado.", erro: true };
+    return {
+      texto: `Fora do ar, virou rascunho.\nid: ${post.id}\nslug: ${post.slug}`,
+    };
+  }
+
   if (nome === "publicar_post") {
     if (!tem(acesso, "posts:publish")) {
       return { texto: "Esta autorização não inclui publicar.", erro: true };
@@ -177,7 +256,7 @@ export const FERRAMENTAS = [
   {
     name: "criar_rascunho",
     description:
-      "Cria um post como rascunho. Não publica. Se receber imagem, essa vira a imagem destacada.",
+      "Cria um post novo como rascunho. Para mudar um post que já existe, use editar_post.",
     inputSchema: {
       type: "object",
       properties: {
@@ -214,6 +293,42 @@ export const FERRAMENTAS = [
         },
       },
       required: ["id", "imagem"],
+    },
+  },
+  {
+    name: "editar_post",
+    description:
+      "Altera título, texto, resumo, categoria, tags ou capa de um post que já existe, publicado ou rascunho. Não muda o status nem o endereço.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        id: { type: "string" },
+        titulo: { type: "string" },
+        conteudo: {
+          type: "string",
+          description:
+            "HTML ou texto. Parágrafos separados por linha em branco.",
+        },
+        resumo: { type: "string" },
+        categoria: { type: "string", description: "Slug da categoria." },
+        tags: { type: "string", description: "Nomes separados por vírgula." },
+        imagem: {
+          type: "string",
+          description:
+            "URL https ou data URL base64 da imagem destacada. Até 8 MB.",
+        },
+      },
+      required: ["id"],
+    },
+  },
+  {
+    name: "despublicar_post",
+    description:
+      "Tira um post do ar e devolve para rascunho. O endereço público deixa de abrir. Exige permissão de publicar.",
+    inputSchema: {
+      type: "object",
+      properties: { id: { type: "string" } },
+      required: ["id"],
     },
   },
   {
