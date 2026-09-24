@@ -1,5 +1,6 @@
 import { sanitizeContent } from "@/core/content/sanitize.ts";
 import { aplicarTags } from "@/core/admin/salvarPost.ts";
+import { ErroDeCapa, subirCapa } from "@/core/mcp/capa.ts";
 import {
   getCategoryBySlug,
   getCategoryWithRoot,
@@ -11,6 +12,7 @@ import {
   generateUniqueSlug,
   listPostsResumo,
   publishPost,
+  updatePost,
 } from "@/domain/posts.ts";
 import { SITE } from "@/components/Layout.tsx";
 
@@ -33,6 +35,15 @@ function texto(htmlOuTexto: string): string {
 
 function tem(acesso: Acesso, escopo: string): boolean {
   return acesso.scopes.includes(escopo);
+}
+
+async function capaDe(origem: string) {
+  try {
+    return await subirCapa(origem);
+  } catch (e) {
+    if (e instanceof ErroDeCapa) return e;
+    throw e;
+  }
 }
 
 export async function executarFerramenta(
@@ -81,6 +92,9 @@ export async function executarFerramenta(
     if (slugCategoria && !categoria) {
       return { texto: `Categoria "${slugCategoria}" não existe.`, erro: true };
     }
+    const imagem = String(args.imagem ?? "").trim();
+    const capa = imagem ? await capaDe(imagem) : null;
+    if (capa instanceof ErroDeCapa) return { texto: capa.message, erro: true };
     const post = await createPost({
       title,
       slug: await generateUniqueSlug(title),
@@ -88,15 +102,43 @@ export async function executarFerramenta(
       content,
       authorId: acesso.userId,
       categoryId: categoria?.id ?? null,
+      ...(capa
+        ? {
+          coverImageUrl: capa.url,
+          coverImageWidth: capa.width,
+          coverImageHeight: capa.height,
+        }
+        : {}),
     });
     const tags = String(args.tags ?? "").split(",").map((t) => t.trim()).filter(
       Boolean,
     );
     if (tags.length) await aplicarTags(post.id, tags);
     return {
-      texto:
-        `Rascunho criado.\nid: ${post.id}\nslug: ${post.slug}\nAinda não está no ar.`,
+      texto: capa
+        ? `Rascunho criado, com imagem destacada.\nid: ${post.id}\nslug: ${post.slug}\nAinda não está no ar.`
+        : `Rascunho criado.\nid: ${post.id}\nslug: ${post.slug}\nAinda não está no ar.`,
     };
+  }
+
+  if (nome === "definir_capa") {
+    if (!tem(acesso, "posts:write")) {
+      return { texto: "Sem permissão para alterar posts.", erro: true };
+    }
+    const id = String(args.id ?? "").trim();
+    const imagem = String(args.imagem ?? "").trim();
+    if (!id || !imagem) {
+      return { texto: "Informe o id do post e a imagem.", erro: true };
+    }
+    const capa = await capaDe(imagem);
+    if (capa instanceof ErroDeCapa) return { texto: capa.message, erro: true };
+    const post = await updatePost(id, {
+      coverImageUrl: capa.url,
+      coverImageWidth: capa.width,
+      coverImageHeight: capa.height,
+    });
+    if (!post) return { texto: "Post não encontrado.", erro: true };
+    return { texto: `Imagem destacada definida em ${post.slug}.` };
   }
 
   if (nome === "publicar_post") {
@@ -134,7 +176,8 @@ export const FERRAMENTAS = [
   },
   {
     name: "criar_rascunho",
-    description: "Cria um post como rascunho. Não publica.",
+    description:
+      "Cria um post como rascunho. Não publica. Se receber imagem, essa vira a imagem destacada.",
     inputSchema: {
       type: "object",
       properties: {
@@ -147,8 +190,29 @@ export const FERRAMENTAS = [
         resumo: { type: "string" },
         categoria: { type: "string", description: "Slug da categoria." },
         tags: { type: "string", description: "Nomes separados por vírgula." },
+        imagem: {
+          type: "string",
+          description:
+            "URL https da imagem destacada, JPEG, PNG ou WebP. Também aceita data URL base64 desses formatos.",
+        },
       },
       required: ["titulo", "conteudo"],
+    },
+  },
+  {
+    name: "definir_capa",
+    description:
+      "Define ou troca a imagem destacada de um post já criado, pelo id.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        id: { type: "string" },
+        imagem: {
+          type: "string",
+          description: "URL https ou data URL da imagem destacada.",
+        },
+      },
+      required: ["id", "imagem"],
     },
   },
   {
