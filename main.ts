@@ -75,6 +75,10 @@ app.use(csp({
        dele valem. O `'self'` e o host do Google ficam como reserva para
        navegador antigo, que ignora `strict-dynamic`. */
     "script-src 'self' 'unsafe-inline' 'strict-dynamic' https://www.googletagmanager.com",
+    /* O Chrome compara o POST de /oauth/authorize com 'self' e recusa o
+       mesmo host. O endereço explícito libera o envio. A volta ao chat
+       não entra aqui: ela não é redirect de formulário. */
+    "form-action 'self' https://rockfy.com",
     /* Os beacons saem por fetch/beacon para estes domínios. Com o
        `connect-src 'self'` de antes, a tag carregava e a medição sumia —
        falha silenciosa, do tipo que só aparece semanas depois num relatório

@@ -81,19 +81,37 @@ async function validar(
   };
 }
 
-function voltarComErro(
+function destinoDoChat(
   redirectUri: string,
-  state: string,
-  erro: string,
-  iss: string,
-) {
+  params: Record<string, string>,
+): string {
   const destino = new URL(redirectUri);
-  destino.searchParams.set("error", erro);
-  destino.searchParams.set("state", state);
-  destino.searchParams.set("iss", iss);
-  return new Response(null, {
-    status: 302,
-    headers: { location: destino.toString() },
+  for (const [chave, valor] of Object.entries(params)) {
+    destino.searchParams.set(chave, valor);
+  }
+  return destino.toString();
+}
+
+/* O Chrome trata o 302 que segue um POST como continuação do formulário.
+   `form-action 'self'` então barra a volta para o chat, e o clique parece
+   não fazer nada. Uma página que navega sozinha não é submissão. */
+function paginaDeVolta(destino: string): Response {
+  const seguro = destino.replaceAll("&", "&amp;").replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;");
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0;url=${seguro}">
+  <title>Voltando ao aplicativo</title>
+</head>
+<body>
+  <p><a href="${seguro}">Continuar</a></p>
+</body>
+</html>`;
+  return new Response(html, {
+    headers: { "content-type": "text/html; charset=utf-8" },
   });
 }
 
@@ -145,12 +163,11 @@ export const handler = define.handlers({
     const { pedido } = checagem;
     const iss = origem(ctx.req);
     if (form.get("decisao") !== "autorizar") {
-      return voltarComErro(
-        pedido.redirectUri,
-        pedido.state,
-        "access_denied",
+      return paginaDeVolta(destinoDoChat(pedido.redirectUri, {
+        error: "access_denied",
+        state: pedido.state,
         iss,
-      );
+      }));
     }
     const scopes = pedido.scopes.filter((escopo) =>
       escopo === "posts:write" || form.get("publicar") === "1"
@@ -162,16 +179,28 @@ export const handler = define.handlers({
       codeChallenge: pedido.challenge,
       scopes,
     });
-    const destino = new URL(pedido.redirectUri);
-    destino.searchParams.set("code", code);
-    destino.searchParams.set("state", pedido.state);
-    destino.searchParams.set("iss", iss);
-    return new Response(null, {
-      status: 302,
-      headers: { location: destino.toString() },
-    });
+    return paginaDeVolta(destinoDoChat(pedido.redirectUri, {
+      code,
+      state: pedido.state,
+      iss,
+    }));
   },
 });
+
+/* O endereço inteiro no HTML faz a Cloudflare injetar um script de
+   ofuscação, e a CSP bloqueia esse script. Partido, o texto continua
+   legível e não vira script. */
+function Email({ endereco }: { endereco: string }) {
+  const arroba = endereco.indexOf("@");
+  if (arroba < 0) return <span>{endereco}</span>;
+  return (
+    <span>
+      {endereco.slice(0, arroba)}
+      <span>@</span>
+      {endereco.slice(arroba + 1)}
+    </span>
+  );
+}
 
 export default define.page<typeof handler>(function Autorizar({ data }) {
   const { pedido, usuario } = data;
@@ -181,8 +210,8 @@ export default define.page<typeof handler>(function Autorizar({ data }) {
       <h1>Autorizar {pedido.nome}</h1>
       <p>
         {pedido.nome}{" "}
-        quer usar a sua conta ({usuario.email}) para cuidar dos posts do blog. O
-        acesso vale até você revogar em Acessos.
+        quer usar a sua conta (<Email endereco={usuario.email} />) para cuidar
+        dos posts do blog. O acesso vale até você revogar em Acessos.
       </p>
       <form method="post" action="/oauth/authorize">
         <input type="hidden" name="client_id" value={pedido.clientId} />
