@@ -193,7 +193,7 @@ export const FERRAMENTAS = [
         imagem: {
           type: "string",
           description:
-            "URL https da imagem destacada, JPEG, PNG ou WebP. Também aceita data URL base64 desses formatos.",
+            "URL https ou data URL base64 (PNG, JPEG ou WebP) da imagem destacada. O arquivo pode ter até 8 MB.",
         },
       },
       required: ["titulo", "conteudo"],
@@ -209,7 +209,8 @@ export const FERRAMENTAS = [
         id: { type: "string" },
         imagem: {
           type: "string",
-          description: "URL https ou data URL da imagem destacada.",
+          description:
+            "URL https ou data URL base64 da imagem destacada. Até 8 MB.",
         },
       },
       required: ["id", "imagem"],

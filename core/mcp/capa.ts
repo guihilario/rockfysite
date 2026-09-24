@@ -5,6 +5,7 @@ import {
 } from "@/core/upload/image.ts";
 import { getPublicUrl, putObject } from "@/core/upload/r2.ts";
 import {
+  bytesDaDataUrl,
   ErroDeCapa,
   ipPrivado,
   origemDeImagem,
@@ -29,22 +30,6 @@ async function hostResolveParaRedeInterna(host: string): Promise<boolean> {
   }
   if (achados.length === 0) return true;
   return achados.some(ipPrivado);
-}
-
-function bytesDaDataUrl(valor: string): Uint8Array {
-  const base64 = valor.slice(valor.indexOf(",") + 1);
-  let binario: string;
-  try {
-    binario = atob(base64);
-  } catch {
-    throw new ErroDeCapa("A imagem destacada está ilegível.");
-  }
-  if (binario.length > MAX_BYTES) {
-    throw new ErroDeCapa("A imagem destacada passa de 8 MB.");
-  }
-  const bytes = new Uint8Array(binario.length);
-  for (let i = 0; i < binario.length; i++) bytes[i] = binario.charCodeAt(i);
-  return bytes;
 }
 
 async function lerCorpo(resposta: Response): Promise<Uint8Array> {

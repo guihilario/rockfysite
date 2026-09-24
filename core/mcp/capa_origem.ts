@@ -30,10 +30,14 @@ function hostBloqueado(host: string): boolean {
   return false;
 }
 
+const MAX_BYTES = 8 * 1024 * 1024;
+
 /** https público, ou data URL de PNG, JPEG ou WebP. */
 export function origemDeImagem(valor: string): URL | "data" {
   const texto = valor.trim();
-  if (/^data:image\/(png|jpeg|webp);base64,/i.test(texto)) return "data";
+  if (/^data:image\/(png|jpe?g|webp)(?:;[^,]*)?;base64,/i.test(texto)) {
+    return "data";
+  }
   let url: URL;
   try {
     url = new URL(texto);
@@ -47,4 +51,21 @@ export function origemDeImagem(valor: string): URL | "data" {
     throw new ErroDeCapa("Esse endereço de imagem não pode ser usado.");
   }
   return url;
+}
+
+/** O arquivo decodificado, não o texto da data URL. O teto é 8 MB. */
+export function bytesDaDataUrl(valor: string): Uint8Array {
+  const base64 = valor.slice(valor.indexOf(",") + 1).replace(/\s/g, "");
+  let binario: string;
+  try {
+    binario = atob(base64);
+  } catch {
+    throw new ErroDeCapa("A imagem destacada está ilegível.");
+  }
+  if (binario.length > MAX_BYTES) {
+    throw new ErroDeCapa("A imagem destacada passa de 8 MB.");
+  }
+  const bytes = new Uint8Array(binario.length);
+  for (let i = 0; i < binario.length; i++) bytes[i] = binario.charCodeAt(i);
+  return bytes;
 }
