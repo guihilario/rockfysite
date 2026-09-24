@@ -54,6 +54,18 @@ export async function listAllCategories(
   return result.rows.map(fromRow);
 }
 
+export async function getCategoryBySlug(
+  slug: string,
+  client: Queryable = db,
+): Promise<Category | null> {
+  const result = await client.queryObject<CategoryRow>({
+    text:
+      `SELECT id, name, slug, parent_id FROM categories WHERE slug = $1 LIMIT 1`,
+    args: [slug],
+  });
+  return result.rows[0] ? fromRow(result.rows[0]) : null;
+}
+
 export async function getCategoryById(
   id: string,
   client: Queryable = db,

@@ -10,6 +10,8 @@ import {
   SESSION_TTL_MS,
 } from "@/core/auth/session.ts";
 import { cookieDeSessao } from "@/core/auth/cookie.ts";
+import { COOKIE_VOLTAR, cookieVoltarLimpo } from "@/core/oauth/http.ts";
+import { voltaDoLogin } from "@/core/oauth/redirect.ts";
 
 const LIMPA_STATE =
   "oauth_state=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0";
@@ -63,8 +65,10 @@ export const handler = define.handlers({
       expiresAt: new Date(Date.now() + SESSION_TTL_MS),
     });
 
-    const headers = new Headers({ location: "/mydash" });
+    const volta = voltaDoLogin(cookieBruto(ctx.req, COOKIE_VOLTAR));
+    const headers = new Headers({ location: volta ?? "/mydash" });
     headers.append("set-cookie", LIMPA_STATE);
+    headers.append("set-cookie", cookieVoltarLimpo());
     headers.append("set-cookie", cookieDeSessao(token));
     return new Response(null, { status: 302, headers });
   },

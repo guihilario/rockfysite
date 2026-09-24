@@ -1,6 +1,8 @@
 import { App, csp, staticFiles } from "fresh";
 import { compressao, seguranca } from "@/core/http/seguranca.ts";
 import { legado } from "@/core/http/legado.ts";
+import { ESCOPOS } from "@/domain/oauth.ts";
+import { json, origem, urlDoMcp } from "@/core/oauth/http.ts";
 
 export const app = new App();
 
@@ -10,6 +12,39 @@ app.use(compressao());
 /* Antes da CSP e dos arquivos estáticos: um 301 não tem corpo, e não há
    motivo para montar política nem procurar arquivo para uma resposta vazia. */
 app.use(legado());
+
+/* O chat descobre a autorização por esses endereços fixos, antes de qualquer
+   página. Fica no middleware porque a pasta `.well-known` não vira rota. */
+app.use((ctx) => {
+  const path = new URL(ctx.req.url).pathname;
+  const base = origem(ctx.req);
+  if (path === "/.well-known/oauth-authorization-server") {
+    return json({
+      issuer: base,
+      authorization_endpoint: `${base}/oauth/authorize`,
+      token_endpoint: `${base}/oauth/token`,
+      registration_endpoint: `${base}/oauth/register`,
+      response_types_supported: ["code"],
+      grant_types_supported: ["authorization_code", "refresh_token"],
+      code_challenge_methods_supported: ["S256"],
+      token_endpoint_auth_methods_supported: ["none"],
+      scopes_supported: [...ESCOPOS],
+      authorization_response_iss_parameter_supported: true,
+    });
+  }
+  if (
+    path === "/.well-known/oauth-protected-resource" ||
+    path === "/.well-known/oauth-protected-resource/mcp"
+  ) {
+    return json({
+      resource: urlDoMcp(ctx.req),
+      authorization_servers: [base],
+      scopes_supported: [...ESCOPOS],
+      bearer_methods_supported: ["header"],
+    });
+  }
+  return ctx.next();
+});
 
 /* `useNonce` troca o `'unsafe-inline'` do padrão pelo nonce que o Fresh já
    coloca em cada <script> — inclusive nos blocos de JSON-LD. O único desvio

@@ -562,6 +562,44 @@ export async function unpublishPost(
   return result.rows[0] ? fromRow(result.rows[0]) : null;
 }
 
+export type PostResumo = {
+  id: string;
+  title: string;
+  slug: string;
+  status: PostStatus;
+  categorySlug: string | null;
+};
+
+/** Os posts mais recentes, sem o corpo — para o agente escolher o que publicar. */
+export async function listPostsResumo(
+  { limit = 20 }: { limit?: number } = {},
+  client: Queryable = db,
+): Promise<PostResumo[]> {
+  const result = await client.queryObject<{
+    id: string;
+    title: string;
+    slug: string;
+    status: PostStatus;
+    category_slug: string | null;
+  }>({
+    text: `
+      SELECT posts.id, posts.title, posts.slug, posts.status, cat.slug AS category_slug
+      FROM posts
+      LEFT JOIN categories cat ON cat.id = posts.category_id
+      ORDER BY posts.updated_at DESC
+      LIMIT $1
+    `,
+    args: [Math.min(Math.max(limit, 1), 50)],
+  });
+  return result.rows.map((row) => ({
+    id: row.id,
+    title: row.title,
+    slug: row.slug,
+    status: row.status,
+    categorySlug: row.category_slug,
+  }));
+}
+
 /** Exclusão exige chamada explícita — nunca acionável via GET (SPEC §46). */
 export async function deletePost(
   id: string,
