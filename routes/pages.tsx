@@ -3,6 +3,7 @@ import { Blocos, HeroPagina } from "@/components/institucional/HeroPagina.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
+import { currentSalesPrices, pricedPlans } from "@/core/sales/prices.ts";
 import { Clients } from "@/components/sections/Clients.tsx";
 import { plans } from "@/data/plans.ts";
 import { planosSchema } from "@/core/seo/meta.ts";
@@ -11,7 +12,11 @@ const DESCRICAO =
   "Publique sites HTML e JavaScript criados com IA, conecte seu domínio e conte com infraestrutura e suporte da Rockfy.";
 
 export default async function PaginaPages() {
-  const posts = await carregarFaixaPosts();
+  const [posts, prices] = await Promise.all([
+    carregarFaixaPosts(),
+    currentSalesPrices(),
+  ]);
+  const currentPlans = pricedPlans(plans, prices);
   return (
     <Layout
       rota="/pages"
@@ -22,7 +27,7 @@ export default async function PaginaPages() {
         nome: "Rockfy Pages",
         descricao: DESCRICAO,
         url: "/pages",
-        planos: plans,
+        planos: currentPlans,
       })].filter(Boolean)}
     >
       <HeroPagina
@@ -66,7 +71,7 @@ export default async function PaginaPages() {
       </section>
 
       <Clients />
-      <Planos rota="/pages" eyebrow="Planos com Pages" />
+      <Planos planos={currentPlans} rota="/pages" eyebrow="Planos com Pages" />
       <Posts posts={posts} />
     </Layout>
   );

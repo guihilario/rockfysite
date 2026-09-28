@@ -12,12 +12,17 @@ import { Parceiros } from "@/components/sections/Parceiros.tsx";
 import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
+import { currentSalesPrices, pricedPlans } from "@/core/sales/prices.ts";
 import { faqDeploy } from "@/data/faqDeploy.ts";
 
 /** A página de Deploy. É a única em que "como funciona" (colagem + os três
  *  passos) sobe para segunda seção, logo depois da hero. */
 export default async function Deploy() {
-  const posts = await carregarFaixaPosts();
+  const [posts, prices] = await Promise.all([
+    carregarFaixaPosts(),
+    currentSalesPrices(),
+  ]);
+  const currentPlans = pricedPlans(plans, prices);
   return (
     <Layout
       rota="/deploy"
@@ -29,7 +34,7 @@ export default async function Deploy() {
           descricao:
             "Publique a aplicação que você criou na IA com um link pronto para usar, sem lidar com servidor. Deploy gerenciado, preço",
           url: "/deploy",
-          planos: plans,
+          planos: currentPlans,
         }),
       ].filter(Boolean)}
       fluido
@@ -63,7 +68,7 @@ export default async function Deploy() {
       <AreaCliente />
       <Clients />
       <Planos
-        planos={plans}
+        planos={currentPlans}
         rota="/deploy"
         eyebrow="Planos de Deploy"
         titulo={

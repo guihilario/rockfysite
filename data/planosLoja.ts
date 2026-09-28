@@ -12,7 +12,7 @@ import type { Plan } from "@/data/plans.ts";
  */
 export const planosLoja: Plan[] = [
   {
-    tag: "7 dias grátis, sem cartão",
+    tag: "Cobrança mensal",
     name: "Bora",
     price: "R$47,90",
     priceCents: 4790,
@@ -30,7 +30,7 @@ export const planosLoja: Plan[] = [
     cta: "Escolher Bora",
   },
   {
-    tag: "7 dias grátis, sem cartão",
+    tag: "Cobrança mensal",
     name: "Top",
     price: "R$87,90",
     priceCents: 8790,
@@ -45,7 +45,7 @@ export const planosLoja: Plan[] = [
     cta: "Começar agora",
   },
   {
-    tag: "7 dias grátis, sem cartão",
+    tag: "Plano sob consulta",
     name: "Especial",
     price: "Sob consulta",
     period: null,

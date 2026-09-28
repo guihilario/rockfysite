@@ -17,7 +17,7 @@ import type { FaqItem } from "@/data/faq.ts";
 export const faqLoja: FaqItem[] = [
   {
     q: "Quanto custa?",
-    a: "A partir de R$47,90 por mês, com 7 dias grátis e sem cartão para testar. Não há taxa por pedido: o PIX do seu cliente cai direto na sua conta, sem intermediário.",
+    a: "Os planos Bora e Top são cobrados na contratação e renovados mensalmente, sem fidelidade. Não há taxa por pedido: o PIX do seu cliente cai direto na sua conta, sem intermediário.",
   },
   {
     q: "Preciso de CNPJ para começar?",

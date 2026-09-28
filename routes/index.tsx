@@ -11,6 +11,8 @@ import { Faq } from "@/components/sections/Faq.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 import { HeroFoto } from "@/components/heroes/HeroFoto.tsx";
+import { plans } from "@/data/plans.ts";
+import { currentSalesPrices, pricedPlans } from "@/core/sales/prices.ts";
 
 /**
  * A home. Abre com a faixa de foto e apresenta cada produto numa vitrine
@@ -23,7 +25,11 @@ import { HeroFoto } from "@/components/heroes/HeroFoto.tsx";
  * A navegação usa o mesmo mega menu das páginas internas.
  */
 export default async function Home() {
-  const posts = await carregarFaixaPosts();
+  const [posts, prices] = await Promise.all([
+    carregarFaixaPosts(),
+    currentSalesPrices(),
+  ]);
+  const currentPlans = pricedPlans(plans, prices);
   return (
     <Layout
       rota="/"
@@ -65,7 +71,7 @@ export default async function Home() {
       />
       <AreaCliente />
       <Clients />
-      <Planos />
+      <Planos planos={currentPlans} />
       <Parceiros />
       <Faq />
       <Posts posts={posts} />

@@ -12,6 +12,7 @@ import {
   formatarTelefone,
   telefoneValido,
 } from "@/core/formata.ts";
+import { areaCheckoutUrl } from "@/core/sales/area.ts";
 
 const ESTADOS = [
   "AC",
@@ -77,6 +78,16 @@ export const handler = define.handlers({
         },
       });
     }
+    const areaUrl = areaCheckoutUrl(
+      ctx.params.slug,
+      u.searchParams.get("origem") ?? "/planos",
+    );
+    if (areaUrl) {
+      return new Response(null, {
+        status: 302,
+        headers: { location: areaUrl },
+      });
+    }
     return {
       data: {
         plano,
@@ -90,6 +101,13 @@ export const handler = define.handlers({
     const plano = planoPorSlug(ctx.params.slug);
     if (!plano || !plano.priceCents) {
       return new Response(null, { status: 404 });
+    }
+    const areaUrl = areaCheckoutUrl(ctx.params.slug, "/checkout");
+    if (areaUrl) {
+      return new Response(null, {
+        status: 303,
+        headers: { location: areaUrl },
+      });
     }
     const form = await ctx.req.formData();
 

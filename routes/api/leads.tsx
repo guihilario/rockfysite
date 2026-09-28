@@ -5,6 +5,7 @@ import {
   registrarEnvio,
 } from "@/domain/leads.ts";
 import { formatarTelefone, telefoneValido } from "@/core/formata.ts";
+import { areaSalesConfig, forwardLeadToArea } from "@/core/sales/area.ts";
 
 /**
  * Cria um lead a partir da primeira etapa do checkout.
@@ -47,18 +48,36 @@ export const handler = define.handlers({
       );
     }
 
-    const lead = await criarLead({
-      name,
-      email,
-      phone: formatarTelefone(phone),
-      plan,
-      source,
-    });
-    const status = await avisarSistemaExterno(lead);
-    if (status !== "ok") {
-      console.warn(`[checkout] webhook: ${status} (lead ${lead.id})`);
+    let sentToArea = false;
+    if (areaSalesConfig()) {
+      try {
+        sentToArea = await forwardLeadToArea({
+          name,
+          email,
+          phone,
+          plan,
+          source,
+        });
+      } catch {
+        // Preserve the lead locally for a later retry.
+      }
     }
-    await registrarEnvio(lead.id, status);
+    if (!sentToArea) {
+      const lead = await criarLead({
+        name,
+        email,
+        phone: formatarTelefone(phone),
+        plan,
+        source,
+      });
+      const status = areaSalesConfig()
+        ? "area-pending"
+        : await avisarSistemaExterno(lead);
+      if (status !== "ok" && status !== "area-pending") {
+        console.warn(`[checkout] webhook: ${status} (lead ${lead.id})`);
+      }
+      await registrarEnvio(lead.id, status);
+    }
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,

@@ -7,9 +7,10 @@ import { plans } from "@/data/plans.ts";
 import { planosSchema } from "@/core/seo/meta.ts";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
 import { site } from "@/data/site.ts";
+import { currentSalesPrices, pricedPlans } from "@/core/sales/prices.ts";
 
 const DESCRICAO =
-  "Planos de hospedagem Rockfy a partir de R$37 por mês: conta cPanel isolada, servidor otimizado, SSL, backup diário e migração grátis. Sem fidelidade.";
+  "Planos mensais de hospedagem Rockfy: conta cPanel isolada, servidor otimizado, SSL, backup diário e migração grátis. Sem fidelidade.";
 
 /**
  * A página dona do preço.
@@ -25,11 +26,15 @@ const DESCRICAO =
  * continua como componente de conversão, sem marcação.
  */
 export default async function PaginaPlanos() {
-  const posts = await carregarFaixaPosts();
+  const [posts, prices] = await Promise.all([
+    carregarFaixaPosts(),
+    currentSalesPrices(),
+  ]);
+  const currentPlans = pricedPlans(plans, prices);
   return (
     <Layout
       rota="/planos"
-      titulo="Planos de hospedagem a partir de R$37/mês | Rockfy"
+      titulo="Planos de hospedagem mensal | Rockfy"
       descricao={DESCRICAO}
       fluido
       jsonLd={[
@@ -37,7 +42,7 @@ export default async function PaginaPlanos() {
           nome: "Hospedagem Rockfy",
           descricao: DESCRICAO,
           url: "/planos",
-          planos: plans,
+          planos: currentPlans,
         }),
       ].filter(Boolean)}
     >
@@ -58,7 +63,7 @@ export default async function PaginaPlanos() {
         }
       />
 
-      <Planos />
+      <Planos planos={currentPlans} />
 
       <section class="section dotted" aria-labelledby="incluso">
         <div class="conteudo">
