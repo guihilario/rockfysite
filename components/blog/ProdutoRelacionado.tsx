@@ -44,7 +44,7 @@ const POR_CATEGORIA: Record<string, Alvo> = {
   cpanel: {
     href: "/planos",
     chamada:
-      "Conta cPanel isolada, SSL, backup diário e migração feita pelo nosso time. A partir de R$37 por mês, sem fidelidade.",
+      "Conta cPanel isolada, SSL, backup diário e migração feita pelo nosso time. Planos mensais sem fidelidade.",
   },
   dominios: {
     href: "/planos",

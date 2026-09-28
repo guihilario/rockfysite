@@ -3,16 +3,20 @@ import { Blocos, HeroPagina } from "@/components/institucional/HeroPagina.tsx";
 import { Planos } from "@/components/sections/Planos.tsx";
 import { Posts } from "@/components/sections/Posts.tsx";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
+import { currentSalesPrices, pricedPlans } from "@/core/sales/prices.ts";
 import { Clients } from "@/components/sections/Clients.tsx";
 import { plans } from "@/data/plans.ts";
 import { planosSchema } from "@/core/seo/meta.ts";
 
 const DESCRICAO =
   "Rode suas aplicações em um container isolado, hospedado em cloud no Brasil e com o suporte da Rockfy.";
-const PLANO_SCALE = plans.filter((plano) => plano.name === "Scale");
 
 export default async function MyDocker() {
-  const posts = await carregarFaixaPosts();
+  const [posts, prices] = await Promise.all([
+    carregarFaixaPosts(),
+    currentSalesPrices(),
+  ]);
+  const currentPlans = pricedPlans(plans, prices);
   return (
     <Layout
       rota="/my-docker"
@@ -23,7 +27,7 @@ export default async function MyDocker() {
         nome: "Rockfy myDocker",
         descricao: DESCRICAO,
         url: "/my-docker",
-        planos: PLANO_SCALE,
+        planos: currentPlans.filter((plano) => plano.name === "Scale"),
       })].filter(Boolean)}
     >
       <HeroPagina
@@ -67,7 +71,11 @@ export default async function MyDocker() {
       </section>
 
       <Clients />
-      <Planos rota="/my-docker" eyebrow="myDocker no plano Scale" />
+      <Planos
+        planos={currentPlans}
+        rota="/my-docker"
+        eyebrow="myDocker no plano Scale"
+      />
       <Posts posts={posts} />
     </Layout>
   );

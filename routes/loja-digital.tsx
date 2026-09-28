@@ -17,6 +17,7 @@ import { planosLoja } from "@/data/planosLoja.ts";
 import { planosSchema } from "@/core/seo/meta.ts";
 import { faqLoja } from "@/data/faqLoja.ts";
 import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
+import { currentSalesPrices, pricedPlans } from "@/core/sales/prices.ts";
 
 /**
  * A loja digital não usa o `PaginaServico`.
@@ -28,12 +29,16 @@ import { carregarFaixaPosts } from "@/core/conteudo/faixaPosts.ts";
  * depoimentos continuam sendo os nossos.
  */
 export default async function LojaDigital() {
-  const posts = await carregarFaixaPosts();
+  const [posts, prices] = await Promise.all([
+    carregarFaixaPosts(),
+    currentSalesPrices(),
+  ]);
+  const currentPlans = pricedPlans(planosLoja, prices);
   return (
     <Layout
       rota="/loja-digital"
       titulo="Loja digital pronta pra vender | Rockfy"
-      descricao="Sua loja digital pronta pra vender: catálogo no celular, pedido montado no WhatsApp e PIX sem taxa direto na sua conta. Teste 7 dias grátis."
+      descricao="Sua loja digital pronta pra vender: catálogo no celular, pedido montado no WhatsApp e PIX sem taxa direto na sua conta. Planos mensais sem fidelidade."
       fluido
       /* A marcação de preço fica aqui porque esta é a única página que
          mostra estes planos — ao contrário dos de hospedagem, que apareciam
@@ -42,9 +47,9 @@ export default async function LojaDigital() {
         planosSchema({
           nome: "Loja digital Rockfy",
           descricao:
-            "Loja digital com catálogo no celular, pedido no WhatsApp e PIX sem taxa por pedido. A partir de R$47,90 por mês, com 7 dias grátis.",
+            "Loja digital com catálogo no celular, pedido no WhatsApp e PIX sem taxa por pedido. Planos mensais sem fidelidade.",
           url: "/loja-digital",
-          planos: planosLoja,
+          planos: currentPlans,
         }),
       ].filter(Boolean)}
     >
@@ -55,7 +60,7 @@ export default async function LojaDigital() {
         <HeroCopy
           h1="Sua loja digital pronta pra vender em todo lugar"
           lede="Seus produtos em um só lugar pra seu cliente comprar pelo celular e no WhatsApp."
-          cta="Começar grátis"
+          cta="Conhecer os planos"
           rota="/loja-digital"
           destaques={[
             { titulo: "PIX sem taxa", linha2: "na sua conta" },
@@ -93,11 +98,11 @@ export default async function LojaDigital() {
 
       <Clients />
       <Planos
-        planos={planosLoja}
+        planos={currentPlans}
         eyebrow="Escolha o seu"
         titulo={
           <>
-            Comece com <b>7 dias grátis</b>
+            Escolha seu <b>plano mensal</b>
           </>
         }
       />

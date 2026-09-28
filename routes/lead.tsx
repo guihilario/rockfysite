@@ -5,6 +5,7 @@ import {
   registrarEnvio,
 } from "@/domain/leads.ts";
 import { linkWhatsApp } from "@/components/PopoverPlano.tsx";
+import { areaSalesConfig, forwardLeadToArea } from "@/core/sales/area.ts";
 
 /**
  * Recebe o formulário dos planos.
@@ -41,12 +42,30 @@ export const handler = define.handlers({
       });
     }
 
-    const lead = await criarLead({ name, email, phone, plan, source });
-    const status = await avisarSistemaExterno(lead);
-    if (status !== "ok") {
-      console.warn(`[lead] webhook: ${status} (lead ${lead.id})`);
+    let sentToArea = false;
+    if (areaSalesConfig()) {
+      try {
+        sentToArea = await forwardLeadToArea({
+          name,
+          email,
+          phone,
+          plan,
+          source,
+        });
+      } catch {
+        // Keep a recoverable local copy if the Area is temporarily unavailable.
+      }
     }
-    await registrarEnvio(lead.id, status);
+    if (!sentToArea) {
+      const lead = await criarLead({ name, email, phone, plan, source });
+      const status = areaSalesConfig()
+        ? "area-pending"
+        : await avisarSistemaExterno(lead);
+      if (status !== "ok" && status !== "area-pending") {
+        console.warn(`[lead] webhook: ${status} (lead ${lead.id})`);
+      }
+      await registrarEnvio(lead.id, status);
+    }
 
     /* Não redirecionamos daqui. `form-action` do CSP vale para cada passo
        da cadeia de redirects, e o wa.me responde 302 para o

@@ -10,6 +10,7 @@ import { faq } from "@/data/faq.ts";
 import { faqLoja } from "@/data/faqLoja.ts";
 import type { FaqItem } from "@/data/faq.ts";
 import type { Plan } from "@/data/plans.ts";
+import { currentSalesPrices, pricedPlans } from "@/core/sales/prices.ts";
 
 /**
  * `/llms.txt` — o resumo do site em Markdown, para quem lê por máquina.
@@ -64,7 +65,10 @@ function perguntas(itens: readonly FaqItem[]): string[] {
 
 export const handler = define.handlers({
   async GET() {
-    const posts = await listPublishedPostsForLlms();
+    const [posts, prices] = await Promise.all([
+      listPublishedPostsForLlms(),
+      currentSalesPrices(),
+    ]);
     const daSecao = (secao: string) => posts.filter((p) => p.section === secao);
 
     const produtos = menus
@@ -97,15 +101,15 @@ export const handler = define.handlers({
       bloco("Planos de hospedagem", [
         "Cobrança mensal, sem fidelidade. Todos os planos incluem conta cPanel isolada, SSL, backup diário e migração feita pela equipe, sem custo. O Elementor Pro oficial faz parte da oferta específica de Hospedagem de Site.",
         "",
-        ...plans.map(linhaDoPlano),
+        ...pricedPlans(plans, prices).map(linhaDoPlano),
         "",
         `Página: ${SITE}/planos`,
       ]),
 
       bloco("Planos da loja digital", [
-        "Cobrança separada da hospedagem, com 7 dias grátis e sem cartão. A régua é por catálogo e usuário, não por conta e domínio.",
+        "Cobrança na contratação e renovação mensal, separada da hospedagem. A régua é por catálogo e usuário, não por conta e domínio.",
         "",
-        ...planosLoja.map(linhaDoPlano),
+        ...pricedPlans(planosLoja, prices).map(linhaDoPlano),
         "",
         `Página: ${SITE}/loja-digital`,
       ]),
