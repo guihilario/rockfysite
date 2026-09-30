@@ -51,6 +51,18 @@ Deno.test({
             ),
           });
         }
+        if (path === "/api/sales/orders/pix") {
+          const { checkoutKey } = await request.json();
+          return Response.json({
+            pix: created.get(checkoutKey)?.status === "payment_pending"
+              ? {
+                encodedImage:
+                  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/lXcAAAAASUVORK5CYII=",
+                payload: "000201PIX-E2E",
+              }
+              : undefined,
+          });
+        }
         return new Response("Not Found", { status: 404 });
       },
     );
@@ -115,7 +127,12 @@ Deno.test({
       await page.locator('[name="payment"][value="pix"]').check();
       await page.locator('button[type="submit"]').click();
       await page.waitForURL(/\/pedido\/[0-9a-f-]+/, { timeout: 15000 });
-      assertEquals(await page.locator("text=Abrir pagamento").count(), 1);
+      assertEquals(
+        await page.locator('img[alt="QR Code PIX deste pedido"]')
+          .count(),
+        1,
+      );
+      assertEquals(await page.locator("text=Copiar código PIX").count(), 1);
       const id = new URL(page.url()).pathname.split("/").at(-1)!;
       assertEquals(created.size, 1);
       assertEquals(created.has(id), true);
@@ -129,6 +146,18 @@ Deno.test({
       });
       assertEquals(order.rows[0].status, "pending");
       assertEquals(Boolean(order.rows[0].area_order_id), true);
+      Object.assign(created.get(id)!, {
+        status: "active",
+        tenantSlug: "tiker",
+      });
+      await page.getByRole("link", { name: "Acessar minha Area" }).waitFor({
+        timeout: 20_000,
+      });
+      assertEquals(
+        await page.getByRole("link", { name: "Acessar minha Area" })
+          .getAttribute("href"),
+        `${areaBase}/tiker`,
+      );
     } finally {
       await browser?.close();
       site.kill("SIGTERM");
