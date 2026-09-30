@@ -5,6 +5,7 @@ import {
 import {
   listarPorContato as pedidosDoContato,
   type Pedido,
+  sincronizarPedidosArea,
 } from "@/domain/orders.ts";
 
 /**
@@ -36,10 +37,11 @@ export async function fichaCliente(
   email: string,
   telefone: string,
 ): Promise<FichaCliente> {
-  const [leads, pedidos] = await Promise.all([
+  const [leads, pedidosLocais] = await Promise.all([
     leadsDoContato({ email, telefone: digitosTelefone(telefone) }),
     pedidosDoContato({ email, telefone: digitosTelefone(telefone) }),
   ]);
+  const pedidos = await sincronizarPedidosArea(pedidosLocais);
 
   /* Os dados de exibição vêm do item mais recente — um mesmo e-mail pode
      digitar nome diferente em cada formulário, e o último vence. */

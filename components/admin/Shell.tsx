@@ -1,5 +1,4 @@
 import type { ComponentChildren } from "preact";
-import { areaSalesConfig } from "@/core/sales/area.ts";
 
 type Props = {
   titulo: string;
@@ -16,8 +15,6 @@ type Props = {
 export function Shell(
   { titulo, usuario, atual, scripts, head, children }: Props,
 ) {
-  const area = areaSalesConfig();
-  const salesUrl = area ? `${area.baseUrl}/admin/sales` : null;
   return (
     <html lang="pt-BR">
       <head>
@@ -46,19 +43,19 @@ export function Shell(
               Categorias
             </a>
             <a
-              href={salesUrl ?? "/mydash/crm"}
+              href="/mydash/crm"
               class={atual === "crm" ? "is-on" : undefined}
             >
               CRM
             </a>
             <a
-              href={salesUrl ?? "/mydash/leads"}
+              href="/mydash/leads"
               class={atual === "leads" ? "is-on" : undefined}
             >
               Contatos
             </a>
             <a
-              href={salesUrl ?? "/mydash/orders"}
+              href="/mydash/orders"
               class={atual === "pedidos" ? "is-on" : undefined}
             >
               Pedidos

@@ -246,103 +246,119 @@ function PedidosDo(
           <div class="crm-linha-titulo">
             <b>#{p.id.slice(0, 8)}</b>
             <span class="adm-meta">{quando(p.createdAt)}</span>
+            {p.areaHandoff && (
+              <a href={`/pedido/${p.id}`}>Ver cobrança e acesso</a>
+            )}
           </div>
-          <div class="crm-grid">
-            <label class="campo">
-              <span>Plano</span>
-              <input type="text" name="plan" value={p.plan} />
-            </label>
-            <label class="campo">
-              <span>Valor/mês (R$)</span>
-              <input
-                type="number"
-                name="priceReais"
-                min="0"
-                step="0.01"
-                value={(p.priceCents / 100).toFixed(2)}
-              />
-            </label>
-            <label class="campo">
-              <span>Pagamento</span>
-              <select name="paymentMethod">
-                {Object.entries(ROTULO_PAGAMENTO).map(([v, r]) => (
-                  <option value={v} selected={p.paymentMethod === v}>
-                    {r}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label class="campo">
-              <span>Status</span>
-              <select name="status">
-                {Object.entries(ROTULO_STATUS).map(([v, r]) => (
-                  <option value={v} selected={p.status === v}>{r}</option>
-                ))}
-              </select>
-            </label>
-            <label class="campo">
-              <span>Nome do cliente</span>
-              <input type="text" name="name" value={p.name} />
-            </label>
-            <label class="campo">
-              <span>E-mail</span>
-              <input type="text" name="email" value={p.email} />
-            </label>
-            <label class="campo">
-              <span>Telefone</span>
-              <input type="text" name="phone" value={p.phone} />
-            </label>
-            <label class="campo">
-              <span>CPF/CNPJ</span>
-              <input type="text" name="document" value={p.document} />
-            </label>
-            <label class="campo">
-              <span>Empresa</span>
-              <input type="text" name="company" value={p.company ?? ""} />
-            </label>
-            <label class="campo">
-              <span>CEP</span>
-              <input type="text" name="cep" value={p.cep} />
-            </label>
-            <label class="campo">
-              <span>Endereço</span>
-              <input type="text" name="address" value={p.address} />
-            </label>
-            <label class="campo">
-              <span>Número</span>
-              <input type="text" name="number" value={p.number} />
-            </label>
-            <label class="campo">
-              <span>Complemento</span>
-              <input type="text" name="complement" value={p.complement ?? ""} />
-            </label>
-            <label class="campo">
-              <span>Cidade</span>
-              <input type="text" name="city" value={p.city} />
-            </label>
-            <label class="campo">
-              <span>UF</span>
-              <input type="text" name="state" value={p.state} />
-            </label>
-            <label class="campo camp--g">
-              <span>Anotação</span>
-              <textarea name="observacao">{p.observacao}</textarea>
-            </label>
-          </div>
+          <fieldset
+            disabled={p.areaHandoff}
+            style="border:0;padding:0;margin:0"
+          >
+            <div class="crm-grid">
+              <label class="campo">
+                <span>Plano</span>
+                <input type="text" name="plan" value={p.plan} />
+              </label>
+              <label class="campo">
+                <span>Valor/mês (R$)</span>
+                <input
+                  type="number"
+                  name="priceReais"
+                  min="0"
+                  step="0.01"
+                  value={(p.priceCents / 100).toFixed(2)}
+                />
+              </label>
+              <label class="campo">
+                <span>Pagamento</span>
+                <select name="paymentMethod">
+                  {Object.entries(ROTULO_PAGAMENTO).map(([v, r]) => (
+                    <option value={v} selected={p.paymentMethod === v}>
+                      {r}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label class="campo">
+                <span>Status</span>
+                <select name="status">
+                  {Object.entries(ROTULO_STATUS).map(([v, r]) => (
+                    <option value={v} selected={p.status === v}>{r}</option>
+                  ))}
+                </select>
+              </label>
+              <label class="campo">
+                <span>Nome do cliente</span>
+                <input type="text" name="name" value={p.name} />
+              </label>
+              <label class="campo">
+                <span>E-mail</span>
+                <input type="text" name="email" value={p.email} />
+              </label>
+              <label class="campo">
+                <span>Telefone</span>
+                <input type="text" name="phone" value={p.phone} />
+              </label>
+              <label class="campo">
+                <span>CPF/CNPJ</span>
+                <input type="text" name="document" value={p.document} />
+              </label>
+              <label class="campo">
+                <span>Empresa</span>
+                <input type="text" name="company" value={p.company ?? ""} />
+              </label>
+              <label class="campo">
+                <span>CEP</span>
+                <input type="text" name="cep" value={p.cep} />
+              </label>
+              <label class="campo">
+                <span>Endereço</span>
+                <input type="text" name="address" value={p.address} />
+              </label>
+              <label class="campo">
+                <span>Número</span>
+                <input type="text" name="number" value={p.number} />
+              </label>
+              <label class="campo">
+                <span>Complemento</span>
+                <input
+                  type="text"
+                  name="complement"
+                  value={p.complement ?? ""}
+                />
+              </label>
+              <label class="campo">
+                <span>Cidade</span>
+                <input type="text" name="city" value={p.city} />
+              </label>
+              <label class="campo">
+                <span>UF</span>
+                <input type="text" name="state" value={p.state} />
+              </label>
+              <label class="campo camp--g">
+                <span>Anotação</span>
+                <textarea name="observacao">{p.observacao}</textarea>
+              </label>
+            </div>
+          </fieldset>
           <div class="form-acoes">
-            <button class="btn btn--sm" type="submit">Salvar pedido</button>
+            {!p.areaHandoff && (
+              <button class="btn btn--sm" type="submit">Salvar pedido</button>
+            )}
             <span class="adm-meta">
               {ROTULO_PAGAMENTO[p.paymentMethod] ?? p.paymentMethod} · {p.phone}
             </span>
-            <button
-              class="btn btn--perigo btn--sm espaco"
-              type="submit"
-              name="acao"
-              value="deletar"
-              data-confirmar="Apagar este pedido? Os números do funil somem com ele."
-            >
-              Apagar
-            </button>
+            {!p.areaHandoff && (
+              <button
+                class="btn btn--perigo btn--sm espaco"
+                type="submit"
+                name="acao"
+                value="deletar"
+                data-confirmar="Apagar este pedido? Os números do funil somem com ele."
+              >
+                Apagar
+              </button>
+            )}
           </div>
         </form>
       ))}

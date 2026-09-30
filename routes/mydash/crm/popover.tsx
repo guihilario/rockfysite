@@ -178,7 +178,11 @@ export default define.page<typeof handler>(function Popover({ data }) {
                     <em>{formatarPreco(p.priceCents)}</em>
                   </span>
                   <small>
-                    {ROTULO_STATUS[p.status] ?? p.status}
+                    {p.areaStatus === "awaiting_fulfillment"
+                      ? "Pago · ativação pendente"
+                      : p.areaStatus === "active"
+                      ? "Ativo"
+                      : ROTULO_STATUS[p.status] ?? p.status}
                     {ROTULO_PAGAMENTO[p.paymentMethod]
                       ? ` · ${ROTULO_PAGAMENTO[p.paymentMethod]}`
                       : ""}

@@ -2,7 +2,11 @@ import { define } from "@/utils.ts";
 import { Layout } from "@/components/Layout.tsx";
 import { planoPorSlug, slugPlano } from "@/data/plans.ts";
 import { site } from "@/data/site.ts";
-import { criarPedido, formatarPreco } from "@/domain/orders.ts";
+import {
+  aplicarPedidoArea,
+  criarPedido,
+  formatarPreco,
+} from "@/domain/orders.ts";
 import { enviarPedidoNovo } from "@/core/email/resend.ts";
 import {
   cepValido,
@@ -12,7 +16,11 @@ import {
   formatarTelefone,
   telefoneValido,
 } from "@/core/formata.ts";
-import { areaCheckoutUrl } from "@/core/sales/area.ts";
+import {
+  areaOfferPrice,
+  areaSalesConfig,
+  submitOrderToArea,
+} from "@/core/sales/area.ts";
 
 const ESTADOS = [
   "AC",
@@ -61,7 +69,7 @@ function limpar(v: FormDataEntryValue | null, max: number): string {
 }
 
 export const handler = define.handlers({
-  GET(ctx) {
+  async GET(ctx) {
     const u = new URL(ctx.req.url);
     const plano = planoPorSlug(ctx.params.slug);
     /* Sem plano (slug errado) ou sem preço fechado não há o que comprar —
@@ -78,19 +86,18 @@ export const handler = define.handlers({
         },
       });
     }
-    const areaUrl = areaCheckoutUrl(
-      ctx.params.slug,
-      u.searchParams.get("origem") ?? "/planos",
-    );
-    if (areaUrl) {
-      return new Response(null, {
-        status: 302,
-        headers: { location: areaUrl },
+    const areaPrice = areaSalesConfig()
+      ? await areaOfferPrice(ctx.params.slug).catch(() => null)
+      : null;
+    if (areaSalesConfig() && !areaPrice) {
+      return new Response("Esta oferta está temporariamente indisponível.", {
+        status: 503,
       });
     }
     return {
       data: {
-        plano,
+        plano: areaPrice ? { ...plano, priceCents: areaPrice } : plano,
+        checkoutKey: crypto.randomUUID(),
         origem: u.searchParams.get("origem") ?? "/planos",
         aviso: u.searchParams.get("aviso") ?? undefined,
       },
@@ -102,11 +109,12 @@ export const handler = define.handlers({
     if (!plano || !plano.priceCents) {
       return new Response(null, { status: 404 });
     }
-    const areaUrl = areaCheckoutUrl(ctx.params.slug, "/checkout");
-    if (areaUrl) {
-      return new Response(null, {
-        status: 303,
-        headers: { location: areaUrl },
+    const areaPrice = areaSalesConfig()
+      ? await areaOfferPrice(ctx.params.slug).catch(() => null)
+      : null;
+    if (areaSalesConfig() && !areaPrice) {
+      return new Response("Esta oferta está temporariamente indisponível.", {
+        status: 503,
       });
     }
     const form = await ctx.req.formData();
@@ -124,6 +132,7 @@ export const handler = define.handlers({
     const state = limpar(form.get("state"), 2).toUpperCase();
     const paymentMethod = limpar(form.get("payment"), 20);
     const source = limpar(form.get("source"), 200) || "/planos";
+    const checkoutKey = String(form.get("checkout_key") ?? "");
 
     /* Validação de verdade aqui: `required` e os tipos do HTML são dica de
        interface, quem posta direto no endpoint não passou por eles. A regra
@@ -131,7 +140,10 @@ export const handler = define.handlers({
     const errado = !name || !email.includes("@") || !telefoneValido(phone) ||
       !documentoValido(document) || !cepValido(cep) || !address || !number ||
       !city || !ESTADOS.includes(state);
-    if (errado || !(paymentMethod in ROTULO_PAGAMENTO)) {
+    if (
+      errado || !(paymentMethod in ROTULO_PAGAMENTO) ||
+      (areaSalesConfig() && !/^[0-9a-f-]{36}$/i.test(checkoutKey))
+    ) {
       const origem = source && source !== "/planos"
         ? `&origem=${encodeURIComponent(source)}`
         : "";
@@ -147,7 +159,7 @@ export const handler = define.handlers({
        dígitos puros normaliza com `somenteDigitos`. */
     const pedido = await criarPedido({
       plan: plano.name,
-      priceCents: plano.priceCents,
+      priceCents: areaPrice ?? plano.priceCents,
       name,
       email,
       phone: formatarTelefone(phone),
@@ -161,7 +173,22 @@ export const handler = define.handlers({
       state,
       paymentMethod,
       source,
+      areaHandoff: Boolean(areaSalesConfig()),
+      checkoutKey: areaSalesConfig() ? checkoutKey : undefined,
     });
+
+    if (pedido.areaHandoff) {
+      try {
+        const areaOrder = await submitOrderToArea(pedido);
+        await aplicarPedidoArea(pedido.id, areaOrder);
+      } catch {
+        // The Site order is durable. The customer can retry the same key.
+      }
+      return new Response(null, {
+        status: 303,
+        headers: { location: `/pedido/${pedido.id}` },
+      });
+    }
 
     const texto = [
       "Fiz meu pedido no site e quero confirmar o pagamento.",
@@ -354,7 +381,8 @@ export default define.page<typeof handler>(function Checkout({ data }) {
     );
   }
 
-  const { plano, origem, aviso } = data;
+  const { plano, origem, aviso, checkoutKey } = data;
+  const integrado = Boolean(areaSalesConfig());
 
   return (
     <Layout
@@ -366,6 +394,7 @@ export default define.page<typeof handler>(function Checkout({ data }) {
       <main class="ckout">
         <div class="ckout__painel">
           <form class="ckout__forma" method="POST" data-checkout>
+            <input type="hidden" name="checkout_key" value={checkoutKey} />
             <input type="hidden" name="source" value={origem} />
             <input type="hidden" name="plan" value={plano.name} />
 
@@ -534,7 +563,9 @@ export default define.page<typeof handler>(function Checkout({ data }) {
               numero={3}
               titulo="Como prefere pagar?"
               grade={false}
-              dica="Hoje a confirmação é manual: depois de escolher, você finaliza no WhatsApp e nosso time ativa seu plano."
+              dica={integrado
+                ? "Depois de confirmar, você recebe a cobrança para pagar com segurança."
+                : "Depois de escolher, você finaliza no WhatsApp e nosso time ativa seu plano."}
               rodape={<Controle modo="voltar" alvo={2} rotulo="Voltar" />}
             >
               <div class="ckout__pagamentos">
@@ -554,8 +585,9 @@ export default define.page<typeof handler>(function Checkout({ data }) {
                   <dd>Mensal, sem fidelidade</dd>
                 </dl>
                 <p class="ckout__nota">
-                  Sem cobrança automática por aqui por enquanto: o pagamento é
-                  combinado com nosso time no WhatsApp.
+                  {integrado
+                    ? "A primeira cobrança é gerada agora. As próximas faturas mensais ficam na sua Area. O acesso é liberado após a confirmação do pagamento."
+                    : "O pagamento é combinado com nosso time no WhatsApp."}
                 </p>
               </div>
 

@@ -1,9 +1,11 @@
 import { define } from "@/utils.ts";
 import {
   atualizarStatus,
+  buscarPedido,
   formatarPreco,
   listarPedidos,
   type PedidoStatus,
+  sincronizarPedidosArea,
 } from "@/domain/orders.ts";
 import { Shell } from "@/components/admin/Shell.tsx";
 
@@ -45,7 +47,9 @@ function quando(d: Date): string {
 export const handler = define.handlers({
   async GET(ctx) {
     const u = new URL(ctx.req.url);
-    const pedidos = await listarPedidos({ limite: 200 });
+    const pedidos = await sincronizarPedidosArea(
+      await listarPedidos({ limite: 200 }),
+    );
     return {
       data: {
         pedidos,
@@ -61,6 +65,11 @@ export const handler = define.handlers({
     const form = await ctx.req.formData();
     const id = String(form.get("id") ?? "");
     const acao = String(form.get("acao") ?? "");
+    if (id && (await buscarPedido(id))?.areaHandoff) {
+      return new Response("A cobrança deste pedido é gerenciada pela Area.", {
+        status: 409,
+      });
+    }
     if (id && acao in ROTULO_STATUS) {
       await atualizarStatus(id, acao as PedidoStatus);
     }
@@ -149,11 +158,20 @@ export default define.page<typeof handler>(function Pedidos({ data }) {
                         p.status === "cancelled" && "selo--cancelado",
                       ].filter(Boolean).join(" ")}
                     >
-                      {ROTULO_STATUS[p.status]}
+                      {p.areaHandoff && !p.areaStatus
+                        ? "Preparando cobrança"
+                        : p.areaStatus === "awaiting_fulfillment"
+                        ? "Pago · ativação pendente"
+                        : p.areaStatus === "active"
+                        ? "Ativo"
+                        : ROTULO_STATUS[p.status]}
                     </span>
                   </td>
                   <td class="acoes">
-                    {p.status !== "paid" && (
+                    {p.areaHandoff && (
+                      <a href={`/pedido/${p.id}`}>Ver cobrança</a>
+                    )}
+                    {!p.areaHandoff && p.status !== "paid" && (
                       <form
                         method="post"
                         data-confirmar="Marcar este pedido como pago?"
@@ -163,7 +181,7 @@ export default define.page<typeof handler>(function Pedidos({ data }) {
                         <button class="btn btn--sm" type="submit">Pago</button>
                       </form>
                     )}
-                    {p.status !== "pending" && (
+                    {!p.areaHandoff && p.status !== "pending" && (
                       <form method="post">
                         <input type="hidden" name="id" value={p.id} />
                         <input type="hidden" name="acao" value="pending" />
@@ -172,7 +190,7 @@ export default define.page<typeof handler>(function Pedidos({ data }) {
                         </button>
                       </form>
                     )}
-                    {p.status !== "cancelled" && (
+                    {!p.areaHandoff && p.status !== "cancelled" && (
                       <form
                         method="post"
                         data-confirmar="Cancelar este pedido?"

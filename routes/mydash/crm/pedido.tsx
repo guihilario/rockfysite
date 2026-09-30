@@ -1,6 +1,7 @@
 import { define } from "@/utils.ts";
 import {
   atualizarPedido,
+  buscarPedido,
   type PedidoStatus,
   removerPedido,
 } from "@/domain/orders.ts";
@@ -24,6 +25,11 @@ export const handler = define.handlers({
       return new Response(null, {
         status: 303,
         headers: { location: paraOnde(null, "invalido") },
+      });
+    }
+    if ((await buscarPedido(id))?.areaHandoff) {
+      return new Response("A cobrança deste pedido é gerenciada pela Area.", {
+        status: 409,
       });
     }
     const voltarIn = String(form.get("voltar") ?? "");

@@ -1,5 +1,16 @@
-/** The Site remains a marketing entry point. Once configured, the Area owns
- * new contacts and checkout orders. No gateway credentials live here. */
+/** The Site owns the sales experience; the Area owns billing and access. */
+import type { Pedido } from "@/domain/orders.ts";
+import { slugPlano } from "@/data/plans.ts";
+
+export interface AreaOrder {
+  id: string;
+  checkoutKey: string;
+  status: string;
+  amountCents: number;
+  paymentUrl?: string;
+  tenantSlug?: string;
+  fulfillmentUrl?: string;
+}
 export function areaSalesConfig(): { baseUrl: string; token: string } | null {
   const baseUrl = Deno.env.get("ROCKFY_AREA_SALES_URL")?.trim().replace(
     /\/$/,
@@ -17,39 +28,94 @@ export function areaSalesConfig(): { baseUrl: string; token: string } | null {
   return { baseUrl: url.toString().replace(/\/$/, ""), token };
 }
 
-export function areaCheckoutUrl(slug: string, source: string): string | null {
+export async function areaOfferPrice(slug: string): Promise<number | null> {
   const config = areaSalesConfig();
   if (!config) return null;
-  const url = new URL(`/contratar/${encodeURIComponent(slug)}`, config.baseUrl);
-  if (source) url.searchParams.set("origem", source.slice(0, 200));
-  return url.toString();
+  const response = await fetch(`${config.baseUrl}/api/sales/offers`, {
+    signal: AbortSignal.timeout(5000),
+  });
+  if (!response.ok) {
+    throw new Error(`Area offers endpoint returned ${response.status}`);
+  }
+  const offers: unknown = await response.json();
+  if (!Array.isArray(offers)) throw new Error("Area returned invalid offers");
+  const offer = offers.find((item) =>
+    item?.slug === slug && item?.status === "active"
+  );
+  if (
+    !offer || !Number.isSafeInteger(offer.amountCents) || offer.amountCents <= 0
+  ) {
+    throw new Error("Area offer is unavailable");
+  }
+  return offer.amountCents;
 }
 
-export async function forwardLeadToArea(input: {
-  name: string;
-  email: string;
-  phone: string;
-  plan?: string | null;
-  source?: string | null;
-}): Promise<boolean> {
+function billingMethod(method: string): "pix" | "bank_slip" | "card" {
+  if (method === "cartao") return "card";
+  if (method === "boleto") return "bank_slip";
+  return "pix";
+}
+
+export async function submitOrderToArea(order: Pedido): Promise<AreaOrder> {
   const config = areaSalesConfig();
-  if (!config) return false;
-  const response = await fetch(`${config.baseUrl}/api/sales/leads`, {
+  if (!config) throw new Error("Area sales integration is unavailable");
+  const response = await fetch(`${config.baseUrl}/api/sales/orders`, {
     method: "POST",
     headers: {
       authorization: `Bearer ${config.token}`,
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      name: input.name,
-      email: input.email,
-      phone: input.phone,
-      source: [input.plan, input.source].filter(Boolean).join(" · "),
+      offerSlug: slugPlano(order.plan),
+      checkoutKey: order.id,
+      name: order.name,
+      email: order.email,
+      phone: order.phone,
+      document: order.document,
+      company: order.company,
+      zip: order.cep,
+      street: order.address,
+      addressNumber: order.number,
+      complement: order.complement,
+      city: order.city,
+      state: order.state,
+      paymentMethod: billingMethod(order.paymentMethod),
+      source: order.source ?? "rockfy.com",
     }),
-    signal: AbortSignal.timeout(8000),
+    signal: AbortSignal.timeout(15_000),
   });
   if (!response.ok) {
-    throw new Error(`Area lead endpoint returned ${response.status}`);
+    throw new Error(`Area order endpoint returned ${response.status}`);
   }
-  return true;
+  const data: unknown = await response.json();
+  const result = (data as { order?: AreaOrder }).order;
+  if (!result || result.checkoutKey !== order.id || !result.id) {
+    throw new Error("Area returned an invalid order");
+  }
+  return result;
+}
+
+export async function fetchAreaOrderStatuses(
+  checkoutKeys: string[],
+): Promise<AreaOrder[]> {
+  const config = areaSalesConfig();
+  if (!config || checkoutKeys.length === 0) return [];
+  const response = await fetch(`${config.baseUrl}/api/sales/orders/status`, {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${config.token}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ checkoutKeys }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) {
+    throw new Error(`Area order status endpoint returned ${response.status}`);
+  }
+  const data: unknown = await response.json();
+  const orders = (data as { orders?: AreaOrder[] }).orders;
+  if (!Array.isArray(orders)) {
+    throw new Error("Area returned invalid order statuses");
+  }
+  return orders;
 }
