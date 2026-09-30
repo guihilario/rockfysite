@@ -7,9 +7,11 @@ import {
 } from "@/domain/orders.ts";
 import {
   areaSalesConfig,
+  fetchAreaOrderPix,
   fetchAreaOrderStatuses,
   submitOrderToArea,
 } from "@/core/sales/area.ts";
+import PedidoStatus from "@/islands/PedidoStatus.tsx";
 
 async function refresh(id: string) {
   let pedido = await buscarPedido(id);
@@ -32,7 +34,11 @@ export const handler = define.handlers({
   async GET(ctx) {
     const pedido = await refresh(ctx.params.id);
     if (!pedido) return new Response("Pedido não encontrado", { status: 404 });
-    return { data: { pedido, retry: ctx.url.searchParams.has("retry") } };
+    const pix = pedido.paymentMethod === "pix" &&
+        pedido.areaStatus === "payment_pending"
+      ? await fetchAreaOrderPix(pedido.id).catch(() => undefined)
+      : undefined;
+    return { data: { pedido, pix, retry: ctx.url.searchParams.has("retry") } };
   },
   async POST(ctx) {
     const pedido = await buscarPedido(ctx.params.id);
@@ -103,6 +109,13 @@ export default define.page<typeof handler>(function PedidoPage({ data }) {
                     continuar.
                   </p>
                 )
+                : data.pix
+                ? (
+                  <p>
+                    Escaneie o QR Code ou copie o código PIX abaixo. Esta página
+                    será atualizada após a confirmação.
+                  </p>
+                )
                 : pedido.areaPaymentUrl
                 ? (
                   <p>
@@ -122,11 +135,22 @@ export default define.page<typeof handler>(function PedidoPage({ data }) {
                 Não foi possível concluir agora. Tente novamente.
               </p>
             )}
-            {pedido.areaPaymentUrl && !paid && (
+            {data.pix && !paid && (
+              <div class="ckout__pix">
+                <img
+                  src={`data:image/png;base64,${data.pix.encodedImage}`}
+                  alt="QR Code PIX deste pedido"
+                  width="220"
+                  height="220"
+                />
+              </div>
+            )}
+            {pedido.areaPaymentUrl && !paid && !data.pix && (
               <p>
                 <a
                   class="ckout__enviar"
                   href={pedido.areaPaymentUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
                 >
                   Abrir pagamento
@@ -164,9 +188,7 @@ export default define.page<typeof handler>(function PedidoPage({ data }) {
             )}
             {status !== "active" && status !== "cancelled" &&
               status !== "failed" && (
-              <p>
-                <a href={`/pedido/${pedido.id}`}>Atualizar status</a>
-              </p>
+              <PedidoStatus id={pedido.id} pixPayload={data.pix?.payload} />
             )}
           </section>
         </div>

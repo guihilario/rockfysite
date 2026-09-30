@@ -11,6 +11,33 @@ export interface AreaOrder {
   tenantSlug?: string;
   fulfillmentUrl?: string;
 }
+
+export interface AreaPix {
+  encodedImage: string;
+  payload: string;
+  expirationDate?: string;
+}
+
+export async function fetchAreaOrderPix(
+  checkoutKey: string,
+): Promise<AreaPix | undefined> {
+  const config = areaSalesConfig();
+  if (!config) return undefined;
+  const response = await fetch(`${config.baseUrl}/api/sales/orders/pix`, {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${config.token}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ checkoutKey }),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) {
+    throw new Error(`Area PIX endpoint returned ${response.status}`);
+  }
+  const body = await response.json() as { pix?: AreaPix };
+  return body.pix;
+}
 export function areaSalesConfig(): { baseUrl: string; token: string } | null {
   const baseUrl = Deno.env.get("ROCKFY_AREA_SALES_URL")?.trim().replace(
     /\/$/,

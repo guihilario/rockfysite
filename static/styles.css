@@ -2265,3 +2265,12 @@ body{background:var(--surface);color:var(--ink);font-family:var(--font);-webkit-
   font-size:14.5px;line-height:1.55;color:var(--texto);
 }
 .ckout__confirmacao .cta{justify-self:start}
+.ckout__pix{display:grid;gap:10px;justify-items:center;min-width:0}
+.ckout__pix img{display:block;max-width:100%;height:auto;border-radius:var(--r-lg)}
+.ckout__pix label{justify-self:start;font-weight:700}
+.ckout__pix input{box-sizing:border-box;width:100%;padding:12px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);color:var(--texto);font-size:13px}
+.ckout__pix p,.ckout__status{margin:0;color:var(--texto);font-size:14px}
+.ckout__pix-copy{display:grid;gap:10px}
+.ckout__pix-copy label{font-weight:700}
+.ckout__pix-copy input{box-sizing:border-box;width:100%;padding:12px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);color:var(--texto);font-size:13px}
+.ckout__pix-copy button{justify-self:start;border:0;border-radius:var(--r-lg);padding:12px 18px;background:var(--ink);color:#fff;cursor:pointer}
