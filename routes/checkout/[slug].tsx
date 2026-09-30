@@ -4,7 +4,7 @@ import { planoPorSlug, slugPlano } from "@/data/plans.ts";
 import { site } from "@/data/site.ts";
 import {
   aplicarPedidoArea,
-  criarPedido,
+  criarPedidoComEstado,
   formatarPreco,
 } from "@/domain/orders.ts";
 import { enviarPedidoNovo } from "@/core/email/resend.ts";
@@ -157,7 +157,7 @@ export const handler = define.handlers({
 
     /* Guarda a versão formatada (legível no painel); quem precisar dos
        dígitos puros normaliza com `somenteDigitos`. */
-    const pedido = await criarPedido({
+    const { pedido, criadoAgora } = await criarPedidoComEstado({
       plan: plano.name,
       priceCents: areaPrice ?? plano.priceCents,
       name,
@@ -176,6 +176,40 @@ export const handler = define.handlers({
       areaHandoff: Boolean(areaSalesConfig()),
       checkoutKey: areaSalesConfig() ? checkoutKey : undefined,
     });
+
+    /* Notificação por e-mail ao dono do site. A ordem já está salva: se o
+       Resend falhar, o checkout segue e o aviso fica no log — perder a venda
+       por causa da notificação seria trocar o certo pelo incerto. */
+    const envio = criadoAgora
+      ? await enviarPedidoNovo({
+        pedidoId: pedido.id,
+        plano: pedido.plan,
+        preco: formatarPreco(pedido.priceCents),
+        pagamento: ROTULO_PAGAMENTO[paymentMethod] ?? paymentMethod,
+        cliente: pedido.name,
+        email: pedido.email,
+        telefone: pedido.phone,
+        documento: pedido.document,
+        endereco: [
+          pedido.address,
+          pedido.number,
+          pedido.complement,
+          pedido.city,
+          pedido.state,
+          pedido.cep,
+        ].filter(Boolean).join(", "),
+        linkWhatsapp: `https://wa.me/55${
+          pedido.phone.replace(/\D/g, "")
+        }?text=${
+          encodeURIComponent(
+            "Oi! Aqui é da Rockfy. Recebemos seu pedido, pode confirmar o pagamento?",
+          )
+        }`,
+      })
+      : { ok: true };
+    if (!envio.ok) {
+      console.warn(`[checkout] e-mail de pedido não enviado: ${envio.detalhe}`);
+    }
 
     if (pedido.areaHandoff) {
       try {
@@ -196,36 +230,6 @@ export const handler = define.handlers({
       `Pedido: ${pedido.plan}`,
       `Valor: ${formatarPreco(pedido.priceCents)}/mês`,
     ].join("\n");
-
-    /* Notificação por e-mail ao dono do site. A ordem já está salva: se o
-       Resend falhar, o checkout segue e o aviso fica no log — perder a venda
-       por causa da notificação seria trocar o certo pelo incerto. */
-    const envio = await enviarPedidoNovo({
-      pedidoId: pedido.id,
-      plano: pedido.plan,
-      preco: formatarPreco(pedido.priceCents),
-      pagamento: ROTULO_PAGAMENTO[paymentMethod] ?? paymentMethod,
-      cliente: pedido.name,
-      email: pedido.email,
-      telefone: pedido.phone,
-      documento: pedido.document,
-      endereco: [
-        pedido.address,
-        pedido.number,
-        pedido.complement,
-        pedido.city,
-        pedido.state,
-        pedido.cep,
-      ].filter(Boolean).join(", "),
-      linkWhatsapp: `https://wa.me/55${pedido.phone.replace(/\D/g, "")}?text=${
-        encodeURIComponent(
-          "Oi! Aqui é da Rockfy. Recebemos seu pedido, pode confirmar o pagamento?",
-        )
-      }`,
-    });
-    if (!envio.ok) {
-      console.warn(`[checkout] e-mail de pedido não enviado: ${envio.detalhe}`);
-    }
 
     return {
       data: {

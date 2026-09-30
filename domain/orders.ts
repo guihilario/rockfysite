@@ -91,28 +91,37 @@ function daLinha(l: LinhaPedido): Pedido {
   };
 }
 
+type NovoPedido = {
+  plan: string;
+  priceCents: number;
+  name: string;
+  email: string;
+  phone: string;
+  document: string;
+  company?: string | null;
+  cep: string;
+  address: string;
+  number: string;
+  complement?: string | null;
+  city: string;
+  state: string;
+  paymentMethod: string;
+  source?: string | null;
+  areaHandoff?: boolean;
+  checkoutKey?: string;
+};
+
 export async function criarPedido(
-  dados: {
-    plan: string;
-    priceCents: number;
-    name: string;
-    email: string;
-    phone: string;
-    document: string;
-    company?: string | null;
-    cep: string;
-    address: string;
-    number: string;
-    complement?: string | null;
-    city: string;
-    state: string;
-    paymentMethod: string;
-    source?: string | null;
-    areaHandoff?: boolean;
-    checkoutKey?: string;
-  },
+  dados: NovoPedido,
   client: Queryable = db,
 ): Promise<Pedido> {
+  return (await criarPedidoComEstado(dados, client)).pedido;
+}
+
+export async function criarPedidoComEstado(
+  dados: NovoPedido,
+  client: Queryable = db,
+): Promise<{ pedido: Pedido; criadoAgora: boolean }> {
   const r = await client.queryObject<LinhaPedido>({
     text: `INSERT INTO orders
            (id, plan, price_cents, name, email, phone, document, company, cep,
@@ -141,7 +150,7 @@ export async function criarPedido(
       dados.areaHandoff ?? false,
     ],
   });
-  if (r.rows[0]) return daLinha(r.rows[0]);
+  if (r.rows[0]) return { pedido: daLinha(r.rows[0]), criadoAgora: true };
   const existing = dados.checkoutKey
     ? await buscarPedido(dados.checkoutKey, client)
     : null;
@@ -155,7 +164,7 @@ export async function criarPedido(
   ) {
     throw new Error("Esta tentativa de compra já foi utilizada.");
   }
-  return existing;
+  return { pedido: existing, criadoAgora: false };
 }
 
 export async function listarPedidos(

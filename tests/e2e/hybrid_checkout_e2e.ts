@@ -75,6 +75,7 @@ Deno.test({
         PORT: String(sitePort),
         ROCKFY_AREA_SALES_URL: areaBase,
         ROCKFY_AREA_SALES_TOKEN: "test-token",
+        RESEND_API_KEY: "",
       },
       stdout: "null",
       stderr: "null",
